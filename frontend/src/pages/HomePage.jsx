@@ -286,7 +286,25 @@ const HomePage = () => {
         <>
 
             {/* ─── Hero Section (Spline 3D) ─── */}
-            <Hero3DElement />
+            <SectionErrorBoundary fallback={
+                <div className="w-full min-h-[60vh] flex items-center justify-center bg-slate-50">
+                    <div className="text-center p-8 bg-white rounded-3xl shadow-xl border border-slate-100 max-w-md">
+                        <div className="w-16 h-16 bg-indigo-50 rounded-2xl flex items-center justify-center mx-auto mb-4">
+                            <Sparkles className="w-8 h-8 text-indigo-500" />
+                        </div>
+                        <h2 className="text-2xl font-black text-slate-900 mb-2 uppercase tracking-tight">Experience Optimized</h2>
+                        <p className="text-slate-500 mb-6">We've loaded a high-performance version of our interface for your device.</p>
+                        <button
+                            onClick={() => window.location.reload()}
+                            className="px-6 py-3 bg-indigo-600 text-white rounded-xl font-bold text-sm uppercase tracking-widest hover:bg-indigo-700 transition-colors"
+                        >
+                            Reload Experience
+                        </button>
+                    </div>
+                </div>
+            }>
+                <Hero3DElement />
+            </SectionErrorBoundary>
 
 
             {/* NEW Vision Section Compact */}

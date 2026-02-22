@@ -24,12 +24,23 @@ export const apiClient = axios.create({
 
 export const API_BASE_URL = resolvedBaseURL;
 
-// Production Link Monitor
+// Production Link Monitor & Error Diagnostics
 if (!import.meta.env.DEV) {
   apiClient.interceptors.response.use(
     res => res,
     err => {
-      console.warn(`[Sync Monitor] ${err.config?.url} failed: ${err.message}`);
+      const { config, response, message } = err;
+      const logData = {
+        url: config?.url,
+        method: config?.method,
+        status: response?.status,
+        message: message,
+        timestamp: new Date().toISOString()
+      };
+
+      console.warn('⚠️ [Production Connectivity Error]:', logData);
+
+      // Potential tracking/analytics could go here
       return Promise.reject(err);
     }
   );
