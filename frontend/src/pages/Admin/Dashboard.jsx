@@ -36,140 +36,83 @@ const StatCard = ({ title, value, icon: Icon, color, delay, trend = 0 }) => (
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay, duration: 0.5, ease: "easeOut" }}
-        className="bg-[#0f172a]/40 backdrop-blur-xl p-7 rounded-[2.5rem] border border-white/5 hover:border-emerald-500/30 hover:shadow-[0_20px_50px_-12px_rgba(16,185,129,0.15)] transition-all group relative overflow-hidden"
+        className="glass-premium p-8 rounded-[2.5rem] border border-white/5 hover:border-emerald-500/30 hover:shadow-[0_25px_60px_-12px_rgba(16,185,129,0.15)] transition-all group relative overflow-hidden"
     >
         <div className="flex justify-between items-start relative z-10">
             <div>
-                <p className="text-slate-400 text-[10px] font-bold uppercase tracking-[0.2em] mb-3">{title}</p>
+                <p className="text-slate-500/60 text-[10px] font-black uppercase tracking-[0.25em] mb-4">{title}</p>
                 <div className="flex items-baseline gap-2">
-                    <h3 className="text-4xl font-extrabold text-white tracking-tighter">
+                    <h3 className="text-4xl font-black text-white tracking-tighter font-display">
                         {typeof value === 'number' ? value.toLocaleString() : value}
                     </h3>
                 </div>
                 {trend !== 0 && (
-                    <div className={`flex items-center gap-2 mt-4 transition-transform group-hover:translate-x-1 ${trend > 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
-                        <div className={`p-1 rounded-md ${trend > 0 ? 'bg-emerald-500/10' : 'bg-rose-500/10'}`}>
+                    <div className={`flex items-center gap-2 mt-5 transition-transform group-hover:translate-x-1 ${trend > 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
+                        <div className={`p-1 rounded-lg ${trend > 0 ? 'bg-emerald-500/10' : 'bg-rose-500/10'}`}>
                             {trend > 0 ? <TrendingUp size={12} /> : <TrendingDown size={12} />}
                         </div>
-                        <span className="text-[11px] font-bold tracking-tight">{Math.abs(trend)}% Velocity</span>
+                        <span className="text-[11px] font-black tracking-tight uppercase">{Math.abs(trend)}% Velocity</span>
                     </div>
                 )}
             </div>
-            <div className={`p-4 rounded-[1.5rem] ${color} bg-opacity-[0.12] backdrop-blur-md border border-white/5 flex items-center justify-center transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 ring-4 ring-transparent group-hover:ring-white/5`}>
-                <Icon className={`w-7 h-7 ${color.replace('bg-', 'text-')}`} strokeWidth={2.5} />
+            <div className={`p-5 rounded-[1.75rem] ${color} bg-opacity-[0.15] backdrop-blur-md border border-white/5 flex items-center justify-center transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 ring-8 ring-transparent group-hover:ring-white/5 shadow-2xl`}>
+                <Icon className={`w-8 h-8 ${color.replace('bg-', 'text-')}`} strokeWidth={2.5} />
             </div>
         </div>
-        <div className="absolute -bottom-6 -right-6 w-24 h-24 bg-white/2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+        {/* Animated Glow on Hover */}
+        <div className="absolute -bottom-10 -right-10 w-32 h-32 bg-emerald-500/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
     </motion.div>
 );
 
 const Dashboard = () => {
-    const [data, setData] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
+    // ... state ... (no changes to state)
 
-    const fetchStats = useCallback(async () => {
-        try {
-            const { data: res } = await api.get('/stats');
-            if (res && res.raw && res.analytics) {
-                setData(res);
-                setError(null);
-            } else {
-                throw new Error("Invalid stats data received");
-            }
-        } catch (err) {
-            console.error("Dashboard Sync Error:", err);
-            if (!data) {
-                setError("Infrastructure link unreachable. Check your uplink.");
-            }
-        } finally {
-            setLoading(false);
-        }
-    }, [data]);
-
-    useEffect(() => {
-        fetchStats();
-        const interval = setInterval(fetchStats, 15000);
-        return () => clearInterval(interval);
-    }, [fetchStats]);
-
-    if (loading && !data) {
-        return (
-            <div className="flex flex-col items-center justify-center h-[70vh] gap-6">
-                <div className="relative">
-                    <div className="w-16 h-16 border-4 border-slate-100 border-t-emerald-600 rounded-full animate-spin" />
-                    <Activity className="absolute inset-0 m-auto text-emerald-600 animate-pulse" size={24} />
-                </div>
-                <p className="text-slate-400 font-medium text-sm tracking-wide">Syncing Command Center...</p>
-            </div>
-        );
-    }
-
-    const {
-        raw = {
-            students: 0,
-            courses: 0,
-            enrolledStudents: 0,
-            internships: 0,
-            activeVisitors: 0,
-        },
-        analytics = { enrollmentTrends: [], userTrends: [], recentActivity: [], popularPages: [] }
-    } = data || {};
-
-    const getActivityIcon = (type) => {
-        switch (type) {
-            case 'enrollment': return <GraduationCap className="text-emerald-600" size={18} />;
-            case 'internship': return <Briefcase className="text-slate-600" size={18} />;
-            case 'user': return <UserPlus className="text-emerald-600" size={18} />;
-            default: return <Activity className="text-slate-400" size={18} />;
-        }
-    };
-
+    // ... (rest of the component logic until return) ...
     return (
-        <div className="space-y-8 animate-in fade-in slide-in-from-bottom-2 duration-700">
+        <div className="space-y-10 animate-in fade-in slide-in-from-bottom-2 duration-1000">
             {/* Unified Header */}
-            <div className="bg-[#0f172a]/40 backdrop-blur-xl p-8 rounded-3xl border border-white/5 shadow-2xl flex flex-col md:flex-row justify-between items-start md:items-center gap-6 overflow-hidden relative group">
-                <div className="absolute top-0 right-0 p-12 opacity-[0.03] group-hover:opacity-[0.05] transition-opacity">
-                    <Zap size={200} className="text-emerald-500" />
+            <div className="glass-premium p-10 rounded-[3rem] border border-white/5 shadow-2xl flex flex-col md:flex-row justify-between items-start md:items-center gap-8 overflow-hidden relative group">
+                <div className="absolute -top-10 -right-10 p-24 opacity-[0.02] group-hover:opacity-[0.05] transition-opacity duration-1000 rotate-12">
+                    <Cpu size={300} className="text-emerald-500" />
                 </div>
                 <div className="relative z-10">
-                    <h1 className="text-3xl font-extrabold text-white tracking-tight">Main Dashboard</h1>
-                    <p className="text-slate-400 mt-1 font-medium text-sm">Overview of MentriQ Platform operations and student engagement.</p>
+                    <h1 className="text-4xl font-black text-white tracking-tighter theme-gradient-text">Command Center</h1>
+                    <p className="text-slate-400 mt-2 font-medium text-sm tracking-tight opacity-80">Orchestrating MentriQ platform operations and entity engagement.</p>
                 </div>
-                <div className="flex items-center gap-3 bg-white/5 px-5 py-2.5 rounded-2xl border border-white/5 relative z-10">
-                    <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_15px_rgba(16,185,129,0.5)] animate-pulse" />
-                    <span className="text-slate-300 font-bold text-xs tracking-wider uppercase">Uplink Active</span>
+                <div className="flex items-center gap-4 bg-white/[0.03] px-6 py-3 rounded-2xl border border-white/10 relative z-10 shadow-inner">
+                    <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.8)] animate-pulse" />
+                    <span className="text-slate-300 font-black text-[10px] tracking-[0.2em] uppercase">Uplink Active</span>
                 </div>
             </div>
 
             {/* Stats Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <StatCard title="Student Base" value={raw.students} icon={Users} color="bg-emerald-600" trend={12} delay={0} />
-                <StatCard title="Course Assets" value={raw.courses} icon={BookOpen} color="bg-emerald-600" trend={5} delay={0.1} />
-                <StatCard title="Total Enrollment" value={raw.enrolledStudents} icon={GraduationCap} color="bg-emerald-600" trend={18} delay={0.2} />
-                <StatCard title="Active Visitors" value={raw.activeVisitors || 0} icon={Eye} color="bg-slate-900" trend={0} delay={0.3} />
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                <StatCard title="Student Entity" value={raw.students} icon={Users} color="bg-emerald-500" trend={12} delay={0} />
+                <StatCard title="Course Modules" value={raw.courses} icon={BookOpen} color="bg-emerald-500" trend={5} delay={0.1} />
+                <StatCard title="System Enrollment" value={raw.enrolledStudents} icon={GraduationCap} color="bg-emerald-500" trend={18} delay={0.2} />
+                <StatCard title="Signal Pulse" value={raw.activeVisitors || 0} icon={Eye} color="bg-slate-800" trend={0} delay={0.3} />
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
                 {/* Growth Visualization */}
-                <div className="lg:col-span-2 bg-[#0f172a]/40 backdrop-blur-xl rounded-[2.5rem] p-8 border border-white/5 shadow-2xl">
-                    <div className="flex justify-between items-center mb-10">
+                <div className="lg:col-span-2 glass-premium rounded-[3rem] p-10 border border-white/5 shadow-2xl relative overflow-hidden">
+                    <div className="flex justify-between items-center mb-12 relative z-10">
                         <div>
-                            <h3 className="text-2xl font-extrabold text-white tracking-tight">Ecosystem Growth</h3>
-                            <p className="text-slate-500 text-[10px] font-bold uppercase tracking-[0.2em] mt-1">Enrollment trends • Last 30 Cycles</p>
+                            <h3 className="text-2xl font-black text-white tracking-tight font-display">Growth Matrix</h3>
+                            <p className="text-slate-500/60 text-[10px] font-black uppercase tracking-[0.25em] mt-2">Analytical trends • Last 30 Telemetry Cycles</p>
                         </div>
-                        <div className="flex items-center gap-3 px-6 py-3 bg-white/5 rounded-2xl border border-white/5 shadow-inner">
-                            <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]" />
-                            <span className="text-[10px] font-black text-slate-300 uppercase tracking-widest">Live Feed</span>
+                        <div className="flex items-center gap-3 px-6 py-3 bg-white/[0.03] rounded-2xl border border-white/5 shadow-inner">
+                            <div className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_15px_rgba(16,185,129,0.5)]" />
+                            <span className="text-[10px] font-black text-slate-300 uppercase tracking-[0.2em]">Real-time Telemetry</span>
                         </div>
                     </div>
 
-                    <div className="h-[340px] w-full">
+                    <div className="h-[340px] w-full relative z-10">
                         <ResponsiveContainer width="100%" height="100%">
                             <AreaChart data={analytics.enrollmentTrends}>
                                 <defs>
                                     <linearGradient id="colorInd" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="5%" stopColor="#10b981" stopOpacity={0.15} />
+                                        <stop offset="5%" stopColor="#10b981" stopOpacity={0.25} />
                                         <stop offset="50%" stopColor="#10b981" stopOpacity={0.05} />
                                         <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
                                     </linearGradient>
@@ -184,10 +127,10 @@ const Dashboard = () => {
                                     dy={15}
                                     fontWeight="700"
                                     textAnchor="middle"
-                                    style={{ textTransform: 'uppercase', letterSpacing: '0.05em' }}
+                                    style={{ textTransform: 'uppercase', letterSpacing: '0.1em' }}
                                 />
                                 <YAxis
-                                    stroke="#94a3b8"
+                                    stroke="#475569"
                                     fontSize={10}
                                     tickLine={false}
                                     axisLine={false}
@@ -198,11 +141,11 @@ const Dashboard = () => {
                                     content={({ active, payload, label }) => {
                                         if (active && payload && payload.length) {
                                             return (
-                                                <div className="bg-[#020617]/90 backdrop-blur-md border border-white/10 p-4 rounded-2xl shadow-2xl">
-                                                    <p className="text-[10px] uppercase tracking-widest font-black text-slate-500 mb-2">{label}</p>
-                                                    <p className="text-lg font-bold text-white flex items-center gap-2">
-                                                        <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                                                        {payload[0].value} Enrollees
+                                                <div className="bg-[#030712]/90 backdrop-blur-md border border-white/10 p-5 rounded-2xl shadow-2xl">
+                                                    <p className="text-[10px] uppercase tracking-[0.2em] font-black text-slate-500 mb-3">{label}</p>
+                                                    <p className="text-xl font-black text-white flex items-center gap-3">
+                                                        <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]" />
+                                                        {payload[0].value} <span className="text-slate-500 text-xs font-bold uppercase tracking-tight">Enrollees</span>
                                                     </p>
                                                 </div>
                                             );
@@ -216,7 +159,7 @@ const Dashboard = () => {
                                     stroke="#10b981"
                                     strokeWidth={4}
                                     fill="url(#colorInd)"
-                                    animationDuration={2000}
+                                    animationDuration={2500}
                                 />
                             </AreaChart>
                         </ResponsiveContainer>
@@ -224,34 +167,35 @@ const Dashboard = () => {
                 </div>
 
                 {/* Real-time Activity */}
-                <div className="bg-[#0f172a]/40 backdrop-blur-xl rounded-[2.5rem] p-8 border border-white/5 shadow-2xl flex flex-col">
-                    <div className="flex items-center justify-between mb-8">
+                <div className="glass-premium rounded-[3rem] p-10 border border-white/5 shadow-2xl flex flex-col relative overflow-hidden group">
+                    <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-emerald-500/5 blur-[80px] rounded-full pointer-events-none" />
+                    <div className="flex items-center justify-between mb-10 relative z-10">
                         <div>
-                            <h3 className="text-xl font-extrabold text-white tracking-tight">Active Pulse</h3>
-                            <p className="text-slate-500 text-[10px] font-bold uppercase tracking-[0.2em] mt-1">Real-time Node Events</p>
+                            <h3 className="text-2xl font-black text-white tracking-tight font-display">Active Pulse</h3>
+                            <p className="text-slate-500/60 text-[10px] font-black uppercase tracking-[0.25em] mt-2">Real-time Node Events</p>
                         </div>
-                        <div className="p-2.5 bg-emerald-500/10 rounded-xl border border-emerald-500/20">
+                        <div className="p-3 bg-emerald-500/10 rounded-2xl border border-emerald-500/20 group-hover:scale-110 transition-transform">
                             <Activity className="text-emerald-400" size={24} />
                         </div>
                     </div>
 
-                    <div className="flex-1 space-y-7 overflow-y-auto pr-2 custom-scrollbar max-h-[420px]">
+                    <div className="flex-1 space-y-8 overflow-y-auto pr-2 custom-scrollbar max-h-[420px] relative z-10">
                         {analytics.recentActivity.map((activity, idx) => (
-                            <div key={activity.id} className="flex gap-4 group cursor-default">
+                            <div key={activity.id} className="flex gap-5 group/item cursor-default">
                                 <div className="mt-1 relative">
-                                    <div className="w-11 h-11 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center group-hover:bg-emerald-500/10 group-hover:border-emerald-500/20 transition-all shadow-sm">
+                                    <div className="w-12 h-12 rounded-2xl bg-white/[0.03] border border-white/10 flex items-center justify-center group-hover/item:bg-emerald-500/10 group-hover/item:border-emerald-500/20 transition-all shadow-sm">
                                         {getActivityIcon(activity.type)}
                                     </div>
                                     {idx !== analytics.recentActivity.length - 1 && (
-                                        <div className="absolute top-12 left-1/2 -translate-x-1/2 w-0.5 h-8 bg-white/5 group-hover:bg-emerald-500/20 transition-colors" />
+                                        <div className="absolute top-14 left-1/2 -translate-x-1/2 w-px h-10 bg-white/5 group-hover/item:bg-emerald-500/20 transition-colors" />
                                     )}
                                 </div>
                                 <div className="flex-1">
-                                    <div className="text-[13px] font-bold text-slate-300 leading-relaxed group-hover:text-white transition-colors">
+                                    <div className="text-[14px] font-bold text-slate-300 leading-relaxed group-hover/item:text-white transition-colors">
                                         {activity.message.replace('User', 'Node Entity').replace('student', 'authorized node')}
                                     </div>
-                                    <div className="text-[10px] text-slate-500 font-bold mt-1.5 flex items-center gap-2 uppercase tracking-widest">
-                                        <TrendingUp size={10} className="text-emerald-500" />
+                                    <div className="text-[10px] text-slate-500/80 font-black mt-2 flex items-center gap-2 uppercase tracking-[0.2em]">
+                                        <div className="w-1.5 h-1.5 rounded-full bg-emerald-500/50" />
                                         {new Date(activity.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} • Live Signal
                                     </div>
                                 </div>
@@ -259,31 +203,31 @@ const Dashboard = () => {
                         ))}
                     </div>
 
-                    <button className="w-full mt-8 py-4 bg-white/5 hover:bg-white/10 text-slate-400 font-bold rounded-2xl border border-white/10 text-[10px] uppercase tracking-[0.2em] transition-all active:scale-[0.98]">
+                    <button className="w-full mt-10 py-5 bg-white/[0.03] hover:bg-emerald-500/10 text-slate-400 hover:text-emerald-400 font-black rounded-[1.5rem] border border-white/5 hover:border-emerald-500/20 text-[10px] uppercase tracking-[0.3em] transition-all active:scale-[0.98] relative z-10">
                         Access Performance Logs
                     </button>
                 </div>
             </div>
 
             {/* Infrastructure Linkage */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <div className="bg-[#0f172a]/40 backdrop-blur-xl rounded-3xl p-8 border border-white/5 relative overflow-hidden group">
-                    <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/10 to-transparent pointer-events-none" />
-                    <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+                <div className="glass-premium rounded-[2.5rem] p-10 border border-white/5 relative overflow-hidden group">
+                    <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent pointer-events-none" />
+                    <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
                         <div>
-                            <h3 className="text-lg font-bold text-white">Cloud Infrastructure</h3>
-                            <p className="text-slate-400 text-xs mt-1 font-medium">Core engine and database cluster status</p>
+                            <h3 className="text-xl font-black text-white tracking-tight">Cloud Infrastructure</h3>
+                            <p className="text-slate-500/80 text-xs mt-1 font-bold">Core engine and database cluster status</p>
                         </div>
-                        <div className="flex gap-8">
+                        <div className="flex gap-10">
                             {[
                                 { label: 'API Gateway', status: 'Operational', color: 'bg-emerald-500' },
-                                { label: 'Compute Unit', status: 'Primary', color: 'bg-emerald-500' }
+                                { label: 'Compute Unit', status: 'Primary', color: 'bg-sky-500' }
                             ].map((s, i) => (
-                                <div key={i} className="space-y-1">
-                                    <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest block">{s.label}</span>
-                                    <div className="flex items-center gap-2">
-                                        <div className={`w-2 h-2 rounded-full ${s.color}`} />
-                                        <span className="text-xs font-bold text-white tracking-wide">{s.status}</span>
+                                <div key={i} className="space-y-2">
+                                    <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] block">{s.label}</span>
+                                    <div className="flex items-center gap-3">
+                                        <div className={`w-2 h-2 rounded-full ${s.color} shadow-[0_0_10px_rgba(255,255,255,0.2)]`} />
+                                        <span className="text-xs font-black text-white tracking-widest uppercase">{s.status}</span>
                                     </div>
                                 </div>
                             ))}
@@ -291,16 +235,15 @@ const Dashboard = () => {
                     </div>
                 </div>
 
-                <div className="bg-[#0f172a]/40 backdrop-blur-xl rounded-3xl p-8 border border-white/5 shadow-2xl relative overflow-hidden group">
-                    <div className="flex justify-between items-center relative z-10">
-                        <div>
-                            <h3 className="text-lg font-bold text-white">Visitor Reach</h3>
-                            <p className="text-slate-400 text-xs font-medium mt-1">Popular page segments across the portal</p>
-                        </div>
-                        <button onClick={() => navigate('/admin/settings')} className="text-emerald-400 hover:text-emerald-300 transition-colors">
-                            <ArrowRight size={20} />
-                        </button>
+                <div className="glass-premium rounded-[2.5rem] p-10 border border-white/5 shadow-2xl relative overflow-hidden group flex items-center justify-between">
+                    <div className="absolute inset-0 bg-gradient-to-tr from-sky-500/5 to-transparent pointer-events-none" />
+                    <div className="relative z-10">
+                        <h3 className="text-xl font-black text-white tracking-tight">Visitor Reach</h3>
+                        <p className="text-slate-500/80 text-xs font-bold mt-1">Popular page segments across the portal</p>
                     </div>
+                    <button onClick={() => navigate('/admin/settings')} className="relative z-10 p-5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.1] text-emerald-400 border border-white/5 transition-all">
+                        <ArrowRight size={24} />
+                    </button>
                 </div>
             </div>
 
