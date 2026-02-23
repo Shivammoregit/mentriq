@@ -54,30 +54,32 @@ const allowedOrigins = new Set([
     "https://www.mentriqtechnologies.in",
     "https://mentriqtechnologies.in",
     "https://mentriq-technologies-zeta.vercel.app",
-    process.env.CLIENT_URL ? process.env.CLIENT_URL.trim().replace(/\/$/, "") : null,
     ...envOrigins
 ].filter(Boolean));
 
-const isAllowedOrigin = (origin) => {
-    if (!origin) return true;
-    const normalizedOrigin = origin.trim().replace(/\/$/, "");
-    if (allowedOrigins.has(normalizedOrigin)) return true;
-
-    try {
-        const { protocol, hostname } = new URL(normalizedOrigin);
-        if (protocol === "http:" && (hostname === "localhost" || hostname === "127.0.0.1")) return true;
-        if (protocol === "https:" && (
-            /(^|\.)mentriqtechnologies\.in$/i.test(hostname) ||
-            /(^|\.)vercel\.app$/i.test(hostname)
-        )) return true;
-    } catch {
-        return false;
-    }
-    return false;
-};
-
 const corsOptions = {
-    origin: true,
+    origin: (origin, callback) => {
+        // Skip check for non-browser environments or if origin matches allowed set
+        if (!origin || allowedOrigins.has(origin.replace(/\/$/, ""))) {
+            return callback(null, true);
+        }
+
+        // Allow all mentriqtechnologies.in and vercel.app subdomains for flexibility
+        try {
+            const { protocol, hostname } = new URL(origin);
+            if (protocol === "http:" && (hostname === "localhost" || hostname === "127.0.0.1")) return callback(null, true);
+            if (protocol === "https:" && (
+                hostname.endsWith("mentriqtechnologies.in") ||
+                hostname.endsWith("vercel.app")
+            )) {
+                return callback(null, true);
+            }
+        } catch (e) {
+            // Ignore URL parsing errors
+        }
+
+        callback(new Error('Cross-Origin Access Denied'));
+    },
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization", "X-Requested-With", "Accept", "Origin"],

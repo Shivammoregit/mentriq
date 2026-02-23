@@ -177,22 +177,22 @@ const CourseManagement = () => {
                         <p className="text-slate-400 font-medium text-sm">Educational programs and certification roadmap management.</p>
                     </div>
 
-                    <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
-                        <div className="bg-white/5 border border-white/10 rounded-xl pr-6 flex items-center w-full lg:w-auto group focus-within:border-blue-500/50 focus-within:ring-4 focus-within:ring-blue-500/10 transition-all">
-                            <Search className="text-slate-500 ml-4 group-focus-within:text-blue-400 transition-colors" size={18} />
+                    <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto mt-4 sm:mt-0">
+                        <div className="bg-white/5 border border-white/10 rounded-xl flex items-center w-full lg:w-auto group focus-within:border-blue-500/50 focus-within:ring-4 focus-within:ring-blue-500/10 transition-all">
+                            <Search className="text-slate-500 ml-4 group-focus-within:text-blue-400 transition-colors shrink-0" size={16} />
                             <input
                                 type="text"
                                 placeholder="Filter curriculum..."
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                className="bg-transparent text-white placeholder:text-slate-600 focus:outline-none py-4 px-4 w-full lg:w-64 font-bold text-sm tracking-tight"
+                                className="bg-transparent text-white placeholder:text-slate-600 focus:outline-none py-3 px-4 w-full lg:w-64 font-bold text-xs tracking-tight"
                             />
                         </div>
                         <button
                             onClick={() => { setEditingCourse(null); setFormData(initialFormState); setIsModalOpen(true); setImagePreview(null); }}
-                            className="bg-blue-600 text-white hover:bg-blue-500 px-8 py-4 rounded-xl font-bold shadow-lg shadow-blue-500/20 flex items-center justify-center gap-3 transition-all active:scale-95 text-[10px] uppercase tracking-widest whitespace-nowrap"
+                            className="bg-blue-600 text-white hover:bg-blue-500 px-6 py-3 rounded-xl font-bold shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2 transition-all active:scale-95 text-[10px] uppercase tracking-widest whitespace-nowrap"
                         >
-                            <Plus size={18} />
+                            <Plus size={16} />
                             <span>New Course</span>
                         </button>
                     </div>
@@ -222,8 +222,8 @@ const CourseManagement = () => {
                 </div>
             ) : (
                 <div className="bg-[#0f172a]/40 backdrop-blur-xl border border-white/5 rounded-[2.5rem] overflow-hidden shadow-2xl animate-in slide-in-from-bottom-4 duration-700">
-                    <div className="overflow-x-auto">
-                        <table className="w-full text-left border-collapse">
+                    <div className="overflow-x-auto custom-scrollbar">
+                        <table className="w-full text-left border-collapse min-w-[800px]">
                             <thead>
                                 <tr className="bg-white/5 border-b border-white/10">
                                     <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Course Entity</th>
@@ -318,7 +318,7 @@ const CourseManagement = () => {
                             initial={{ opacity: 0, scale: 0.95, y: 30 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 30 }}
-                            className="relative w-full max-w-2xl bg-[#0f172a] border border-white/10 rounded-[3rem] p-10 shadow-2xl flex flex-col max-h-[90vh]"
+                            className="relative w-full max-w-2xl bg-[#0f172a] border border-white/10 rounded-[2.5rem] sm:rounded-[3rem] p-6 sm:p-10 shadow-2xl flex flex-col max-h-[90vh] overflow-hidden"
                         >
                             <div className="flex items-start justify-between gap-6 mb-10 shrink-0">
                                 <div>

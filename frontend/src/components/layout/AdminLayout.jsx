@@ -28,16 +28,27 @@ import { useAuth } from '../../context/AuthContext'
 import { useToast } from '../../context/ToastContext'
 
 const AdminLayout = ({ children }) => {
-    const [isSidebarOpen, setIsSidebarOpen] = useState(true)
+    const [isSidebarOpen, setIsSidebarOpen] = useState(false) // Default closed on mobile
+    const [isDesktopSidebarOpen, setIsDesktopSidebarOpen] = useState(true)
     const location = useLocation()
     const navigate = useNavigate()
     const { logout } = useAuth()
     const toast = useToast()
 
+    // Handle screen resizing
     useEffect(() => {
-        if (window.innerWidth < 1024) {
-            setIsSidebarOpen(false);
-        }
+        const handleResize = () => {
+            if (window.innerWidth >= 1024) {
+                setIsSidebarOpen(false); // Close mobile drawer if widening to desktop
+            }
+        };
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+    // Auto-close mobile sidebar on navigation
+    useEffect(() => {
+        setIsSidebarOpen(false);
     }, [location.pathname]);
 
     const menuGroups = [
@@ -90,133 +101,154 @@ const AdminLayout = ({ children }) => {
         toast.success('Logged out successfully')
     }
 
+    const SidebarContent = ({ isMobile = false }) => (
+        <div className="flex flex-col h-full">
+            {/* Logo Section */}
+            <div className="h-20 flex items-center justify-between px-6 border-b border-white/5 bg-white/[0.02]">
+                <div className={`flex items-center gap-3 overflow-hidden ${!isDesktopSidebarOpen && !isMobile && 'lg:hidden'}`}>
+                    <div className="w-10 h-10 rounded-xl bg-white border border-white/10 flex items-center justify-center shadow-[0_0_20px_rgba(255,255,255,0.1)] overflow-hidden p-1">
+                        <img src="/images/logo.jpeg" alt="MentriQ Logo" className="w-full h-full object-contain" />
+                    </div>
+                    <span className="text-white font-black text-xl tracking-tight whitespace-nowrap theme-gradient-text">MentriQ</span>
+                </div>
+                {!isMobile && (
+                    <button
+                        onClick={() => setIsDesktopSidebarOpen(!isDesktopSidebarOpen)}
+                        className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 transition-all hidden lg:block"
+                    >
+                        {isDesktopSidebarOpen ? <ChevronLeft size={20} /> : <ChevronRight size={20} />}
+                    </button>
+                )}
+                {isMobile && (
+                    <button onClick={() => setIsSidebarOpen(false)} className="p-2 text-slate-400 lg:hidden">
+                        <X size={24} />
+                    </button>
+                )}
+            </div>
+
+            {/* Navigation */}
+            <div className="flex-1 overflow-y-auto py-8 px-4 space-y-10 custom-scrollbar">
+                {menuGroups.map((group, groupIdx) => (
+                    <div key={groupIdx} className="space-y-4">
+                        {(isDesktopSidebarOpen || isMobile) && (
+                            <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500/60 mb-2 px-3">
+                                {group.title}
+                            </h4>
+                        )}
+                        <div className="space-y-1.5 font-display">
+                            {group.items.map((item) => {
+                                const Icon = item.icon
+                                const isActive = location.pathname === item.path
+
+                                return (
+                                    <Link
+                                        key={item.path}
+                                        to={item.path}
+                                        className={`flex items-center gap-3 px-3 py-3 rounded-xl transition-all group relative ${isActive
+                                            ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20 shadow-[0_0_15px_rgba(59,130,246,0.1)]'
+                                            : 'text-slate-500 hover:text-white hover:bg-white/[0.03] border border-transparent'
+                                            }`}
+                                    >
+                                        <Icon size={20} className={`shrink-0 transition-colors ${isActive ? 'text-blue-500' : 'text-slate-500 group-hover:text-slate-300'}`} />
+                                        {(isDesktopSidebarOpen || isMobile) && (
+                                            <span className="font-bold text-[13px] whitespace-nowrap tracking-tight">
+                                                {item.label}
+                                            </span>
+                                        )}
+                                        {isActive && (
+                                            <motion.div
+                                                layoutId="activePill"
+                                                className="absolute left-[-4px] w-1.5 h-6 bg-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.8)] rounded-full"
+                                            />
+                                        )}
+                                        {!isDesktopSidebarOpen && !isMobile && (
+                                            <div className="absolute left-full ml-6 px-3 py-2 bg-[#020617] border border-white/10 text-white text-[10px] font-black uppercase tracking-widest rounded-lg opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 transform group-hover:translate-x-1 shadow-2xl z-50">
+                                                {item.label}
+                                            </div>
+                                        )}
+                                    </Link>
+                                )
+                            })}
+                        </div>
+                    </div>
+                ))}
+            </div>
+
+            {/* Profile/Logout */}
+            <div className="p-4 border-t border-white/5 bg-white/[0.01]">
+                <button
+                    onClick={handleLogout}
+                    className={`flex items-center gap-3 w-full px-4 py-3.5 rounded-xl text-slate-500 hover:text-rose-400 hover:bg-rose-500/10 border border-transparent hover:border-rose-500/20 transition-all group ${(isDesktopSidebarOpen || isMobile) ? '' : 'justify-center'}`}
+                >
+                    <LogOut size={20} />
+                    {(isDesktopSidebarOpen || isMobile) && <span className="font-black text-[11px] tracking-[0.1em] uppercase">Termination</span>}
+                </button>
+            </div>
+        </div>
+    );
+
     return (
-        <div className="min-h-screen bg-[#030712] text-slate-200 flex overflow-hidden font-sans relative">
+        <div className="min-h-screen bg-[#030712] text-slate-200 flex flex-col lg:flex-row overflow-hidden font-sans relative">
             {/* Background Ambient Glows */}
             <div className="fixed inset-0 overflow-hidden pointer-events-none">
                 <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-500/5 blur-[120px] rounded-full animate-pulse" />
                 <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-indigo-500/5 blur-[120px] rounded-full" />
             </div>
 
-            {/* Sidebar */}
-            <motion.aside
-                initial={false}
-                animate={{ width: isSidebarOpen ? 280 : 88 }}
-                className={`fixed lg:static inset-y-0 left-0 z-40 glass-premium border-r border-white/5 flex flex-col transition-all duration-300 ${isSidebarOpen ? 'translate-x-0 shadow-2xl lg:shadow-none' : '-translate-x-full lg:translate-x-0'
-                    }`}
-            >
-                {/* Logo Section */}
-                <div className="h-20 flex items-center justify-between px-6 border-b border-white/5 bg-white/[0.02]">
-                    <div className={`flex items-center gap-3 overflow-hidden ${!isSidebarOpen && 'lg:hidden'}`}>
-                        <div className="w-10 h-10 rounded-xl bg-white border border-white/10 flex items-center justify-center shadow-[0_0_20px_rgba(255,255,255,0.1)] overflow-hidden p-1">
-                            <img src="/images/logo.jpeg" alt="MentriQ Logo" className="w-full h-full object-contain" />
-                        </div>
-                        <span className="text-white font-black text-xl tracking-tight whitespace-nowrap theme-gradient-text">MentriQ</span>
-                    </div>
-                    <button
-                        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                        className="p-2 rounded-lg text-slate-400 hover:text-white hover:bg-white/5 transition-all"
-                    >
-                        {isSidebarOpen ? <X size={20} className="lg:hidden" /> : <Menu size={20} className="hidden lg:block" />}
-                        {isSidebarOpen && <ChevronLeft size={20} className="hidden lg:block" />}
-                    </button>
-                </div>
-
-                {/* Navigation */}
-                <div className="flex-1 overflow-y-auto py-8 px-4 space-y-10 custom-scrollbar">
-                    {menuGroups.map((group, groupIdx) => (
-                        <div key={groupIdx} className="space-y-4">
-                            {isSidebarOpen && (
-                                <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500/60 mb-2 px-3">
-                                    {group.title}
-                                </h4>
-                            )}
-                            <div className="space-y-1.5 font-display">
-                                {group.items.map((item) => {
-                                    const Icon = item.icon
-                                    const isActive = location.pathname === item.path
-
-                                    return (
-                                        <Link
-                                            key={item.path}
-                                            to={item.path}
-                                            className={`flex items-center gap-3 px-3 py-3 rounded-xl transition-all group relative ${isActive
-                                                ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20 shadow-[0_0_15px_rgba(59,130,246,0.1)]'
-                                                : 'text-slate-500 hover:text-white hover:bg-white/[0.03] border border-transparent'
-                                                }`}
-                                        >
-                                            <Icon size={20} className={`shrink-0 transition-colors ${isActive ? 'text-blue-500' : 'text-slate-500 group-hover:text-slate-300'}`} />
-                                            {isSidebarOpen && (
-                                                <span className="font-bold text-[13px] whitespace-nowrap tracking-tight">
-                                                    {item.label}
-                                                </span>
-                                            )}
-                                            {isActive && (
-                                                <motion.div
-                                                    layoutId="activePill"
-                                                    className="absolute left-[-4px] w-1.5 h-6 bg-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.8)] rounded-full"
-                                                />
-                                            )}
-                                            {!isSidebarOpen && (
-                                                <div className="absolute left-full ml-6 px-3 py-2 bg-[#020617] border border-white/10 text-white text-[10px] font-black uppercase tracking-widest rounded-lg opacity-0 group-hover:opacity-100 pointer-events-none transition-all duration-200 transform group-hover:translate-x-1 shadow-2xl z-50">
-                                                    {item.label}
-                                                </div>
-                                            )}
-                                        </Link>
-                                    )
-                                })}
-                            </div>
-                        </div>
-                    ))}
-                </div>
-
-                {/* Profile/Logout */}
-                <div className="p-4 border-t border-white/5 bg-white/[0.01]">
-                    <button
-                        onClick={handleLogout}
-                        className={`flex items-center gap-3 w-full px-4 py-3.5 rounded-xl text-slate-500 hover:text-rose-400 hover:bg-rose-500/10 border border-transparent hover:border-rose-500/20 transition-all group ${!isSidebarOpen && 'lg:justify-center'
-                            }`}
-                    >
-                        <LogOut size={20} />
-                        {isSidebarOpen && <span className="font-black text-[11px] tracking-[0.1em] uppercase">Termination</span>}
-                    </button>
-                </div>
-            </motion.aside>
-
-            {/* Mobile Overlay */}
+            {/* Mobile Sidebar (Drawer) */}
             <AnimatePresence>
                 {isSidebarOpen && (
-                    <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        exit={{ opacity: 0 }}
-                        onClick={() => setIsSidebarOpen(false)}
-                        className="fixed inset-0 bg-[#020617]/60 backdrop-blur-sm z-30 lg:hidden"
-                    />
+                    <>
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            onClick={() => setIsSidebarOpen(false)}
+                            className="fixed inset-0 bg-[#020617]/80 backdrop-blur-sm z-[100] lg:hidden"
+                        />
+                        <motion.aside
+                            initial={{ x: '-100%' }}
+                            animate={{ x: 0 }}
+                            exit={{ x: '-100%' }}
+                            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+                            className="fixed inset-y-0 left-0 w-72 bg-[#020617] border-r border-white/5 z-[101] lg:hidden flex flex-col"
+                        >
+                            <SidebarContent isMobile={true} />
+                        </motion.aside>
+                    </>
                 )}
             </AnimatePresence>
 
-            {/* Main Content */}
-            <div className="flex-1 flex flex-col h-screen overflow-hidden">
-                {/* Header (Mobile) */}
-                <header className="h-16 lg:hidden flex items-center px-6 border-b border-white/5 bg-[#070b14]/80 backdrop-blur-md sticky top-0 z-30">
+            {/* Desktop Sidebar (Permanent/Clipped) */}
+            <motion.aside
+                initial={false}
+                animate={{ width: isDesktopSidebarOpen ? 280 : 88 }}
+                className="hidden lg:flex flex-col glass-premium border-r border-white/5 relative z-40 transition-all duration-300"
+            >
+                <SidebarContent />
+            </motion.aside>
+
+            {/* Main Content Area */}
+            <div className="flex-1 flex flex-col min-w-0 h-screen overflow-hidden relative z-10">
+                {/* Mobile Header */}
+                <header className="h-16 lg:hidden flex items-center justify-between px-6 border-b border-white/5 bg-[#070b14]/80 backdrop-blur-md sticky top-0 z-30 shrink-0">
                     <button
                         onClick={() => setIsSidebarOpen(true)}
-                        className="p-2 -ml-2 text-slate-400 hover:text-white"
+                        className="p-2 -ml-2 text-slate-400 hover:text-white active:scale-90 transition-transform"
                     >
                         <Menu size={24} />
                     </button>
-                    <div className="ml-4 flex items-center gap-3">
-                        <div className="w-9 h-9 rounded-lg bg-white border border-white/10 flex items-center justify-center p-1 shadow-sm overflow-hidden">
+                    <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 rounded-lg bg-white border border-white/10 flex items-center justify-center p-1 shadow-sm overflow-hidden">
                             <img src="/images/logo.jpeg" alt="MentriQ Logo" className="w-full h-full object-contain" />
                         </div>
-                        <span className="text-white font-bold tracking-tight">MentriQ</span>
+                        <span className="text-white font-bold tracking-tight text-sm">MentriQ</span>
                     </div>
                 </header>
 
                 {/* Main Viewport */}
                 <main className="flex-1 overflow-x-hidden overflow-y-auto p-4 md:p-8 lg:p-10 scroll-smooth custom-scrollbar">
-                    <div className="max-w-7xl mx-auto">
+                    <div className="max-w-[1600px] mx-auto w-full">
                         <AnimatePresence mode="wait">
                             <motion.div
                                 key={location.pathname}

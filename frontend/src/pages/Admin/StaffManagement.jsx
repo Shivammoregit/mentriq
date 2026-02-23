@@ -213,10 +213,10 @@ const StaffManagement = () => {
                     </div>
                 </div>
             </div>
-
-            <div className="glass-premium border border-white/5 rounded-[3rem] overflow-hidden shadow-2xl animate-in slide-in-from-bottom-4 duration-1000 relative">
-                <div className="overflow-x-auto relative z-10 font-display">
-                    <table className="w-full text-left border-collapse">
+            {/* Staff Entity Registry */}
+            <div className="bg-[#0f172a]/40 backdrop-blur-xl border border-white/5 rounded-[2.5rem] overflow-hidden shadow-2xl animate-in slide-in-from-bottom-4 duration-700">
+                <div className="overflow-x-auto custom-scrollbar">
+                    <table className="w-full text-left border-collapse min-w-[700px]">
                         <thead>
                             <tr className="bg-white/[0.03] border-b border-white/10 shadow-sm">
                                 <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.25em] text-slate-500/80">Authorized Node</th>
@@ -306,12 +306,11 @@ const StaffManagement = () => {
             <AnimatePresence>
                 {resetModalOpen && (
                     <div className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-[#030712]/90 backdrop-blur-2xl">
-                        <MotionDiv
-                            initial={{ opacity: 0, scale: 0.9, y: 40 }}
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.95, y: 30 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
-                            exit={{ opacity: 0, scale: 0.9, y: 40 }}
-                            transition={{ type: "spring", damping: 25, stiffness: 200 }}
-                            className="bg-[#0f172a] border border-white/10 rounded-[4rem] w-full max-w-xl p-12 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.8)] relative overflow-hidden ring-1 ring-white/5"
+                            exit={{ opacity: 0, scale: 0.95, y: 30 }}
+                            className="relative w-full max-w-lg bg-[#0f172a] border border-white/10 rounded-[2.5rem] sm:rounded-[3rem] p-6 sm:p-10 shadow-2xl flex flex-col max-h-[90vh] overflow-hidden"
                         >
                             {/* Modal Background Ambient */}
                             <div className="absolute top-[-10%] right-[-10%] w-[50%] h-[50%] bg-blue-500/5 blur-[100px] pointer-events-none" />
@@ -378,7 +377,7 @@ const StaffManagement = () => {
                                     </button>
                                 </div>
                             </form>
-                        </MotionDiv>
+                        </motion.div>
                     </div>
                 )}
             </AnimatePresence>

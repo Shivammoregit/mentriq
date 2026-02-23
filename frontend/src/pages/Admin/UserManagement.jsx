@@ -186,10 +186,10 @@ const UserManagement = () => {
                     </div>
                 </div>
             </div>
-
-            <div className="bg-[#0f172a]/40 backdrop-blur-xl border border-white/5 rounded-[2.5rem] overflow-hidden shadow-2xl">
-                <div className="overflow-x-auto">
-                    <table className="w-full text-left border-collapse">
+            {/* Candidate Registry */}
+            <div className="bg-[#0f172a]/40 backdrop-blur-xl border border-white/5 rounded-[2.5rem] overflow-hidden shadow-2xl animate-in slide-in-from-bottom-4 duration-700">
+                <div className="overflow-x-auto custom-scrollbar">
+                    <table className="w-full text-left border-collapse min-w-[900px]">
                         <thead>
                             <tr className="bg-white/5 border-b border-white/5">
                                 <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Student Profile</th>
@@ -271,11 +271,11 @@ const UserManagement = () => {
                             className="absolute inset-0"
                             onClick={() => !submitting && closeModal()}
                         />
-                        <MotionDiv
+                        <motion.div
                             initial={{ opacity: 0, scale: 0.95, y: 30 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 30 }}
-                            className="relative w-full max-w-xl bg-[#0f172a] border border-white/10 rounded-[3rem] p-10 shadow-2xl"
+                            className="relative w-full max-w-3xl bg-[#0f172a] border border-white/10 rounded-[2.5rem] sm:rounded-[3rem] p-6 sm:p-10 shadow-2xl flex flex-col max-h-[90vh] overflow-hidden"
                         >
                             <div className="flex items-start justify-between gap-6 mb-10">
                                 <div>
@@ -373,7 +373,7 @@ const UserManagement = () => {
                                     </button>
                                 </div>
                             </form>
-                        </MotionDiv>
+                        </motion.div>
                     </div>
                 )}
             </AnimatePresence>

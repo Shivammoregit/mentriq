@@ -2,6 +2,9 @@ import axios from 'axios'
 
 const envBaseURL = (import.meta.env.VITE_API_BASE_URL || '').trim().replace(/\/$/, '');
 
+// Resilient BaseURL resolution: 
+// In dev, use the VITE_API_BASE_URL or fallback to localhost.
+// In prod, use the /api proxy which is handled via vercel.json rewrites.
 const resolvedBaseURL = import.meta.env.DEV
   ? (envBaseURL || 'http://localhost:5000/api')
   : '/api';
@@ -11,11 +14,11 @@ if (import.meta.env.DEV) {
 }
 
 const MAX_RETRIES = Number(import.meta.env.VITE_API_RETRY_COUNT || 2);
-const RETRY_DELAY_MS = Number(import.meta.env.VITE_API_RETRY_DELAY_MS || 700);
+const RETRY_DELAY_MS = Number(import.meta.env.VITE_API_RETRY_DELAY_MS || 1000); // 1s delay for Render cold starts
 
 export const apiClient = axios.create({
   baseURL: resolvedBaseURL,
-  timeout: Number(import.meta.env.VITE_API_TIMEOUT_MS || 60000), // Increased to 60s for Render cold starts
+  timeout: 60000, // 60s timeout for cold start boots
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json'
@@ -29,18 +32,20 @@ if (!import.meta.env.DEV) {
   apiClient.interceptors.response.use(
     res => res,
     err => {
-      const { config, response, message } = err;
+      const { config, response, message, code } = err;
       const logData = {
         url: config?.url,
         method: config?.method,
         status: response?.status,
-        message: message,
-        timestamp: new Date().toISOString()
+        error: message,
+        code: code,
+        timestamp: new Date().toISOString(),
+        resolvedBaseURL
       };
 
-      console.warn('⚠️ [Production Connectivity Error]:', logData);
+      // High-visibility production error log for debugging Vercel/Render proxying
+      console.error('CRITICAL: [Infrastructure Connection Failure]', logData);
 
-      // Potential tracking/analytics could go here
       return Promise.reject(err);
     }
   );

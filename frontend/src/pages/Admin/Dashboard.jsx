@@ -107,9 +107,9 @@ const Dashboard = () => {
                         </div>
                     </div>
 
-                    <div className="h-[340px] w-full relative z-10">
+                    <div className="h-[280px] sm:h-[340px] w-full relative z-10">
                         <ResponsiveContainer width="100%" height="100%">
-                            <AreaChart data={analytics.enrollmentTrends}>
+                            <AreaChart data={analytics.enrollmentTrends} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
                                 <defs>
                                     <linearGradient id="colorInd" x1="0" y1="0" x2="0" y2="1">
                                         <stop offset="5%" stopColor="#38bdf8" stopOpacity={0.25} />
@@ -121,17 +121,17 @@ const Dashboard = () => {
                                 <XAxis
                                     dataKey="date"
                                     stroke="#475569"
-                                    fontSize={10}
+                                    fontSize={9}
                                     tickLine={false}
                                     axisLine={false}
-                                    dy={15}
+                                    dy={10}
                                     fontWeight="700"
                                     textAnchor="middle"
                                     style={{ textTransform: 'uppercase', letterSpacing: '0.1em' }}
                                 />
                                 <YAxis
                                     stroke="#475569"
-                                    fontSize={10}
+                                    fontSize={9}
                                     tickLine={false}
                                     axisLine={false}
                                     fontWeight="700"
@@ -141,11 +141,11 @@ const Dashboard = () => {
                                     content={({ active, payload, label }) => {
                                         if (active && payload && payload.length) {
                                             return (
-                                                <div className="bg-[#030712]/90 backdrop-blur-md border border-white/10 p-5 rounded-2xl shadow-2xl">
-                                                    <p className="text-[10px] uppercase tracking-[0.2em] font-black text-slate-500 mb-3">{label}</p>
-                                                    <p className="text-xl font-black text-white flex items-center gap-3">
-                                                        <span className="w-2.5 h-2.5 rounded-full bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.5)]" />
-                                                        {payload[0].value} <span className="text-slate-500 text-xs font-bold uppercase tracking-tight">Enrollees</span>
+                                                <div className="bg-[#030712]/90 backdrop-blur-md border border-white/10 p-3 sm:p-5 rounded-xl sm:2xl shadow-2xl">
+                                                    <p className="text-[9px] uppercase tracking-[0.2em] font-black text-slate-500 mb-2 sm:mb-3">{label}</p>
+                                                    <p className="text-lg sm:text-xl font-black text-white flex items-center gap-2 sm:gap-3">
+                                                        <span className="w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.5)]" />
+                                                        {payload[0].value} <span className="text-slate-500 text-[10px] sm:text-xs font-bold uppercase tracking-tight">Enrollees</span>
                                                     </p>
                                                 </div>
                                             );
@@ -157,7 +157,7 @@ const Dashboard = () => {
                                     type="monotone"
                                     dataKey="count"
                                     stroke="#38bdf8"
-                                    strokeWidth={4}
+                                    strokeWidth={3}
                                     fill="url(#colorInd)"
                                     animationDuration={2500}
                                 />
