@@ -94,8 +94,8 @@ const AdminLayout = ({ children }) => {
         <div className="min-h-screen bg-[#030712] text-slate-200 flex overflow-hidden font-sans relative">
             {/* Background Ambient Glows */}
             <div className="fixed inset-0 overflow-hidden pointer-events-none">
-                <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-emerald-500/5 blur-[120px] rounded-full animate-pulse" />
-                <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-sky-500/5 blur-[120px] rounded-full" />
+                <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-blue-500/5 blur-[120px] rounded-full animate-pulse" />
+                <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-indigo-500/5 blur-[120px] rounded-full" />
             </div>
 
             {/* Sidebar */}
@@ -141,11 +141,11 @@ const AdminLayout = ({ children }) => {
                                             key={item.path}
                                             to={item.path}
                                             className={`flex items-center gap-3 px-3 py-3 rounded-xl transition-all group relative ${isActive
-                                                ? 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 shadow-[0_0_15px_rgba(16,185,129,0.1)]'
+                                                ? 'bg-blue-500/10 text-blue-400 border border-blue-500/20 shadow-[0_0_15px_rgba(59,130,246,0.1)]'
                                                 : 'text-slate-500 hover:text-white hover:bg-white/[0.03] border border-transparent'
                                                 }`}
                                         >
-                                            <Icon size={20} className={`shrink-0 transition-colors ${isActive ? 'text-emerald-500' : 'text-slate-500 group-hover:text-slate-300'}`} />
+                                            <Icon size={20} className={`shrink-0 transition-colors ${isActive ? 'text-blue-500' : 'text-slate-500 group-hover:text-slate-300'}`} />
                                             {isSidebarOpen && (
                                                 <span className="font-bold text-[13px] whitespace-nowrap tracking-tight">
                                                     {item.label}
@@ -154,7 +154,7 @@ const AdminLayout = ({ children }) => {
                                             {isActive && (
                                                 <motion.div
                                                     layoutId="activePill"
-                                                    className="absolute left-[-4px] w-1.5 h-6 bg-emerald-500 shadow-[0_0_15px_rgba(16,185,129,0.8)] rounded-full"
+                                                    className="absolute left-[-4px] w-1.5 h-6 bg-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.8)] rounded-full"
                                                 />
                                             )}
                                             {!isSidebarOpen && (

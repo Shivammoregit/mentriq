@@ -168,9 +168,9 @@ const CourseManagement = () => {
                 <div className="flex flex-col lg:flex-row gap-8 lg:items-center lg:justify-between relative z-10">
                     <div>
                         <div className="flex items-center gap-3 mb-1">
-                            <BookOpen size={28} className="text-emerald-400" />
+                            <BookOpen size={28} className="text-blue-400" />
                             <h2 className="text-3xl font-extrabold text-white tracking-tight">Curriculum Hub</h2>
-                            <span className="ml-2 text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-lg border border-emerald-500/20 text-xs font-bold">
+                            <span className="ml-2 text-blue-400 bg-blue-500/10 px-3 py-1 rounded-lg border border-blue-500/20 text-xs font-bold">
                                 {courses.length} Active Modules
                             </span>
                         </div>
@@ -178,8 +178,8 @@ const CourseManagement = () => {
                     </div>
 
                     <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
-                        <div className="bg-white/5 border border-white/10 rounded-xl pr-6 flex items-center w-full lg:w-auto group focus-within:border-emerald-500/50 focus-within:ring-4 focus-within:ring-emerald-500/10 transition-all">
-                            <Search className="text-slate-500 ml-4 group-focus-within:text-emerald-400 transition-colors" size={18} />
+                        <div className="bg-white/5 border border-white/10 rounded-xl pr-6 flex items-center w-full lg:w-auto group focus-within:border-blue-500/50 focus-within:ring-4 focus-within:ring-blue-500/10 transition-all">
+                            <Search className="text-slate-500 ml-4 group-focus-within:text-blue-400 transition-colors" size={18} />
                             <input
                                 type="text"
                                 placeholder="Filter curriculum..."
@@ -190,7 +190,7 @@ const CourseManagement = () => {
                         </div>
                         <button
                             onClick={() => { setEditingCourse(null); setFormData(initialFormState); setIsModalOpen(true); setImagePreview(null); }}
-                            className="bg-emerald-600 text-white hover:bg-emerald-500 px-8 py-4 rounded-xl font-bold shadow-lg shadow-emerald-500/20 flex items-center justify-center gap-3 transition-all active:scale-95 text-[10px] uppercase tracking-widest whitespace-nowrap"
+                            className="bg-blue-600 text-white hover:bg-blue-500 px-8 py-4 rounded-xl font-bold shadow-lg shadow-blue-500/20 flex items-center justify-center gap-3 transition-all active:scale-95 text-[10px] uppercase tracking-widest whitespace-nowrap"
                         >
                             <Plus size={18} />
                             <span>New Course</span>
@@ -207,14 +207,14 @@ const CourseManagement = () => {
                 </div>
             ) : filteredCourses.length === 0 ? (
                 <div className="bg-[#0f172a]/40 backdrop-blur-xl border border-white/5 rounded-[2.5rem] p-32 text-center group shadow-2xl">
-                    <div className="w-24 h-24 bg-emerald-500/10 rounded-[2rem] flex items-center justify-center mx-auto mb-6 border border-emerald-500/10 text-emerald-400 shadow-sm">
+                    <div className="w-24 h-24 bg-blue-500/10 rounded-[2rem] flex items-center justify-center mx-auto mb-6 border border-blue-500/10 text-blue-400 shadow-sm">
                         <BookOpen size={48} />
                     </div>
                     <h3 className="text-3xl font-extrabold text-white mb-3 tracking-tight">No Courses Protocol</h3>
                     <p className="text-slate-500 mb-10 max-w-sm mx-auto font-medium text-sm leading-relaxed">The curriculum registry is currently offline. Manual deployment required.</p>
                     <button
                         onClick={() => setIsModalOpen(true)}
-                        className="bg-emerald-600 text-white px-10 py-4 rounded-xl font-semibold flex items-center gap-3 justify-center hover:bg-emerald-700 transition-all shadow-md shadow-emerald-600/10 active:scale-95 mx-auto"
+                        className="bg-blue-600 text-white px-10 py-4 rounded-xl font-semibold flex items-center gap-3 justify-center hover:bg-blue-700 transition-all shadow-md shadow-blue-600/10 active:scale-95 mx-auto"
                     >
                         <Plus size={20} />
                         Initialize Curriculum
@@ -245,7 +245,7 @@ const CourseManagement = () => {
                                         >
                                             <td className="px-8 py-6">
                                                 <div className="flex items-center gap-5">
-                                                    <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center overflow-hidden shrink-0 shadow-sm p-1 group-hover:border-emerald-500/50 transition-all">
+                                                    <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center overflow-hidden shrink-0 shadow-sm p-1 group-hover:border-blue-500/50 transition-all">
                                                         <img
                                                             src={resolveImageUrl(course.thumbnailUrl)}
                                                             alt={course.title}
@@ -256,7 +256,7 @@ const CourseManagement = () => {
                                                     <div>
                                                         <div className="font-bold text-white text-[15px] tracking-tight">{course.title}</div>
                                                         <div className="text-[10px] font-black text-slate-500 uppercase tracking-widest mt-1 flex items-center gap-2">
-                                                            <BarChart size={12} className="text-emerald-400" />
+                                                            <BarChart size={12} className="text-blue-400" />
                                                             {course.category} • {course.level}
                                                         </div>
                                                     </div>
@@ -265,7 +265,7 @@ const CourseManagement = () => {
                                             <td className="px-8 py-6">
                                                 <div className="flex flex-col gap-2">
                                                     <div className="text-white font-bold text-xs flex items-center gap-2">
-                                                        <DollarSign size={14} className="text-emerald-400" />
+                                                        <DollarSign size={14} className="text-blue-400" />
                                                         ₹{course.price}
                                                         {course.discount > 0 && <span className="text-[10px] text-rose-400 ml-1">-{course.discount}%</span>}
                                                     </div>
@@ -278,7 +278,7 @@ const CourseManagement = () => {
                                             <td className="px-8 py-6">
                                                 <div className="flex gap-2">
                                                     {course.syllabusUrl && (
-                                                        <span className="px-3 py-1 rounded-lg bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 text-[9px] font-black uppercase tracking-widest">Syllabus</span>
+                                                        <span className="px-3 py-1 rounded-lg bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[9px] font-black uppercase tracking-widest">Syllabus</span>
                                                     )}
                                                     {course.brochureUrl && (
                                                         <span className="px-3 py-1 rounded-lg bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[9px] font-black uppercase tracking-widest">Brochure</span>
@@ -289,7 +289,7 @@ const CourseManagement = () => {
                                                 <div className="flex justify-end gap-3">
                                                     <button
                                                         onClick={() => openEditModal(course)}
-                                                        className="p-3 rounded-xl bg-white/5 text-slate-400 hover:text-emerald-400 hover:bg-emerald-500/10 border border-white/10 hover:border-emerald-500/20 transition-all"
+                                                        className="p-3 rounded-xl bg-white/5 text-slate-400 hover:text-blue-400 hover:bg-blue-500/10 border border-white/10 hover:border-blue-500/20 transition-all"
                                                     >
                                                         <Edit2 size={16} />
                                                     </button>
@@ -340,20 +340,20 @@ const CourseManagement = () => {
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                         <div className="md:col-span-2 space-y-3">
                                             <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Identity Title</label>
-                                            <input required value={formData.title} onChange={e => setFormData({ ...formData, title: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-2xl p-6 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-600" placeholder="e.g. Masterclass in Quantum Engineering" />
+                                            <input required value={formData.title} onChange={e => setFormData({ ...formData, title: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-2xl p-6 text-white font-bold focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500/30 transition-all placeholder:text-slate-600" placeholder="e.g. Masterclass in Quantum Engineering" />
                                         </div>
 
                                         <div className="md:col-span-2 space-y-3">
                                             <label className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] ml-1">Asset Identity (Card Background)</label>
                                             <div className="relative group">
-                                                <div className="w-full h-40 bg-white/5 border-2 border-dashed border-white/10 rounded-[2.5rem] flex flex-col items-center justify-center gap-4 group-hover:border-emerald-400 transition-all overflow-hidden relative">
+                                                <div className="w-full h-40 bg-white/5 border-2 border-dashed border-white/10 rounded-[2.5rem] flex flex-col items-center justify-center gap-4 group-hover:border-blue-400 transition-all overflow-hidden relative">
                                                     {imagePreview ? (
                                                         <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
                                                     ) : formData.thumbnailUrl ? (
                                                         <img src={resolveImageUrl(formData.thumbnailUrl)} alt="Current" className="w-full h-full object-cover" />
                                                     ) : (
                                                         <>
-                                                            <ImageIcon size={40} className="text-slate-500 group-hover:text-emerald-400 transition-colors" strokeWidth={1.5} />
+                                                            <ImageIcon size={40} className="text-slate-500 group-hover:text-blue-400 transition-colors" strokeWidth={1.5} />
                                                             <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Inject Visual Asset</span>
                                                         </>
                                                     )}
@@ -364,63 +364,63 @@ const CourseManagement = () => {
 
                                         <div className="md:col-span-2 space-y-3">
                                             <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Curriculum Synopsys</label>
-                                            <textarea required rows={4} value={formData.description} onChange={e => setFormData({ ...formData, description: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-[2rem] p-6 text-slate-300 font-medium focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-600 resize-none leading-relaxed" placeholder="Detailed syllabus or overview..." />
+                                            <textarea required rows={4} value={formData.description} onChange={e => setFormData({ ...formData, description: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-[2rem] p-6 text-slate-300 font-medium focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500/30 transition-all placeholder:text-slate-600 resize-none leading-relaxed" placeholder="Detailed syllabus or overview..." />
                                         </div>
 
                                         <div className="md:col-span-2 space-y-3">
                                             <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Learning Nodes (One per line)</label>
-                                            <textarea rows={5} value={formData.modules} onChange={e => setFormData({ ...formData, modules: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-[2.5rem] p-8 text-slate-300 font-medium focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-600 resize-none leading-relaxed" placeholder="Module 1: Introduction&#10;Module 2: Advanced Concepts" />
+                                            <textarea rows={5} value={formData.modules} onChange={e => setFormData({ ...formData, modules: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-[2.5rem] p-8 text-slate-300 font-medium focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500/30 transition-all placeholder:text-slate-600 resize-none leading-relaxed" placeholder="Module 1: Introduction&#10;Module 2: Advanced Concepts" />
                                         </div>
 
                                         <div className="space-y-3">
                                             <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Lead Instructor</label>
                                             <div className="relative group">
-                                                <Users size={18} className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-emerald-400 transition-colors" />
-                                                <input value={formData.instructor} onChange={e => setFormData({ ...formData, instructor: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-2xl p-6 pl-14 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-600" placeholder="Lead Instructor Name" />
+                                                <Users size={18} className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-blue-400 transition-colors" />
+                                                <input value={formData.instructor} onChange={e => setFormData({ ...formData, instructor: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-2xl p-6 pl-14 text-white font-bold focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500/30 transition-all placeholder:text-slate-600" placeholder="Lead Instructor Name" />
                                             </div>
                                         </div>
 
                                         <div className="space-y-3">
                                             <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Program Domain</label>
                                             <div className="relative group">
-                                                <BarChart size={18} className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-emerald-400 transition-colors" />
-                                                <input required value={formData.category} onChange={e => setFormData({ ...formData, category: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-2xl p-6 pl-14 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-600" placeholder="e.g. Technology" />
+                                                <BarChart size={18} className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-blue-400 transition-colors" />
+                                                <input required value={formData.category} onChange={e => setFormData({ ...formData, category: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-2xl p-6 pl-14 text-white font-bold focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500/30 transition-all placeholder:text-slate-600" placeholder="e.g. Technology" />
                                             </div>
                                         </div>
 
                                         <div className="space-y-3">
                                             <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Aptitude Level</label>
                                             <div className="relative group">
-                                                <select required value={formData.level} onChange={e => setFormData({ ...formData, level: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-2xl p-6 pl-8 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all appearance-none cursor-pointer">
+                                                <select required value={formData.level} onChange={e => setFormData({ ...formData, level: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-2xl p-6 pl-8 text-white font-bold focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500/30 transition-all appearance-none cursor-pointer">
                                                     <option value="Beginner" className="bg-slate-900">Beginner Tier</option>
                                                     <option value="Intermediate" className="bg-slate-900">Intermediate Tier</option>
                                                     <option value="Advanced" className="bg-slate-900">Elite Tier</option>
                                                 </select>
-                                                <ChevronDown size={18} className="absolute right-6 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none group-focus-within:text-emerald-400" />
+                                                <ChevronDown size={18} className="absolute right-6 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none group-focus-within:text-blue-400" />
                                             </div>
                                         </div>
 
                                         <div className="space-y-3">
                                             <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Temporal Duration</label>
                                             <div className="relative group">
-                                                <Clock size={18} className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-emerald-400 transition-colors" />
-                                                <input required value={formData.duration} onChange={e => setFormData({ ...formData, duration: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-2xl p-6 pl-14 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-600" placeholder="e.g. 12 Weeks" />
+                                                <Clock size={18} className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-blue-400 transition-colors" />
+                                                <input required value={formData.duration} onChange={e => setFormData({ ...formData, duration: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-2xl p-6 pl-14 text-white font-bold focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500/30 transition-all placeholder:text-slate-600" placeholder="e.g. 12 Weeks" />
                                             </div>
                                         </div>
 
                                         <div className="space-y-3">
                                             <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Economic Value (₹)</label>
                                             <div className="relative group">
-                                                <DollarSign size={18} className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-emerald-400 transition-colors" />
-                                                <input type="number" required value={formData.price} onChange={e => setFormData({ ...formData, price: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-2xl p-6 pl-14 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-600" placeholder="0.00" />
+                                                <DollarSign size={18} className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-blue-400 transition-colors" />
+                                                <input type="number" required value={formData.price} onChange={e => setFormData({ ...formData, price: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-2xl p-6 pl-14 text-white font-bold focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500/30 transition-all placeholder:text-slate-600" placeholder="0.00" />
                                             </div>
                                         </div>
 
                                         <div className="space-y-3">
                                             <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Strike Price (Ref)</label>
                                             <div className="relative group">
-                                                <X size={18} className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-emerald-400 transition-colors" />
-                                                <input type="number" value={formData.oldPrice} onChange={e => setFormData({ ...formData, oldPrice: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-2xl p-6 pl-14 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-600" placeholder="Original price..." />
+                                                <X size={18} className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-blue-400 transition-colors" />
+                                                <input type="number" value={formData.oldPrice} onChange={e => setFormData({ ...formData, oldPrice: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-2xl p-6 pl-14 text-white font-bold focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500/30 transition-all placeholder:text-slate-600" placeholder="Original price..." />
                                             </div>
                                         </div>
                                     </div>
@@ -429,7 +429,7 @@ const CourseManagement = () => {
                                         <button type="button" onClick={closeModal} className="flex-1 py-4.5 rounded-2xl bg-white/5 text-slate-400 font-bold text-[10px] uppercase tracking-widest hover:text-white hover:bg-white/10 border border-white/10 transition-all">
                                             Abort Operation
                                         </button>
-                                        <button type="submit" disabled={submitting} className="flex-2 py-4.5 rounded-2xl bg-emerald-600 text-white font-bold text-xs uppercase tracking-widest hover:bg-emerald-500 shadow-lg shadow-emerald-600/20 transition-all flex items-center justify-center gap-2">
+                                        <button type="submit" disabled={submitting} className="flex-2 py-4.5 rounded-2xl bg-blue-600 text-white font-bold text-xs uppercase tracking-widest hover:bg-blue-500 shadow-lg shadow-blue-600/20 transition-all flex items-center justify-center gap-2">
                                             {submitting ? <Loader2 size={16} className="animate-spin" /> : <Check size={16} />}
                                             {editingCourse ? "Update Module" : "Confirm Manifestation"}
                                         </button>

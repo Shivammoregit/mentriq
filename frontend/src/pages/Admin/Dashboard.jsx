@@ -36,7 +36,7 @@ const StatCard = ({ title, value, icon: Icon, color, delay, trend = 0 }) => (
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay, duration: 0.5, ease: "easeOut" }}
-        className="glass-premium p-8 rounded-[2.5rem] border border-white/5 hover:border-emerald-500/30 hover:shadow-[0_25px_60px_-12px_rgba(16,185,129,0.15)] transition-all group relative overflow-hidden"
+        className="glass-premium p-8 rounded-[2.5rem] border border-white/5 hover:border-blue-500/30 hover:shadow-[0_25px_60px_-12px_rgba(59,130,246,0.15)] transition-all group relative overflow-hidden"
     >
         <div className="flex justify-between items-start relative z-10">
             <div>
@@ -47,8 +47,8 @@ const StatCard = ({ title, value, icon: Icon, color, delay, trend = 0 }) => (
                     </h3>
                 </div>
                 {trend !== 0 && (
-                    <div className={`flex items-center gap-2 mt-5 transition-transform group-hover:translate-x-1 ${trend > 0 ? 'text-emerald-400' : 'text-rose-400'}`}>
-                        <div className={`p-1 rounded-lg ${trend > 0 ? 'bg-emerald-500/10' : 'bg-rose-500/10'}`}>
+                    <div className={`flex items-center gap-2 mt-5 transition-transform group-hover:translate-x-1 ${trend > 0 ? 'text-blue-400' : 'text-rose-400'}`}>
+                        <div className={`p-1 rounded-lg ${trend > 0 ? 'bg-blue-500/10' : 'bg-rose-500/10'}`}>
                             {trend > 0 ? <TrendingUp size={12} /> : <TrendingDown size={12} />}
                         </div>
                         <span className="text-[11px] font-black tracking-tight uppercase">{Math.abs(trend)}% Velocity</span>
@@ -60,7 +60,7 @@ const StatCard = ({ title, value, icon: Icon, color, delay, trend = 0 }) => (
             </div>
         </div>
         {/* Animated Glow on Hover */}
-        <div className="absolute -bottom-10 -right-10 w-32 h-32 bg-emerald-500/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
+        <div className="absolute -bottom-10 -right-10 w-32 h-32 bg-blue-500/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
     </motion.div>
 );
 
@@ -73,23 +73,23 @@ const Dashboard = () => {
             {/* Unified Header */}
             <div className="glass-premium p-10 rounded-[3rem] border border-white/5 shadow-2xl flex flex-col md:flex-row justify-between items-start md:items-center gap-8 overflow-hidden relative group">
                 <div className="absolute -top-10 -right-10 p-24 opacity-[0.02] group-hover:opacity-[0.05] transition-opacity duration-1000 rotate-12">
-                    <Cpu size={300} className="text-emerald-500" />
+                    <Cpu size={300} className="text-blue-500" />
                 </div>
                 <div className="relative z-10">
                     <h1 className="text-4xl font-black text-white tracking-tighter theme-gradient-text">Command Center</h1>
                     <p className="text-slate-400 mt-2 font-medium text-sm tracking-tight opacity-80">Orchestrating MentriQ platform operations and entity engagement.</p>
                 </div>
                 <div className="flex items-center gap-4 bg-white/[0.03] px-6 py-3 rounded-2xl border border-white/10 relative z-10 shadow-inner">
-                    <div className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_20px_rgba(16,185,129,0.8)] animate-pulse" />
+                    <div className="w-2.5 h-2.5 rounded-full bg-blue-500 shadow-[0_0_20px_rgba(59,130,246,0.8)] animate-pulse" />
                     <span className="text-slate-300 font-black text-[10px] tracking-[0.2em] uppercase">Uplink Active</span>
                 </div>
             </div>
 
             {/* Stats Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <StatCard title="Student Entity" value={raw.students} icon={Users} color="bg-emerald-500" trend={12} delay={0} />
-                <StatCard title="Course Modules" value={raw.courses} icon={BookOpen} color="bg-emerald-500" trend={5} delay={0.1} />
-                <StatCard title="System Enrollment" value={raw.enrolledStudents} icon={GraduationCap} color="bg-emerald-500" trend={18} delay={0.2} />
+                <StatCard title="Student Entity" value={raw.students} icon={Users} color="bg-blue-500" trend={12} delay={0} />
+                <StatCard title="Course Modules" value={raw.courses} icon={BookOpen} color="bg-indigo-500" trend={5} delay={0.1} />
+                <StatCard title="System Enrollment" value={raw.enrolledStudents} icon={GraduationCap} color="bg-sky-500" trend={18} delay={0.2} />
                 <StatCard title="Signal Pulse" value={raw.activeVisitors || 0} icon={Eye} color="bg-slate-800" trend={0} delay={0.3} />
             </div>
 
@@ -102,7 +102,7 @@ const Dashboard = () => {
                             <p className="text-slate-500/60 text-[10px] font-black uppercase tracking-[0.25em] mt-2">Analytical trends • Last 30 Telemetry Cycles</p>
                         </div>
                         <div className="flex items-center gap-3 px-6 py-3 bg-white/[0.03] rounded-2xl border border-white/5 shadow-inner">
-                            <div className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_15px_rgba(16,185,129,0.5)]" />
+                            <div className="w-2 h-2 rounded-full bg-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.5)]" />
                             <span className="text-[10px] font-black text-slate-300 uppercase tracking-[0.2em]">Real-time Telemetry</span>
                         </div>
                     </div>
@@ -112,9 +112,9 @@ const Dashboard = () => {
                             <AreaChart data={analytics.enrollmentTrends}>
                                 <defs>
                                     <linearGradient id="colorInd" x1="0" y1="0" x2="0" y2="1">
-                                        <stop offset="5%" stopColor="#10b981" stopOpacity={0.25} />
-                                        <stop offset="50%" stopColor="#10b981" stopOpacity={0.05} />
-                                        <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
+                                        <stop offset="5%" stopColor="#38bdf8" stopOpacity={0.25} />
+                                        <stop offset="50%" stopColor="#38bdf8" stopOpacity={0.05} />
+                                        <stop offset="95%" stopColor="#38bdf8" stopOpacity={0} />
                                     </linearGradient>
                                 </defs>
                                 <CartesianGrid strokeDasharray="3 3" stroke="rgba(255,255,255,0.03)" vertical={false} />
@@ -137,14 +137,14 @@ const Dashboard = () => {
                                     fontWeight="700"
                                 />
                                 <Tooltip
-                                    cursor={{ stroke: '#10b981', strokeWidth: 1, strokeDasharray: '4 4' }}
+                                    cursor={{ stroke: '#38bdf8', strokeWidth: 1, strokeDasharray: '4 4' }}
                                     content={({ active, payload, label }) => {
                                         if (active && payload && payload.length) {
                                             return (
                                                 <div className="bg-[#030712]/90 backdrop-blur-md border border-white/10 p-5 rounded-2xl shadow-2xl">
                                                     <p className="text-[10px] uppercase tracking-[0.2em] font-black text-slate-500 mb-3">{label}</p>
                                                     <p className="text-xl font-black text-white flex items-center gap-3">
-                                                        <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 shadow-[0_0_10px_rgba(16,185,129,0.5)]" />
+                                                        <span className="w-2.5 h-2.5 rounded-full bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.5)]" />
                                                         {payload[0].value} <span className="text-slate-500 text-xs font-bold uppercase tracking-tight">Enrollees</span>
                                                     </p>
                                                 </div>
@@ -156,7 +156,7 @@ const Dashboard = () => {
                                 <Area
                                     type="monotone"
                                     dataKey="count"
-                                    stroke="#10b981"
+                                    stroke="#38bdf8"
                                     strokeWidth={4}
                                     fill="url(#colorInd)"
                                     animationDuration={2500}
@@ -168,14 +168,14 @@ const Dashboard = () => {
 
                 {/* Real-time Activity */}
                 <div className="glass-premium rounded-[3rem] p-10 border border-white/5 shadow-2xl flex flex-col relative overflow-hidden group">
-                    <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-emerald-500/5 blur-[80px] rounded-full pointer-events-none" />
+                    <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-500/5 blur-[80px] rounded-full pointer-events-none" />
                     <div className="flex items-center justify-between mb-10 relative z-10">
                         <div>
                             <h3 className="text-2xl font-black text-white tracking-tight font-display">Active Pulse</h3>
                             <p className="text-slate-500/60 text-[10px] font-black uppercase tracking-[0.25em] mt-2">Real-time Node Events</p>
                         </div>
-                        <div className="p-3 bg-emerald-500/10 rounded-2xl border border-emerald-500/20 group-hover:scale-110 transition-transform">
-                            <Activity className="text-emerald-400" size={24} />
+                        <div className="p-3 bg-blue-500/10 rounded-2xl border border-blue-500/20 group-hover:scale-110 transition-transform">
+                            <Activity className="text-blue-400" size={24} />
                         </div>
                     </div>
 
@@ -183,11 +183,11 @@ const Dashboard = () => {
                         {analytics.recentActivity.map((activity, idx) => (
                             <div key={activity.id} className="flex gap-5 group/item cursor-default">
                                 <div className="mt-1 relative">
-                                    <div className="w-12 h-12 rounded-2xl bg-white/[0.03] border border-white/10 flex items-center justify-center group-hover/item:bg-emerald-500/10 group-hover/item:border-emerald-500/20 transition-all shadow-sm">
+                                    <div className="w-12 h-12 rounded-2xl bg-white/[0.03] border border-white/10 flex items-center justify-center group-hover/item:bg-blue-500/10 group-hover/item:border-blue-500/20 transition-all shadow-sm">
                                         {getActivityIcon(activity.type)}
                                     </div>
                                     {idx !== analytics.recentActivity.length - 1 && (
-                                        <div className="absolute top-14 left-1/2 -translate-x-1/2 w-px h-10 bg-white/5 group-hover/item:bg-emerald-500/20 transition-colors" />
+                                        <div className="absolute top-14 left-1/2 -translate-x-1/2 w-px h-10 bg-white/5 group-hover/item:bg-blue-500/20 transition-colors" />
                                     )}
                                 </div>
                                 <div className="flex-1">
@@ -195,7 +195,7 @@ const Dashboard = () => {
                                         {activity.message.replace('User', 'Node Entity').replace('student', 'authorized node')}
                                     </div>
                                     <div className="text-[10px] text-slate-500/80 font-black mt-2 flex items-center gap-2 uppercase tracking-[0.2em]">
-                                        <div className="w-1.5 h-1.5 rounded-full bg-emerald-500/50" />
+                                        <div className="w-1.5 h-1.5 rounded-full bg-blue-500/50" />
                                         {new Date(activity.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} • Live Signal
                                     </div>
                                 </div>
@@ -203,7 +203,7 @@ const Dashboard = () => {
                         ))}
                     </div>
 
-                    <button className="w-full mt-10 py-5 bg-white/[0.03] hover:bg-emerald-500/10 text-slate-400 hover:text-emerald-400 font-black rounded-[1.5rem] border border-white/5 hover:border-emerald-500/20 text-[10px] uppercase tracking-[0.3em] transition-all active:scale-[0.98] relative z-10">
+                    <button className="w-full mt-10 py-5 bg-white/[0.03] hover:bg-blue-500/10 text-slate-400 hover:text-blue-400 font-black rounded-[1.5rem] border border-white/5 hover:border-blue-500/20 text-[10px] uppercase tracking-[0.3em] transition-all active:scale-[0.98] relative z-10">
                         Access Performance Logs
                     </button>
                 </div>
@@ -212,7 +212,7 @@ const Dashboard = () => {
             {/* Infrastructure Linkage */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
                 <div className="glass-premium rounded-[2.5rem] p-10 border border-white/5 relative overflow-hidden group">
-                    <div className="absolute inset-0 bg-gradient-to-br from-emerald-500/5 to-transparent pointer-events-none" />
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent pointer-events-none" />
                     <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
                         <div>
                             <h3 className="text-xl font-black text-white tracking-tight">Cloud Infrastructure</h3>
@@ -220,7 +220,7 @@ const Dashboard = () => {
                         </div>
                         <div className="flex gap-10">
                             {[
-                                { label: 'API Gateway', status: 'Operational', color: 'bg-emerald-500' },
+                                { label: 'API Gateway', status: 'Operational', color: 'bg-blue-500' },
                                 { label: 'Compute Unit', status: 'Primary', color: 'bg-sky-500' }
                             ].map((s, i) => (
                                 <div key={i} className="space-y-2">
@@ -241,7 +241,7 @@ const Dashboard = () => {
                         <h3 className="text-xl font-black text-white tracking-tight">Visitor Reach</h3>
                         <p className="text-slate-500/80 text-xs font-bold mt-1">Popular page segments across the portal</p>
                     </div>
-                    <button onClick={() => navigate('/admin/settings')} className="relative z-10 p-5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.1] text-emerald-400 border border-white/5 transition-all">
+                    <button onClick={() => navigate('/admin/settings')} className="relative z-10 p-5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.1] text-blue-400 border border-white/5 transition-all">
                         <ArrowRight size={24} />
                     </button>
                 </div>

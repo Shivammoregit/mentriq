@@ -133,13 +133,13 @@ const StaffManagement = () => {
                 <div className="flex flex-col lg:flex-row gap-10 lg:items-center lg:justify-between relative z-10">
                     <div>
                         <div className="flex items-center gap-4 mb-2">
-                            <div className="p-3 bg-emerald-500/10 rounded-2xl border border-emerald-500/20 text-emerald-400">
+                            <div className="p-3 bg-blue-500/10 rounded-2xl border border-blue-500/20 text-blue-400">
                                 <UserCog size={32} />
                             </div>
                             <div>
                                 <h2 className="text-4xl font-black text-white tracking-tighter theme-gradient-text">Personnel Registry</h2>
                                 <div className="flex items-center gap-2 mt-1">
-                                    <span className="text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-lg border border-emerald-500/20 text-[10px] font-black uppercase tracking-widest">
+                                    <span className="text-blue-400 bg-blue-500/10 px-3 py-1 rounded-lg border border-blue-500/20 text-[10px] font-black uppercase tracking-widest">
                                         {staffUsers.length} Authorized Nodes
                                     </span>
                                 </div>
@@ -149,8 +149,8 @@ const StaffManagement = () => {
                     </div>
 
                     <div className="flex flex-col sm:flex-row gap-5 w-full lg:w-auto">
-                        <div className="bg-white/[0.03] border border-white/10 rounded-2xl pr-8 flex items-center w-full lg:w-auto group focus-within:border-emerald-500/50 focus-within:ring-8 focus-within:ring-emerald-500/5 transition-all duration-300 shadow-inner">
-                            <Search className="text-slate-500 ml-6 group-focus-within:text-emerald-400 transition-colors" size={20} />
+                        <div className="bg-white/[0.03] border border-white/10 rounded-2xl pr-8 flex items-center w-full lg:w-auto group focus-within:border-blue-500/50 focus-within:ring-8 focus-within:ring-blue-500/5 transition-all duration-300 shadow-inner">
+                            <Search className="text-slate-500 ml-6 group-focus-within:text-blue-400 transition-colors" size={20} />
                             <input
                                 type="text"
                                 placeholder="Scan Registry..."
@@ -161,7 +161,7 @@ const StaffManagement = () => {
                         </div>
                         <button
                             onClick={handleExportStaff}
-                            className="bg-white/[0.03] text-slate-300 hover:bg-emerald-500/10 hover:text-emerald-400 border border-white/10 hover:border-emerald-500/30 px-10 py-5 rounded-2xl font-black flex items-center gap-4 transition-all active:scale-95 text-[10px] uppercase tracking-[0.2em] whitespace-nowrap justify-center shadow-lg"
+                            className="bg-white/[0.03] text-slate-300 hover:bg-blue-500/10 hover:text-blue-400 border border-white/10 hover:border-blue-500/30 px-10 py-5 rounded-2xl font-black flex items-center gap-4 transition-all active:scale-95 text-[10px] uppercase tracking-[0.2em] whitespace-nowrap justify-center shadow-lg"
                         >
                             <Download size={18} />
                             <span>Export Registry</span>
@@ -173,7 +173,7 @@ const StaffManagement = () => {
             {/* Elevate Student Section */}
             <div className="glass-premium p-10 rounded-[3rem] border border-white/5 shadow-2xl relative overflow-hidden group">
                 <div className="flex flex-col md:flex-row items-center gap-10 relative z-10">
-                    <div className="p-5 bg-emerald-500/10 rounded-[2rem] border border-emerald-500/20 text-emerald-400 shadow-[0_0_30px_rgba(16,185,129,0.1)] group-hover:scale-110 transition-transform duration-500">
+                    <div className="p-5 bg-blue-500/10 rounded-[2rem] border border-blue-500/20 text-blue-400 shadow-[0_0_30px_rgba(59,130,246,0.1)] group-hover:scale-110 transition-transform duration-500">
                         <ShieldCheck size={40} />
                     </div>
                     <div className="flex-1 text-center md:text-left">
@@ -185,7 +185,7 @@ const StaffManagement = () => {
                             <select
                                 value={selectedStudentId}
                                 onChange={(e) => setSelectedStudentId(e.target.value)}
-                                className="w-full bg-white/[0.03] border border-white/10 rounded-2xl py-4.5 pl-6 pr-12 text-slate-300 font-bold text-sm focus:outline-none focus:ring-8 focus:ring-emerald-500/5 focus:border-emerald-500/30 transition-all appearance-none cursor-pointer shadow-inner"
+                                className="w-full bg-white/[0.03] border border-white/10 rounded-2xl py-4.5 pl-6 pr-12 text-slate-300 font-bold text-sm focus:outline-none focus:ring-8 focus:ring-blue-500/5 focus:border-blue-500/30 transition-all appearance-none cursor-pointer shadow-inner"
                             >
                                 <option value="" className="bg-[#030712]">Select Entity Profile...</option>
                                 {students.map((s) => (
@@ -199,13 +199,13 @@ const StaffManagement = () => {
                         <div className="flex gap-3 w-full md:w-auto">
                             <button
                                 onClick={() => grantFromStudent('moderator')}
-                                className="flex-1 md:flex-none px-8 py-4.5 bg-emerald-600/10 hover:bg-emerald-600/20 border border-emerald-600/20 text-emerald-400 font-black text-[10px] uppercase tracking-[0.2em] rounded-2xl transition-all active:scale-95 shadow-sm"
+                                className="flex-1 md:flex-none px-8 py-4.5 bg-blue-600/10 hover:bg-blue-600/20 border border-blue-600/20 text-blue-400 font-black text-[10px] uppercase tracking-[0.2em] rounded-2xl transition-all active:scale-95 shadow-sm"
                             >
                                 Moderator
                             </button>
                             <button
                                 onClick={() => grantFromStudent('admin')}
-                                className="flex-1 md:flex-none px-8 py-4.5 bg-emerald-600 hover:bg-emerald-500 text-white font-black text-[10px] uppercase tracking-[0.2em] rounded-2xl transition-all active:scale-95 shadow-[0_10px_30px_-10px_rgba(16,185,129,0.5)]"
+                                className="flex-1 md:flex-none px-8 py-4.5 bg-blue-600 hover:bg-blue-500 text-white font-black text-[10px] uppercase tracking-[0.2em] rounded-2xl transition-all active:scale-95 shadow-[0_10px_30px_-10px_rgba(59,130,246,0.5)]"
                             >
                                 Administrator
                             </button>
@@ -232,11 +232,11 @@ const StaffManagement = () => {
                                     <tr key={user._id} className="hover:bg-white/[0.02] transition-colors group/row">
                                         <td className="px-10 py-8">
                                             <div className="flex items-center gap-6">
-                                                <div className="w-14 h-14 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-emerald-400 font-black border border-emerald-500/20 shadow-lg group-hover/row:scale-110 transition-transform duration-500 group-hover/row:border-emerald-500/40">
+                                                <div className="w-14 h-14 rounded-2xl bg-blue-500/10 flex items-center justify-center text-blue-400 font-black border border-blue-500/20 shadow-lg group-hover/row:scale-110 transition-transform duration-500 group-hover/row:border-blue-500/40">
                                                     {(user.name || "A").charAt(0).toUpperCase()}
                                                 </div>
                                                 <div>
-                                                    <div className="font-black text-white text-[16px] tracking-tight group-hover/row:text-emerald-400 transition-colors">{user.name}</div>
+                                                    <div className="font-black text-white text-[16px] tracking-tight group-hover/row:text-blue-400 transition-colors">{user.name}</div>
                                                     <div className="text-[11px] font-bold text-slate-500/80 tracking-widest mt-1 uppercase">{user.email}</div>
                                                 </div>
                                             </div>
@@ -245,7 +245,7 @@ const StaffManagement = () => {
                                             <div className="flex flex-wrap gap-3">
                                                 <span className={`px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-[0.15em] border ${user.role === 'admin'
                                                     ? 'bg-rose-500/10 text-rose-400 border-rose-500/20 shadow-[0_0_15px_rgba(244,63,94,0.1)]'
-                                                    : 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20 shadow-[0_0_15px_rgba(16,185,129,0.1)]'
+                                                    : 'bg-blue-500/10 text-blue-400 border-blue-500/20 shadow-[0_0_15px_rgba(59,130,246,0.1)]'
                                                     }`}>
                                                     {user.role}
                                                 </span>
@@ -261,7 +261,7 @@ const StaffManagement = () => {
                                             <div className="flex items-center justify-end gap-4">
                                                 <button
                                                     onClick={() => openResetModal(user)}
-                                                    className="p-4 rounded-2xl bg-white/[0.03] border border-white/5 text-slate-500 hover:text-emerald-400 hover:bg-emerald-500/10 hover:border-emerald-500/30 transition-all flex items-center gap-3 group/btn"
+                                                    className="p-4 rounded-2xl bg-white/[0.03] border border-white/5 text-slate-500 hover:text-blue-400 hover:bg-blue-500/10 hover:border-blue-500/30 transition-all flex items-center gap-3 group/btn"
                                                     title="Security Reset"
                                                 >
                                                     <Key size={16} className="group-hover/btn:rotate-12 transition-transform" />
@@ -276,7 +276,7 @@ const StaffManagement = () => {
                                                         title="Revoke Access"
                                                     >
                                                         {updatingId === user._id ? (
-                                                            <Loader2 size={16} className="animate-spin text-emerald-500" />
+                                                            <Loader2 size={16} className="animate-spin text-blue-500" />
                                                         ) : (
                                                             <>
                                                                 <Lock size={16} className="group-hover/btn:scale-110 transition-transform" />
@@ -314,7 +314,7 @@ const StaffManagement = () => {
                             className="bg-[#0f172a] border border-white/10 rounded-[4rem] w-full max-w-xl p-12 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.8)] relative overflow-hidden ring-1 ring-white/5"
                         >
                             {/* Modal Background Ambient */}
-                            <div className="absolute top-[-10%] right-[-10%] w-[50%] h-[50%] bg-emerald-500/5 blur-[100px] pointer-events-none" />
+                            <div className="absolute top-[-10%] right-[-10%] w-[50%] h-[50%] bg-blue-500/5 blur-[100px] pointer-events-none" />
 
                             <div className="flex items-start justify-between mb-12 relative z-10">
                                 <div>
@@ -333,7 +333,7 @@ const StaffManagement = () => {
                                 <div className="space-y-4">
                                     <label className="text-[10px] font-black text-slate-400/80 uppercase tracking-[0.25em] ml-2">New Secret Access Key</label>
                                     <div className="relative group">
-                                        <div className="absolute left-7 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-emerald-400 transition-colors">
+                                        <div className="absolute left-7 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-blue-400 transition-colors">
                                             <Key size={22} />
                                         </div>
                                         <input
@@ -342,7 +342,7 @@ const StaffManagement = () => {
                                             value={newPassword}
                                             onChange={(e) => setNewPassword(e.target.value)}
                                             placeholder="Min. 6 alphanumeric"
-                                            className="w-full bg-white/[0.03] border border-white/10 rounded-[2rem] p-7 pl-16 pr-16 text-white text-lg font-black tracking-[0.15em] focus:outline-none focus:ring-8 focus:ring-emerald-500/5 focus:border-emerald-500/30 transition-all placeholder:text-slate-700 shadow-inner"
+                                            className="w-full bg-white/[0.03] border border-white/10 rounded-[2rem] p-7 pl-16 pr-16 text-white text-lg font-black tracking-[0.15em] focus:outline-none focus:ring-8 focus:ring-blue-500/5 focus:border-blue-500/30 transition-all placeholder:text-slate-700 shadow-inner"
                                         />
                                         <button
                                             type="button"
@@ -365,7 +365,7 @@ const StaffManagement = () => {
                                     <button
                                         type="submit"
                                         disabled={resetting}
-                                        className="flex-2 py-5 rounded-[1.75rem] bg-emerald-600 text-white font-black text-[10px] uppercase tracking-[0.25em] hover:bg-emerald-500 shadow-[0_15px_35px_-10px_rgba(16,185,129,0.5)] transition-all flex items-center justify-center gap-3 active:scale-[0.98]"
+                                        className="flex-2 py-5 rounded-[1.75rem] bg-blue-600 text-white font-black text-[10px] uppercase tracking-[0.25em] hover:bg-blue-500 shadow-[0_15px_35px_-10px_rgba(59,130,246,0.5)] transition-all flex items-center justify-center gap-3 active:scale-[0.98]"
                                     >
                                         {resetting ? (
                                             <div className="w-6 h-6 border-3 border-white/30 border-t-white rounded-full animate-spin" />
