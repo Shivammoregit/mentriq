@@ -37,13 +37,7 @@ const AboutPage = () => {
           }));
           setTimeline(formatted);
         } else {
-          // Fallback to initial data if DB is empty
-          setTimeline([
-            { year: '2023', title: 'The Vision', desc: 'MentriQ Technologies was conceived with a mission to bridge the gap between classroom learning and industry requirements.' },
-            { year: '2024', title: 'Founding & Growth', desc: 'Started our journey to skill students with cutting-edge tech. Successfully trained our first 500+ students with exceptional outcomes.' },
-            { year: '2025', title: 'First Batch Impact', desc: 'Launched several high-impact Developer bootcamps achieving a peak 95% placement rate within 3 months of completion.' },
-            { year: '2026', title: 'Technological Scale', desc: 'Expanded our curriculum to 50+ specialized courses, building a community of 2K+ highly skilled tech professional.' }
-          ]);
+          setTimeline([]);
         }
       } catch (error) {
         console.error("Failed to fetch journey milestones:", error);
@@ -69,10 +63,10 @@ const AboutPage = () => {
   }, [])
 
   const stats = [
-    { number: statsData?.students || '2K+', icon: GraduationCap, label: 'Students Trained', color: 'from-indigo-500 to-indigo-600' },
-    { number: statsData?.courses || '50+', icon: BookOpen, label: 'Live Courses', color: 'from-cyan-500 to-cyan-600' },
-    { number: statsData?.placements || '98%', icon: TrendingUp, label: 'Placement Rate', color: 'from-purple-500 to-purple-600' },
-    { number: statsData?.trainers || '60+', icon: Users, label: 'Expert Trainers', color: 'from-blue-500 to-blue-600' }
+    { number: statsData?.students || '0', icon: GraduationCap, label: 'Students Trained', color: 'from-indigo-500 to-indigo-600' },
+    { number: statsData?.courses || '0', icon: BookOpen, label: 'Live Courses', color: 'from-cyan-500 to-cyan-600' },
+    { number: statsData?.placements || '0%', icon: TrendingUp, label: 'Placement Rate', color: 'from-purple-500 to-purple-600' },
+    { number: statsData?.trainers || '0', icon: Users, label: 'Expert Trainers', color: 'from-blue-500 to-blue-600' }
   ]
 
   return (

@@ -5,24 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useToast } from "../../context/ToastContext";
 import { resolveImageUrl } from "../../utils/imageUtils";
 
-const FALLBACK_MENTORS = [
-    { name: "Litesh Singh", image: "/images/litesh.jpg", description: "5+ Years Experience in Automation and DevOps", role: "Automation & DevOps Specialist", company: "MentriQ", stats: [{ value: "5+", label: "Years" }, { value: "15+", label: "Projects" }] },
-    { name: "Jeevan Chauhan", image: "/images/jeevan.jpg", description: "5+ Years Experience in Hybrid Applications Development", role: "Hybrid App Developer", company: "MentriQ", stats: [{ value: "5+", label: "Years" }, { value: "15+", label: "Projects" }] },
-    { name: "Yogesh Shekhawat", image: "/images/yogesh.jpg", description: "2+ Years Experience in Entrepreneurship and Product Management", role: "Entrepreneurship Lead", company: "MentriQ", stats: [{ value: "2+", label: "Years" }, { value: "5+", label: "Projects" }] },
-    { name: "Ram Swami", image: "/images/user.png", description: "6+ Years Experience in Cyber Security", role: "Cyber Security Architect", company: "MentriQ", stats: [{ value: "6+", label: "Years" }, { value: "15+", label: "Projects" }] },
-    { name: "Shubham Sharma", image: "/images/subhammentors.jpg", description: "5+ years Experience in Full Stack Development", role: "Full Stack Engineer", company: "MentriQ", stats: [{ value: "5+", label: "Years" }, { value: "15+", label: "Projects" }] },
-    { name: "Shiva Rama Krishna", image: "/images/sivaramakrishna.jpg", description: "8+ Years Experience in Software Engineering", role: "Senior Software Engineer", company: "MentriQ", stats: [{ value: "8+", label: "Years" }, { value: "20+", label: "Projects" }] },
-    { name: "Lakhan Dadhich", image: "/images/lakhan.jpg", description: "3+ Years Experience in Product Management", role: "Product Manager", company: "MentriQ", stats: [{ value: "3+", label: "Years" }, { value: "7+", label: "Projects" }] },
-    { name: "Venkat Sai", image: "/images/venkatsai.jpg", description: "5+ Years Experience in Operations Experts", role: "Operations Expert", company: "MentriQ", stats: [{ value: "5+", label: "Years" }, { value: "15+", label: "Projects" }] },
-    { name: "Satya Narayan Pradhan", image: "/images/satyanarayan.jpg", description: "5+ Years Experience in Integration Specialist", role: "Integration Specialist", company: "MentriQ", stats: [{ value: "5+", label: "Years" }, { value: "20+", label: "Projects" }] },
-    { name: "Hardik Sharma", image: "/images/hardik.jpg", description: "2+ Years Experience in Cloud Technologies", role: "Cloud Solutions Architect", company: "MentriQ", stats: [{ value: "2+", label: "Years" }, { value: "5+", label: "Projects" }] },
-    { name: "Prince Jain", image: "/images/princejain.jpg", description: "2+ Years Experience in Cyber Security ", role: "Security Specialist", company: "MentriQ", stats: [{ value: "2+", label: "Years" }, { value: "5+", label: "Projects" }] },
-    { name: "Dharam Pal Singh", image: "/images/dharampalsingh.jpg", description: "2+ Years Experience in Full Stack Development", role: "Full Stack Developer", company: "MentriQ", stats: [{ value: "2+", label: "Years" }, { value: "5+", label: "Projects" }] },
-    { name: "Pooja Bharia", image: "/images/poojabharia.jpg", description: "1+ Years Experience in Research Engineer", role: "Research Engineer", company: "MentriQ", stats: [{ value: "1+", label: "Years" }, { value: "5+", label: "Projects" }] },
-    { name: "Gaurav Sharma", image: "/images/gauravsharma.jpg", description: "1+ Years Experience in Cloud Technologies", role: "Cloud Engineer", company: "MentriQ", stats: [{ value: "1+", label: "Years" }, { value: "5+", label: "Projects" }] },
-    { name: "Pooja Yadav", image: "/images/poojayadav.jpg", description: "1+ Years Experience in Data Automation", role: "Data Automation Engineer", company: "MentriQ", stats: [{ value: "1+", label: "Years" }, { value: "5+", label: "Projects" }] },
-    { name: "Sameer Khan", image: "/images/sameer.jpg", description: "1+ Years Experience in Full Stack Development", role: "Full Stack Developer", company: "MentriQ", stats: [{ value: "1+", label: "Years" }, { value: "5+", label: "Projects" }] }
-];
+const FALLBACK_MENTORS = [];
 
 const MentorManagement = () => {
     const [mentors, setMentors] = useState([]);
@@ -64,19 +47,6 @@ const MentorManagement = () => {
         return () => clearInterval(interval);
     }, [fetchMentors]);
 
-    const syncDefaultMentors = async () => {
-        setIsSyncing(true);
-        try {
-            const syncPromises = FALLBACK_MENTORS.map(m => api.post("/mentors", m));
-            await Promise.all(syncPromises);
-            toast.success("Synchronized experts registry");
-            fetchMentors();
-        } catch (err) {
-            toast.error("Sync failed: " + err.message);
-        } finally {
-            setIsSyncing(false);
-        }
-    };
 
     const handleImageUpload = async (file) => {
         const formData = new FormData();
@@ -190,14 +160,6 @@ const MentorManagement = () => {
                             />
                         </div>
                         <div className="flex gap-4">
-                            <button
-                                onClick={syncDefaultMentors}
-                                disabled={isSyncing}
-                                className="bg-white/5 text-slate-300 hover:bg-white/10 border border-white/10 px-6 py-4 rounded-xl font-bold flex items-center gap-3 transition-all active:scale-95 text-[10px] uppercase tracking-widest flex-1 sm:flex-none justify-center whitespace-nowrap"
-                            >
-                                {isSyncing ? <RefreshCw className="animate-spin" size={16} /> : <RefreshCw size={16} />}
-                                <span>Sync Experts</span>
-                            </button>
                             <button
                                 onClick={() => { setEditingMentor(null); setFormData(initialFormState); setIsModalOpen(true); }}
                                 className="bg-emerald-600 text-white hover:bg-emerald-500 px-6 py-4 rounded-xl font-bold flex items-center gap-3 transition-all active:scale-95 shadow-lg shadow-emerald-500/20 text-[10px] uppercase tracking-widest flex-1 sm:flex-none justify-center whitespace-nowrap"

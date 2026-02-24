@@ -24,44 +24,50 @@ const HomePage = () => {
     const [loading, setLoading] = useState(true)
     const navigate = useNavigate();
 
-    // Fetch all dynamic data
-    useEffect(() => {
-        const fetchAllData = async () => {
-            try {
-                const [servicesRes, statsRes, partnersRes, feedbackRes, techRes] = await Promise.all([
-                    api.get('/services'),
-                    api.get('/stats'),
-                    api.get('/partners'),
-                    api.get('/feedbacks'),
-                    api.get('/technologies')
-                ])
+    // Fetch all dynamic data with polling for real-time updates
+    const fetchAllData = React.useCallback(async () => {
+        try {
+            const [servicesRes, statsRes, partnersRes, feedbackRes, techRes] = await Promise.all([
+                api.get('/services').catch(() => ({ data: [] })),
+                api.get('/stats').catch(() => ({ data: null })),
+                api.get('/partners').catch(() => ({ data: [] })),
+                api.get('/feedbacks').catch(() => ({ data: [] })),
+                api.get('/technologies').catch(() => ({ data: { success: true, data: [] } }))
+            ])
 
-                setServices(Array.isArray(servicesRes.data) ? servicesRes.data.slice(0, 6) : [])
-                setStatsData(statsRes.data || null)
-                setDynamicPartners(Array.isArray(partnersRes.data) ? partnersRes.data : [])
+            setServices(Array.isArray(servicesRes.data) ? servicesRes.data.slice(0, 6) : [])
+            setStatsData(statsRes.data || null)
+            setDynamicPartners(Array.isArray(partnersRes.data) ? partnersRes.data : [])
 
-                if (Array.isArray(feedbackRes.data) && feedbackRes.data.length > 0) {
-                    const formatted = feedbackRes.data.map(f => ({
-                        name: f.name,
-                        feedback: f.message, // Map backend 'message' to frontend 'feedback'
-                        image: f.image
-                    }));
-                    setDynamicTestimonials(formatted);
-                }
-
-                if (techRes.data?.success && Array.isArray(techRes.data.data)) {
-                    setDynamicTechnologies(techRes.data.data);
-                }
-            } catch (error) {
-                console.error('Failed to fetch home page data:', error)
-                setServices([])
-                setDynamicPartners([])
-            } finally {
-                setLoading(false)
+            if (Array.isArray(feedbackRes.data) && feedbackRes.data.length > 0) {
+                const formatted = feedbackRes.data.map(f => ({
+                    name: f.name,
+                    feedback: f.message, // Map backend 'message' to frontend 'feedback'
+                    image: f.image
+                }));
+                setDynamicTestimonials(formatted);
+            } else {
+                setDynamicTestimonials([]);
             }
+
+            if (techRes.data?.success && Array.isArray(techRes.data.data)) {
+                setDynamicTechnologies(techRes.data.data);
+            } else {
+                setDynamicTechnologies([]);
+            }
+        } catch (error) {
+            console.error('Failed to fetch home page data:', error)
+        } finally {
+            setLoading(false)
         }
-        fetchAllData()
     }, [])
+
+    useEffect(() => {
+        fetchAllData()
+        // Polling for real-time updates every 30 seconds
+        const interval = setInterval(fetchAllData, 30000)
+        return () => clearInterval(interval)
+    }, [fetchAllData])
 
     // Icon mapping for services
     const iconMap = {
@@ -87,10 +93,10 @@ const HomePage = () => {
 
 
     const stats = [
-        { number: '2K+', icon: GraduationCap, label: 'Students Trained', color: 'from-indigo-500 to-indigo-600' },
-        { number: '50+', icon: BookOpen, label: 'Live Courses', color: 'from-cyan-500 to-cyan-600' },
-        { number: '98%', icon: TrendingUp, label: 'Placement Rate', color: 'from-purple-500 to-purple-600' },
-        { number: '60+', icon: Users, label: 'Expert Trainers', color: 'from-blue-500 to-blue-600' }
+        { number: statsData?.students || '0', icon: GraduationCap, label: 'Students Trained', color: 'from-indigo-500 to-indigo-600' },
+        { number: statsData?.courses || '0', icon: BookOpen, label: 'Live Courses', color: 'from-cyan-500 to-cyan-600' },
+        { number: statsData?.placements || '0%', icon: TrendingUp, label: 'Placement Rate', color: 'from-purple-500 to-purple-600' },
+        { number: statsData?.trainers || '0', icon: Users, label: 'Expert Trainers', color: 'from-blue-500 to-blue-600' }
     ]
 
 
@@ -145,142 +151,9 @@ const HomePage = () => {
         },
     ]
 
-    const testimonials = [
-        {
-            name: "Rakshit Chasta",
-            feedback: "MentriQ helped me build real projects and crack my first job.",
-            image: "/images/rakshit.jpeg",
-        },
-        {
-            name: "Bhupendra Shekhawat",
-            feedback: "Live classes and mentor support were outstanding.",
-            image: "/images/bhupendra.jpg",
-        },
-        {
-            name: "Amit Naruka",
-            feedback: "I gained confidence after completing hands-on projects.",
-            image: "/images/amit.jpg",
-        },
-        {
-            name: "Aryan Barot",
-            feedback: "The course helped me understand core programming concepts in a very practical way.",
-            image: "/images/barot.jpg",
-        },
-        {
-            name: "Krishan Rajawat",
-            feedback: "Hands-on projects made learning technology much easier and more interesting.",
-            image: "/images/krishnarajawat.jpg",
-        },
-        {
-            name: "Bhanu Pratap",
-            feedback: "The instructor explained complex topics like backend and databases very clearly.",
-            image: "/images/bhanu2.jpeg",
-        },
-        {
-            name: "Disha sharma",
-            feedback: "Real-world examples helped me understand how tech is used in the industry.",
-            image: "/images/disha3.jpeg",
-        },
-        {
-            name: "Saloni Choudhary",
-            feedback: "The learning materials were up to date with current technologies.",
-            image: "/images/saloni.jpg",
-        },
-        {
-            name: "Garv Bhatiya",
-            feedback: "I learned how frontend and backend work together in real applications.",
-            image: "/images/garv.jpg",
-        },
-        {
-            name: "Vaibhav Sharma",
-            feedback: "The course structure was well-organized and beginner-friendly.",
-            image: "/images/vaibhav.jpg",
-        },
-        {
-            name: "Shikhar Singhal",
-            feedback: "Mentors helped me improve my logical thinking and coding practices.",
-            image: "/images/sikhar.jpg",
-        },
-        {
-            name: "Rohit Sharma",
-            feedback: "Industry-level projects gave me a clear idea of real software development.",
-            image: "/images/rohit.jpg",
-        },
-        {
-            name: "Krati Khandelwal",
-            feedback: "Practical labs helped me gain hands-on experience with tools and frameworks.",
-            image: "/images/krati.jpg",
-        },
-        {
-            name: "Pratyush Shrivastav",
-            feedback: "The course helped me prepare for internships and technical interviews.",
-            image: "/images/praytush.jpg",
-        },
-        {
-            name: "Aditya Pratap",
-            feedback: "Support from mentors was quick and very helpful.",
-            image: "/images/aditya.jpg",
-        },
-        {
-            name: "Anushka Jain",
-            feedback: "Overall, this tech course was very useful and career-oriented.",
-            image: "/images/anushka.jpg",
-        },
-        {
-            name: "Harsh Singh",
-            feedback: "Regular assessments helped me track my learning progress.",
-            image: "/images/harsh.jpg",
-        },
-        {
-            name: "Mohit Kumar",
-            feedback: "Doubt-clearing sessions were very helpful and interactive.",
-            image: "/images/mohit.jpg",
-        },
-        {
-            name: "Prince Sharma",
-            feedback: "I enjoyed learning new technologies like React.js and Node.js through this course.",
-            image: "/images/prince.jpg",
-        },
-        {
-            name: "Kunal Pandey",
-            feedback: "Learning in a project-based way made it easier to remember concepts.",
-            image: "/images/kunal.jpg",
-        },
-    ]
-
-    const partners = [
-        { name: "HD Media Network", logo: "/images/hdmn.png" },
-        { name: "SkyServer", logo: "/images/skyserver.jpg" },
-        { name: "Singh Enterprises", logo: "/images/singh2.jpeg" },
-        { name: "Falcons Beyond Imagination", logo: "/images/falcons.png" },
-        { name: "Voltzenic Motors", logo: "/images/volt.png" },
-        { name: "Ashok Infratech", logo: "/images/ashok.jpg" },
-        { name: "Shekhawat Group of Industries", logo: "/images/shekhawat2.jpeg" },
-        { name: "BIMPro Solutions pvt ltd", logo: "/images/bimpro2.jpeg" },
-        { name: "Milan Power", logo: "/images/milanPower.png" },
-        { name: "PU incent", logo: "/images/puIncent.png" },
-        { name: "UPnex", logo: "/images/upnex2.jpeg" },
-        { name: "NT Education", logo: "/images/nt2.jpeg" },
-    ]
-
-    const technologies = [
-        { name: "HTML", logo: "/images/html.png" },
-        { name: "CSS", logo: "/images/css.png" },
-        { name: "JavaScript", logo: "/images/js.png" },
-        { name: "React", logo: "/images/react.png" },
-        { name: "Node.js", logo: "/images/Node.js_logo.svg.png" },
-        { name: "Express.js", logo: "/images/express3.webp" },
-        { name: "MongoDB", logo: "/images/mongodb4.png" },
-        { name: "SQL", logo: "/images/sql.png" },
-        { name: "DevOps", logo: "/images/deveops.svg" },
-        { name: "Cyber Security", logo: "/images/security.png" },
-        { name: "Java", logo: "/images/java2.webp" },
-        { name: "Blockchain", logo: "/images/blockchain.png" },
-        { name: "Flutter", logo: "/images/flutter5.png" },
-        { name: "Python", logo: "/images/python.png" },
-        { name: "Data Analyst", logo: "/images/bigdata.png" },
-        { name: "Power BI", logo: "/images/powerBI.png" },
-    ]
+    const testimonials = []
+    const partners = []
+    const technologies = []
 
     return (
         <>
@@ -331,7 +204,7 @@ const HomePage = () => {
                             className="absolute -bottom-6 -right-6 bg-white p-6 rounded-3xl shadow-2xl border border-slate-100 max-w-[200px]"
                         >
                             <TrendingUp className="w-8 h-8 text-indigo-600 mb-2" />
-                            <div className="text-2xl font-black text-slate-900 mb-1 font-display">98%</div>
+                            <div className="text-2xl font-black text-slate-900 mb-1 font-display">{statsData?.placements || '0%'}</div>
                             <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-tight">Career Placement Success Rate</div>
                         </motion.div>
                     </motion.div>
@@ -397,10 +270,10 @@ const HomePage = () => {
                     {/* Stats Grid */}
                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                         {[
-                            { number: statsData?.students || '2K+', icon: GraduationCap, label: 'Students Trained', color: 'from-indigo-600 to-indigo-700' },
-                            { number: statsData?.courses || '50+', icon: BookOpen, label: 'Live Courses', color: 'from-cyan-600 to-cyan-700' },
-                            { number: statsData?.placements || '98%', icon: TrendingUp, label: 'Placement Rate', color: 'from-purple-600 to-purple-700' },
-                            { number: statsData?.trainers || '60+', icon: Users, label: 'Expert Trainers', color: 'from-blue-600 to-blue-700' }
+                            { number: statsData?.students || '0', icon: GraduationCap, label: 'Students Trained', color: 'from-indigo-600 to-indigo-700' },
+                            { number: statsData?.courses || '0', icon: BookOpen, label: 'Live Courses', color: 'from-cyan-600 to-cyan-700' },
+                            { number: statsData?.placements || '0%', icon: TrendingUp, label: 'Placement Rate', color: 'from-purple-600 to-purple-700' },
+                            { number: statsData?.trainers || '0', icon: Users, label: 'Expert Trainers', color: 'from-blue-600 to-blue-700' }
                         ].map((stat, index) => {
                             const Icon = stat.icon
                             return (
@@ -624,150 +497,153 @@ const HomePage = () => {
             </SectionErrorBoundary >
 
             {/* Testimonials Section - Premium Light 3D Interactive Grid Compact */}
-            < section className="py-8 bg-white overflow-hidden relative" >
-                <div className="max-w-7xl mx-auto px-6 mb-6 text-center relative z-10">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="inline-flex items-center space-x-2 py-1.5 px-4 rounded-full bg-indigo-50 border border-indigo-100 mb-3"
-                    >
-                        <Users className="w-3.5 h-3.5 text-indigo-500" />
-                        <span className="text-indigo-600 text-[10px] font-black tracking-widest uppercase">Verified Success Stories</span>
-                    </motion.div>
-                    <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-3 tracking-tighter uppercase font-display">
-                        STUDENT <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-cyan-600">IMPACT.</span>
-                    </h2>
-                </div>
+            {dynamicTestimonials.length > 0 && (
+                <section className="py-8 bg-white overflow-hidden relative">
+                    <div className="max-w-7xl mx-auto px-6 mb-6 text-center relative z-10">
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            className="inline-flex items-center space-x-2 py-1.5 px-4 rounded-full bg-indigo-50 border border-indigo-100 mb-3"
+                        >
+                            <Users className="w-3.5 h-3.5 text-indigo-500" />
+                            <span className="text-indigo-600 text-[10px] font-black tracking-widest uppercase">Verified Success Stories</span>
+                        </motion.div>
+                        <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-3 tracking-tighter uppercase font-display">
+                            STUDENT <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-cyan-600">IMPACT.</span>
+                        </h2>
+                    </div>
 
-                <div className="relative max-w-7xl mx-auto px-6">
-                    <SectionErrorBoundary fallback={<div className="w-full h-40 rounded-3xl bg-slate-50 border border-slate-100" />}>
-                        <OneByOneTestimonial testimonials={dynamicTestimonials.length > 0 ? dynamicTestimonials : testimonials} />
-                    </SectionErrorBoundary>
-                </div>
-            </section >
-
+                    <div className="relative max-w-7xl mx-auto px-6">
+                        <SectionErrorBoundary fallback={<div className="w-full h-40 rounded-3xl bg-slate-50 border border-slate-100" />}>
+                            <OneByOneTestimonial testimonials={dynamicTestimonials} />
+                        </SectionErrorBoundary>
+                    </div>
+                </section>
+            )}
 
             {/* Partners Section - Premium Light 3D Dual-Scroller Compact */}
-            < section className="py-8 bg-white overflow-hidden relative" >
-                {/* Ambient Subtle Glows - Refined for Light Theme */}
-                < div className="absolute inset-0 pointer-events-none opacity-40" >
-                    <div className="absolute top-1/2 left-0 w-96 h-96 bg-indigo-500/5 rounded-full blur-[120px]" />
-                    <div className="absolute top-1/2 right-0 w-96 h-96 bg-cyan-500/5 rounded-full blur-[120px]" />
-                </div >
+            {dynamicPartners.length > 0 && (
+                <section className="py-8 bg-white overflow-hidden relative">
+                    {/* Ambient Subtle Glows - Refined for Light Theme */}
+                    <div className="absolute inset-0 pointer-events-none opacity-40">
+                        <div className="absolute top-1/2 left-0 w-96 h-96 bg-indigo-500/5 rounded-full blur-[120px]" />
+                        <div className="absolute top-1/2 right-0 w-96 h-96 bg-cyan-500/5 rounded-full blur-[120px]" />
+                    </div>
 
-                <div className="relative max-w-7xl mx-auto px-6 mb-8 text-center">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6 }}
+                    <div className="relative max-w-7xl mx-auto px-6 mb-8 text-center">
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 0.6 }}
+                        >
+                            <motion.div
+                                className="inline-flex items-center space-x-2 py-1.5 px-4 rounded-full bg-cyan-50 border border-cyan-100 mb-3"
+                            >
+                                <Briefcase className="w-3.5 h-3.5 text-cyan-500" />
+                                <span className="text-cyan-600 text-[10px] font-black tracking-widest uppercase">Global Network</span>
+                            </motion.div>
+
+                            <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-4 tracking-tighter uppercase font-display">
+                                OUR HIRING <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-cyan-600">PARTNERS.</span>
+                            </h2>
+                            <p className="text-lg text-slate-500 max-w-2xl mx-auto font-medium">
+                                Trusted by leading industry giants and high-growth technology ventures worldwide.
+                            </p>
+                        </motion.div>
+                    </div>
+
+                    <div
+                        className="relative space-y-8 py-6"
+                        style={{
+                            perspective: '2000px',
+                            maskImage: 'linear-gradient(to right, transparent, black 20%, black 80%, transparent)',
+                            WebkitMaskImage: 'linear-gradient(to right, transparent, black 20%, black 80%, transparent)'
+                        }}
                     >
-                        <motion.div
-                            className="inline-flex items-center space-x-2 py-1.5 px-4 rounded-full bg-cyan-50 border border-cyan-100 mb-3"
-                        >
-                            <Briefcase className="w-3.5 h-3.5 text-cyan-500" />
-                            <span className="text-cyan-600 text-[10px] font-black tracking-widest uppercase">Global Network</span>
-                        </motion.div>
+                        {/* Top Row - Scrolling Left */}
+                        <div style={{ transformStyle: 'preserve-3d', transform: 'rotateX(5deg)' }}>
+                            <motion.div
+                                className="flex gap-8 w-max"
+                                animate={{ x: ["0%", "-50%"] }}
+                                transition={{
+                                    repeat: Infinity,
+                                    repeatType: "loop",
+                                    duration: 40,
+                                    ease: "linear",
+                                }}
+                            >
+                                {/* Dual Buffer for Seamless Loop */}
+                                {[...dynamicPartners, ...dynamicPartners].map((partner, index) => (
+                                    <motion.div
+                                        key={`top-${index}`}
+                                        whileHover={{ y: -6, scale: 1.05, translateZ: 40 }}
+                                        className="w-[180px] flex-shrink-0 bg-white rounded-2xl p-5 border border-slate-100 hover:border-indigo-500/20 hover:bg-slate-50 shadow-xl flex flex-col items-center justify-center group transition-all duration-500 cursor-pointer overflow-hidden relative"
+                                    >
+                                        {/* Logo Backglow */}
+                                        <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
 
-                        <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-4 tracking-tighter uppercase font-display">
-                            OUR HIRING <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-cyan-600">PARTNERS.</span>
-                        </h2>
-                        <p className="text-lg text-slate-500 max-w-2xl mx-auto font-medium">
-                            Trusted by leading industry giants and high-growth technology ventures worldwide.
-                        </p>
-                    </motion.div>
-                </div>
+                                        <div className="h-14 w-full flex items-center justify-center mb-2 relative z-10">
+                                            <img
+                                                src={partner.logo || partner.imageUrl}
+                                                alt={partner.name}
+                                                className="max-h-10 w-auto object-contain grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700 filter drop-shadow-[0_0_8px_rgba(0,0,0,0.05)]"
+                                            />
+                                        </div>
+                                        <p className="text-[10px] font-black text-slate-400 text-center uppercase tracking-[0.2em] group-hover:text-indigo-600 transition-colors relative z-10">
+                                            {partner.name}
+                                        </p>
 
-                <div
-                    className="relative space-y-8 py-6"
-                    style={{
-                        perspective: '2000px',
-                        maskImage: 'linear-gradient(to right, transparent, black 20%, black 80%, transparent)',
-                        WebkitMaskImage: 'linear-gradient(to right, transparent, black 20%, black 80%, transparent)'
-                    }}
-                >
-                    {/* Top Row - Scrolling Left */}
-                    <div style={{ transformStyle: 'preserve-3d', transform: 'rotateX(5deg)' }}>
-                        <motion.div
-                            className="flex gap-8 w-max"
-                            animate={{ x: ["0%", "-50%"] }}
-                            transition={{
-                                repeat: Infinity,
-                                repeatType: "loop",
-                                duration: 40,
-                                ease: "linear",
-                            }}
-                        >
-                            {/* Dual Buffer for Seamless Loop */}
-                            {(dynamicPartners.length > 0 ? [...dynamicPartners, ...dynamicPartners] : [...partners, ...partners]).map((partner, index) => (
-                                <motion.div
-                                    key={`top-${index}`}
-                                    whileHover={{ y: -6, scale: 1.05, translateZ: 40 }}
-                                    className="w-[180px] flex-shrink-0 bg-white rounded-2xl p-5 border border-slate-100 hover:border-indigo-500/20 hover:bg-slate-50 shadow-xl flex flex-col items-center justify-center group transition-all duration-500 cursor-pointer overflow-hidden relative"
-                                >
-                                    {/* Logo Backglow */}
-                                    <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                                        {/* Scanline Overlay */}
+                                        <div className="absolute inset-0 opacity-[0.03] group-hover:opacity-[0.06] pointer-events-none animate-scan" />
+                                    </motion.div>
+                                ))}
+                            </motion.div>
+                        </div>
 
-                                    <div className="h-14 w-full flex items-center justify-center mb-2 relative z-10">
-                                        <img
-                                            src={partner.logo || partner.imageUrl}
-                                            alt={partner.name}
-                                            className="max-h-10 w-auto object-contain grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700 filter drop-shadow-[0_0_8px_rgba(0,0,0,0.05)]"
-                                        />
-                                    </div>
-                                    <p className="text-[10px] font-black text-slate-400 text-center uppercase tracking-[0.2em] group-hover:text-indigo-600 transition-colors relative z-10">
-                                        {partner.name}
-                                    </p>
+                        {/* Bottom Row - Scrolling Right */}
+                        <div style={{ transformStyle: 'preserve-3d', transform: 'rotateX(-5deg)' }}>
+                            <motion.div
+                                className="flex gap-8 w-max"
+                                animate={{ x: ["-50%", "0%"] }}
+                                transition={{
+                                    repeat: Infinity,
+                                    repeatType: "loop",
+                                    duration: 45,
+                                    ease: "linear",
+                                }}
+                            >
+                                {/* Dual Buffer for Seamless Loop */}
+                                {[...dynamicPartners, ...dynamicPartners].map((partner, index) => (
+                                    <motion.div
+                                        key={`bottom-${index}`}
+                                        whileHover={{ y: 6, scale: 1.05, translateZ: 40 }}
+                                        className="w-[180px] flex-shrink-0 bg-white rounded-2xl p-5 border border-slate-100 hover:border-cyan-500/20 hover:bg-slate-50 shadow-xl flex flex-col items-center justify-center group transition-all duration-500 cursor-pointer overflow-hidden relative"
+                                    >
+                                        {/* Logo Backglow */}
+                                        <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-cyan-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
 
-                                    {/* Scanline Overlay */}
-                                    <div className="absolute inset-0 opacity-[0.03] group-hover:opacity-[0.06] pointer-events-none animate-scan" />
-                                </motion.div>
-                            ))}
-                        </motion.div>
+                                        <div className="h-14 w-full flex items-center justify-center mb-2 relative z-10">
+                                            <img
+                                                src={partner.logo || partner.imageUrl}
+                                                alt={partner.name}
+                                                className="max-h-10 w-auto object-contain grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700 filter drop-shadow-[0_0_8px_rgba(0,0,0,0.05)]"
+                                            />
+                                        </div>
+                                        <p className="text-[10px] font-black text-slate-400 text-center uppercase tracking-[0.2em] group-hover:text-cyan-600 transition-colors relative z-10">
+                                            {partner.name}
+                                        </p>
+
+                                        {/* Scanline Overlay */}
+                                        <div className="absolute inset-0 opacity-[0.03] group-hover:opacity-[0.06] pointer-events-none animate-scan" />
+                                    </motion.div>
+                                ))}
+                            </motion.div>
+                        </div>
                     </div>
-
-                    {/* Bottom Row - Scrolling Right */}
-                    <div style={{ transformStyle: 'preserve-3d', transform: 'rotateX(-5deg)' }}>
-                        <motion.div
-                            className="flex gap-8 w-max"
-                            animate={{ x: ["-50%", "0%"] }}
-                            transition={{
-                                repeat: Infinity,
-                                repeatType: "loop",
-                                duration: 45,
-                                ease: "linear",
-                            }}
-                        >
-                            {/* Dual Buffer for Seamless Loop */}
-                            {(dynamicPartners.length > 0 ? [...dynamicPartners, ...dynamicPartners] : [...partners, ...partners]).map((partner, index) => (
-                                <motion.div
-                                    key={`bottom-${index}`}
-                                    whileHover={{ y: 6, scale: 1.05, translateZ: 40 }}
-                                    className="w-[180px] flex-shrink-0 bg-white rounded-2xl p-5 border border-slate-100 hover:border-cyan-500/20 hover:bg-slate-50 shadow-xl flex flex-col items-center justify-center group transition-all duration-500 cursor-pointer overflow-hidden relative"
-                                >
-                                    {/* Logo Backglow */}
-                                    <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-cyan-500/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-
-                                    <div className="h-14 w-full flex items-center justify-center mb-2 relative z-10">
-                                        <img
-                                            src={partner.logo || partner.imageUrl}
-                                            alt={partner.name}
-                                            className="max-h-10 w-auto object-contain grayscale opacity-50 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700 filter drop-shadow-[0_0_8px_rgba(0,0,0,0.05)]"
-                                        />
-                                    </div>
-                                    <p className="text-[10px] font-black text-slate-400 text-center uppercase tracking-[0.2em] group-hover:text-cyan-600 transition-colors relative z-10">
-                                        {partner.name}
-                                    </p>
-
-                                    {/* Scanline Overlay */}
-                                    <div className="absolute inset-0 opacity-[0.03] group-hover:opacity-[0.06] pointer-events-none animate-scan" />
-                                </motion.div>
-                            ))}
-                        </motion.div>
-                    </div>
-                </div>
-            </section >
+                </section>
+            )}
 
             {/* Technologies Section - Premium Dark 3D Perspective Scroller Compact */}
             < section className="py-10 bg-[#070b14] overflow-hidden relative" >

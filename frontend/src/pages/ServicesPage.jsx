@@ -25,12 +25,6 @@ const gradientPairs = [
     { from: 'from-slate-700', to: 'to-slate-900', accent: 'slate', light: 'slate-50', text: 'slate-700' },
 ];
 
-const stats = [
-    { value: '150+', label: 'Projects Delivered', icon: TrendingUp },
-    { value: '98%', label: 'Client Satisfaction', icon: Star },
-    { value: '60+', label: 'Expert Team', icon: Users },
-    { value: '5★', label: 'Avg Rating', icon: Award },
-];
 
 const whyUs = [
     { title: 'Agile Delivery', desc: 'Rapid iterations with transparent milestones.' },
@@ -45,19 +39,31 @@ const ServicesPage = () => {
     const [loading, setLoading] = useState(true);
     const [hoveredIdx, setHoveredIdx] = useState(null);
 
+    const [statsData, setStatsData] = useState(null);
     useEffect(() => {
-        const fetchServices = async () => {
+        const fetchAllData = async () => {
             try {
-                const { data } = await api.get('/services');
-                setServices(data);
+                const [servicesRes, statsRes] = await Promise.all([
+                    api.get('/services'),
+                    api.get('/stats')
+                ]);
+                setServices(servicesRes.data);
+                setStatsData(statsRes.data);
             } catch (error) {
-                console.error("Failed to fetch services", error);
+                console.error("Failed to fetch page data", error);
             } finally {
                 setLoading(false);
             }
         };
-        fetchServices();
+        fetchAllData();
     }, []);
+
+    const stats = [
+        { value: statsData?.raw?.partners || '0', label: 'Projects Delivered', icon: TrendingUp },
+        { value: statsData?.placements || '0%', label: 'Placement Rate', icon: Star },
+        { value: statsData?.trainers || '0', label: 'Expert Mentors', icon: Users },
+        { value: '5★', label: 'Quality Rating', icon: Award },
+    ];
 
     return (
         <div className="bg-[#f8f9fc] min-h-screen">

@@ -26,7 +26,7 @@ const Chatbot = () => {
     ];
 
     const faqOptions = [
-        { q: 'Do you provide placements?', a: 'Yes! We have a dedicated placement cell and strong partnerships with 50+ companies. We provide 100% placement assistance.' },
+        { q: 'Do you provide placements?', a: 'Yes! We have a dedicated placement cell and strong partnerships with leading industry giants. We provide 100% placement assistance.' },
         { q: 'What technologies do you teach?', a: 'We specialize in Full Stack Development (MERN), AI/ML, Data Science, and DevOps using industry-standard tools.' },
         { q: 'Is there a student handbook?', a: 'Yes, you can find the student handbook in the footer under the Support section.' },
         { q: 'Where are you located?', a: 'Our office is located at Mentriq Technologies, 2nd floor, 34/501, Haldighati Marg E, Sector 3, Pratap Nagar, Sanganer, Jaipur, 302033. You can find the exact map on our Contact page.' }

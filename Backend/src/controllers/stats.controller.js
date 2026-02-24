@@ -114,10 +114,10 @@ const getGlobalStats = async (req, res) => {
         ].sort((a, b) => new Date(b.time) - new Date(a.time)).slice(0, 5);
 
         const statsConfig = await SiteStats.findOne().lean();
-        const defaultStudents = `${enrolledStudentCount > 2000 ? enrolledStudentCount : "2K+"}`;
-        const defaultCourses = `${courseCount > 50 ? courseCount : "50+"}`;
-        const defaultPlacements = "98%";
-        const defaultTrainers = "60+";
+        const defaultStudents = enrolledStudentCount.toString();
+        const defaultCourses = courseCount.toString();
+        const defaultPlacements = "0%";
+        const defaultTrainers = "0";
 
         res.json({
             students: statsConfig?.students || defaultStudents,

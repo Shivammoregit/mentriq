@@ -139,9 +139,9 @@ const Dashboard = () => {
 
             {/* Stats Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                <StatCard title="Student Entity" value={raw.students} icon={Users} color="bg-blue-500" trend={12} delay={0} />
-                <StatCard title="Course Modules" value={raw.courses} icon={BookOpen} color="bg-indigo-500" trend={5} delay={0.1} />
-                <StatCard title="System Enrollment" value={raw.enrolledStudents} icon={GraduationCap} color="bg-sky-500" trend={18} delay={0.2} />
+                <StatCard title="Student Entity" value={raw.students} icon={Users} color="bg-blue-500" trend={raw.studentTrend || 0} delay={0} />
+                <StatCard title="Course Modules" value={raw.courses} icon={BookOpen} color="bg-indigo-500" trend={raw.courseTrend || 0} delay={0.1} />
+                <StatCard title="System Enrollment" value={raw.enrolledStudents} icon={GraduationCap} color="bg-sky-500" trend={raw.enrollmentTrend || 0} delay={0.2} />
                 <StatCard title="Signal Pulse" value={raw.activeVisitors || 0} icon={Eye} color="bg-slate-800" trend={0} delay={0.3} />
             </div>
 

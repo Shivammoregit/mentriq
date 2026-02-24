@@ -7,24 +7,7 @@ import { resolveImageUrl } from "../../utils/imageUtils";
 
 const MotionDiv = motion.div;
 
-const FALLBACK_TECHS = [
-    { name: "HTML", logo: "/images/html.png", category: "frontend", order: 1 },
-    { name: "CSS", logo: "/images/css.png", category: "frontend", order: 2 },
-    { name: "JavaScript", logo: "/images/js.png", category: "frontend", order: 3 },
-    { name: "React", logo: "/images/react.png", category: "frontend", order: 4 },
-    { name: "Node.js", logo: "/images/Node.js_logo.svg.png", category: "backend", order: 5 },
-    { name: "Express.js", logo: "/images/express3.webp", category: "backend", order: 6 },
-    { name: "MongoDB", logo: "/images/mongodb4.png", category: "database", order: 7 },
-    { name: "SQL", logo: "/images/sql.png", category: "database", order: 8 },
-    { name: "DevOps", logo: "/images/deveops.svg", category: "devops", order: 9 },
-    { name: "Cyber Security", logo: "/images/security.png", category: "other", order: 10 },
-    { name: "Java", logo: "/images/java2.webp", category: "backend", order: 11 },
-    { name: "Blockchain", logo: "/images/blockchain.png", category: "other", order: 12 },
-    { name: "Flutter", logo: "/images/flutter5.png", category: "mobile", order: 13 },
-    { name: "Python", logo: "/images/python.png", category: "backend", order: 14 },
-    { name: "Data Analyst", logo: "/images/bigdata.png", category: "other", order: 15 },
-    { name: "Power BI", logo: "/images/powerBI.png", category: "other", order: 16 },
-];
+const FALLBACK_TECHS = [];
 
 const TechnologyManagement = () => {
     const [technologies, setTechnologies] = useState([]);
@@ -57,19 +40,6 @@ const TechnologyManagement = () => {
         }
     }, [toast]);
 
-    const syncDefaultTechs = async () => {
-        setIsSyncing(true);
-        try {
-            const syncPromises = FALLBACK_TECHS.map(t => api.post("/technologies", t));
-            await Promise.all(syncPromises);
-            toast.success("Mastery stack synchronized");
-            fetchTechnologies();
-        } catch (err) {
-            toast.error("Synchronization failed");
-        } finally {
-            setIsSyncing(false);
-        }
-    };
 
     useEffect(() => {
         fetchTechnologies();
@@ -185,14 +155,6 @@ const TechnologyManagement = () => {
                             />
                         </div>
                         <div className="flex gap-4">
-                            <button
-                                onClick={syncDefaultTechs}
-                                disabled={isSyncing}
-                                className="bg-white/5 text-slate-300 hover:bg-white/10 border border-white/10 px-6 py-4 rounded-xl font-bold flex items-center gap-3 transition-all active:scale-95 text-[10px] uppercase tracking-widest flex-1 sm:flex-none justify-center whitespace-nowrap"
-                            >
-                                {isSyncing ? <RefreshCw className="animate-spin" size={16} /> : <RefreshCw size={16} />}
-                                <span>Sync Stack</span>
-                            </button>
                             <button
                                 onClick={() => { setEditingTech(null); setFormData({ name: "", logo: "", logoFile: null, category: "other", order: 0 }); setImagePreview(null); setIsModalOpen(true); }}
                                 className="bg-emerald-600 text-white hover:bg-emerald-500 px-8 py-4 rounded-xl font-bold flex items-center gap-3 transition-all active:scale-95 shadow-lg shadow-emerald-500/20 text-[10px] uppercase tracking-widest flex-1 sm:flex-none justify-center"

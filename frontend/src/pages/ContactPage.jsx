@@ -14,15 +14,15 @@ const ContactPage = () => {
   const [submitted, setSubmitted] = useState(false)
 
   const [settings, setSettings] = useState({
-    email: "support@mentriqtechnologies.in",
-    phone: "+918890301264",
-    address: "Mentriq Technologies, 2nd floor, 34/501, Haldighati Marg E, Sector 3, Pratap Nagar, Sanganer, Jaipur, 302033",
-    mapLink: "https://www.google.com/maps/place/MentriQ+Technologies/@26.8032657,75.8052318,17z/data=!4m14!1m7!3m6!1s0x396dcb785ab8c2cb:0x4bac0e52b5e07df!2s2nd+floor,+34%2F57,+Haldighati+Marg+E,+Sanganer,+Sector+3,+Pratap+Nagar,+Jaipur,+Rajasthan+302033!3b1!8m2!3d26.8032657!4d75.8052318!3m5!1s0x396dcb31ccbce14d:0x9f153a03ffb8fdd0!8m2!3d26.8023101!4d75.8047414!16s%2Fg%2F11yy2ld3gd?entry=ttu&g_ep=EgoyMDI2MDIwNC4wIKXMDSoASAFQAw%3D%3D",
+    email: "",
+    phone: "",
+    address: "",
+    mapLink: "",
     socialLinks: {
-      instagram: "https://www.instagram.com/mentriqtechnologies/",
-      linkedin: "https://www.linkedin.com/company/mentriqtechnologies/",
-      twitter: "https://x.com/MentriqT51419",
-      whatsapp: "https://wa.me/918890301264"
+      instagram: "",
+      linkedin: "",
+      twitter: "",
+      whatsapp: ""
     }
   });
 

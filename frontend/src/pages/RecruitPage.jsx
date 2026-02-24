@@ -100,10 +100,10 @@ const RecruitPage = () => {
     ]
 
     const talentDomains = [
-        { name: 'Full Stack Development', icon: Code2, students: '120+' },
-        { name: 'Data Analytics', icon: PieChart, students: '85+' },
-        { name: 'UI/UX Design', icon: Palette, students: '45+' },
-        { name: 'Business Analysis', icon: LineChart, students: '60+' }
+        { name: 'Full Stack Development', icon: Code2, students: 'Active' },
+        { name: 'Data Analytics', icon: PieChart, students: 'Active' },
+        { name: 'UI/UX Design', icon: Palette, students: 'Active' },
+        { name: 'Business Analysis', icon: LineChart, students: 'Active' }
     ]
 
     const steps = [

@@ -18,20 +18,7 @@ const getSafeWebsiteHost = (website) => {
     }
 };
 
-const FALLBACK_PARTNERS = [
-    { name: "HD Media Network", logo: "/images/hdmn.png" },
-    { name: "SkyServer", logo: "/images/skyserver.jpg" },
-    { name: "Singh Enterprises", logo: "/images/singh2.jpeg" },
-    { name: "Falcons Beyond Imagination", logo: "/images/falcons.png" },
-    { name: "Voltzenic Motors", logo: "/images/volt.png" },
-    { name: "Ashok Infratech", logo: "/images/ashok.jpg" },
-    { name: "Shekhawat Group of Industries", logo: "/images/shekhawat2.jpeg" },
-    { name: "BIMPro Solutions pvt ltd", logo: "/images/bimpro2.jpeg" },
-    { name: "Milan Power", logo: "/images/milanPower.png" },
-    { name: "PU incent", logo: "/images/puIncent.png" },
-    { name: "UPnex", logo: "/images/upnex2.jpeg" },
-    { name: "NT Education", logo: "/images/nt2.jpeg" },
-];
+const FALLBACK_PARTNERS = [];
 
 const PartnerManagement = () => {
     const [partners, setPartners] = useState([]);
@@ -94,19 +81,6 @@ const PartnerManagement = () => {
         }
     };
 
-    const syncDefaultPartners = async () => {
-        setIsSyncing(true);
-        try {
-            const syncPromises = FALLBACK_PARTNERS.map(p => api.post("/partners", p));
-            await Promise.all(syncPromises);
-            toast.success("Alliance fleet synchronized");
-            fetchPartners();
-        } catch (err) {
-            toast.error("Sync failed");
-        } finally {
-            setIsSyncing(false);
-        }
-    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -183,14 +157,6 @@ const PartnerManagement = () => {
                             />
                         </div>
                         <div className="flex gap-4">
-                            <button
-                                onClick={syncDefaultPartners}
-                                disabled={isSyncing}
-                                className="bg-white/5 text-slate-300 hover:bg-white/10 border border-white/10 px-6 py-4 rounded-xl font-bold flex items-center gap-3 transition-all active:scale-95 text-[10px] uppercase tracking-widest flex-1 sm:flex-none justify-center whitespace-nowrap"
-                            >
-                                {isSyncing ? <RefreshCw className="animate-spin" size={16} /> : <RefreshCw size={16} />}
-                                <span>Sync Fleet</span>
-                            </button>
                             <button
                                 onClick={() => { setEditingPartner(null); setFormData(initialFormState); setIsModalOpen(true); }}
                                 className="bg-emerald-600 text-white hover:bg-emerald-500 px-6 py-4 rounded-xl font-bold flex items-center gap-3 transition-all active:scale-95 shadow-lg shadow-emerald-500/20 text-[10px] uppercase tracking-widest flex-1 sm:flex-none justify-center whitespace-nowrap"

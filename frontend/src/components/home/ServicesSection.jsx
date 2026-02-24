@@ -10,32 +10,7 @@ const IconMap = {
     Globe, Smartphone, Code, Server, Megaphone, Palette, Box, Shield, Database, Cloud, PenTool, Cpu, Layers, Zap
 };
 
-const FALLBACK_SERVICES = [
-    {
-        icon: "Globe",
-        title: 'Web Development',
-        description: 'Custom, high-performance websites built with modern technologies like React, Next.js, and Node.js.',
-        color: 'from-blue-500 to-cyan-500'
-    },
-    {
-        icon: "Smartphone",
-        title: 'App Development',
-        description: 'Native and cross-platform mobile applications for iOS and Android using Flutter and React Native.',
-        color: 'from-purple-500 to-pink-500'
-    },
-    {
-        icon: "Palette",
-        title: 'UI/UX Design',
-        description: 'User-centric design solutions that enhance engagement and provide seamless digital experiences.',
-        color: 'from-orange-500 to-red-500'
-    },
-    {
-        icon: "Megaphone",
-        title: 'Digital Marketing',
-        description: 'Strategic marketing campaigns including SEO, social media, and PPC to grow your online presence.',
-        color: 'from-green-500 to-emerald-500'
-    }
-];
+const FALLBACK_SERVICES = [];
 
 const ServicesSection = () => {
     const navigate = useNavigate();

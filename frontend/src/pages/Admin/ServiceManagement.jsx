@@ -5,32 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useToast } from "../../context/ToastContext";
 import { resolveImageUrl } from "../../utils/imageUtils";
 
-const FALLBACK_SERVICES = [
-    {
-        icon: "Globe",
-        title: 'Web Development',
-        description: 'Custom, high-performance websites built with modern technologies like React, Next.js, and Node.js.',
-        color: 'from-blue-500 to-cyan-500'
-    },
-    {
-        icon: "Smartphone",
-        title: 'App Development',
-        description: 'Native and cross-platform mobile applications for iOS and Android using Flutter and React Native.',
-        color: 'from-purple-500 to-pink-500'
-    },
-    {
-        icon: "Palette",
-        title: 'UI/UX Design',
-        description: 'User-centric design solutions that enhance engagement and provide seamless digital experiences.',
-        color: 'from-orange-500 to-red-500'
-    },
-    {
-        icon: "Megaphone",
-        title: 'Digital Marketing',
-        description: 'Strategic marketing campaigns including SEO, social media, and PPC to grow your online presence.',
-        color: 'from-green-500 to-emerald-500'
-    }
-];
+const FALLBACK_SERVICES = [];
 
 const ServiceManagement = () => {
     const [services, setServices] = useState([]);
@@ -81,19 +56,6 @@ const ServiceManagement = () => {
         }
     };
 
-    const syncDefaultServices = async () => {
-        setIsSyncing(true);
-        try {
-            const syncPromises = FALLBACK_SERVICES.map(s => api.post("/services", s));
-            await Promise.all(syncPromises);
-            toast.success("Service matrix synchronized");
-            fetchServices();
-        } catch (err) {
-            toast.error("Sync failed");
-        } finally {
-            setIsSyncing(false);
-        }
-    };
 
     const handleEdit = (service) => {
         setEditingService(service);
@@ -164,14 +126,6 @@ const ServiceManagement = () => {
                     </div>
 
                     <div className="flex gap-4">
-                        <button
-                            onClick={syncDefaultServices}
-                            disabled={isSyncing}
-                            className="bg-white/5 text-slate-300 hover:bg-white/10 border border-white/10 px-6 py-4 rounded-xl font-bold flex items-center gap-3 transition-all active:scale-95 text-[10px] uppercase tracking-widest flex-1 sm:flex-none justify-center whitespace-nowrap"
-                        >
-                            {isSyncing ? <Icons.RefreshCw className="animate-spin" size={16} /> : <Icons.RefreshCw size={16} />}
-                            <span>Sync Logic</span>
-                        </button>
                         <button
                             onClick={() => { setEditingService(null); setFormData(initialFormState); setIsModalOpen(true); }}
                             className="bg-emerald-600 text-white hover:bg-emerald-500 px-6 py-4 rounded-xl font-bold flex items-center gap-3 transition-all active:scale-95 shadow-lg shadow-emerald-500/20 text-[10px] uppercase tracking-widest flex-1 sm:flex-none justify-center whitespace-nowrap"
