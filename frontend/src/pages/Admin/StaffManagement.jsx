@@ -173,7 +173,7 @@ const StaffManagement = () => {
             {/* Elevate Student Section */}
             <div className="glass-premium p-10 rounded-[3rem] border border-white/5 shadow-2xl relative overflow-hidden group">
                 <div className="flex flex-col md:flex-row items-center gap-10 relative z-10">
-                    <div className="p-5 bg-blue-500/10 rounded-[2rem] border border-blue-500/20 text-blue-400 shadow-[0_0_30px_rgba(59,130,246,0.1)] group-hover:scale-110 transition-transform duration-500">
+                    <div className="p-5 bg-blue-500/10 rounded-[2rem] border border-blue-500/20 text-blue-400 shadow-xl shadow-blue-500/10 group-hover:scale-110 transition-transform duration-500">
                         <ShieldCheck size={40} />
                     </div>
                     <div className="flex-1 text-center md:text-left">
@@ -205,7 +205,7 @@ const StaffManagement = () => {
                             </button>
                             <button
                                 onClick={() => grantFromStudent('admin')}
-                                className="flex-1 md:flex-none px-8 py-4.5 bg-blue-600 hover:bg-blue-500 text-white font-black text-[10px] uppercase tracking-[0.2em] rounded-2xl transition-all active:scale-95 shadow-[0_10px_30px_-10px_rgba(59,130,246,0.5)]"
+                                className="flex-1 md:flex-none px-8 py-4.5 bg-blue-600 hover:bg-blue-500 text-white font-black text-[10px] uppercase tracking-[0.2em] rounded-2xl transition-all active:scale-95 shadow-2xl shadow-blue-600/50"
                             >
                                 Administrator
                             </button>
@@ -244,13 +244,13 @@ const StaffManagement = () => {
                                         <td className="px-10 py-8">
                                             <div className="flex flex-wrap gap-3">
                                                 <span className={`px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-[0.15em] border ${user.role === 'admin'
-                                                    ? 'bg-rose-500/10 text-rose-400 border-rose-500/20 shadow-[0_0_15px_rgba(244,63,94,0.1)]'
-                                                    : 'bg-blue-500/10 text-blue-400 border-blue-500/20 shadow-[0_0_15px_rgba(59,130,246,0.1)]'
+                                                    ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20 shadow-sm shadow-rose-500/10'
+                                                    : 'bg-blue-500/10 text-blue-400 border border-blue-500/20 shadow-lg shadow-blue-500/10'
                                                     }`}>
                                                     {user.role}
                                                 </span>
                                                 {isSuperAdmin && (
-                                                    <span className="px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-[0.15em] border bg-amber-500/10 text-amber-400 border-amber-500/20 inline-flex items-center gap-2 shadow-[0_0_15px_rgba(245,158,11,0.1)]">
+                                                    <span className="px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-[0.15em] border bg-amber-500/10 text-amber-400 border-amber-500/20 inline-flex items-center gap-2 shadow-sm shadow-amber-500/10">
                                                         <Lock size={12} className="text-amber-500" />
                                                         Core Admin
                                                     </span>
@@ -261,17 +261,17 @@ const StaffManagement = () => {
                                             <div className="flex items-center justify-end gap-4">
                                                 <button
                                                     onClick={() => openResetModal(user)}
-                                                    className="p-4 rounded-2xl bg-white/[0.03] border border-white/5 text-slate-500 hover:text-blue-400 hover:bg-blue-500/10 hover:border-blue-500/30 transition-all flex items-center gap-3 group/btn"
+                                                    className="p-3 sm:p-4 rounded-2xl bg-white/[0.03] border border-white/5 text-slate-500 hover:text-blue-400 hover:bg-blue-500/10 hover:border-blue-500/30 transition-all flex items-center gap-3 group/btn active:scale-95"
                                                     title="Security Reset"
                                                 >
                                                     <Key size={16} className="group-hover/btn:rotate-12 transition-transform" />
-                                                    <span className="text-[10px] font-black uppercase tracking-[0.15em]">Reset Key</span>
+                                                    <span className="text-[10px] sm:text-[10px] font-black uppercase tracking-[0.15em] hidden sm:inline">Reset Key</span>
                                                 </button>
 
                                                 {!isSuperAdmin && (
                                                     <button
                                                         onClick={() => handleRoleUpdate(user._id, 'student')}
-                                                        className="p-4 rounded-2xl bg-white/[0.03] border border-white/5 text-slate-500 hover:text-rose-400 hover:bg-rose-500/10 hover:border-rose-500/30 transition-all flex items-center gap-3 group/btn"
+                                                        className="p-3 sm:p-4 rounded-2xl bg-white/[0.03] border border-white/5 text-slate-500 hover:text-rose-400 hover:bg-rose-500/10 hover:border-rose-500/30 transition-all flex items-center gap-3 group/btn active:scale-95"
                                                         disabled={updatingId === user._id}
                                                         title="Revoke Access"
                                                     >
@@ -280,7 +280,7 @@ const StaffManagement = () => {
                                                         ) : (
                                                             <>
                                                                 <Lock size={16} className="group-hover/btn:scale-110 transition-transform" />
-                                                                <span className="text-[10px] font-black uppercase tracking-[0.15em]">Revoke</span>
+                                                                <span className="text-[10px] font-black uppercase tracking-[0.15em] hidden sm:inline">Revoke</span>
                                                             </>
                                                         )}
                                                     </button>
@@ -364,7 +364,7 @@ const StaffManagement = () => {
                                     <button
                                         type="submit"
                                         disabled={resetting}
-                                        className="flex-2 py-5 rounded-[1.75rem] bg-blue-600 text-white font-black text-[10px] uppercase tracking-[0.25em] hover:bg-blue-500 shadow-[0_15px_35px_-10px_rgba(59,130,246,0.5)] transition-all flex items-center justify-center gap-3 active:scale-[0.98]"
+                                        className="flex-2 py-5 rounded-[1.75rem] bg-blue-600 text-white font-black text-[10px] uppercase tracking-[0.25em] hover:bg-blue-500 shadow-2xl shadow-blue-600/60 transition-all flex items-center justify-center gap-3 active:scale-[0.98]"
                                     >
                                         {resetting ? (
                                             <div className="w-6 h-6 border-3 border-white/30 border-t-white rounded-full animate-spin" />

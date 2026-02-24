@@ -289,15 +289,15 @@ const CourseManagement = () => {
                                                 <div className="flex justify-end gap-3">
                                                     <button
                                                         onClick={() => openEditModal(course)}
-                                                        className="p-3 rounded-xl bg-white/5 text-slate-400 hover:text-blue-400 hover:bg-blue-500/10 border border-white/10 hover:border-blue-500/20 transition-all"
+                                                        className="p-3.5 sm:p-4 rounded-xl bg-white/5 text-slate-400 hover:text-blue-400 hover:bg-blue-500/10 border border-white/10 hover:border-blue-500/20 transition-all active:scale-95"
                                                     >
-                                                        <Edit2 size={16} />
+                                                        <Edit2 size={18} className="sm:size-4" />
                                                     </button>
                                                     <button
                                                         onClick={() => handleDelete(course._id)}
-                                                        className="p-3 rounded-xl bg-white/5 text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 border border-white/10 hover:border-rose-500/20 transition-all"
+                                                        className="p-3.5 sm:p-4 rounded-xl bg-white/5 text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 border border-white/10 hover:border-rose-500/20 transition-all active:scale-95"
                                                     >
-                                                        <Trash2 size={16} />
+                                                        <Trash2 size={18} className="sm:size-4" />
                                                     </button>
                                                 </div>
                                             </td>

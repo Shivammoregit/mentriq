@@ -233,17 +233,17 @@ const UserManagement = () => {
                                             <div className="flex justify-end gap-3">
                                                 <button
                                                     onClick={() => openEditModal(user)}
-                                                    className="p-2.5 rounded-xl text-slate-500 hover:text-blue-400 bg-white/5 hover:bg-blue-500/10 border border-white/5 hover:border-blue-500/20 transition-all"
+                                                    className="p-3 sm:p-4 rounded-xl text-slate-500 hover:text-blue-400 bg-white/5 hover:bg-blue-500/10 border border-white/5 hover:border-blue-500/20 transition-all active:scale-95"
                                                     title="Refine Entity"
                                                 >
-                                                    <Edit2 size={16} />
+                                                    <Edit2 size={18} className="sm:size-4" />
                                                 </button>
                                                 <button
                                                     onClick={() => handleDelete(user._id)}
-                                                    className="p-2.5 rounded-xl text-slate-500 hover:text-rose-400 bg-white/5 hover:bg-rose-500/10 border border-white/5 hover:border-rose-500/20 transition-all"
+                                                    className="p-3 sm:p-4 rounded-xl text-slate-500 hover:text-rose-400 bg-white/5 hover:bg-rose-500/10 border border-white/5 hover:border-rose-500/20 transition-all active:scale-95"
                                                     title="Terminate Node"
                                                 >
-                                                    <Trash2 size={16} />
+                                                    <Trash2 size={18} className="sm:size-4" />
                                                 </button>
                                             </div>
                                         </td>

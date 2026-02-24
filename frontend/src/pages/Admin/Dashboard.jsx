@@ -1,15 +1,14 @@
 import React, { useEffect, useState, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import { apiClient as api } from "../../utils/apiClient";
 import {
     Users,
     BookOpen,
     GraduationCap,
-    Briefcase,
     TrendingUp,
     TrendingDown,
     Activity,
     ArrowRight,
-    Loader2,
     CheckCircle2,
     UserPlus,
     CreditCard,
@@ -25,10 +24,7 @@ import {
     YAxis,
     CartesianGrid,
     Tooltip,
-    ResponsiveContainer,
-    BarChart,
-    Bar,
-    Cell
+    ResponsiveContainer
 } from "recharts";
 
 const StatCard = ({ title, value, icon: Icon, color, delay, trend = 0 }) => (
@@ -36,7 +32,7 @@ const StatCard = ({ title, value, icon: Icon, color, delay, trend = 0 }) => (
         initial={{ opacity: 0, y: 15 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay, duration: 0.5, ease: "easeOut" }}
-        className="glass-premium p-8 rounded-[2.5rem] border border-white/5 hover:border-blue-500/30 hover:shadow-[0_25px_60px_-12px_rgba(59,130,246,0.15)] transition-all group relative overflow-hidden"
+        className="glass-premium p-8 rounded-[2.5rem] border border-white/5 hover:border-blue-500/30 hover:shadow-2xl hover:shadow-blue-500/20 transition-all group relative overflow-hidden"
     >
         <div className="flex justify-between items-start relative z-10">
             <div>
@@ -59,15 +55,71 @@ const StatCard = ({ title, value, icon: Icon, color, delay, trend = 0 }) => (
                 <Icon className={`w-8 h-8 ${color.replace('bg-', 'text-')}`} strokeWidth={2.5} />
             </div>
         </div>
-        {/* Animated Glow on Hover */}
         <div className="absolute -bottom-10 -right-10 w-32 h-32 bg-blue-500/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
     </motion.div>
 );
 
 const Dashboard = () => {
-    // ... state ... (no changes to state)
+    const [raw, setRaw] = useState({
+        students: 0,
+        courses: 0,
+        enrolledStudents: 0,
+        activeVisitors: 0
+    });
+    const [analytics, setAnalytics] = useState({
+        enrollmentTrends: [],
+        recentActivity: []
+    });
+    const [loading, setLoading] = useState(true);
+    const navigate = useNavigate();
 
-    // ... (rest of the component logic until return) ...
+    const fetchDashData = useCallback(async () => {
+        try {
+            const [statsRes, activityRes] = await Promise.all([
+                api.get('/admin/stats'),
+                api.get('/admin/activity')
+            ]);
+            setRaw(statsRes.data);
+            setAnalytics(prev => ({
+                ...prev,
+                enrollmentTrends: statsRes.data.trends || [],
+                recentActivity: activityRes.data || []
+            }));
+        } catch (err) {
+            console.error("Dashboard uplift failure", err);
+        } finally {
+            setLoading(false);
+        }
+    }, []);
+
+    useEffect(() => {
+        fetchDashData();
+        const interval = setInterval(fetchDashData, 30000);
+        return () => clearInterval(interval);
+    }, [fetchDashData]);
+
+    const getActivityIcon = (type) => {
+        switch (type) {
+            case 'enrollment': return <GraduationCap className="text-blue-400" size={18} />;
+            case 'user': return <UserPlus className="text-sky-400" size={18} />;
+            case 'payment': return <CreditCard className="text-indigo-400" size={18} />;
+            default: return <Zap className="text-blue-400" size={18} />;
+        }
+    };
+
+    if (loading) {
+        return (
+            <div className="h-[60vh] flex flex-col items-center justify-center gap-6">
+                <div className="relative">
+                    <div className="w-16 h-16 border-4 border-blue-500/20 border-t-blue-500 rounded-full animate-spin" />
+                    <div className="absolute inset-x-0 -bottom-12 whitespace-nowrap text-center">
+                        <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] animate-pulse">Syncing Command Center...</span>
+                    </div>
+                </div>
+            </div>
+        );
+    }
+
     return (
         <div className="space-y-10 animate-in fade-in slide-in-from-bottom-2 duration-1000">
             {/* Unified Header */}
@@ -80,7 +132,7 @@ const Dashboard = () => {
                     <p className="text-slate-400 mt-2 font-medium text-sm tracking-tight opacity-80">Orchestrating MentriQ platform operations and entity engagement.</p>
                 </div>
                 <div className="flex items-center gap-4 bg-white/[0.03] px-6 py-3 rounded-2xl border border-white/10 relative z-10 shadow-inner">
-                    <div className="w-2.5 h-2.5 rounded-full bg-blue-500 shadow-[0_0_20px_rgba(59,130,246,0.8)] animate-pulse" />
+                    <div className="w-2.5 h-2.5 rounded-full bg-blue-500 shadow-lg shadow-blue-500/50 animate-pulse" />
                     <span className="text-slate-300 font-black text-[10px] tracking-[0.2em] uppercase">Uplink Active</span>
                 </div>
             </div>
@@ -94,7 +146,6 @@ const Dashboard = () => {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-                {/* Growth Visualization */}
                 <div className="lg:col-span-2 glass-premium rounded-[3rem] p-10 border border-white/5 shadow-2xl relative overflow-hidden">
                     <div className="flex justify-between items-center mb-12 relative z-10">
                         <div>
@@ -102,7 +153,7 @@ const Dashboard = () => {
                             <p className="text-slate-500/60 text-[10px] font-black uppercase tracking-[0.25em] mt-2">Analytical trends • Last 30 Telemetry Cycles</p>
                         </div>
                         <div className="flex items-center gap-3 px-6 py-3 bg-white/[0.03] rounded-2xl border border-white/5 shadow-inner">
-                            <div className="w-2 h-2 rounded-full bg-blue-500 shadow-[0_0_15px_rgba(59,130,246,0.5)]" />
+                            <div className="w-2 h-2 rounded-full bg-blue-500 shadow-md shadow-blue-500/40" />
                             <span className="text-[10px] font-black text-slate-300 uppercase tracking-[0.2em]">Real-time Telemetry</span>
                         </div>
                     </div>
@@ -144,7 +195,7 @@ const Dashboard = () => {
                                                 <div className="bg-[#030712]/90 backdrop-blur-md border border-white/10 p-3 sm:p-5 rounded-xl sm:2xl shadow-2xl">
                                                     <p className="text-[9px] uppercase tracking-[0.2em] font-black text-slate-500 mb-2 sm:mb-3">{label}</p>
                                                     <p className="text-lg sm:text-xl font-black text-white flex items-center gap-2 sm:gap-3">
-                                                        <span className="w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full bg-blue-500 shadow-[0_0_10px_rgba(59,130,246,0.5)]" />
+                                                        <span className="w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full bg-blue-500 shadow-sm shadow-blue-500/30" />
                                                         {payload[0].value} <span className="text-slate-500 text-[10px] sm:text-xs font-bold uppercase tracking-tight">Enrollees</span>
                                                     </p>
                                                 </div>
@@ -166,7 +217,6 @@ const Dashboard = () => {
                     </div>
                 </div>
 
-                {/* Real-time Activity */}
                 <div className="glass-premium rounded-[3rem] p-10 border border-white/5 shadow-2xl flex flex-col relative overflow-hidden group">
                     <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-500/5 blur-[80px] rounded-full pointer-events-none" />
                     <div className="flex items-center justify-between mb-10 relative z-10">
@@ -209,7 +259,6 @@ const Dashboard = () => {
                 </div>
             </div>
 
-            {/* Infrastructure Linkage */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
                 <div className="glass-premium rounded-[2.5rem] p-10 border border-white/5 relative overflow-hidden group">
                     <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent pointer-events-none" />
@@ -246,7 +295,6 @@ const Dashboard = () => {
                     </button>
                 </div>
             </div>
-
         </div>
     );
 };
