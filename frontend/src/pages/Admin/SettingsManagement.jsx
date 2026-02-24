@@ -29,7 +29,7 @@ const SettingsManagement = () => {
     const [formData, setFormData] = useState({
         email: "",
         phone: "",
-        address: "",
+        address: "Mentriq Technologies, 2nd floor, 34/501, Haldighati Marg E, Sector 3, Pratap Nagar, Sanganer, Jaipur, 302033",
         mapLink: "",
         socialLinks: {
             instagram: "",
