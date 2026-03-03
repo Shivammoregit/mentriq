@@ -271,7 +271,7 @@ const UserManagement = () => {
                             className="absolute inset-0"
                             onClick={() => !submitting && closeModal()}
                         />
-                        <motion.div
+                        <MotionDiv
                             initial={{ opacity: 0, scale: 0.95, y: 30 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 30 }}
@@ -373,7 +373,7 @@ const UserManagement = () => {
                                     </button>
                                 </div>
                             </form>
-                        </motion.div>
+                        </MotionDiv>
                     </div>
                 )}
             </AnimatePresence>

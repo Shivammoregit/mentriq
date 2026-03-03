@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { motion, AnimatePresence } from 'framer-motion'
+
 import {
     LayoutDashboard,
     Users,
@@ -90,7 +90,7 @@ const SidebarContent = ({
                                         </span>
                                     )}
                                     {isActive && (
-                                        <motion.div
+                                        <div
                                             layoutId="activePill"
                                             className="absolute left-[-4px] w-1.5 h-6 bg-blue-500 shadow-lg shadow-blue-500/50 rounded-full"
                                         />
@@ -216,33 +216,33 @@ const AdminLayout = ({ children }) => {
             <AnimatePresence>
                 {isSidebarOpen && (
                     <>
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
+                        <div
+                            }
+                            }
                             exit={{ opacity: 0 }}
                             onClick={() => setIsSidebarOpen(false)}
                             className="fixed inset-0 bg-[#020617]/80 backdrop-blur-sm z-[100] lg:hidden"
                         />
-                        <motion.aside
-                            initial={{ x: '-100%' }}
-                            animate={{ x: 0 }}
+                        <aside
+                            }
+                            }
                             exit={{ x: '-100%' }}
-                            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+                            }
                             className="fixed inset-y-0 left-0 w-72 bg-[#020617] border-r border-white/5 z-[101] lg:hidden flex flex-col"
                         >
                             <SidebarContent isMobile={true} {...sidebarProps} />
-                        </motion.aside>
+                        </aside>
                     </>
                 )}
             </AnimatePresence>
 
-            <motion.aside
-                initial={false}
-                animate={{ width: isDesktopSidebarOpen ? 280 : 88 }}
+            <aside
+                
+                }
                 className="hidden lg:flex flex-col glass-premium border-r border-white/5 relative z-40 transition-all duration-300"
             >
                 <SidebarContent {...sidebarProps} />
-            </motion.aside>
+            </aside>
 
             <div className="flex-1 flex flex-col min-w-0 h-screen overflow-hidden relative z-10">
                 <header className="h-16 lg:hidden flex items-center justify-between px-6 border-b border-white/5 bg-[#070b14]/80 backdrop-blur-md sticky top-0 z-30 shrink-0">
@@ -263,15 +263,15 @@ const AdminLayout = ({ children }) => {
                 <main className="flex-1 overflow-x-hidden overflow-y-auto p-4 md:p-8 lg:p-10 scroll-smooth custom-scrollbar">
                     <div className="max-w-[1600px] mx-auto w-full">
                         <AnimatePresence mode="wait">
-                            <motion.div
+                            <div
                                 key={location.pathname}
-                                initial={{ opacity: 0, y: 10 }}
-                                animate={{ opacity: 1, y: 0 }}
+                                }
+                                }
                                 exit={{ opacity: 0, y: -10 }}
-                                transition={{ duration: 0.2 }}
+                                }
                             >
                                 {children}
-                            </motion.div>
+                            </div>
                         </AnimatePresence>
                     </div>
                 </main>

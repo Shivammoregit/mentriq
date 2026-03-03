@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+
 import { Code, Smartphone, Palette, Globe, Megaphone, Server, ArrowRight, Box, Shield, Database, Cloud, PenTool, Cpu, Layers, Zap } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { apiClient as api } from '../../utils/apiClient';
@@ -53,38 +53,38 @@ const ServicesSection = () => {
 
             <div className="max-w-7xl mx-auto px-6 relative z-10">
                 <div className="text-center max-w-3xl mx-auto mb-16">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
+                    <div
+                        }
+                        }
+                        }
                         className="inline-flex items-center space-x-2 py-1.5 px-4 rounded-full bg-indigo-500/10 border border-indigo-500/20 mb-6"
                     >
                         <span className="w-2 h-2 bg-indigo-400 rounded-full animate-pulse" />
                         <span className="text-indigo-300 text-[10px] font-black tracking-widest uppercase">Our Ecosystem</span>
-                    </motion.div>
+                    </div>
 
-                    <motion.h2
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.1 }}
+                    <h2
+                        }
+                        }
+                        }
+                        }
                         className="text-4xl md:text-5xl font-black text-white mb-6 tracking-tighter uppercase leading-[0.9]"
                     >
                         TRANSFORMING <br />
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400">
                             DIGITAL FRONTIERS
                         </span>
-                    </motion.h2>
+                    </h2>
 
-                    <motion.p
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.2 }}
+                    <p
+                        }
+                        }
+                        }
+                        }
                         className="text-base text-slate-400 font-medium max-w-2xl mx-auto"
                     >
                         From intelligence-driven web architectures to high-frequency mobile ecosystems, we deploy the technologies that scale your vision.
-                    </motion.p>
+                    </p>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -94,13 +94,13 @@ const ServicesSection = () => {
                         const serviceColor = service.color || 'from-indigo-500 to-purple-500';
 
                         return (
-                            <motion.div
+                            <div
                                 key={service._id || index}
                                 onClick={() => navigate('/contact')}
-                                initial={{ opacity: 0, y: 30 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                viewport={{ once: true }}
-                                transition={{ delay: index * 0.1 }}
+                                }
+                                }
+                                }
+                                }
                                 className="group relative bg-slate-900/40 backdrop-blur-2xl rounded-[2.5rem] p-10 border border-white/5 hover:border-indigo-500/20 transition-all duration-500 cursor-pointer overflow-hidden"
                             >
                                 {/* Inner Light Core (Persistent) */}
@@ -140,16 +140,16 @@ const ServicesSection = () => {
 
                                 {/* Hover Card Glint */}
                                 <div className="absolute inset-0 bg-gradient-to-tr from-white/5 to-transparent opacity-0 group-hover:opacity-10 transition-opacity duration-500 pointer-events-none" />
-                            </motion.div>
+                            </div>
                         );
                     })}
                 </div>
 
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ delay: 0.4 }}
+                <div
+                    }
+                    }
+                    }
+                    }
                     className="text-center mt-12"
                 >
                     <button
@@ -162,7 +162,7 @@ const ServicesSection = () => {
                         {/* Internal Shimmer */}
                         <div className="absolute top-0 -left-[100%] w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12 group-hover:left-[100%] transition-all duration-1000" />
                     </button>
-                </motion.div>
+                </div>
             </div>
         </section>
     );

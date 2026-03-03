@@ -7,8 +7,6 @@ import { resolveImageUrl } from "../../utils/imageUtils";
 
 const MotionDiv = motion.div;
 
-const FALLBACK_TECHS = [];
-
 const TechnologyManagement = () => {
     const [technologies, setTechnologies] = useState([]);
     const [loading, setLoading] = useState(true);

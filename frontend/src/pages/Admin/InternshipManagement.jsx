@@ -167,7 +167,12 @@ const InternshipManagement = () => {
                             </thead>
                             <tbody className="divide-y divide-white/5">
                                 {internships.map((job) => (
-                                    <tr key={job._id} className="hover:bg-white/5 transition-colors group">
+                                    <motion.tr
+                                        key={job._id}
+                                        initial={{ opacity: 0, y: 10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        className="hover:bg-white/5 transition-colors group"
+                                    >
                                         <td className="px-8 py-6">
                                             <div className="flex flex-col gap-1">
                                                 <div className="font-bold text-white text-[15px] tracking-tight">{job.title}</div>
@@ -202,7 +207,7 @@ const InternshipManagement = () => {
                                                 </button>
                                             </div>
                                         </td>
-                                    </tr>
+                                    </motion.tr>
                                 ))}
                             </tbody>
                         </table>
@@ -218,7 +223,12 @@ const InternshipManagement = () => {
                             </thead>
                             <tbody className="divide-y divide-white/5">
                                 {applications.map((app) => (
-                                    <tr key={app._id} className="hover:bg-white/5 transition-colors group">
+                                    <motion.tr
+                                        key={app._id}
+                                        initial={{ opacity: 0, y: 10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        className="hover:bg-white/5 transition-colors group"
+                                    >
                                         <td className="px-8 py-6">
                                             <div className="flex flex-col gap-1">
                                                 <div className="font-bold text-white text-[15px] tracking-tight">{app.fullName}</div>
@@ -243,7 +253,7 @@ const InternshipManagement = () => {
                                                 </button>
                                             </div>
                                         </td>
-                                    </tr>
+                                    </motion.tr>
                                 ))}
                             </tbody>
                         </table>
@@ -256,7 +266,7 @@ const InternshipManagement = () => {
                 {isModalOpen && (
                     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-xl">
                         <motion.div
-                            initial={{ opacity: 0, scale: 0.95, y: 30 }}
+                            initial={{ opacity: 0, scale: 0.95, y: 20 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 30 }}
                             className="relative w-full max-w-2xl bg-[#0f172a] border border-white/10 rounded-[3rem] p-10 shadow-2xl flex flex-col max-h-[90vh]"

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate, useLocation } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import { apiClient as api } from '../utils/apiClient';
 import { useAuth } from '../context/AuthContext';
-import { motion } from 'framer-motion';
 import { CheckCircle, Shield, ArrowLeft, Briefcase, Clock, MapPin, Building2, Send, XCircle } from 'lucide-react';
 import { useToast } from '../context/ToastContext';
 
@@ -27,9 +27,7 @@ const InternshipApplicationPage = () => {
                 const response = await api.get(`/internships/${internshipId}`);
                 const data = response.data;
                 if (!data) throw new Error("No data received");
-                setInternship(data);
 
-                // Normalize questions to support both strings (from simple Admin) and objects
                 const normalizedQuestions = (data.questions || []).map((q, i) => {
                     if (typeof q === 'string') {
                         return {
@@ -44,7 +42,6 @@ const InternshipApplicationPage = () => {
 
                 setInternship({ ...data, questions: normalizedQuestions });
 
-                // Initialize responses
                 const initialResponses = {};
                 normalizedQuestions.forEach(q => {
                     if (q && q.id) initialResponses[q.id] = "";
@@ -74,7 +71,6 @@ const InternshipApplicationPage = () => {
 
         setSubmitting(true);
         try {
-            // Map responses back to label/value for backend
             const formattedResponses = internship.questions.map(q => ({
                 questionId: q.id,
                 label: q.label,
@@ -128,11 +124,11 @@ const InternshipApplicationPage = () => {
             <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
                 className="relative bg-[#0f172a]/80 backdrop-blur-2xl border border-white/10 rounded-[2rem] shadow-2xl overflow-hidden max-w-6xl w-full flex flex-col md:flex-row"
             >
                 {/* Left Side: Internship Info */}
                 <div className="md:w-[40%] bg-white/5 backdrop-blur-md text-white p-8 flex flex-col justify-between relative overflow-hidden border-r border-white/5">
-                    {/* Abstract Bg */}
                     <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-600/20 rounded-full blur-3xl -mr-16 -mt-16" />
                     <div className="absolute bottom-0 left-0 w-64 h-64 bg-cyan-600/20 rounded-full blur-3xl -ml-16 -mb-16" />
 
@@ -187,7 +183,6 @@ const InternshipApplicationPage = () => {
                         <p className="text-gray-400 text-sm">Join the MentriQ ecosystem. Complete your profile and answering the questionnaire below.</p>
                     </div>
 
-                    {/* Certificate Verification */}
                     <div className="mb-8">
                         <button
                             onClick={() => navigate('/verify-certificate')}
@@ -199,7 +194,6 @@ const InternshipApplicationPage = () => {
                             <span>Verify Certificate Authenticity</span>
                             <Shield className="w-5 h-5" />
                         </button>
-                        <p className="text-xs text-gray-500 text-center mt-2">Scan QR codes on MentriQ certificates to verify authenticity</p>
                     </div>
 
                     {!user ? (
@@ -220,7 +214,6 @@ const InternshipApplicationPage = () => {
                         </div>
                     ) : (
                         <form onSubmit={handleSubmit} className="space-y-8">
-                            {/* Basic Info (Auto-filled but editable contact) */}
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="space-y-2 opacity-50">
                                     <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">Full Name</label>
@@ -243,7 +236,6 @@ const InternshipApplicationPage = () => {
                                 </div>
                             </div>
 
-                            {/* Dynamic Questions */}
                             {internship.questions?.length > 0 && (
                                 <div className="space-y-6 pt-8 border-t border-white/5">
                                     <h4 className="text-[10px] font-black text-cyan-400 uppercase tracking-[0.2em] mb-4">Specific Requirements</h4>

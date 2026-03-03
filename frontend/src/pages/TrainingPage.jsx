@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { Search, BookOpen, Award } from 'lucide-react'
 import CourseCard from '../components/courses/CourseCard'
 import { apiClient } from '../utils/apiClient'
@@ -25,7 +25,6 @@ const TrainingPage = () => {
                     ...i,
                     type: 'internship',
                     baseUrl: '/internship/apply',
-                    // Internships are paid programs, not stipend-based
                     duration: i.duration,
                     level: i.company
                 }))
@@ -60,7 +59,7 @@ const TrainingPage = () => {
                             y: [0, 40, 0],
                             scale: [1, 1.2, 1]
                         }}
-                        transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+                        transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
                         className="absolute -top-[10%] left-1/4 w-[600px] h-[600px] bg-indigo-600/20 rounded-full blur-[140px] animate-pulse"
                     />
                     <motion.div
@@ -69,7 +68,7 @@ const TrainingPage = () => {
                             y: [0, 70, 0],
                             scale: [1, 1.3, 1]
                         }}
-                        transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
+                        transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
                         className="absolute -bottom-[10%] right-1/4 w-[600px] h-[600px] bg-cyan-500/10 rounded-full blur-[140px]"
                     />
                     {/* High-Contrast Technical Grid */}
@@ -78,8 +77,9 @@ const TrainingPage = () => {
 
                 <div className="relative max-w-7xl mx-auto px-6 text-center z-10">
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.9, y: -20 }}
-                        animate={{ opacity: 1, scale: 1, y: 0 }}
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.8 }}
                         className="inline-flex items-center space-x-2 mb-8 px-5 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md shadow-lg shadow-black/20"
                     >
                         <Award size={16} className="text-cyan-400" />
@@ -87,9 +87,9 @@ const TrainingPage = () => {
                     </motion.div>
 
                     <motion.h1
-                        initial={{ opacity: 0, y: 30 }}
+                        initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.8, ease: "circOut" }}
+                        transition={{ duration: 0.8, delay: 0.1 }}
                         className="text-4xl md:text-6xl lg:text-7xl font-black mb-6 tracking-tighter uppercase font-display leading-[0.9]"
                     >
                         MASTERING <br />
@@ -158,11 +158,10 @@ const TrainingPage = () => {
                         })}
                     </motion.div>
                 </div>
-            </section >
-
+            </section>
 
             {/* Search + Stats */}
-            < div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16 text-glow" >
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16 text-glow">
                 <div className="flex flex-col lg:flex-row gap-8 items-center justify-between mb-20">
                     {/* Search Bar with 3D depth */}
                     <div className="relative flex-1 max-w-2xl w-full group">
@@ -181,7 +180,9 @@ const TrainingPage = () => {
 
                     {/* Stats with Glass Effect */}
                     <motion.div
-                        whileHover={{ y: -5 }}
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true }}
                         className="flex items-center space-x-5 bg-white/80 backdrop-blur-md p-3 pr-8 rounded-3xl border border-white shadow-xl shadow-indigo-500/5"
                     >
                         <div className="w-14 h-14 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-indigo-200">
@@ -211,10 +212,10 @@ const TrainingPage = () => {
                             {filteredItems.map((item, index) => (
                                 <motion.div
                                     key={item._id}
-                                    initial={{ opacity: 0, y: 30 }}
+                                    initial={{ opacity: 0, y: 20 }}
                                     whileInView={{ opacity: 1, y: 0 }}
-                                    transition={{ duration: 0.5, delay: index * 0.1 }}
                                     viewport={{ once: true }}
+                                    transition={{ duration: 0.5, delay: index * 0.1 }}
                                 >
                                     <CourseCard course={item} baseUrl={item.baseUrl} />
                                 </motion.div>
@@ -227,8 +228,8 @@ const TrainingPage = () => {
                 {
                     filteredItems.length === 0 && !loading && (
                         <motion.div
-                            initial={{ opacity: 0, scale: 0.95 }}
-                            animate={{ opacity: 1, scale: 1 }}
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
                             className="text-center py-32 col-span-full"
                         >
                             <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
@@ -245,8 +246,8 @@ const TrainingPage = () => {
                         </motion.div>
                     )
                 }
-            </div >
-        </div >
+            </div>
+        </div>
     )
 }
 

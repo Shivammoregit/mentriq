@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useParams, useNavigate } from 'react-router-dom'
 import { apiClient as api } from '../utils/apiClient'
 import { useAuth } from '../context/AuthContext'
-import { motion } from 'framer-motion'
-import { CheckCircle, Shield, ArrowLeft } from 'lucide-react'
+import { CheckCircle, Shield, ArrowLeft, Camera, Upload } from 'lucide-react'
 
 const TrainingEnrollmentFormPage = () => {
     const { courseId } = useParams()
@@ -52,7 +52,7 @@ const TrainingEnrollmentFormPage = () => {
             const { data } = await api.post('/upload', uploadData, {
                 headers: { 'Content-Type': 'multipart/form-data' }
             })
-            setFormData({ ...formData, image: data })
+            setFormData(prev => ({ ...prev, image: data.imagePath || data }))
         } catch {
             alert("Image upload failed")
         } finally {
@@ -67,7 +67,6 @@ const TrainingEnrollmentFormPage = () => {
                 courseId,
                 ...formData
             })
-            // await checkEnrollments()
             navigate('/enrollment-success', { state: { course } })
         } catch (err) {
             alert(err.response?.data?.message || "Enrollment failed")
@@ -100,8 +99,9 @@ const TrainingEnrollmentFormPage = () => {
             </div>
 
             <motion.div
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
                 className="relative bg-[#0f172a]/80 backdrop-blur-2xl border border-white/10 rounded-[2.5rem] shadow-2xl overflow-hidden max-w-5xl w-full flex flex-col md:flex-row"
             >
                 {/* Left Side: Course Info */}
@@ -166,7 +166,7 @@ const TrainingEnrollmentFormPage = () => {
                                         <img src={formData.image} alt="Profile Preview" className="w-full h-full object-cover" />
                                     ) : (
                                         <div className="flex flex-col items-center gap-1 text-gray-500">
-                                            <Shield size={24} className="opacity-20" />
+                                            <Camera size={24} className="opacity-20" />
                                         </div>
                                     )}
                                     {uploading && (
@@ -176,7 +176,7 @@ const TrainingEnrollmentFormPage = () => {
                                     )}
                                 </div>
                                 <label className="absolute -bottom-2 -right-2 p-2 bg-indigo-600 rounded-xl text-white shadow-lg cursor-pointer hover:bg-indigo-500 hover:scale-110 active:scale-90 transition-all border-2 border-[#0f172a]">
-                                    <Shield size={16} />
+                                    <Upload size={16} />
                                     <input type="file" className="hidden" accept="image/*" onChange={handleImageUpload} />
                                 </label>
                             </div>
@@ -300,4 +300,4 @@ const TrainingEnrollmentFormPage = () => {
     )
 }
 
-export default TrainingEnrollmentFormPage;
+export default TrainingEnrollmentFormPage

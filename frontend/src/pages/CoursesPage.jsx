@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { Search, BookOpen, ArrowRight } from 'lucide-react'
 import CourseCard from '../components/courses/CourseCard'
 import { apiClient } from '../utils/apiClient'
@@ -31,7 +31,7 @@ const CoursesPage = () => {
 
   const filteredCourses = courses.filter(course =>
     course.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    course.description.toLowerCase().includes(searchTerm.toLowerCase())
+    (course.description && course.description.toLowerCase().includes(searchTerm.toLowerCase()))
   )
 
   return (
@@ -46,7 +46,7 @@ const CoursesPage = () => {
               y: [0, 40, 0],
               scale: [1, 1.2, 1]
             }}
-            transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+            transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
             className="absolute -top-[10%] left-1/4 w-[600px] h-[600px] bg-indigo-600/20 rounded-full blur-[140px] animate-pulse"
           />
           <motion.div
@@ -55,7 +55,7 @@ const CoursesPage = () => {
               y: [0, 70, 0],
               scale: [1, 1.3, 1]
             }}
-            transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
+            transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
             className="absolute -bottom-[10%] right-1/4 w-[600px] h-[600px] bg-cyan-500/10 rounded-full blur-[140px]"
           />
           {/* High-Contrast Technical Grid */}
@@ -65,13 +65,14 @@ const CoursesPage = () => {
         <div className="relative max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center z-10">
           {/* LEFT CONTENT */}
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
+            initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
           >
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
               className="inline-flex items-center space-x-2 mb-8 px-5 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md shadow-lg shadow-black/20"
             >
               <span className="w-1.5 h-1.5 bg-indigo-500 rounded-full animate-ping"></span>
@@ -102,9 +103,9 @@ const CoursesPage = () => {
 
           {/* RIGHT IMAGE with 3D Depth */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.8, rotate: 5 }}
-            animate={{ opacity: 1, scale: 1, rotate: 0 }}
-            transition={{ duration: 1, type: "spring", bounce: 0.4 }}
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1, delay: 0.1 }}
             className="hidden lg:flex justify-end perspective-1000"
           >
             <div className="relative group">
@@ -154,7 +155,9 @@ const CoursesPage = () => {
 
           {/* Stats with Glass Effect */}
           <motion.div
-            whileHover={{ y: -5 }}
+            initial={{ opacity: 0, scale: 0.9 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
             className="flex items-center space-x-5 bg-white/80 backdrop-blur-md p-3 pr-8 rounded-3xl border border-white shadow-xl shadow-indigo-500/5"
           >
             <div className="w-14 h-14 bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-indigo-200">
@@ -183,10 +186,10 @@ const CoursesPage = () => {
             {filteredCourses.map((course, index) => (
               <motion.div
                 key={course._id}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
                 viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: index * 0.1 }}
               >
                 <CourseCard course={course} />
               </motion.div>
@@ -197,8 +200,8 @@ const CoursesPage = () => {
         {/* No courses */}
         {filteredCourses.length === 0 && !loading && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
             className="text-center py-32"
           >
             <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, useTransform, useMotionValue, useAnimationFrame, useSpring } from 'framer-motion';
+
 import { Users } from 'lucide-react';
 import { apiClient as api } from '../../utils/apiClient';
 import { resolveImageUrl } from '../../utils/imageUtils';
@@ -40,7 +40,7 @@ const MentorCard = ({ item, scrollX, index, totalItems }) => {
     const zIndex = useTransform(x, [-200, 0, 200], [10, 60, 10]);
 
     return (
-        <motion.div
+        <div
             style={{
                 x,
                 scale,
@@ -62,7 +62,7 @@ const MentorCard = ({ item, scrollX, index, totalItems }) => {
             <div className="absolute inset-px rounded-[2.5rem] border border-white/60 pointer-events-none z-20" />
 
             {/* Ambient Base Glow (Triggers near center) */}
-            <motion.div
+            <div
                 style={{
                     opacity: useTransform(x, [-200, 0, 200], [0, 1, 0])
                 }}
@@ -73,11 +73,11 @@ const MentorCard = ({ item, scrollX, index, totalItems }) => {
             <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.02)_50%),linear-gradient(90deg,rgba(255,0,0,0.01),rgba(0,255,0,0.01),rgba(0,0,255,0.01))] bg-[length:100%_2px,3px_100%] pointer-events-none opacity-20" />
 
             {/* Animated Top Highlight Line */}
-            <motion.div
+            <div
                 className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-indigo-500 to-transparent"
-                initial={{ x: '-100%' }}
-                whileHover={{ x: '100%' }}
-                transition={{ duration: 1.5, repeat: Infinity, ease: "linear" }}
+                }
+                }
+                }
             />
 
             <div className="flex flex-col items-center justify-center relative z-10">
@@ -86,8 +86,8 @@ const MentorCard = ({ item, scrollX, index, totalItems }) => {
                     <div className="absolute -inset-6 bg-indigo-500/10 blur-[40px] rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
                     <div className="absolute -inset-2 bg-gradient-to-tr from-indigo-500/20 to-cyan-500/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
 
-                    <motion.div
-                        whileHover={{ y: -8, scale: 1.1 }}
+                    <div
+                        }
                         className="relative overflow-hidden rounded-[2rem] border-4 border-white shadow-2xl group-hover:border-indigo-100 transition-all duration-500"
                     >
                         <img
@@ -96,16 +96,16 @@ const MentorCard = ({ item, scrollX, index, totalItems }) => {
                             className="w-24 h-24 object-cover transition-all duration-1000 scale-110 group-hover:scale-100"
                             onError={(e) => { e.target.src = "/images/user.png" }}
                         />
-                    </motion.div>
+                    </div>
 
                     {/* Elite Badge */}
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.5 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
+                    <div
+                        }
+                        }
                         className="absolute -bottom-2 -right-2 bg-gradient-to-br from-indigo-600 to-indigo-800 text-white p-1.5 rounded-xl shadow-lg border-2 border-white z-20"
                     >
                         <Users className="w-3 h-3" />
-                    </motion.div>
+                    </div>
                 </div>
 
                 <div className="text-center w-full">
@@ -125,8 +125,8 @@ const MentorCard = ({ item, scrollX, index, totalItems }) => {
                     </p>
                 </div>
 
-                <motion.div
-                    whileHover={{ y: -4 }}
+                <div
+                    }
                     className="flex justify-center gap-7 pt-6 mt-6 border-t border-slate-100/80 w-full"
                 >
                     {(item.stats || [{ value: "5+", label: "EXP" }, { value: "15+", label: "WP" }]).map((stat, i) => (
@@ -139,12 +139,12 @@ const MentorCard = ({ item, scrollX, index, totalItems }) => {
                             </p>
                         </div>
                     ))}
-                </motion.div>
+                </div>
             </div>
 
             {/* Ambient Base Glow */}
             <div className="absolute -bottom-20 -right-20 w-40 h-40 bg-indigo-500/5 rounded-full blur-[80px] pointer-events-none group-hover:bg-indigo-500/10 transition-colors duration-1000" />
-        </motion.div>
+        </div>
     );
 };
 
@@ -194,9 +194,9 @@ const MentorsSection = () => {
 
             <div className="max-w-7xl mx-auto px-6 mb-12 relative z-10 text-center">
                 <MotionDiv
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
+                    }
+                    }
+                    }
                 >
                     <div className="inline-flex items-center space-x-2 py-1.5 px-4 rounded-full bg-indigo-50 border border-indigo-100 mb-3 shadow-sm">
                         <Users className="w-3.5 h-3.5 text-indigo-500" />

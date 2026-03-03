@@ -1,7 +1,7 @@
 import React from 'react';
-
-import { Mail, Phone, MapPin, Instagram, Linkedin, Twitter, ArrowRight, MessageCircle } from 'lucide-react';
+import { Mail, Phone, MapPin, Instagram, Linkedin, Twitter, ArrowRight, MessageCircle, Facebook } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { motion } from 'framer-motion';
 import { apiClient as api } from '../../utils/apiClient';
 
 const Footer = () => {
@@ -40,15 +40,16 @@ const Footer = () => {
     ];
 
     const [settings, setSettings] = React.useState({
-        email: "",
-        phone: "",
-        address: "",
-        mapLink: "",
+        email: "support@mentriqtechnologies.in",
+        phone: "+918890301264",
+        address: "2nd floor, 34/501, Haldighati Marg E, Sector 3, Pratap Nagar, Sanganer, Jaipur, 302033",
+        mapLink: "https://maps.app.goo.gl/3wGvD4U7Zp4X5A3i9",
         socialLinks: {
-            instagram: "",
-            linkedin: "",
-            twitter: "",
-            whatsapp: ""
+            instagram: "https://www.instagram.com/mentriqtechnologies/",
+            linkedin: "https://www.linkedin.com/company/mentriqtechnologies/",
+            twitter: "https://x.com/MentriqT51419",
+            whatsapp: "https://wa.me/918890301264",
+            facebook: "https://www.facebook.com/profile.php?id=61588480116895"
         }
     });
 
@@ -66,7 +67,8 @@ const Footer = () => {
                         instagram: data.socialLinks?.instagram || prev.socialLinks.instagram,
                         linkedin: data.socialLinks?.linkedin || prev.socialLinks.linkedin,
                         twitter: data.socialLinks?.twitter || prev.socialLinks.twitter,
-                        whatsapp: data.socialLinks?.whatsapp || prev.socialLinks.whatsapp
+                        whatsapp: data.socialLinks?.whatsapp || prev.socialLinks.whatsapp,
+                        facebook: data.socialLinks?.facebook || prev.socialLinks.facebook
                     }
                 }));
             } catch (error) {
@@ -81,15 +83,7 @@ const Footer = () => {
         { icon: Linkedin, href: settings.socialLinks.linkedin, label: "LinkedIn" },
         { icon: Twitter, href: settings.socialLinks.twitter, label: "Twitter" },
         { icon: MessageCircle, href: settings.socialLinks.whatsapp, label: "WhatsApp" },
-        {
-            icon: () => (
-                <svg className="w-5 h-5 transition-transform duration-300 group-hover:rotate-12" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
-                </svg>
-            ),
-            href: settings.socialLinks.facebook,
-            label: "Facebook"
-        },
+        { icon: Facebook, href: settings.socialLinks.facebook, label: "Facebook" },
     ];
 
     const emailAddress = settings.email;
@@ -133,12 +127,12 @@ const Footer = () => {
                                         rel="noopener noreferrer"
                                         className="w-12 h-12 rounded-2xl bg-slate-900 border border-slate-700 flex items-center justify-center text-slate-300 hover:text-white hover:bg-indigo-600 hover:border-indigo-500 transition-all duration-300 group shadow-sm shadow-black/40 overflow-hidden"
                                         aria-label={social.label}
+                                        initial={{ opacity: 0, y: 10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        transition={{ delay: idx * 0.1 }}
                                     >
-                                        <div
-                                            }
-                                            }
-                                        >
-                                        {typeof Icon === 'function' ? <Icon /> : <Icon className="w-5 h-5 transition-transform duration-300 group-hover:rotate-12" />}
+                                        <div className="transition-transform duration-300 group-hover:scale-110">
+                                            {typeof Icon === 'function' ? <Icon /> : <Icon className="w-5 h-5 transition-transform duration-300 group-hover:rotate-12" />}
                                         </div>
                                     </MotionA>
                                 );
@@ -159,7 +153,7 @@ const Footer = () => {
                                                 to={link.path}
                                                 className="text-xs font-semibold text-slate-300 hover:text-indigo-300 transition-colors duration-300 flex items-center group/link"
                                             >
-                                                <MotionSpan }>
+                                                <MotionSpan>
                                                     {link.name}
                                                 </MotionSpan>
                                                 <ArrowRight className="w-3 h-3 ml-2 opacity-0 -translate-x-2 group-hover/link:opacity-100 group-hover/link:translate-x-0 transition-all duration-300 text-indigo-300" />
@@ -217,8 +211,8 @@ const Footer = () => {
                         &copy; {currentYear} MentriQ. All rights reserved.
                     </Link>
                 </div>
-            </div >
-        </footer >
+            </div>
+        </footer>
     );
 };
 

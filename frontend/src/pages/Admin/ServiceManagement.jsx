@@ -5,15 +5,12 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useToast } from "../../context/ToastContext";
 import { resolveImageUrl } from "../../utils/imageUtils";
 
-const FALLBACK_SERVICES = [];
-
 const ServiceManagement = () => {
     const [services, setServices] = useState([]);
     const [loading, setLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingService, setEditingService] = useState(null);
     const [submitting, setSubmitting] = useState(false);
-    const [isSyncing, setIsSyncing] = useState(false);
     const toast = useToast();
 
     const initialFormState = {

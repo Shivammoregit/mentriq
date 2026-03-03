@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+
 import { Mail, Key, ArrowRight, Loader2, Eye, EyeOff, UserRound, Trash2, ShieldAlert, CheckCircle } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useNavigate, useLocation } from 'react-router-dom';
@@ -97,13 +97,13 @@ const AdminLogin = () => {
             <div className="w-full max-w-lg relative z-10 space-y-8">
                 {/* Logo & Intro */}
                 <div className="text-center space-y-4">
-                    <MotionDiv
-                        initial={{ opacity: 0, scale: 0.8 }}
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.5 }}
                         animate={{ opacity: 1, scale: 1 }}
                         className="inline-flex p-4 rounded-3xl bg-emerald-500/10 border border-emerald-500/20 shadow-2xl shadow-emerald-500/10"
                     >
                         <ShieldAlert size={48} className="text-emerald-400" />
-                    </MotionDiv>
+                    </motion.div>
                     <div className="space-y-1">
                         <h1 className="text-4xl font-black tracking-tighter uppercase italic">Control Nexus</h1>
                         <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.4em]">Restricted Administrative Entity Access</p>
@@ -111,7 +111,7 @@ const AdminLogin = () => {
                 </div>
 
                 {/* Main Card */}
-                <MotionDiv
+                <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     className="bg-[#0f172a]/40 backdrop-blur-2xl border border-white/5 rounded-[3rem] p-10 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] relative overflow-hidden group"
@@ -176,14 +176,15 @@ const AdminLogin = () => {
                             )}
                         </button>
                     </form>
-                </MotionDiv>
+                </motion.div>
 
                 {/* Encrypted Vault (Bucket) */}
                 <AnimatePresence>
                     {credentialBucket.length > 0 && (
-                        <MotionDiv
-                            initial={{ opacity: 0, y: 10 }}
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.95 }}
                             className="space-y-4"
                         >
                             <div className="flex items-center justify-between px-2">
@@ -196,7 +197,7 @@ const AdminLogin = () => {
 
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                 {credentialBucket.map((item) => (
-                                    <MotionDiv
+                                    <motion.div
                                         key={item.id}
                                         layout
                                         className="bg-white/5 border border-white/5 rounded-2xl p-4 flex items-center justify-between hover:bg-white/10 hover:border-emerald-500/20 transition-all cursor-pointer group/bucket"
@@ -220,10 +221,10 @@ const AdminLogin = () => {
                                         >
                                             <Trash2 size={14} />
                                         </button>
-                                    </MotionDiv>
+                                    </motion.div>
                                 ))}
                             </div>
-                        </MotionDiv>
+                        </motion.div>
                     )}
                 </AnimatePresence>
 
@@ -234,7 +235,7 @@ const AdminLogin = () => {
                     </p>
                 </div>
             </div>
-        </div>
+        </div >
     );
 };
 

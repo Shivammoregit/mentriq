@@ -172,11 +172,10 @@ const CityManagement = () => {
                         <tbody className="divide-y divide-white/5">
                             <AnimatePresence mode="popLayout">
                                 {filteredCities.map((city) => (
-                                    <MotionTr
+                                    <motion.tr
                                         key={city._id}
-                                        layout
-                                        initial={{ opacity: 0 }}
-                                        animate={{ opacity: 1 }}
+                                        initial={{ opacity: 0, y: 10 }}
+                                        animate={{ opacity: 1, y: 0 }}
                                         exit={{ opacity: 0 }}
                                         className="hover:bg-white/5 transition-colors group"
                                     >
@@ -223,7 +222,7 @@ const CityManagement = () => {
                                                 </button>
                                             </div>
                                         </td>
-                                    </MotionTr>
+                                    </motion.tr>
                                 ))}
                             </AnimatePresence>
                         </tbody>
@@ -235,8 +234,8 @@ const CityManagement = () => {
             <AnimatePresence>
                 {isModalOpen && (
                     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-xl">
-                        <MotionDiv
-                            initial={{ opacity: 0, scale: 0.95, y: 30 }}
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.95, y: 20 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 30 }}
                             className="relative w-full max-w-xl bg-[#0f172a] border border-white/10 rounded-[3rem] p-10 shadow-2xl flex flex-col"
@@ -336,7 +335,7 @@ const CityManagement = () => {
                                     </button>
                                 </div>
                             </form>
-                        </MotionDiv>
+                        </motion.div>
                     </div>
                 )}
             </AnimatePresence>

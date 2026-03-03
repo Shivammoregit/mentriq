@@ -188,9 +188,8 @@ const MentorManagement = () => {
                             {filteredMentors.map((mentor) => (
                                 <motion.tr
                                     key={mentor._id}
-                                    layout
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
                                     className="hover:bg-white/5 transition-colors group"
                                 >
                                     <td className="px-8 py-6">
@@ -253,7 +252,7 @@ const MentorManagement = () => {
                 {isModalOpen && (
                     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-xl">
                         <motion.div
-                            initial={{ opacity: 0, scale: 0.95, y: 30 }}
+                            initial={{ opacity: 0, scale: 0.95, y: 20 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 30 }}
                             className="relative w-full max-w-2xl bg-[#0f172a] border border-white/10 rounded-[3rem] p-10 shadow-2xl flex flex-col max-h-[90vh]"

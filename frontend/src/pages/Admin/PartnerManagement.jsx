@@ -18,8 +18,6 @@ const getSafeWebsiteHost = (website) => {
     }
 };
 
-const FALLBACK_PARTNERS = [];
-
 const PartnerManagement = () => {
     const [partners, setPartners] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -28,7 +26,6 @@ const PartnerManagement = () => {
     const [editingPartner, setEditingPartner] = useState(null);
     const [uploading, setUploading] = useState(false);
     const [submitting, setSubmitting] = useState(false);
-    const [isSyncing, setIsSyncing] = useState(false);
     const toast = useToast();
 
     const initialFormState = {
@@ -156,15 +153,13 @@ const PartnerManagement = () => {
                                 className="bg-transparent text-white placeholder:text-slate-600 focus:outline-none py-4 px-4 w-full lg:w-64 font-bold text-sm tracking-tight"
                             />
                         </div>
-                        <div className="flex gap-4">
-                            <button
-                                onClick={() => { setEditingPartner(null); setFormData(initialFormState); setIsModalOpen(true); }}
-                                className="bg-emerald-600 text-white hover:bg-emerald-500 px-6 py-4 rounded-xl font-bold flex items-center gap-3 transition-all active:scale-95 shadow-lg shadow-emerald-500/20 text-[10px] uppercase tracking-widest flex-1 sm:flex-none justify-center whitespace-nowrap"
-                            >
-                                <Plus size={18} />
-                                <span>New Alliance</span>
-                            </button>
-                        </div>
+                        <button
+                            onClick={() => { setEditingPartner(null); setFormData(initialFormState); setIsModalOpen(true); }}
+                            className="bg-emerald-600 text-white hover:bg-emerald-500 px-6 py-4 rounded-xl font-bold flex items-center gap-3 transition-all active:scale-95 shadow-lg shadow-emerald-500/20 text-[10px] uppercase tracking-widest flex-1 sm:flex-none justify-center whitespace-nowrap"
+                        >
+                            <Plus size={18} />
+                            <span>New Alliance</span>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -185,7 +180,6 @@ const PartnerManagement = () => {
                                 {filteredPartners.map((partner) => (
                                     <MotionTr
                                         key={partner._id}
-                                        layout
                                         initial={{ opacity: 0 }}
                                         animate={{ opacity: 1 }}
                                         exit={{ opacity: 0 }}

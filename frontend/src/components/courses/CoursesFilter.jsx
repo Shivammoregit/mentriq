@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
+
 import { Filter, X } from 'lucide-react'
 
 const CoursesFilter = ({ filters, setFilters, categories = [] }) => {
@@ -26,9 +26,9 @@ const CoursesFilter = ({ filters, setFilters, categories = [] }) => {
   }
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: 1, y: 0 }}
+    <div
+      }
+      }
       className="sticky top-20 z-10 bg-white/80 backdrop-blur-md shadow-lg border border-gray-200 rounded-3xl p-6 mb-12"
     >
       <button
@@ -47,9 +47,9 @@ const CoursesFilter = ({ filters, setFilters, categories = [] }) => {
           <label className="block text-sm font-semibold text-gray-700 mb-3">Category</label>
           <div className="space-y-2 max-h-40 overflow-y-auto">
             {categoryOptions.map((category) => (
-              <motion.button
+              <button
                 key={category}
-                whileTap={{ scale: 0.95 }}
+                }
                 onClick={() => handleFilterChange('category', category)}
                 className={`w-full p-3 rounded-xl text-left transition-all duration-200 border-2 ${filters.category === category
                     ? 'bg-indigo-500 text-white border-indigo-500 shadow-lg'
@@ -57,7 +57,7 @@ const CoursesFilter = ({ filters, setFilters, categories = [] }) => {
                   }`}
               >
                 {category}
-              </motion.button>
+              </button>
             ))}
           </div>
         </div>
@@ -66,9 +66,9 @@ const CoursesFilter = ({ filters, setFilters, categories = [] }) => {
           <label className="block text-sm font-semibold text-gray-700 mb-3">Level</label>
           <div className="space-y-2">
             {levelOptions.map((level) => (
-              <motion.button
+              <button
                 key={level}
-                whileTap={{ scale: 0.95 }}
+                }
                 onClick={() => handleFilterChange('level', level)}
                 className={`w-full p-3 rounded-xl text-left transition-all duration-200 border-2 ${filters.level === level
                     ? 'bg-indigo-500 text-white border-indigo-500 shadow-lg'
@@ -76,7 +76,7 @@ const CoursesFilter = ({ filters, setFilters, categories = [] }) => {
                   }`}
               >
                 {level}
-              </motion.button>
+              </button>
             ))}
           </div>
         </div>
@@ -84,8 +84,8 @@ const CoursesFilter = ({ filters, setFilters, categories = [] }) => {
         <div>
           <label className="block text-sm font-semibold text-gray-700 mb-3">Price Range</label>
           <div className="space-y-2">
-            <motion.button
-              whileTap={{ scale: 0.95 }}
+            <button
+              }
               onClick={() => handleFilterChange('price', 'free')}
               className={`w-full p-3 rounded-xl text-left transition-all duration-200 border-2 ${filters.price === 'free'
                   ? 'bg-emerald-500 text-white border-emerald-500 shadow-lg'
@@ -93,9 +93,9 @@ const CoursesFilter = ({ filters, setFilters, categories = [] }) => {
                 }`}
             >
               Free Courses
-            </motion.button>
-            <motion.button
-              whileTap={{ scale: 0.95 }}
+            </button>
+            <button
+              }
               onClick={() => handleFilterChange('price', 'paid')}
               className={`w-full p-3 rounded-xl text-left transition-all duration-200 border-2 ${filters.price === 'paid'
                   ? 'bg-indigo-500 text-white border-indigo-500 shadow-lg'
@@ -103,19 +103,19 @@ const CoursesFilter = ({ filters, setFilters, categories = [] }) => {
                 }`}
             >
               Paid Courses
-            </motion.button>
+            </button>
           </div>
         </div>
 
         <div className="flex flex-col justify-center">
-          <motion.button
-            whileTap={{ scale: 0.95 }}
+          <button
+            }
             onClick={() => setFilters({})}
             className="w-full p-3 bg-red-50 border-2 border-red-200 text-red-700 font-semibold rounded-xl hover:bg-red-100 hover:shadow-lg transition-all duration-300 flex items-center justify-center space-x-2"
           >
             <X size={18} />
             <span>Clear All</span>
-          </motion.button>
+          </button>
 
           <div className="mt-4 space-y-1 text-xs text-gray-500">
             <div>Active Filters:</div>
@@ -128,7 +128,7 @@ const CoursesFilter = ({ filters, setFilters, categories = [] }) => {
           </div>
         </div>
       </div>
-    </motion.div>
+    </div>
   )
 }
 

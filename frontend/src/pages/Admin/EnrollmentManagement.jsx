@@ -140,9 +140,8 @@ const EnrollmentManagement = () => {
                                 {filtered.map((enrollment) => (
                                     <motion.tr
                                         key={enrollment._id}
-                                        layout
-                                        initial={{ opacity: 0 }}
-                                        animate={{ opacity: 1 }}
+                                        initial={{ opacity: 0, y: 10 }}
+                                        animate={{ opacity: 1, y: 0 }}
                                         exit={{ opacity: 0 }}
                                         className="hover:bg-white/5 transition-colors group"
                                     >

@@ -131,13 +131,18 @@ const FeedbackManagement = () => {
                             <tr className="bg-white/5 border-b border-white/10">
                                 <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Reporter Identity</th>
                                 <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Sentiment Logic</th>
-                                <th className="px-8 py-5 text-[10px) font-bold uppercase tracking-[0.2em] text-slate-400">Rating</th>
+                                <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Rating</th>
                                 <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 text-right">Actions</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-white/5">
                             {feedbacks.map((f) => (
-                                <tr key={f._id} className="hover:bg-white/5 transition-colors group">
+                                <motion.tr
+                                    key={f._id}
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    className="hover:bg-white/5 transition-colors group"
+                                >
                                     <td className="px-8 py-6">
                                         <div className="flex items-center gap-5">
                                             <div className="w-12 h-12 rounded-full overflow-hidden bg-white/5 border border-white/10 shrink-0 group-hover:border-emerald-500/50 transition-all">
@@ -169,7 +174,7 @@ const FeedbackManagement = () => {
                                             </button>
                                         </div>
                                     </td>
-                                </tr>
+                                </motion.tr>
                             ))}
                         </tbody>
                     </table>
@@ -180,8 +185,8 @@ const FeedbackManagement = () => {
             <AnimatePresence>
                 {isModalOpen && (
                     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-xl">
-                        <MotionDiv
-                            initial={{ opacity: 0, scale: 0.95, y: 30 }}
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.95, y: 20 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 30 }}
                             className="relative w-full max-w-xl bg-[#0f172a] border border-white/10 rounded-[3rem] p-10 shadow-2xl flex flex-col"
@@ -275,7 +280,7 @@ const FeedbackManagement = () => {
                                     </button>
                                 </div>
                             </form>
-                        </MotionDiv>
+                        </motion.div>
                     </div>
                 )}
             </AnimatePresence>

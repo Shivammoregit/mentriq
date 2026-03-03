@@ -47,18 +47,18 @@ export const ContainerScroll = ({ titleComponent, children }) => {
 
 export const ScrollHeader = ({ translate, titleComponent }) => {
     return (
-        <motion.div
+        <div
             style={{ translateY: translate }}
             className="max-w-5xl mx-auto text-center"
         >
             {titleComponent}
-        </motion.div>
+        </div>
     );
 };
 
 export const ScrollCard = ({ rotate, scale, children }) => {
     return (
-        <motion.div
+        <div
             style={{
                 rotateX: rotate,
                 scale,
@@ -70,6 +70,6 @@ export const ScrollCard = ({ rotate, scale, children }) => {
             <div className="h-full w-full overflow-hidden rounded-2xl bg-gray-100 dark:bg-zinc-900 md:rounded-2xl md:p-4">
                 {children}
             </div>
-        </motion.div>
+        </div>
     );
 };

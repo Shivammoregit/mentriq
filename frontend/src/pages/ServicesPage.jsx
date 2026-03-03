@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
     ChevronRight, ArrowRight, CheckCircle2, Layers, Globe, Smartphone,
     Palette, Megaphone, Server, Shield, Database, Code, Zap, Star,
@@ -67,8 +67,6 @@ const ServicesPage = () => {
 
     return (
         <div className="bg-[#f8f9fc] min-h-screen">
-
-            {/* ─── Hero ─── */}
             {/* ─── Hero ─── */}
             <section className="relative min-h-[60vh] flex items-center bg-[#070b14] text-white overflow-hidden pt-28 pb-20">
                 {/* Advanced Atmospheric Animations for Dark */}
@@ -79,7 +77,7 @@ const ServicesPage = () => {
                             y: [0, 40, 0],
                             scale: [1, 1.2, 1]
                         }}
-                        transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+                        transition={{ duration: 15, repeat: Infinity, ease: "easeInOut" }}
                         className="absolute -top-[10%] left-1/4 w-[600px] h-[600px] bg-indigo-600/20 rounded-full blur-[140px] animate-pulse"
                     />
                     <motion.div
@@ -88,7 +86,7 @@ const ServicesPage = () => {
                             y: [0, 70, 0],
                             scale: [1, 1.3, 1]
                         }}
-                        transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
+                        transition={{ duration: 20, repeat: Infinity, ease: "easeInOut" }}
                         className="absolute -bottom-[10%] right-1/4 w-[600px] h-[600px] bg-cyan-500/10 rounded-full blur-[140px]"
                     />
                     {/* High-Contrast Technical Grid */}
@@ -98,8 +96,9 @@ const ServicesPage = () => {
                 <div className="relative max-w-7xl mx-auto px-6 z-10 w-full">
                     <div className="max-w-4xl mx-auto text-center">
                         <motion.div
-                            initial={{ opacity: 0, scale: 0.9, y: -20 }}
-                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.8 }}
                             className="inline-flex items-center gap-2 mb-6 px-5 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md shadow-lg shadow-black/20"
                         >
                             <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse" />
@@ -107,9 +106,9 @@ const ServicesPage = () => {
                         </motion.div>
 
                         <motion.h1
-                            initial={{ opacity: 0, y: 25 }}
+                            initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.1, duration: 0.7 }}
+                            transition={{ duration: 0.8, delay: 0.1 }}
                             className="text-5xl md:text-6xl lg:text-7xl font-black mb-6 tracking-tighter leading-[0.95] text-white uppercase font-display"
                         >
                             Digital Solutions
@@ -120,18 +119,18 @@ const ServicesPage = () => {
                         </motion.h1>
 
                         <motion.p
-                            initial={{ opacity: 0, y: 15 }}
+                            initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.2 }}
+                            transition={{ duration: 0.8, delay: 0.2 }}
                             className="text-base md:text-lg max-w-2xl mx-auto text-slate-400 leading-relaxed mb-10 font-medium opacity-80"
                         >
                             From concept to deployment — we craft end-to-end digital experiences that drive real business outcomes.
                         </motion.p>
 
                         <motion.div
-                            initial={{ opacity: 0, y: 10 }}
+                            initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.3 }}
+                            transition={{ duration: 0.8, delay: 0.3 }}
                             className="flex flex-col sm:flex-row gap-4 justify-center"
                         >
                             <button
@@ -149,8 +148,6 @@ const ServicesPage = () => {
                             </button>
                         </motion.div>
                     </div>
-
-
                 </div>
             </section>
 
@@ -177,18 +174,16 @@ const ServicesPage = () => {
                             const iconValue = service.icon || '';
                             const isImage = iconValue.startsWith('http') || iconValue.startsWith('/') || iconValue.startsWith('data:');
                             const IconComponent = isImage ? null : (iconMap[iconValue] || Layers);
-                            const isHovered = hoveredIdx === index;
 
                             return (
                                 <motion.div
                                     key={service._id}
+                                    initial={{ opacity: 0, y: 20 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    transition={{ duration: 0.5, delay: index * 0.1 }}
                                     onClick={() => navigate('/contact')}
                                     onMouseEnter={() => setHoveredIdx(index)}
                                     onMouseLeave={() => setHoveredIdx(null)}
-                                    initial={{ opacity: 0, y: 30 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
-                                    viewport={{ once: true }}
-                                    transition={{ delay: index * 0.07, duration: 0.5 }}
                                     className="relative group cursor-pointer bg-white rounded-3xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-2xl hover:shadow-indigo-100 transition-all duration-500 hover:-translate-y-2 flex flex-col"
                                 >
                                     {/* Top gradient bar */}
@@ -244,6 +239,7 @@ const ServicesPage = () => {
                             initial={{ opacity: 0, x: -30 }}
                             whileInView={{ opacity: 1, x: 0 }}
                             viewport={{ once: true }}
+                            transition={{ duration: 0.8 }}
                         >
                             <p className="text-indigo-600 text-xs font-black uppercase tracking-[0.3em] mb-3">Why MentriQ</p>
                             <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tighter mb-6 leading-tight">
@@ -270,10 +266,10 @@ const ServicesPage = () => {
                             {whyUs.map((item, i) => (
                                 <motion.div
                                     key={i}
-                                    initial={{ opacity: 0, y: 20 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
+                                    initial={{ opacity: 0, scale: 0.9 }}
+                                    whileInView={{ opacity: 1, scale: 1 }}
                                     viewport={{ once: true }}
-                                    transition={{ delay: i * 0.1 }}
+                                    transition={{ duration: 0.5, delay: i * 0.1 }}
                                     className="p-6 rounded-2xl bg-slate-50 border border-slate-100 hover:border-indigo-200 hover:bg-indigo-50/30 transition-all group"
                                 >
                                     <div className="w-9 h-9 rounded-xl bg-indigo-100 flex items-center justify-center mb-4 group-hover:bg-indigo-600 transition-colors">
@@ -314,6 +310,7 @@ const ServicesPage = () => {
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
+                        transition={{ duration: 0.8 }}
                         className="text-4xl md:text-6xl font-black text-white mb-6 tracking-tighter leading-[0.95]"
                     >
                         Let's Create Something
@@ -324,18 +321,20 @@ const ServicesPage = () => {
                     </motion.h2>
 
                     <motion.p
-                        initial={{ opacity: 0 }}
-                        whileInView={{ opacity: 1 }}
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
+                        transition={{ duration: 0.8, delay: 0.2 }}
                         className="text-slate-400 mb-12 max-w-xl mx-auto text-base leading-relaxed"
                     >
                         Our engineering team is ready to transform your vision into powerful digital reality.
                     </motion.p>
 
                     <motion.div
-                        initial={{ opacity: 0, y: 10 }}
+                        initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
+                        transition={{ duration: 0.8, delay: 0.4 }}
                         className="flex flex-col sm:flex-row gap-4 justify-center"
                     >
                         <button

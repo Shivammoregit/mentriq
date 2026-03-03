@@ -1,4 +1,4 @@
-import { motion, useMotionValue, useSpring, useTransform } from 'framer-motion'
+
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
@@ -50,7 +50,7 @@ const CourseCard = ({ course, baseUrl = '/courses' }) => {
   const finalPrice = discount > 0 ? price - (price * discount) / 100 : price
 
   return (
-    <motion.div
+    <div
       style={{
         rotateX,
         rotateY,
@@ -126,7 +126,7 @@ const CourseCard = ({ course, baseUrl = '/courses' }) => {
         </div>
 
       </div>
-    </motion.div>
+    </div>
   )
 }
 

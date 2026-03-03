@@ -5,7 +5,6 @@ import { useToast } from "../../context/ToastContext";
 import { motion, AnimatePresence } from "framer-motion";
 
 const SUPER_ADMIN_EMAIL = "admin@mentriqtechnologies.in";
-const MotionDiv = motion.div;
 
 const StaffManagement = () => {
     const [users, setUsers] = useState([]);

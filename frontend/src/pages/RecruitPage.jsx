@@ -1,5 +1,5 @@
-import { motion } from 'framer-motion'
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import {
     Users,
     Target,
@@ -21,7 +21,6 @@ import {
     MessageSquare,
     Rocket
 } from 'lucide-react'
-import { useEffect } from 'react'
 import { apiClient as api } from '../utils/apiClient'
 
 const RecruitPage = () => {
@@ -66,7 +65,6 @@ const RecruitPage = () => {
             })
         } catch (error) {
             console.error(error)
-            // Ideally assume success for user exp or show error
         } finally {
             setIsSubmitting(false)
         }
@@ -75,7 +73,7 @@ const RecruitPage = () => {
     const whyRecruit = [
         {
             title: 'Pre-Vetted Talent',
-            desc: 'Every student undergo rigorous technical assessments and project-based evaluations.',
+            desc: 'Every student undergoes rigorous technical assessments and project-based evaluations.',
             icon: Target,
             color: 'indigo'
         },
@@ -125,7 +123,7 @@ const RecruitPage = () => {
                             y: [0, 40, 0],
                             scale: [1, 1.2, 1]
                         }}
-                        transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+                        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
                         className="absolute -top-[10%] left-1/4 w-[600px] h-[600px] bg-indigo-600/20 rounded-full blur-[140px] animate-pulse"
                     />
                     <motion.div
@@ -134,17 +132,16 @@ const RecruitPage = () => {
                             y: [0, 70, 0],
                             scale: [1, 1.3, 1]
                         }}
-                        transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
+                        transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
                         className="absolute -bottom-[10%] right-1/4 w-[600px] h-[600px] bg-cyan-500/10 rounded-full blur-[140px]"
                     />
-                    {/* High-Contrast Technical Grid */}
                     <div className="absolute inset-0 opacity-[0.03] bg-[linear-gradient(#ffffff_1px,transparent_1px),linear-gradient(90deg,#ffffff_1px,transparent_1px)] bg-[length:40px_40px]" />
                 </div>
 
-                <div className="relative max-w-7xl mx-auto px-6 z-10">
+                <div className="relative max-w-7xl mx-auto px-6 z-10 w-full">
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
                         <motion.div
-                            initial={{ opacity: 0, x: -30 }}
+                            initial={{ opacity: 0, x: -50 }}
                             animate={{ opacity: 1, x: 0 }}
                             transition={{ duration: 0.8 }}
                         >
@@ -176,7 +173,6 @@ const RecruitPage = () => {
                                     Start Hiring Now
                                     <Send size={18} className="group-hover:translate-x-1 transition-transform" />
                                 </a>
-
                             </div>
                         </motion.div>
 
@@ -205,9 +201,7 @@ const RecruitPage = () => {
 
             {/* Active Opportunities Section */}
             <section className="py-24 bg-slate-50 relative z-20 -mt-10 overflow-hidden">
-                {/* Subtle Background Pattern */}
                 <div className="absolute inset-0 opacity-[0.4] bg-[radial-gradient(#cbd5e1_1px,transparent_1px)] [background-size:20px_20px]" />
-
                 <div className="max-w-7xl mx-auto px-6 relative z-10">
                     <div className="flex flex-col md:flex-row justify-between items-end gap-6 mb-16">
                         <div className="text-left">
@@ -237,7 +231,7 @@ const RecruitPage = () => {
                         </div>
                     ) : (
                         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                            {(Array.isArray(jobs) ? jobs : []).map((job, idx) => (
+                            {jobs.map((job, idx) => (
                                 <motion.div
                                     key={job._id}
                                     initial={{ opacity: 0, y: 20 }}
@@ -247,7 +241,6 @@ const RecruitPage = () => {
                                     className="bg-white border-2 border-transparent p-8 rounded-[2.5rem] shadow-[0_10px_40px_-10px_rgba(0,0,0,0.08)] hover:border-indigo-600/20 hover:shadow-indigo-500/10 hover:-translate-y-2 transition-all duration-300 group flex flex-col relative overflow-hidden"
                                 >
                                     <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-50/50 rounded-bl-[100%] -mr-10 -mt-10 transition-transform group-hover:scale-150" />
-
                                     <div className="relative z-10 flex justify-between items-start mb-6">
                                         <div className="w-14 h-14 rounded-2xl bg-white border border-gray-100 flex items-center justify-center text-indigo-600 shadow-sm group-hover:scale-110 transition-transform">
                                             <Briefcase size={24} />
@@ -256,7 +249,6 @@ const RecruitPage = () => {
                                             {job.type}
                                         </span>
                                     </div>
-
                                     <div className="relative z-10">
                                         <h3 className="text-2xl font-black text-gray-900 mb-2 leading-tight group-hover:text-indigo-600 transition-colors">
                                             {job.title}
@@ -265,7 +257,6 @@ const RecruitPage = () => {
                                             <Building2 size={16} className="text-indigo-400" />
                                             {job.company}
                                         </div>
-
                                         <div className="space-y-3 mb-8">
                                             <div className="flex items-center gap-3 text-sm text-gray-500 font-medium">
                                                 <div className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-400">
@@ -281,7 +272,6 @@ const RecruitPage = () => {
                                             </div>
                                         </div>
                                     </div>
-
                                     <a
                                         href={job.applicationLink}
                                         target="_blank"
@@ -297,7 +287,8 @@ const RecruitPage = () => {
                     )}
                 </div>
             </section>
-            {/* Why Choose Us Section - Premium White */}
+
+            {/* Why Choose Us Section */}
             <section className="py-32 bg-white relative overflow-hidden">
                 <div className="max-w-7xl mx-auto px-6 text-center relative z-10">
                     <h2 className="text-4xl md:text-6xl font-black text-slate-900 mb-20 tracking-tighter">
@@ -314,15 +305,11 @@ const RecruitPage = () => {
                                 transition={{ delay: idx * 0.1 }}
                                 className="relative group p-10 rounded-[2.5rem] bg-gradient-to-br from-white via-white to-slate-50 border border-slate-100 shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] hover:shadow-2xl hover:shadow-indigo-500/10 hover:-translate-y-2 hover:border-indigo-500/30 transition-all duration-500 overflow-hidden"
                             >
-                                {/* Glassy Gloss Overlay */}
                                 <div className="absolute inset-0 bg-gradient-to-br from-white/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-
-                                <div className={`absolute top-0 right-0 w-40 h-40 bg-${item.color}-500/5 rounded-bl-[4rem] -mr-10 -mt-10 transition-transform duration-700 group-hover:scale-110`} />
-
-                                <div className={`w-24 h-24 rounded-[2rem] bg-gradient-to-br from-${item.color}-50 to-white flex items-center justify-center mb-10 group-hover:scale-110 transition-transform duration-500 relative z-10 border border-${item.color}-100 shadow-lg shadow-${item.color}-500/5`}>
-                                    <item.icon className={`text-${item.color}-600 drop-shadow-sm`} size={40} strokeWidth={1.5} />
+                                <div className={`absolute top-0 right-0 w-40 h-40 bg-indigo-500/5 rounded-bl-[4rem] -mr-10 -mt-10 transition-transform duration-700 group-hover:scale-110`} />
+                                <div className={`w-24 h-24 rounded-[2rem] bg-gradient-to-br from-indigo-50 to-white flex items-center justify-center mb-10 group-hover:scale-110 transition-transform duration-500 relative z-10 border border-indigo-100 shadow-lg shadow-indigo-500/5`}>
+                                    <item.icon className="text-indigo-600 drop-shadow-sm" size={40} strokeWidth={1.5} />
                                 </div>
-
                                 <h3 className="text-2xl font-black text-slate-900 mb-4 relative z-10 group-hover:text-indigo-900 transition-colors">{item.title}</h3>
                                 <p className="text-slate-500 leading-relaxed text-sm font-medium relative z-10 group-hover:text-slate-600 transition-colors">{item.desc}</p>
                             </motion.div>
@@ -331,10 +318,9 @@ const RecruitPage = () => {
                 </div>
             </section>
 
-            {/* Process Section - Pipeline Animation */}
+            {/* Process Section */}
             <section className="py-32 bg-slate-50 relative overflow-hidden">
                 <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-[0.03]" />
-
                 <div className="max-w-7xl mx-auto px-6 relative z-10">
                     <div className="text-center mb-24">
                         <span className="text-indigo-600 font-black uppercase tracking-[0.2em] text-xs">Seamless Experience</span>
@@ -344,15 +330,9 @@ const RecruitPage = () => {
                     </div>
 
                     <div className="relative">
-                        {/* Connecting Line (Desktop) - Animated SVG */}
                         <div className="hidden lg:block absolute top-[100px] left-0 w-full h-[2px]">
                             <svg className="w-full h-full overflow-visible">
-                                <motion.path
-                                    d="M 0 0 H 1200"
-                                    stroke="#e2e8f0"
-                                    strokeWidth="2"
-                                    fill="transparent"
-                                />
+                                <path d="M 0 0 H 1200" stroke="#e2e8f0" strokeWidth="2" fill="transparent" />
                                 <motion.path
                                     d="M 0 0 H 1200"
                                     stroke="#4f46e5"
@@ -360,7 +340,8 @@ const RecruitPage = () => {
                                     fill="transparent"
                                     initial={{ pathLength: 0 }}
                                     whileInView={{ pathLength: 1 }}
-                                    transition={{ duration: 1.5, ease: "easeInOut" }}
+                                    viewport={{ once: true }}
+                                    transition={{ duration: 2, ease: "easeInOut" }}
                                 />
                             </svg>
                         </div>
@@ -369,10 +350,10 @@ const RecruitPage = () => {
                             {steps.map((step, idx) => (
                                 <motion.div
                                     key={idx}
-                                    initial={{ opacity: 0, y: 30 }}
+                                    initial={{ opacity: 0, y: 20 }}
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}
-                                    transition={{ delay: idx * 0.2 }}
+                                    transition={{ delay: idx * 0.1 }}
                                     className="relative z-10 group text-center lg:text-left pt-8"
                                 >
                                     <div className="w-24 h-24 rounded-3xl bg-white border border-slate-200 shadow-xl flex items-center justify-center mb-8 mx-auto lg:mx-0 group-hover:border-indigo-600 group-hover:-translate-y-2 transition-all duration-300 relative">
@@ -390,7 +371,7 @@ const RecruitPage = () => {
                 </div>
             </section>
 
-            {/* Hire Form Section - Technical Dark */}
+            {/* Hire Form Section */}
             <section id="hire-form" className="py-24 bg-[#070b14] relative overflow-hidden">
                 <div className="absolute inset-0 opacity-[0.05] bg-[linear-gradient(#ffffff_1px,transparent_1px),linear-gradient(90deg,#ffffff_1px,transparent_1px)] bg-[length:30px_30px]" />
                 <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-indigo-600/10 rounded-full blur-[120px]" />
@@ -398,9 +379,7 @@ const RecruitPage = () => {
 
                 <div className="relative max-w-5xl mx-auto px-6">
                     <div className="bg-white/5 border border-white/10 backdrop-blur-2xl rounded-[3rem] p-8 md:p-16 shadow-2xl relative overflow-hidden">
-                        {/* Decorative gradient line */}
                         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-indigo-500 to-transparent opacity-50" />
-
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
                             <div>
                                 <h2 className="text-4xl font-black text-white mb-8 tracking-tighter">
@@ -412,7 +391,6 @@ const RecruitPage = () => {
                                 <p className="text-slate-400 mb-10 leading-relaxed font-medium">
                                     Deploy our specialized recruitment protocol. Our partnership team will calibrate their search to your specific technical requirements within 24 hours.
                                 </p>
-
                                 <div className="space-y-6">
                                     {[
                                         { icon: Target, text: 'Customized Talent Curations' },
@@ -430,85 +408,50 @@ const RecruitPage = () => {
                             </div>
 
                             <div>
-                                {submitted ? (
-                                    <motion.div
-                                        initial={{ opacity: 0, scale: 0.9 }}
-                                        animate={{ opacity: 1, scale: 1 }}
-                                        className="h-full flex flex-col items-center justify-center text-center p-10 bg-indigo-500/10 rounded-2xl border border-indigo-500/20"
-                                    >
-                                        <div className="w-20 h-20 rounded-full bg-indigo-500 flex items-center justify-center mb-6 shadow-xl shadow-indigo-500/20">
-                                            <Send size={32} className="text-white" />
-                                        </div>
-                                        <h3 className="text-2xl font-black text-white mb-2">TRANSMISSION RECEIVED</h3>
-                                        <p className="text-indigo-200">Our agents will contact you shortly.</p>
-                                    </motion.div>
-                                ) : (
-                                    <form onSubmit={handleSubmit} className="space-y-5">
-                                        <div className="grid grid-cols-2 gap-5">
-                                            <div>
-                                                <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 block mb-2 px-1">Organization</label>
-                                                <input
-                                                    required
-                                                    type="text"
-                                                    placeholder="MentriQ"
-                                                    value={formData.company}
-                                                    onChange={e => setFormData({ ...formData, company: e.target.value })}
-                                                    className="w-full bg-[#070b14]/50 border border-white/5 rounded-xl px-5 py-4 text-white focus:bg-[#070b14] focus:border-indigo-500 outline-none transition-all font-medium placeholder:text-slate-600"
-                                                />
-                                            </div>
-                                            <div>
-                                                <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 block mb-2 px-1">Contact Name</label>
-                                                <input
-                                                    required
-                                                    type="text"
-                                                    placeholder="John Doe"
-                                                    value={formData.name}
-                                                    onChange={e => setFormData({ ...formData, name: e.target.value })}
-                                                    className="w-full bg-[#070b14]/50 border border-white/5 rounded-xl px-5 py-4 text-white focus:bg-[#070b14] focus:border-indigo-500 outline-none transition-all font-medium placeholder:text-slate-600"
-                                                />
-                                            </div>
-                                        </div>
-                                        <div>
-                                            <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 block mb-2 px-1">Work Email</label>
-                                            <input
-                                                required
-                                                type="email"
-                                                placeholder="john@company.com"
-                                                value={formData.email}
-                                                onChange={e => setFormData({ ...formData, email: e.target.value })}
-                                                className="w-full bg-[#070b14]/50 border border-white/5 rounded-xl px-5 py-4 text-white focus:bg-[#070b14] focus:border-indigo-500 outline-none transition-all font-medium placeholder:text-slate-600"
-                                            />
-                                        </div>
-                                        <div>
-                                            <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 block mb-2 px-1">Resource Requirements</label>
-                                            <input
-                                                required
-                                                type="text"
-                                                placeholder="e.g. Full Stack Developers, Data Analysts..."
-                                                value={formData.hiringNeeds}
-                                                onChange={e => setFormData({ ...formData, hiringNeeds: e.target.value })}
-                                                className="w-full bg-[#070b14]/50 border border-white/5 rounded-xl px-5 py-4 text-white focus:bg-[#070b14] focus:border-indigo-500 outline-none transition-all font-medium placeholder:text-slate-600"
-                                            />
-                                        </div>
-                                        <div>
-                                            <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 block mb-2 px-1">Briefing (Optional)</label>
-                                            <textarea
-                                                rows="4"
-                                                placeholder="Tell us about your requirements..."
-                                                value={formData.message}
-                                                onChange={e => setFormData({ ...formData, message: e.target.value })}
-                                                className="w-full bg-[#070b14]/50 border border-white/5 rounded-xl px-5 py-4 text-white focus:bg-[#070b14] focus:border-indigo-500 outline-none transition-all font-medium resize-none placeholder:text-slate-600"
-                                            />
-                                        </div>
-                                        <button
-                                            disabled={isSubmitting}
-                                            className="w-full py-5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl font-black uppercase tracking-[0.2em] text-sm shadow-xl shadow-indigo-600/20 transition-all disabled:opacity-50 flex items-center justify-center gap-3 group"
+                                <AnimatePresence mode="wait">
+                                    {submitted ? (
+                                        <motion.div
+                                            initial={{ opacity: 0, scale: 0.9 }}
+                                            animate={{ opacity: 1, scale: 1 }}
+                                            className="h-full flex flex-col items-center justify-center text-center p-10 bg-indigo-500/10 rounded-2xl border border-indigo-500/20"
                                         >
-                                            {isSubmitting ? 'Transmitting...' : 'Initialize Partnership'}
-                                            <Send size={18} className="group-hover:translate-x-1 transition-transform" />
-                                        </button>
-                                    </form>
-                                )}
+                                            <div className="w-20 h-20 rounded-full bg-indigo-500 flex items-center justify-center mb-6 shadow-xl shadow-indigo-500/20">
+                                                <Send size={32} className="text-white" />
+                                            </div>
+                                            <h3 className="text-2xl font-black text-white mb-2">TRANSMISSION RECEIVED</h3>
+                                            <p className="text-indigo-200">Our agents will contact you shortly.</p>
+                                        </motion.div>
+                                    ) : (
+                                        <form onSubmit={handleSubmit} className="space-y-5">
+                                            <div className="grid grid-cols-2 gap-5">
+                                                <div>
+                                                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 block mb-2 px-1">Organization</label>
+                                                    <input required type="text" placeholder="MentriQ" value={formData.company} onChange={e => setFormData({ ...formData, company: e.target.value })} className="w-full bg-[#070b14]/50 border border-white/5 rounded-xl px-5 py-4 text-white focus:bg-[#070b14] focus:border-indigo-500 outline-none transition-all font-medium placeholder:text-slate-600" />
+                                                </div>
+                                                <div>
+                                                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 block mb-2 px-1">Contact Name</label>
+                                                    <input required type="text" placeholder="John Doe" value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} className="w-full bg-[#070b14]/50 border border-white/5 rounded-xl px-5 py-4 text-white focus:bg-[#070b14] focus:border-indigo-500 outline-none transition-all font-medium placeholder:text-slate-600" />
+                                                </div>
+                                            </div>
+                                            <div>
+                                                <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 block mb-2 px-1">Work Email</label>
+                                                <input required type="email" placeholder="john@company.com" value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} className="w-full bg-[#070b14]/50 border border-white/5 rounded-xl px-5 py-4 text-white focus:bg-[#070b14] focus:border-indigo-500 outline-none transition-all font-medium placeholder:text-slate-600" />
+                                            </div>
+                                            <div>
+                                                <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 block mb-2 px-1">Resource Requirements</label>
+                                                <input required type="text" placeholder="e.g. Full Stack Developers" value={formData.hiringNeeds} onChange={e => setFormData({ ...formData, hiringNeeds: e.target.value })} className="w-full bg-[#070b14]/50 border border-white/5 rounded-xl px-5 py-4 text-white focus:bg-[#070b14] focus:border-indigo-500 outline-none transition-all font-medium placeholder:text-slate-600" />
+                                            </div>
+                                            <div>
+                                                <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 block mb-2 px-1">Briefing (Optional)</label>
+                                                <textarea rows="4" placeholder="Tell us about your requirements..." value={formData.message} onChange={e => setFormData({ ...formData, message: e.target.value })} className="w-full bg-[#070b14]/50 border border-white/5 rounded-xl px-5 py-4 text-white focus:bg-[#070b14] focus:border-indigo-500 outline-none transition-all font-medium resize-none placeholder:text-slate-600" />
+                                            </div>
+                                            <button disabled={isSubmitting} className="w-full py-5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl font-black uppercase tracking-[0.2em] text-sm shadow-xl shadow-indigo-600/20 transition-all disabled:opacity-50 flex items-center justify-center gap-3 group">
+                                                {isSubmitting ? 'Transmitting...' : 'Initialize Partnership'}
+                                                <Send size={18} className="group-hover:translate-x-1 transition-transform" />
+                                            </button>
+                                        </form>
+                                    )}
+                                </AnimatePresence>
                             </div>
                         </div>
                     </div>

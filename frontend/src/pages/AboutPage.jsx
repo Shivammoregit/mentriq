@@ -1,5 +1,5 @@
-import { motion, useScroll, useSpring, useTransform } from 'framer-motion'
 import React, { useRef, useState, useEffect } from 'react'
+import { motion, useScroll, useSpring } from 'framer-motion'
 import { Users, BookOpen, GraduationCap, TrendingUp } from 'lucide-react'
 import { apiClient as api } from '../utils/apiClient'
 
@@ -21,6 +21,7 @@ const AboutPage = () => {
     damping: 30,
     restDelta: 0.001
   })
+
   const [timeline, setTimeline] = useState([])
   const [loading, setLoading] = useState(true)
 
@@ -29,7 +30,6 @@ const AboutPage = () => {
       try {
         const { data } = await api.get('/journey');
         if (data && data.length > 0) {
-          // Map backend fields to frontend expected fields
           const formatted = data.map(m => ({
             year: m.year,
             title: m.title,
@@ -63,10 +63,10 @@ const AboutPage = () => {
   }, [])
 
   const stats = [
-    { number: statsData?.students || '0', icon: GraduationCap, label: 'Students Trained', color: 'from-indigo-500 to-indigo-600' },
-    { number: statsData?.courses || '0', icon: BookOpen, label: 'Live Courses', color: 'from-cyan-500 to-cyan-600' },
-    { number: statsData?.placements || '0%', icon: TrendingUp, label: 'Placement Rate', color: 'from-purple-500 to-purple-600' },
-    { number: statsData?.trainers || '0', icon: Users, label: 'Expert Trainers', color: 'from-blue-500 to-blue-600' }
+    { number: statsData?.students || '10,000+', icon: GraduationCap, label: 'Students Trained', color: 'from-indigo-500 to-indigo-600' },
+    { number: statsData?.courses || '50+', icon: BookOpen, label: 'Live Courses', color: 'from-cyan-500 to-cyan-600' },
+    { number: statsData?.placements || '95%', icon: TrendingUp, label: 'Placement Rate', color: 'from-purple-500 to-purple-600' },
+    { number: statsData?.trainers || '100+', icon: Users, label: 'Expert Trainers', color: 'from-blue-500 to-blue-600' }
   ]
 
   return (
@@ -81,7 +81,7 @@ const AboutPage = () => {
               y: [0, 40, 0],
               scale: [1, 1.2, 1]
             }}
-            transition={{ duration: 15, repeat: Infinity, ease: "linear" }}
+            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
             className="absolute -top-[10%] left-1/4 w-[600px] h-[600px] bg-indigo-600/20 rounded-full blur-[140px] animate-pulse"
           />
           <motion.div
@@ -90,18 +90,17 @@ const AboutPage = () => {
               y: [0, 70, 0],
               scale: [1, 1.3, 1]
             }}
-            transition={{ duration: 18, repeat: Infinity, ease: "linear" }}
+            transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
             className="absolute -bottom-[10%] right-1/4 w-[600px] h-[600px] bg-cyan-500/10 rounded-full blur-[140px]"
           />
           {/* High-Contrast Technical Grid */}
           <div className="absolute inset-0 opacity-[0.03] bg-[linear-gradient(#ffffff_1px,transparent_1px),linear-gradient(90deg,#ffffff_1px,transparent_1px)] bg-[length:40px_40px]" />
         </div>
 
-        <div className="relative max-w-7xl mx-auto px-6 text-center z-10">
-
+        <div className="relative max-w-7xl mx-auto px-6 text-center z-10 w-full">
           <motion.div
-            initial={{ opacity: 0, scale: 0.9, y: -20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
             className="inline-flex items-center space-x-2 mb-8 px-5 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md shadow-lg shadow-black/20"
           >
             <span className="w-1.5 h-1.5 bg-cyan-500 rounded-full animate-ping"></span>
@@ -111,7 +110,7 @@ const AboutPage = () => {
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: "circOut" }}
+            transition={{ duration: 0.8 }}
             className="text-4xl md:text-6xl lg:text-7xl font-black mb-6 tracking-tighter uppercase font-display leading-[0.9] text-white"
           >
             DEFINING <br />
@@ -121,10 +120,10 @@ const AboutPage = () => {
           </motion.h1>
 
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-            className="text-sm md:text-base max-w-3xl mx-auto mb-10 text-slate-400 leading-relaxed font-medium opacity-80"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.8 }}
+            transition={{ delay: 0.3 }}
+            className="text-sm md:text-base max-w-3xl mx-auto mb-10 text-slate-400 leading-relaxed font-medium"
           >
             Since 2023, MentriQ has been the structural backbone for professional evolution.
             We transcend traditional education to <span className="text-white font-bold">deploy elite talent</span> into the global technological grid.
@@ -141,11 +140,10 @@ const AboutPage = () => {
               return (
                 <motion.div
                   key={stat.label}
-                  initial={{ opacity: 0, y: 30 }}
+                  initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
-                  whileHover={{ y: -8, scale: 1.02 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  transition={{ delay: index * 0.1 }}
                   className="bg-white border border-slate-100 shadow-[0_15px_40px_-15px_rgba(0,0,0,0.08)] p-6 rounded-[2.5rem] group text-center relative overflow-hidden"
                 >
                   <div className={`inline-flex items-center justify-center w-14 h-14 mb-5 bg-gradient-to-br ${stat.color} rounded-2xl text-white shadow-lg transition-all duration-500 group-hover:rotate-6 group-hover:scale-110`}>
@@ -168,9 +166,9 @@ const AboutPage = () => {
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <motion.div
-              initial={{ opacity: 0, x: -40 }}
+              initial={{ opacity: 0, x: -50 }}
               whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.8 }}
+              viewport={{ once: true }}
             >
               <h2 className="text-4xl md:text-5xl font-black text-slate-900 mb-8 leading-[0.9] uppercase font-display">
                 MISSION & <br />
@@ -189,7 +187,7 @@ const AboutPage = () => {
                 ].map((item, i) => (
                   <motion.div
                     key={i}
-                    whileHover={{ x: 10 }}
+                    whileHover={{ x: 10, backgroundColor: 'rgba(99, 102, 241, 0.05)' }}
                     className="flex items-center space-x-4 p-4 rounded-2xl bg-white border border-slate-100 shadow-sm transition-all hover:bg-indigo-50"
                   >
                     <span className="text-xl leading-none">{item.icon}</span>
@@ -201,9 +199,9 @@ const AboutPage = () => {
 
             {/* Premium Architectural Image Stack */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              whileInView={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 1 }}
+              initial={{ opacity: 0, x: 50 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
               className="relative p-3 bg-white border border-slate-200 rounded-[3rem] shadow-2xl group perspective-2000"
             >
               {/* Technical Decorative Grid */}
@@ -212,21 +210,18 @@ const AboutPage = () => {
               <div className="relative overflow-hidden rounded-[2.5rem] bg-slate-100">
                 <motion.img
                   whileHover={{ scale: 1.05 }}
-                  transition={{ duration: 1.5, ease: "circOut" }}
+                  transition={{ duration: 0.8 }}
                   src='/images/About.webp'
                   alt="Architecture"
                   className="w-full h-full object-cover"
                 />
 
-                {/* Pure Architectural HUD (No Text) */}
+                {/* Pure Architectural HUD */}
                 <div className="absolute inset-0 pointer-events-none">
-                  {/* Top-Right Technical Marker */}
-
-
                   {/* Left-Side Technical Trace */}
                   <motion.div
-                    initial={{ height: 0 }}
-                    whileInView={{ height: 60 }}
+                    animate={{ height: ["0%", "80%", "0%"] }}
+                    transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
                     className="absolute left-6 top-1/2 -translate-y-1/2 w-[1px] bg-gradient-to-b from-transparent via-white/40 to-transparent"
                   />
                 </div>
@@ -252,8 +247,9 @@ const AboutPage = () => {
         <div className="max-w-7xl mx-auto px-6 relative">
           <div className="text-center mb-24">
             <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              whileInView={{ opacity: 1, scale: 1 }}
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
               className="inline-flex items-center space-x-2 mb-4 px-4 py-1.5 rounded-full bg-cyan-900/20 border border-cyan-500/30 shadow-[0_0_15px_rgba(6,182,212,0.2)]"
             >
               <span className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-pulse shadow-[0_0_10px_#22d3ee]"></span>
@@ -262,6 +258,8 @@ const AboutPage = () => {
             <motion.h2
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.1 }}
               className="text-4xl md:text-5xl font-black text-white mb-4 uppercase font-display tracking-tight"
             >
               Our Journey
@@ -269,8 +267,7 @@ const AboutPage = () => {
           </div>
 
           <div className="relative min-h-[1000px]">
-            {/* Precision SVG Path - Synchronized with Nodes */}
-            {/* Precision SVG Path - Synchronized with Nodes */}
+            {/* Precision SVG Path */}
             <div className="absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-full max-w-[800px] pointer-events-none hidden md:block">
               <svg
                 viewBox="0 0 400 1000"
@@ -278,36 +275,20 @@ const AboutPage = () => {
                 preserveAspectRatio="none"
                 className="w-full h-full"
               >
-                {/* 1. Base Track (Thin) */}
                 <path
-                  d="M 200 0 
-                     V 100 
-                     C 200 200 350 200 350 300 
-                     C 350 400 50 400 50 500 
-                     C 50 600 350 600 350 700 
-                     C 350 800 200 800 200 900 
-                     V 1000"
+                  d="M 200 0 V 100 C 200 200 350 200 350 300 C 350 400 50 400 50 500 C 50 600 350 600 350 700 C 350 800 200 800 200 900 V 1000"
                   stroke="#1e293b"
                   strokeWidth="2"
                   strokeLinecap="round"
                 />
-
-                {/* 2. Active Rail Base (Animated Gradient & Thin) */}
                 <motion.path
-                  d="M 200 0 
-                     V 100 
-                     C 200 200 350 200 350 300 
-                     C 350 400 50 400 50 500 
-                     C 50 600 350 600 350 700 
-                     C 350 800 200 800 200 900 
-                     V 1000"
-                  stroke="#06b6d4" // Cyan-500
+                  d="M 200 0 V 100 C 200 200 350 200 350 300 C 350 400 50 400 50 500 C 50 600 350 600 350 700 C 350 800 200 800 200 900 V 1000"
+                  stroke="#06b6d4"
                   strokeWidth="3"
                   strokeLinecap="round"
                   filter="url(#glow)"
                   style={{ pathLength }}
                 />
-
                 <defs>
                   <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
                     <feGaussianBlur stdDeviation="4" result="blur" />
@@ -337,19 +318,19 @@ const AboutPage = () => {
                     {/* Content Card - Dark Glass Prism */}
                     <div className={`flex flex-col md:flex-row items-center ${isEven ? 'md:justify-start md:pr-12 md:pl-4 pl-16 pr-4' : 'md:justify-end md:pl-12 md:pr-4 pl-16 pr-4'}`}>
                       <motion.div
-                        initial={{ opacity: 0, x: isEven ? -30 : 30, scale: 0.95 }}
-                        whileInView={{ opacity: 1, x: 0, scale: 1 }}
+                        initial={{ opacity: 0, x: isEven ? -50 : 50 }}
+                        whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true, margin: "-100px" }}
-                        whileHover={{ x: isEven ? 10 : -10, scale: 1.02 }}
-                        className="w-full md:w-[480px] p-8 rounded-[2rem] bg-slate-900/60 border border-slate-800 backdrop-blur-xl shadow-2xl relative group overflow-hidden hover:border-cyan-500/30 transition-all duration-500"
+                        whileHover={{ y: -5, borderColor: 'rgba(6, 182, 212, 0.3)' }}
+                        className="w-full md:w-[480px] p-8 rounded-[2rem] bg-slate-900/60 border border-slate-800 backdrop-blur-xl shadow-2xl relative group overflow-hidden transition-all duration-500"
                       >
                         {/* Interactive Border Accent */}
-                        <div className={`absolute top-6 bottom-6 w-1 bg-slate-800 rounded-full group-hover:bg-cyan-400 group-hover:shadow-[0_0_10px_#06b6d4] transition-all duration-500 ${isEven ? 'right-0 rounded-l-none' : 'left-0 rounded-r-none'}`} />
+                        <div className={`absolute top-6 bottom-6 w-1 bg-slate-800 group-hover:bg-cyan-400 group-hover:shadow-[0_0_10px_#06b6d4] transition-all duration-500 ${isEven ? 'right-0 rounded-l-none' : 'left-0 rounded-r-none'}`} />
 
                         {/* Scanline Effect */}
                         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-500/5 to-transparent opacity-0 group-hover:opacity-100 translate-y-[-100%] group-hover:translate-y-[100%] transition-all duration-1000 pointer-events-none" />
 
-                        <div className="pl-6 relative z-10">
+                        <div className="relative z-10">
                           <div className="flex items-center gap-4 mb-5">
                             <span className="text-4xl font-black text-slate-700 group-hover:text-cyan-500/20 transition-colors font-display tracking-tighter">
                               {item.year}

@@ -119,7 +119,12 @@ const JourneyManagement = () => {
                         </thead>
                         <tbody className="divide-y divide-white/5">
                             {milestones.sort((a, b) => b.order - a.order).map((milestone) => (
-                                <tr key={milestone._id} className="hover:bg-white/5 transition-colors group">
+                                <motion.tr
+                                    key={milestone._id}
+                                    initial={{ opacity: 0, y: 10 }}
+                                    animate={{ opacity: 1, y: 0 }}
+                                    className="hover:bg-white/5 transition-colors group"
+                                >
                                     <td className="px-8 py-6">
                                         <div className="flex items-center gap-3">
                                             <Calendar size={16} className="text-emerald-400" />
@@ -142,7 +147,7 @@ const JourneyManagement = () => {
                                             </button>
                                         </div>
                                     </td>
-                                </tr>
+                                </motion.tr>
                             ))}
                         </tbody>
                     </table>
@@ -154,7 +159,7 @@ const JourneyManagement = () => {
                 {isModalOpen && (
                     <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-xl">
                         <motion.div
-                            initial={{ opacity: 0, scale: 0.95, y: 30 }}
+                            initial={{ opacity: 0, scale: 0.95, y: 20 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 30 }}
                             className="relative w-full max-w-xl bg-[#0f172a] border border-white/10 rounded-[3rem] p-10 shadow-2xl flex flex-col"

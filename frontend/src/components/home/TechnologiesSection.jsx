@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { motion } from 'framer-motion';
+
 import { apiClient as api } from '../../utils/apiClient';
 
 const TechnologiesSection = () => {
@@ -38,16 +38,16 @@ const TechnologiesSection = () => {
             </div>
 
             <div className="max-w-7xl mx-auto px-6 mb-16 text-center relative z-10">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
+                <div
+                    }
+                    }
+                    }
                     className="inline-flex items-center gap-3 py-1.5 px-5 rounded-full bg-white/5 border border-white/10 mb-8 backdrop-blur-md"
                 >
                     <div className="w-1.5 h-1.5 bg-indigo-400 rounded-full animate-pulse shadow-[0_0_8px_rgba(129,140,248,0.5)]" />
                     <span className="text-indigo-300 text-[10px] font-black tracking-[0.4em] uppercase">Industry Standard Tech</span>
                     <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-pulse shadow-[0_0_8px_rgba(34,211,238,0.5)]" />
-                </motion.div>
+                </div>
 
                 <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6 tracking-tighter uppercase leading-none">
                     TECHNOLOGIES YOU'LL <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-cyan-400">MASTER</span>
@@ -67,9 +67,9 @@ const TechnologiesSection = () => {
                 }}
             >
                 <div style={{ transformStyle: 'preserve-3d' }}>
-                    <motion.div
+                    <div
                         className="flex gap-8 px-4 w-max"
-                        animate={{ x: ["0%", "-50%"] }}
+                        }
                         transition={{
                             repeat: Infinity,
                             duration: Math.max(35, technologies.length * 2),
@@ -79,7 +79,7 @@ const TechnologiesSection = () => {
                     >
                         {/* Dual Buffer for Seamless Loop */}
                         {[...technologies, ...technologies].map((tech, index) => (
-                            <motion.div
+                            <div
                                 key={`${tech._id}-${index}`}
                                 whileHover={{
                                     scale: 1.1,
@@ -105,9 +105,9 @@ const TechnologiesSection = () => {
                                     />
                                 </div>
                                 <span className="text-xs font-black uppercase tracking-wider text-gray-500 group-hover:text-white transition-colors relative z-10">{tech.name}</span>
-                            </motion.div>
+                            </div>
                         ))}
-                    </motion.div>
+                    </div>
                 </div>
             </div>
         </section>

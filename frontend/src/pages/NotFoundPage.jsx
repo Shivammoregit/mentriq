@@ -1,6 +1,6 @@
-import { motion } from 'framer-motion'
 import { Link } from 'react-router-dom'
 import { ArrowLeft, Home } from 'lucide-react'
+import { motion } from 'framer-motion'
 import React from 'react'
 
 const NotFoundPage = () => {
@@ -14,7 +14,7 @@ const NotFoundPage = () => {
       <motion.div
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5 }}
+        transition={{ duration: 0.8 }}
         className="relative max-w-lg w-full text-center z-10"
       >
         <div className="relative w-40 h-40 mx-auto mb-8">

@@ -1,0 +1,31 @@
+
+> frontend@0.0.0 build
+> vite build
+
+[36mvite v7.3.1 [32mbuilding client environment for production...[36m[39m
+transforming...
+[32m✓[39m 5 modules transformed.
+[31m✗[39m Build failed in 182ms
+[31merror during build:
+[31m[vite:esbuild] Transform failed with 1 error:
+D:/Company Projects/MentriQ Technology/frontend/src/context/ToastContext.jsx:34:12: ERROR: Expected ">" but found "}"[31m
+file: [36mD:/Company Projects/MentriQ Technology/frontend/src/context/ToastContext.jsx:34:12[31m
+[33m
+[33mExpected ">" but found "}"[33m
+32 |          <div
+33 |              layout
+34 |              }
+   |              ^
+35 |              }
+36 |              exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.2 } }}
+[31m
+    at failureErrorWithLog (D:\Company Projects\MentriQ Technology\frontend\node_modules\esbuild\lib\main.js:1467:15)
+    at D:\Company Projects\MentriQ Technology\frontend\node_modules\esbuild\lib\main.js:736:50
+    at responseCallbacks.<computed> (D:\Company Projects\MentriQ Technology\frontend\node_modules\esbuild\lib\main.js:603:9)
+    at handleIncomingPacket (D:\Company Projects\MentriQ Technology\frontend\node_modules\esbuild\lib\main.js:658:12)
+    at Socket.readFromStdout (D:\Company Projects\MentriQ Technology\frontend\node_modules\esbuild\lib\main.js:581:7)
+    at Socket.emit (node:events:507:28)
+    at addChunk (node:internal/streams/readable:559:12)
+    at readableAddChunkPushByteMode (node:internal/streams/readable:510:3)
+    at Readable.push (node:internal/streams/readable:390:5)
+    at Pipe.onStreamRead (node:internal/stream_base_commons:189:23)[39m

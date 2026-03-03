@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useParams, useNavigate, useLocation } from 'react-router-dom'
 import { apiClient as api } from '../utils/apiClient'
 import { useAuth } from '../context/AuthContext'
-import { motion } from 'framer-motion'
 import { CheckCircle, Shield, ArrowLeft, Camera, Upload } from 'lucide-react'
 
 const EnrollmentFormPage = () => {
@@ -68,7 +68,6 @@ const EnrollmentFormPage = () => {
                 courseId,
                 ...formData
             })
-            // await checkEnrollments() // Optional: refetch if user was logged in
             navigate('/enrollment-success', { state: { course } })
         } catch (err) {
             alert(err.response?.data?.message || "Enrollment failed")
@@ -101,8 +100,9 @@ const EnrollmentFormPage = () => {
             </div>
 
             <motion.div
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
                 className="relative bg-[#0f172a]/80 backdrop-blur-2xl border border-white/10 rounded-[2rem] shadow-2xl overflow-hidden max-w-5xl w-full flex flex-col md:flex-row"
             >
                 {/* Left Side: Course Info */}

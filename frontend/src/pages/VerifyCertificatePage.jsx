@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
 import { Shield, CheckCircle, XCircle, Search, QrCode, ArrowLeft, BookOpen } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import { apiClient as api } from '../utils/apiClient'
 
@@ -54,6 +54,7 @@ const VerifyCertificatePage = () => {
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8 }}
                     className="text-center mb-12"
                 >
                     <button
@@ -77,9 +78,9 @@ const VerifyCertificatePage = () => {
 
                 {/* Verification Form */}
                 <motion.div
-                    initial={{ opacity: 0, y: 30 }}
+                    initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2 }}
+                    transition={{ duration: 0.8, delay: 0.2 }}
                     className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-[3rem] p-10 md:p-12 mb-8"
                 >
                     <form onSubmit={handleVerify} className="space-y-6">
@@ -131,126 +132,117 @@ const VerifyCertificatePage = () => {
                 </motion.div>
 
                 {/* Verification Result */}
-                {result && (
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        className={`rounded-[3rem] p-10 border-2 ${result.valid
-                            ? 'bg-emerald-600/10 border-emerald-500/30'
-                            : 'bg-red-600/10 border-red-500/30'
-                            }`}
-                    >
-                        <div className="text-center">
-                            <div className={`inline-flex items-center justify-center w-20 h-20 rounded-3xl mb-6 ${result.valid ? 'bg-emerald-500/20 text-emerald-400' : 'bg-red-500/20 text-red-400'
-                                }`}>
-                                {result.valid ? <CheckCircle size={40} /> : <XCircle size={40} />}
-                            </div>
+                <AnimatePresence mode="wait">
+                    {result && (
+                        <motion.div
+                            key="result"
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.9 }}
+                            className={`rounded-[3rem] p-10 border-2 ${result.valid
+                                ? 'bg-emerald-600/10 border-emerald-500/30'
+                                : 'bg-red-600/10 border-red-500/30'
+                                }`}
+                        >
+                            <div className="text-center">
+                                <div className={`inline-flex items-center justify-center w-20 h-20 rounded-3xl mb-6 ${result.valid ? 'bg-emerald-500/20 text-emerald-400' : 'bg-red-500/20 text-red-400'
+                                    }`}>
+                                    {result.valid ? <CheckCircle size={40} /> : <XCircle size={40} />}
+                                </div>
 
-                            <h3 className={`text-3xl font-black mb-6 ${result.valid ? 'text-emerald-400' : 'text-red-400'
-                                }`}>
-                                {result.valid ? 'Certificate Verified ✓' : 'Invalid Certificate ✗'}
-                            </h3>
+                                <h3 className={`text-3xl font-black mb-6 ${result.valid ? 'text-emerald-400' : 'text-red-400'
+                                    }`}>
+                                    {result.valid ? 'Certificate Verified ✓' : 'Invalid Certificate ✗'}
+                                </h3>
 
-                            {result.valid ? (
-                                <div className="space-y-6 text-left">
-                                    {/* Basic Info */}
-                                    <div className="bg-white/5 rounded-2xl p-6 border border-white/10">
-                                        <h4 className="text-xs font-black text-gray-500 uppercase tracking-widest mb-4">Certificate Details</h4>
-                                        <div className="grid grid-cols-2 gap-4">
-                                            <div>
-                                                <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">Student Name</p>
-                                                <p className="text-white font-bold text-lg">{result.studentName || 'N/A'}</p>
-                                            </div>
-                                            <div>
-                                                <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">Certificate ID</p>
-                                                <p className="text-emerald-400 font-mono font-bold">{result.certificateId}</p>
-                                            </div>
-                                            <div>
-                                                <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">Issue Date</p>
-                                                <p className="text-white font-bold">{result.issueDate || 'N/A'}</p>
-                                            </div>
-                                            <div>
-                                                <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">Grade</p>
-                                                <p className="text-white font-bold">{result.grade || 'Pass'}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {/* Course Info */}
-                                    <div className="bg-white/5 rounded-2xl p-6 border border-white/10">
-                                        <h4 className="text-xs font-black text-gray-500 uppercase tracking-widest mb-4">Course Information</h4>
-                                        <div className="space-y-4">
-                                            <div>
-                                                <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">Course Name</p>
-                                                <p className="text-white font-bold text-xl">{result.courseName || 'N/A'}</p>
-                                            </div>
-                                            <div>
-                                                <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">Duration</p>
-                                                <p className="text-white font-bold">{result.duration || 'N/A'}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {/* Modules Covered */}
-                                    {result.modules && result.modules.length > 0 && (
+                                {result.valid ? (
+                                    <div className="space-y-6 text-left">
                                         <div className="bg-white/5 rounded-2xl p-6 border border-white/10">
-                                            <div className="flex items-center gap-2 mb-4">
-                                                <BookOpen className="text-emerald-400" size={20} />
-                                                <h4 className="text-xs font-black text-gray-500 uppercase tracking-widest">
-                                                    Modules Covered ({result.modules.length})
-                                                </h4>
+                                            <h4 className="text-xs font-black text-gray-500 uppercase tracking-widest mb-4">Certificate Details</h4>
+                                            <div className="grid grid-cols-2 gap-4">
+                                                <div>
+                                                    <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">Student Name</p>
+                                                    <p className="text-white font-bold text-lg">{result.studentName || 'N/A'}</p>
+                                                </div>
+                                                <div>
+                                                    <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">Certificate ID</p>
+                                                    <p className="text-emerald-400 font-mono font-bold">{result.certificateId}</p>
+                                                </div>
+                                                <div>
+                                                    <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">Issue Date</p>
+                                                    <p className="text-white font-bold">{result.issueDate || 'N/A'}</p>
+                                                </div>
+                                                <div>
+                                                    <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">Grade</p>
+                                                    <p className="text-white font-bold">{result.grade || 'Pass'}</p>
+                                                </div>
                                             </div>
-                                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                                {Array.isArray(result.modules) && result.modules.map((module, index) => (
-                                                    <div
-                                                        key={index}
-                                                        className="bg-white/5 rounded-xl p-4 border border-white/5 hover:border-emerald-500/30 transition-colors"
-                                                    >
-                                                        <div className="flex items-start gap-3">
-                                                            <div className="w-8 h-8 bg-emerald-500/20 rounded-lg flex items-center justify-center text-emerald-400 font-black text-sm shrink-0">
-                                                                {index + 1}
-                                                            </div>
-                                                            <div className="flex-1 min-w-0">
-                                                                <p className="text-white font-bold text-sm mb-1">
-                                                                    {module.title || `Module ${index + 1}`}
-                                                                </p>
-                                                                {module.description && (
-                                                                    <p className="text-gray-400 text-xs line-clamp-2">
-                                                                        {module.description}
+                                        </div>
+
+                                        <div className="bg-white/5 rounded-2xl p-6 border border-white/10">
+                                            <h4 className="text-xs font-black text-gray-500 uppercase tracking-widest mb-4">Course Information</h4>
+                                            <div className="space-y-4">
+                                                <div>
+                                                    <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">Course Name</p>
+                                                    <p className="text-white font-bold text-xl">{result.courseName || 'N/A'}</p>
+                                                </div>
+                                                <div>
+                                                    <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">Duration</p>
+                                                    <p className="text-white font-bold">{result.duration || 'N/A'}</p>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        {result.modules && result.modules.length > 0 && (
+                                            <div className="bg-white/5 rounded-2xl p-6 border border-white/10">
+                                                <div className="flex items-center gap-2 mb-4">
+                                                    <BookOpen className="text-emerald-400" size={20} />
+                                                    <h4 className="text-xs font-black text-gray-500 uppercase tracking-widest">
+                                                        Modules Covered ({result.modules.length})
+                                                    </h4>
+                                                </div>
+                                                <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                                    {result.modules.map((module, index) => (
+                                                        <div
+                                                            key={index}
+                                                            className="bg-white/5 rounded-xl p-4 border border-white/5 hover:border-emerald-500/30 transition-colors"
+                                                        >
+                                                            <div className="flex items-start gap-3">
+                                                                <div className="w-8 h-8 bg-emerald-500/20 rounded-lg flex items-center justify-center text-emerald-400 font-black text-sm shrink-0">
+                                                                    {index + 1}
+                                                                </div>
+                                                                <div className="flex-1 min-w-0">
+                                                                    <p className="text-white font-bold text-sm mb-1">
+                                                                        {module.title || `Module ${index + 1}`}
                                                                     </p>
-                                                                )}
+                                                                    {module.description && (
+                                                                        <p className="text-gray-400 text-xs line-clamp-2">
+                                                                            {module.description}
+                                                                        </p>
+                                                                    )}
+                                                                </div>
                                                             </div>
                                                         </div>
-                                                    </div>
-                                                ))}
+                                                    ))}
+                                                </div>
                                             </div>
-                                        </div>
-                                    )}
-
-                                    {/* Completion Date if available */}
-                                    {result.completionDate && (
-                                        <div className="bg-emerald-600/10 rounded-2xl p-4 border border-emerald-500/20 text-center">
-                                            <p className="text-xs font-bold text-emerald-400 uppercase tracking-widest mb-1">
-                                                Completed On
-                                            </p>
-                                            <p className="text-white font-bold text-lg">{result.completionDate}</p>
-                                        </div>
-                                    )}
-                                </div>
-                            ) : (
-                                <p className="text-gray-400 max-w-md mx-auto">
-                                    {result.message}
-                                </p>
-                            )}
-                        </div>
-                    </motion.div>
-                )}
+                                        )}
+                                    </div>
+                                ) : (
+                                    <p className="text-gray-400 max-w-md mx-auto">
+                                        {result.message}
+                                    </p>
+                                )}
+                            </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
 
                 {/* Info Section */}
                 <motion.div
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ delay: 0.4 }}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.8, delay: 0.4 }}
                     className="mt-12 bg-white/5 border border-white/10 rounded-3xl p-8"
                 >
                     <h3 className="text-xl font-black text-white mb-4">How to Verify</h3>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { Mail, Lock, User, Eye, EyeOff, ArrowLeft, Shield, Sparkles, CheckCircle2 } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useToast } from '../context/ToastContext';
@@ -64,7 +64,6 @@ const UserAuthPage = () => {
 
             if (result.success) {
                 toast.success(isLogin ? "Welcome back!" : "Account created successfully!");
-                // Navigation handled by useEffect
             } else {
                 setErrors({ general: result.message });
                 toast.error(result.message);
@@ -88,9 +87,9 @@ const UserAuthPage = () => {
             </div>
 
             <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ duration: 0.5 }}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8 }}
                 className="relative w-full max-w-5xl grid grid-cols-1 lg:grid-cols-2 bg-[#0f172a]/80 backdrop-blur-2xl border border-white/10 rounded-[2.5rem] shadow-2xl overflow-hidden shadow-indigo-500/10"
             >
                 {/* Left Side: Branding & Info */}
@@ -131,7 +130,7 @@ const UserAuthPage = () => {
                                         key={idx}
                                         initial={{ opacity: 0, x: -20 }}
                                         animate={{ opacity: 1, x: 0 }}
-                                        transition={{ delay: 0.3 + (idx * 0.1) }}
+                                        transition={{ duration: 0.5, delay: 0.5 + idx * 0.1 }}
                                         className="flex items-center gap-4 group"
                                     >
                                         <div className={`w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center ${item.color} group-hover:scale-110 transition-transform`}>
@@ -155,8 +154,6 @@ const UserAuthPage = () => {
 
                 {/* Right Side: Auth Form */}
                 <div className="p-8 lg:p-14 flex flex-col justify-center relative">
-                    {/* Mobile Header */}
-                    {/* Mobile Header */}
                     <div className="lg:hidden mb-12 flex flex-col items-center text-center">
                         <div className="w-16 h-16 rounded-3xl overflow-hidden bg-white flex items-center justify-center shadow-2xl shadow-indigo-600/40 mb-6">
                             <img src="/images/logo1.jpg" alt="MentriQ" className="w-full h-full object-cover rounded-3xl" />
@@ -166,7 +163,6 @@ const UserAuthPage = () => {
                     </div>
 
                     <div className="max-w-md mx-auto w-full">
-                        {/* Desktop Tabs */}
                         <div className="hidden lg:block mb-10">
                             <h3 className="text-3xl font-black text-white mb-2 tracking-tighter">
                                 {isLogin ? 'Authentication' : 'Registration'}
@@ -174,7 +170,6 @@ const UserAuthPage = () => {
                             <p className="text-gray-500 font-medium">{isLogin ? 'Signing back to your console' : 'Set up your learning identity'}</p>
                         </div>
 
-                        {/* Form Navigation Pills */}
                         <div className="flex p-1.5 bg-white/5 rounded-2xl border border-white/5 mb-10 backdrop-blur-md">
                             <button
                                 onClick={() => setIsLogin(true)}
@@ -194,10 +189,11 @@ const UserAuthPage = () => {
                             <AnimatePresence mode='wait'>
                                 {!isLogin && (
                                     <motion.div
-                                        initial={{ opacity: 0, y: -10 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        exit={{ opacity: 0, y: -10 }}
-                                        className="space-y-2"
+                                        key="register-name"
+                                        initial={{ opacity: 0, height: 0 }}
+                                        animate={{ opacity: 1, height: 'auto' }}
+                                        exit={{ opacity: 0, height: 0 }}
+                                        className="space-y-2 overflow-hidden"
                                     >
                                         <label className="text-[10px] font-black uppercase tracking-[0.3em] text-indigo-400 ml-1">Account Holder Name</label>
                                         <div className="relative group">

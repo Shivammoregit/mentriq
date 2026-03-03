@@ -29,9 +29,9 @@ import {
 
 const StatCard = ({ title, value, icon: Icon, color, delay, trend = 0 }) => (
     <motion.div
-        initial={{ opacity: 0, y: 15 }}
+        initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ delay, duration: 0.5, ease: "easeOut" }}
+        transition={{ duration: 0.5, delay }}
         className="glass-premium p-8 rounded-[2.5rem] border border-white/5 hover:border-blue-500/30 hover:shadow-2xl hover:shadow-blue-500/20 transition-all group relative overflow-hidden"
     >
         <div className="flex justify-between items-start relative z-10">
