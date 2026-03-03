@@ -15,7 +15,8 @@ const Hero3DElement = () => {
             instagram: "https://www.instagram.com/mentriqtechnologies/",
             linkedin: "https://www.linkedin.com/company/mentriqtechnologies/",
             twitter: "https://x.com/MentriqT51419",
-            whatsapp: "https://wa.me/918890301264"
+            whatsapp: "https://wa.me/918890301264",
+            facebook: "https://www.facebook.com/profile.php?id=61588480116895"
         }
     });
 
@@ -31,7 +32,8 @@ const Hero3DElement = () => {
                             instagram: data.socialLinks?.instagram || prev.socialLinks.instagram,
                             linkedin: data.socialLinks?.linkedin || prev.socialLinks.linkedin,
                             twitter: data.socialLinks?.twitter || prev.socialLinks.twitter,
-                            whatsapp: data.socialLinks?.whatsapp || prev.socialLinks.whatsapp
+                            whatsapp: data.socialLinks?.whatsapp || prev.socialLinks.whatsapp,
+                            facebook: data.socialLinks?.facebook || prev.socialLinks.facebook
                         }
                     }));
                 }
@@ -211,6 +213,7 @@ const Hero3DElement = () => {
                         >
                             <Mail className="w-4 h-4 lg:w-5 lg:h-5" />
                         </motion.a>
+
 
                     </div>
                 </div>
