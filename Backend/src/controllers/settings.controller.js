@@ -34,7 +34,13 @@ const updateSettings = async (req, res) => {
         settings.mapLink = mapLink || settings.mapLink;
 
         if (socialLinks) {
-            settings.socialLinks = { ...settings.socialLinks, ...socialLinks };
+            settings.socialLinks = {
+                instagram: socialLinks.instagram !== undefined ? socialLinks.instagram : settings.socialLinks.instagram,
+                linkedin: socialLinks.linkedin !== undefined ? socialLinks.linkedin : settings.socialLinks.linkedin,
+                twitter: socialLinks.twitter !== undefined ? socialLinks.twitter : settings.socialLinks.twitter,
+                whatsapp: socialLinks.whatsapp !== undefined ? socialLinks.whatsapp : settings.socialLinks.whatsapp,
+                facebook: socialLinks.facebook !== undefined ? socialLinks.facebook : settings.socialLinks.facebook
+            };
         }
 
         settings.updatedBy = req.user._id;

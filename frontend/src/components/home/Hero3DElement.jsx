@@ -8,6 +8,41 @@ import { useNavigate } from 'react-router-dom';
 const Hero3DElement = () => {
     const navigate = useNavigate();
 
+    const [settings, setSettings] = React.useState({
+        email: "support@mentriqtechnologies.in",
+        socialLinks: {
+            instagram: "https://www.instagram.com/mentriqtechnologies/",
+            linkedin: "https://www.linkedin.com/company/mentriqtechnologies/",
+            twitter: "https://x.com/MentriqT51419",
+            whatsapp: "https://wa.me/918890301264",
+            facebook: "https://www.facebook.com/profile.php?id=61588480116895"
+        }
+    });
+
+    React.useEffect(() => {
+        const fetchSettings = async () => {
+            try {
+                const { data } = await api.get('/settings');
+                if (data) {
+                    setSettings(prev => ({
+                        ...prev,
+                        email: data.email || prev.email,
+                        socialLinks: {
+                            instagram: data.socialLinks?.instagram || prev.socialLinks.instagram,
+                            linkedin: data.socialLinks?.linkedin || prev.socialLinks.linkedin,
+                            twitter: data.socialLinks?.twitter || prev.socialLinks.twitter,
+                            whatsapp: data.socialLinks?.whatsapp || prev.socialLinks.whatsapp,
+                            facebook: data.socialLinks?.facebook || prev.socialLinks.facebook
+                        }
+                    }));
+                }
+            } catch (error) {
+                console.error("Failed to fetch settings", error);
+            }
+        };
+        fetchSettings();
+    }, []);
+
     return (
         <div className="w-full min-h-[85vh] relative overflow-hidden bg-white pt-20">
 
@@ -110,7 +145,7 @@ const Hero3DElement = () => {
                     <div className="absolute inset-0 pointer-events-none z-20">
                         {/* Icon 1: LinkedIn (Top-Left) */}
                         <motion.a
-                            href="https://www.linkedin.com/company/mentriqtechnologies/"
+                            href={settings.socialLinks.linkedin}
                             target="_blank"
                             rel="noopener noreferrer"
                             initial={{ opacity: 0, scale: 0 }}
@@ -124,7 +159,7 @@ const Hero3DElement = () => {
 
                         {/* Icon 2: Twitter (Top-Center-Left) */}
                         <motion.a
-                            href="https://x.com/MentriqT51419"
+                            href={settings.socialLinks.twitter}
                             target="_blank"
                             rel="noopener noreferrer"
                             initial={{ opacity: 0, scale: 0 }}
@@ -138,7 +173,7 @@ const Hero3DElement = () => {
 
                         {/* Icon 3: Instagram (Top-Center) */}
                         <motion.a
-                            href="https://www.instagram.com/mentriqtechnologies/"
+                            href={settings.socialLinks.instagram}
                             target="_blank"
                             rel="noopener noreferrer"
                             initial={{ opacity: 0, scale: 0 }}
@@ -152,7 +187,7 @@ const Hero3DElement = () => {
 
                         {/* Icon 4: WhatsApp (Top-Center-Right) */}
                         <motion.a
-                            href="https://wa.me/918890301264"
+                            href={settings.socialLinks.whatsapp}
                             target="_blank"
                             rel="noopener noreferrer"
                             initial={{ opacity: 0, scale: 0 }}
@@ -166,7 +201,7 @@ const Hero3DElement = () => {
 
                         {/* Icon 5: Gmail (Top-Right) */}
                         <motion.a
-                            href="mailto:support@mentriqtechnologies.in"
+                            href={`mailto:${settings.email}`}
                             target="_blank"
                             rel="noopener noreferrer"
                             initial={{ opacity: 0, scale: 0 }}
@@ -176,6 +211,20 @@ const Hero3DElement = () => {
                             className="absolute top-[20%] right-[10%] lg:top-[25%] lg:right-[10%] w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-white/5 border border-white/10 backdrop-blur-md flex items-center justify-center text-slate-400 shadow-lg pointer-events-auto hover:text-[#EA4335] hover:border-[#EA4335]/30 transition-all duration-300"
                         >
                             <Mail className="w-4 h-4 lg:w-5 lg:h-5" />
+                        </motion.a>
+
+                        {/* Icon 6: Facebook (Bottom-Center) */}
+                        <motion.a
+                            href={settings.socialLinks.facebook}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            initial={{ opacity: 0, scale: 0 }}
+                            animate={{ opacity: 1, scale: 1, y: [0, 8, 0] }}
+                            transition={{ duration: 7.5, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
+                            whileHover={{ scale: 1.2, rotate: 10, backgroundColor: "rgba(24, 119, 242, 0.2)" }}
+                            className="absolute bottom-[5%] left-[45%] lg:bottom-[8%] lg:left-[48%] w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-white/5 border border-white/10 backdrop-blur-md flex items-center justify-center text-slate-400 shadow-lg pointer-events-auto hover:text-[#1877f2] hover:border-[#1877f2]/30 transition-all duration-300"
+                        >
+                            <svg className="w-4 h-4 lg:w-5 lg:h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" /></svg>
                         </motion.a>
                     </div>
                 </div>

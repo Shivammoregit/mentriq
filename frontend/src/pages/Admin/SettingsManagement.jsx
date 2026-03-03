@@ -35,7 +35,8 @@ const SettingsManagement = () => {
             instagram: "",
             linkedin: "",
             twitter: "",
-            whatsapp: ""
+            whatsapp: "",
+            facebook: ""
         },
         siteStats: {
             students: "",
@@ -67,7 +68,8 @@ const SettingsManagement = () => {
                     instagram: settingsData.socialLinks?.instagram || "",
                     linkedin: settingsData.socialLinks?.linkedin || "",
                     twitter: settingsData.socialLinks?.twitter || "",
-                    whatsapp: settingsData.socialLinks?.whatsapp || ""
+                    whatsapp: settingsData.socialLinks?.whatsapp || "",
+                    facebook: settingsData.socialLinks?.facebook || ""
                 },
                 siteStats: {
                     students: statsData.students || "",
@@ -266,22 +268,32 @@ const SettingsManagement = () => {
                                 { key: "instagram", label: "Instagram Node", icon: Instagram },
                                 { key: "linkedin", label: "LinkedIn Professional", icon: Linkedin },
                                 { key: "twitter", label: "X-Network Terminal", icon: Twitter },
-                                { key: "whatsapp", label: "WhatsApp Secure", icon: MessageCircle }
-                            ].map((social) => (
-                                <div key={social.key} className="space-y-2">
-                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">{social.label}</label>
-                                    <div className="relative group">
-                                        <social.icon className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-emerald-400 transition-colors" size={18} />
-                                        <input
-                                            name={`social.${social.key}`}
-                                            value={formData.socialLinks?.[social.key]}
-                                            onChange={handleChange}
-                                            className="w-full bg-white/5 border border-white/10 rounded-2xl p-5 pl-16 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all"
-                                            placeholder="https://..."
-                                        />
+                                { key: "whatsapp", label: "WhatsApp Secure", icon: MessageCircle },
+                                {
+                                    key: "facebook", label: "Facebook Page", icon: () => (
+                                        <svg className="w-[18px] h-[18px] text-slate-500 group-focus-within:text-emerald-400 transition-colors" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z" />
+                                        </svg>
+                                    )
+                                }
+                            ].map((social) => {
+                                const Icon = social.icon;
+                                return (
+                                    <div key={social.key} className="space-y-2">
+                                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">{social.label}</label>
+                                        <div className="relative group">
+                                            {typeof Icon === 'function' ? <div className="absolute left-6 top-1/2 -translate-y-1/2"><Icon /></div> : <Icon className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-emerald-400 transition-colors" size={18} />}
+                                            <input
+                                                name={`social.${social.key}`}
+                                                value={formData.socialLinks?.[social.key]}
+                                                onChange={handleChange}
+                                                className="w-full bg-white/5 border border-white/10 rounded-2xl p-5 pl-16 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all"
+                                                placeholder="https://..."
+                                            />
+                                        </div>
                                     </div>
-                                </div>
-                            ))}
+                                );
+                            })}
 
                             <div className="space-y-2 pt-4">
                                 <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Geospatial Embed (Google Maps)</label>

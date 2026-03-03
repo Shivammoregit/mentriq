@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
 import { MessageCircle, X, Send, ChevronRight, MapPin, Phone, GraduationCap, Briefcase, Calendar } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const MotionDiv = motion.div;
 const MotionButton = motion.button;
@@ -305,8 +305,8 @@ const Chatbot = () => {
             </AnimatePresence>
 
             <MotionButton
-                whileHover={{ scale: 1.05, y: -2 }}
-                whileTap={{ scale: 0.95 }}
+                initial={{ scale: 0.8, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
                 onClick={() => setIsOpen(!isOpen)}
                 className={`group relative w-14 h-14 rounded-2xl flex items-center justify-center shadow-2xl transition-all duration-500 ${isOpen
                     ? 'bg-white text-indigo-600 rotate-90'
@@ -323,8 +323,8 @@ const Chatbot = () => {
                             <div className="absolute -top-9 left-1/2 -translate-x-1/2 flex flex-col items-center">
                                 <div className="w-0.5 h-4 bg-indigo-300" />
                                 <MotionDiv
-                                    animate={{ scale: [1, 1.4, 1], opacity: [0.6, 1, 0.6] }}
-                                    transition={{ duration: 2, repeat: Infinity }}
+                                    animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }}
+                                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
                                     className="w-3 h-3 bg-cyan-400 rounded-full blur-[1px] -mt-1 shadow-[0_0_10px_rgba(34,211,238,1)]"
                                 />
                             </div>
@@ -336,12 +336,12 @@ const Chatbot = () => {
                                     <div className="flex space-x-3 mb-1">
                                         <MotionDiv
                                             animate={{ scaleY: [1, 0.1, 1] }}
-                                            transition={{ duration: 3, repeat: Infinity, repeatDelay: 2.5 }}
+                                            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
                                             className="w-2.5 h-2.5 bg-cyan-400 rounded-full shadow-[0_0_8px_rgba(34,211,238,0.8)]"
                                         />
                                         <MotionDiv
                                             animate={{ scaleY: [1, 0.1, 1] }}
-                                            transition={{ duration: 3, repeat: Infinity, repeatDelay: 2.5 }}
+                                            transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1.2 }}
                                             className="w-2.5 h-2.5 bg-cyan-400 rounded-full shadow-[0_0_8px_rgba(34,211,238,0.8)]"
                                         />
                                     </div>
@@ -366,13 +366,13 @@ const Chatbot = () => {
 
                             {/* Arms */}
                             <MotionDiv
-                                animate={{ rotate: [30, -10, 30] }}
+                                animate={{ rotate: [0, 20, 0] }}
                                 transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
                                 style={{ originX: 0, originY: 0 }}
                                 className="absolute top-18 -right-6 w-10 h-4 bg-white border-[2px] border-indigo-100 rounded-full shadow-md z-[-1]"
                             />
                             <MotionDiv
-                                animate={{ rotate: [-10, 10, -10] }}
+                                animate={{ rotate: [0, -10, 0] }}
                                 transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
                                 style={{ originX: 1, originY: 0 }}
                                 className="absolute top-18 -left-6 w-10 h-4 bg-white border-[2px] border-indigo-100 rounded-full shadow-md z-[-1]"
