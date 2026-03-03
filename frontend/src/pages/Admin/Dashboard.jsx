@@ -32,18 +32,18 @@ const StatCard = ({ title, value, icon: Icon, color, delay, trend = 0 }) => (
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay }}
-        className="glass-premium p-8 rounded-[2.5rem] border border-white/5 hover:border-blue-500/30 hover:shadow-2xl hover:shadow-blue-500/20 transition-all group relative overflow-hidden"
+        className="glass-premium p-6 rounded-[2.5rem] border border-white/5 hover:border-blue-500/30 hover:shadow-2xl hover:shadow-blue-500/20 transition-all group relative overflow-hidden"
     >
         <div className="flex justify-between items-start relative z-10">
             <div>
-                <p className="text-slate-500/60 text-[10px] font-black uppercase tracking-[0.25em] mb-4">{title}</p>
+                <p className="text-slate-500/60 text-[10px] font-black uppercase tracking-[0.25em] mb-2">{title}</p>
                 <div className="flex items-baseline gap-2">
                     <h3 className="text-4xl font-black text-white tracking-tighter font-display">
                         {typeof value === 'number' ? value.toLocaleString() : value}
                     </h3>
                 </div>
                 {trend !== 0 && (
-                    <div className={`flex items-center gap-2 mt-5 transition-transform group-hover:translate-x-1 ${trend > 0 ? 'text-blue-400' : 'text-rose-400'}`}>
+                    <div className={`flex items-center gap-2 mt-4 transition-transform group-hover:translate-x-1 ${trend > 0 ? 'text-blue-400' : 'text-rose-400'}`}>
                         <div className={`p-1 rounded-lg ${trend > 0 ? 'bg-blue-500/10' : 'bg-rose-500/10'}`}>
                             {trend > 0 ? <TrendingUp size={12} /> : <TrendingDown size={12} />}
                         </div>
@@ -123,7 +123,7 @@ const Dashboard = () => {
     return (
         <div className="space-y-10 animate-in fade-in slide-in-from-bottom-2 duration-1000">
             {/* Unified Header */}
-            <div className="glass-premium p-10 rounded-[3rem] border border-white/5 shadow-2xl flex flex-col md:flex-row justify-between items-start md:items-center gap-8 overflow-hidden relative group">
+            <div className="glass-premium p-8 rounded-[3rem] border border-white/5 shadow-2xl flex flex-col md:flex-row justify-between items-start md:items-center gap-8 overflow-hidden relative group">
                 <div className="absolute -top-10 -right-10 p-24 opacity-[0.02] group-hover:opacity-[0.05] transition-opacity duration-1000 rotate-12">
                     <Cpu size={300} className="text-blue-500" />
                 </div>
@@ -138,16 +138,16 @@ const Dashboard = () => {
             </div>
 
             {/* Stats Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <StatCard title="Student Entity" value={raw.students} icon={Users} color="bg-blue-500" trend={raw.studentTrend || 0} delay={0} />
                 <StatCard title="Course Modules" value={raw.courses} icon={BookOpen} color="bg-indigo-500" trend={raw.courseTrend || 0} delay={0.1} />
                 <StatCard title="System Enrollment" value={raw.enrolledStudents} icon={GraduationCap} color="bg-sky-500" trend={raw.enrollmentTrend || 0} delay={0.2} />
                 <StatCard title="Signal Pulse" value={raw.activeVisitors || 0} icon={Eye} color="bg-slate-800" trend={0} delay={0.3} />
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-                <div className="lg:col-span-2 glass-premium rounded-[3rem] p-10 border border-white/5 shadow-2xl relative overflow-hidden">
-                    <div className="flex justify-between items-center mb-12 relative z-10">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div className="lg:col-span-2 glass-premium rounded-[3rem] p-8 border border-white/5 shadow-2xl relative overflow-hidden">
+                    <div className="flex justify-between items-center mb-10 relative z-10">
                         <div>
                             <h3 className="text-2xl font-black text-white tracking-tight font-display">Growth Matrix</h3>
                             <p className="text-slate-500/60 text-[10px] font-black uppercase tracking-[0.25em] mt-2">Analytical trends • Last 30 Telemetry Cycles</p>
@@ -217,9 +217,9 @@ const Dashboard = () => {
                     </div>
                 </div>
 
-                <div className="glass-premium rounded-[3rem] p-10 border border-white/5 shadow-2xl flex flex-col relative overflow-hidden group">
+                <div className="glass-premium rounded-[3rem] p-8 border border-white/5 shadow-2xl flex flex-col relative overflow-hidden group">
                     <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-500/5 blur-[80px] rounded-full pointer-events-none" />
-                    <div className="flex items-center justify-between mb-10 relative z-10">
+                    <div className="flex items-center justify-between mb-8 relative z-10">
                         <div>
                             <h3 className="text-2xl font-black text-white tracking-tight font-display">Active Pulse</h3>
                             <p className="text-slate-500/60 text-[10px] font-black uppercase tracking-[0.25em] mt-2">Real-time Node Events</p>
@@ -229,7 +229,7 @@ const Dashboard = () => {
                         </div>
                     </div>
 
-                    <div className="flex-1 space-y-8 overflow-y-auto pr-2 custom-scrollbar max-h-[420px] relative z-10">
+                    <div className="flex-1 space-y-6 overflow-y-auto pr-2 custom-scrollbar max-h-[420px] relative z-10">
                         {analytics.recentActivity.map((activity, idx) => (
                             <div key={activity.id} className="flex gap-5 group/item cursor-default">
                                 <div className="mt-1 relative">
@@ -253,14 +253,14 @@ const Dashboard = () => {
                         ))}
                     </div>
 
-                    <button className="w-full mt-10 py-5 bg-white/[0.03] hover:bg-blue-500/10 text-slate-400 hover:text-blue-400 font-black rounded-[1.5rem] border border-white/5 hover:border-blue-500/20 text-[10px] uppercase tracking-[0.3em] transition-all active:scale-[0.98] relative z-10">
+                    <button className="w-full mt-8 py-4 bg-white/[0.03] hover:bg-blue-500/10 text-slate-400 hover:text-blue-400 font-black rounded-[1.5rem] border border-white/5 hover:border-blue-500/20 text-[10px] uppercase tracking-[0.3em] transition-all active:scale-[0.98] relative z-10">
                         Access Performance Logs
                     </button>
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-                <div className="glass-premium rounded-[2.5rem] p-10 border border-white/5 relative overflow-hidden group">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <div className="glass-premium rounded-[2.5rem] p-8 border border-white/5 relative overflow-hidden group">
                     <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent pointer-events-none" />
                     <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
                         <div>
@@ -284,7 +284,7 @@ const Dashboard = () => {
                     </div>
                 </div>
 
-                <div className="glass-premium rounded-[2.5rem] p-10 border border-white/5 shadow-2xl relative overflow-hidden group flex items-center justify-between">
+                <div className="glass-premium rounded-[2.5rem] p-8 border border-white/5 shadow-2xl relative overflow-hidden group flex items-center justify-between">
                     <div className="absolute inset-0 bg-gradient-to-tr from-sky-500/5 to-transparent pointer-events-none" />
                     <div className="relative z-10">
                         <h3 className="text-xl font-black text-white tracking-tight">Visitor Reach</h3>

@@ -135,7 +135,7 @@ const MentorManagement = () => {
     return (
         <div className="space-y-6 animate-in fade-in duration-500">
             {/* Page Header */}
-            <div className="bg-[#0f172a]/40 backdrop-blur-xl p-8 rounded-3xl border border-white/5 shadow-2xl relative overflow-hidden group">
+            <div className="bg-[#0f172a]/40 backdrop-blur-xl p-6 rounded-3xl border border-white/5 shadow-2xl relative overflow-hidden group">
                 <div className="flex flex-col lg:flex-row gap-8 lg:items-center lg:justify-between relative z-10">
                     <div>
                         <div className="flex items-center gap-3 mb-1">
@@ -255,9 +255,9 @@ const MentorManagement = () => {
                             initial={{ opacity: 0, scale: 0.95, y: 20 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 30 }}
-                            className="relative w-full max-w-2xl bg-[#0f172a] border border-white/10 rounded-[3rem] p-10 shadow-2xl flex flex-col max-h-[90vh]"
+                            className="relative w-full max-w-2xl bg-[#0f172a] border border-white/10 rounded-[3rem] p-8 shadow-2xl flex flex-col max-h-[90vh]"
                         >
-                            <div className="flex items-start justify-between gap-6 mb-10 shrink-0">
+                            <div className="flex items-start justify-between gap-6 mb-8 shrink-0">
                                 <div>
                                     <h3 className="text-3xl font-black text-white tracking-tight uppercase">
                                         {editingMentor ? "Update Experience" : "Onboard Expert"}
@@ -273,7 +273,7 @@ const MentorManagement = () => {
                             </div>
 
                             <div className="flex-1 overflow-y-auto pr-4 -mr-4 custom-scrollbar">
-                                <form onSubmit={handleSubmit} className="space-y-10">
+                                <form onSubmit={handleSubmit} className="space-y-8">
                                     <div className="flex flex-col items-center justify-center">
                                         <div className="relative group">
                                             <div className="w-32 h-32 rounded-[2.5rem] overflow-hidden bg-white/5 border-2 border-dashed border-white/10 flex items-center justify-center group-hover:border-emerald-500/50 transition-all">

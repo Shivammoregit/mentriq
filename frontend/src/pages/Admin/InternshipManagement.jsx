@@ -111,7 +111,7 @@ const InternshipManagement = () => {
     return (
         <div className="space-y-6 animate-in fade-in duration-500">
             {/* Page Header */}
-            <div className="bg-[#0f172a]/40 backdrop-blur-xl p-8 rounded-3xl border border-white/5 shadow-2xl relative overflow-hidden group">
+            <div className="bg-[#0f172a]/40 backdrop-blur-xl p-6 rounded-3xl border border-white/5 shadow-2xl relative overflow-hidden group">
                 <div className="flex flex-col lg:flex-row gap-8 lg:items-center lg:justify-between relative z-10">
                     <div>
                         <div className="flex items-center gap-3 mb-1">
@@ -127,7 +127,7 @@ const InternshipManagement = () => {
                     <div className="flex gap-4">
                         <button
                             onClick={() => { setEditingInternship(null); setFormData(initialFormState); setIsModalOpen(true); }}
-                            className="bg-emerald-600 text-white hover:bg-emerald-500 px-8 py-4 rounded-xl font-bold flex items-center gap-3 transition-all active:scale-95 shadow-lg shadow-emerald-500/20 text-[10px] uppercase tracking-widest justify-center"
+                            className="bg-emerald-600 text-white hover:bg-emerald-500 px-8 py-3 rounded-xl font-bold flex items-center gap-3 transition-all active:scale-95 shadow-lg shadow-emerald-500/20 text-[10px] uppercase tracking-widest justify-center"
                         >
                             <Plus size={18} />
                             <span>Deploy Post</span>
@@ -159,10 +159,10 @@ const InternshipManagement = () => {
                         <table className="w-full text-left border-collapse">
                             <thead>
                                 <tr className="bg-white/5 border-b border-white/10">
-                                    <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Position Path</th>
-                                    <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Operational Hub</th>
-                                    <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Duration</th>
-                                    <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 text-right">Actions</th>
+                                    <th className="px-8 py-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Position Path</th>
+                                    <th className="px-8 py-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Operational Hub</th>
+                                    <th className="px-8 py-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Duration</th>
+                                    <th className="px-8 py-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 text-right">Actions</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-white/5">
@@ -173,13 +173,13 @@ const InternshipManagement = () => {
                                         animate={{ opacity: 1, y: 0 }}
                                         className="hover:bg-white/5 transition-colors group"
                                     >
-                                        <td className="px-8 py-6">
+                                        <td className="px-8 py-4">
                                             <div className="flex flex-col gap-1">
                                                 <div className="font-bold text-white text-[15px] tracking-tight">{job.title}</div>
                                                 <div className="text-[10px] text-emerald-400 font-bold uppercase tracking-widest">{job.type}</div>
                                             </div>
                                         </td>
-                                        <td className="px-8 py-6">
+                                        <td className="px-8 py-4">
                                             <div className="flex flex-col gap-1">
                                                 <div className="text-white font-bold text-xs flex items-center gap-2">
                                                     <Building2 size={12} className="text-emerald-400" />
@@ -191,13 +191,13 @@ const InternshipManagement = () => {
                                                 </div>
                                             </div>
                                         </td>
-                                        <td className="px-8 py-6">
+                                        <td className="px-8 py-4">
                                             <span className="text-slate-400 text-[10px] font-black uppercase tracking-widest flex items-center gap-2">
                                                 <Clock size={12} className="text-emerald-400" />
                                                 {job.duration || "Permanent"}
                                             </span>
                                         </td>
-                                        <td className="px-8 py-6 text-right">
+                                        <td className="px-8 py-4 text-right">
                                             <div className="flex justify-end gap-3">
                                                 <button onClick={() => openEditModal(job)} className="p-3 rounded-xl bg-white/5 text-slate-400 hover:text-emerald-400 hover:bg-emerald-500/10 border border-white/10 hover:border-emerald-500/20 transition-all">
                                                     <Edit2 size={16} />
@@ -215,10 +215,10 @@ const InternshipManagement = () => {
                         <table className="w-full text-left border-collapse">
                             <thead>
                                 <tr className="bg-white/5 border-b border-white/10">
-                                    <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Candidate Identity</th>
-                                    <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Target Role</th>
-                                    <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">System Status</th>
-                                    <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 text-right">Actions</th>
+                                    <th className="px-8 py-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Candidate Identity</th>
+                                    <th className="px-8 py-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Target Role</th>
+                                    <th className="px-8 py-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">System Status</th>
+                                    <th className="px-8 py-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 text-right">Actions</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-white/5">
@@ -229,21 +229,21 @@ const InternshipManagement = () => {
                                         animate={{ opacity: 1, y: 0 }}
                                         className="hover:bg-white/5 transition-colors group"
                                     >
-                                        <td className="px-8 py-6">
+                                        <td className="px-8 py-4">
                                             <div className="flex flex-col gap-1">
                                                 <div className="font-bold text-white text-[15px] tracking-tight">{app.fullName}</div>
                                                 <div className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">{app.email}</div>
                                             </div>
                                         </td>
-                                        <td className="px-8 py-6">
+                                        <td className="px-8 py-4">
                                             <div className="text-white font-bold text-xs uppercase tracking-wider">{app.internshipId?.title || "Legacy Position"}</div>
                                         </td>
-                                        <td className="px-8 py-6">
+                                        <td className="px-8 py-4">
                                             <span className={`px-4 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest border ${app.status === 'Accepted' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : app.status === 'Rejected' ? 'bg-rose-500/10 text-rose-400 border-rose-500/20' : 'bg-white/5 text-slate-400 border-white/10'}`}>
                                                 {app.status}
                                             </span>
                                         </td>
-                                        <td className="px-8 py-6 text-right">
+                                        <td className="px-8 py-4 text-right">
                                             <div className="flex justify-end gap-3">
                                                 <button onClick={() => handleApplicationStatus(app._id, 'Accepted')} className="p-3 rounded-xl bg-white/5 text-slate-400 hover:text-emerald-400 hover:bg-emerald-500/10 border border-white/10 hover:border-emerald-500/20 transition-all">
                                                     <CheckCircle size={16} />
@@ -269,9 +269,9 @@ const InternshipManagement = () => {
                             initial={{ opacity: 0, scale: 0.95, y: 20 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 30 }}
-                            className="relative w-full max-w-2xl bg-[#0f172a] border border-white/10 rounded-[3rem] p-10 shadow-2xl flex flex-col max-h-[90vh]"
+                            className="relative w-full max-w-2xl bg-[#0f172a] border border-white/10 rounded-[3rem] p-8 shadow-2xl flex flex-col max-h-[90vh]"
                         >
-                            <div className="flex items-start justify-between gap-6 mb-10 shrink-0">
+                            <div className="flex items-start justify-between gap-6 mb-8 shrink-0">
                                 <div>
                                     <h3 className="text-3xl font-black text-white tracking-tight uppercase">
                                         {editingInternship ? "Refine Position" : "Engineer Posting"}
@@ -286,7 +286,7 @@ const InternshipManagement = () => {
                                 </button>
                             </div>
 
-                            <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto pr-4 -mr-4 space-y-10 custom-scrollbar">
+                            <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto pr-4 -mr-4 space-y-8 custom-scrollbar">
                                 <div className="space-y-8">
                                     <div className="grid grid-cols-2 gap-8">
                                         <div className="space-y-2">
@@ -365,7 +365,7 @@ const InternshipManagement = () => {
                                     </div>
                                 </div>
 
-                                <div className="p-10 border-t border-white/5 flex justify-end items-center gap-4 shrink-0 -mx-10 -mb-10 mt-10 bg-white/5">
+                                <div className="p-8 border-t border-white/5 flex justify-end items-center gap-4 shrink-0 -mx-10 -mb-10 mt-8 bg-white/5">
                                     <button
                                         type="button"
                                         onClick={() => setIsModalOpen(false)}

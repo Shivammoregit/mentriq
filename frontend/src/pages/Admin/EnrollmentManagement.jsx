@@ -88,7 +88,7 @@ const EnrollmentManagement = () => {
     return (
         <div className="space-y-6 animate-in fade-in duration-500">
             {/* Page Header */}
-            <div className="bg-[#0f172a]/40 backdrop-blur-xl p-8 rounded-3xl border border-white/5 shadow-2xl relative overflow-hidden group">
+            <div className="bg-[#0f172a]/40 backdrop-blur-xl p-6 rounded-3xl border border-white/5 shadow-2xl relative overflow-hidden group">
                 <div className="flex flex-col lg:flex-row gap-8 lg:items-center lg:justify-between relative z-10">
                     <div>
                         <div className="flex items-center gap-3 mb-1">
@@ -114,7 +114,7 @@ const EnrollmentManagement = () => {
                         </div>
                         <button
                             onClick={handleExportEnrollments}
-                            className="bg-white/5 text-slate-300 hover:bg-white/10 border border-white/10 px-8 py-4 rounded-xl font-bold flex items-center gap-3 transition-all active:scale-95 text-[10px] uppercase tracking-widest whitespace-nowrap justify-center"
+                            className="bg-white/5 text-slate-300 hover:bg-white/10 border border-white/10 px-8 py-3 rounded-xl font-bold flex items-center gap-3 transition-all active:scale-95 text-[10px] uppercase tracking-widest whitespace-nowrap justify-center"
                         >
                             <Download size={16} />
                             <span>Export Registry</span>
@@ -129,10 +129,10 @@ const EnrollmentManagement = () => {
                     <table className="w-full text-left border-collapse">
                         <thead>
                             <tr className="bg-white/5 border-b border-white/10">
-                                <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Student Identity</th>
-                                <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Subject Logic</th>
-                                <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Registry Status</th>
-                                <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 text-right">Actions</th>
+                                <th className="px-8 py-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Student Identity</th>
+                                <th className="px-8 py-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Subject Logic</th>
+                                <th className="px-8 py-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Registry Status</th>
+                                <th className="px-8 py-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 text-right">Actions</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-white/5">
@@ -145,7 +145,7 @@ const EnrollmentManagement = () => {
                                         exit={{ opacity: 0 }}
                                         className="hover:bg-white/5 transition-colors group"
                                     >
-                                        <td className="px-8 py-6">
+                                        <td className="px-8 py-4">
                                             <div className="flex flex-col gap-1">
                                                 <div className="font-bold text-white text-[15px] tracking-tight">{enrollment.user?.name || "Unidentified Student"}</div>
                                                 <div className="text-[10px] text-slate-500 font-bold uppercase tracking-widest flex items-center gap-1.5">
@@ -154,7 +154,7 @@ const EnrollmentManagement = () => {
                                                 </div>
                                             </div>
                                         </td>
-                                        <td className="px-8 py-6">
+                                        <td className="px-8 py-4">
                                             <div className="flex flex-col gap-1">
                                                 <div className="text-white font-bold text-xs uppercase tracking-wider">{enrollment.course?.title || "Legacy Module"}</div>
                                                 <div className="text-slate-500 text-[10px] uppercase font-bold tracking-widest flex items-center gap-2">
@@ -163,12 +163,12 @@ const EnrollmentManagement = () => {
                                                 </div>
                                             </div>
                                         </td>
-                                        <td className="px-8 py-6">
+                                        <td className="px-8 py-4">
                                             <span className={`px-4 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest border ${enrollment.status === 'completed' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : enrollment.status === 'cancelled' ? 'bg-rose-500/10 text-rose-400 border-rose-500/20' : 'bg-white/5 text-slate-400 border-white/10'}`}>
                                                 {enrollment.status}
                                             </span>
                                         </td>
-                                        <td className="px-8 py-6 text-right">
+                                        <td className="px-8 py-4 text-right">
                                             <div className="flex justify-end gap-3">
                                                 {enrollment.status === 'pending' && (
                                                     <button onClick={() => handleStatusUpdate(enrollment._id, 'completed')} className="p-3 rounded-xl bg-white/5 text-slate-400 hover:text-emerald-400 hover:bg-emerald-500/10 border border-white/10 hover:border-emerald-500/20 transition-all">

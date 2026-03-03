@@ -81,7 +81,7 @@ const JourneyManagement = () => {
     return (
         <div className="space-y-6 animate-in fade-in duration-500">
             {/* Page Header */}
-            <div className="bg-[#0f172a]/40 backdrop-blur-xl p-8 rounded-3xl border border-white/5 shadow-2xl relative overflow-hidden group">
+            <div className="bg-[#0f172a]/40 backdrop-blur-xl p-6 rounded-3xl border border-white/5 shadow-2xl relative overflow-hidden group">
                 <div className="flex flex-col lg:flex-row gap-8 lg:items-center lg:justify-between relative z-10">
                     <div>
                         <div className="flex items-center gap-3 mb-1">
@@ -97,7 +97,7 @@ const JourneyManagement = () => {
                     <div className="flex gap-4">
                         <button
                             onClick={() => { setEditingMilestone(null); setFormData(initialFormState); setIsModalOpen(true); }}
-                            className="bg-emerald-600 text-white hover:bg-emerald-500 px-8 py-4 rounded-xl font-bold flex items-center gap-3 transition-all active:scale-95 shadow-lg shadow-emerald-500/20 text-[10px] uppercase tracking-widest justify-center"
+                            className="bg-emerald-600 text-white hover:bg-emerald-500 px-8 py-3 rounded-xl font-bold flex items-center gap-3 transition-all active:scale-95 shadow-lg shadow-emerald-500/20 text-[10px] uppercase tracking-widest justify-center"
                         >
                             <Plus size={18} />
                             <span>Inject Milestone</span>
@@ -112,9 +112,9 @@ const JourneyManagement = () => {
                     <table className="w-full text-left border-collapse">
                         <thead>
                             <tr className="bg-white/5 border-b border-white/10">
-                                <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Temporal Node (Year)</th>
-                                <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Event Designation</th>
-                                <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 text-right">Actions</th>
+                                <th className="px-8 py-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Temporal Node (Year)</th>
+                                <th className="px-8 py-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Event Designation</th>
+                                <th className="px-8 py-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 text-right">Actions</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-white/5">
@@ -125,19 +125,19 @@ const JourneyManagement = () => {
                                     animate={{ opacity: 1, y: 0 }}
                                     className="hover:bg-white/5 transition-colors group"
                                 >
-                                    <td className="px-8 py-6">
+                                    <td className="px-8 py-4">
                                         <div className="flex items-center gap-3">
                                             <Calendar size={16} className="text-emerald-400" />
                                             <span className="font-black text-white text-[15px] tracking-widest">{milestone.year}</span>
                                         </div>
                                     </td>
-                                    <td className="px-8 py-6 max-w-xl">
+                                    <td className="px-8 py-4 max-w-xl">
                                         <div>
                                             <div className="font-bold text-white text-[15px] tracking-tight">{milestone.title}</div>
                                             <p className="text-slate-400 text-xs mt-1 leading-relaxed font-medium line-clamp-1">{milestone.description}</p>
                                         </div>
                                     </td>
-                                    <td className="px-8 py-6 text-right">
+                                    <td className="px-8 py-4 text-right">
                                         <div className="flex justify-end gap-3">
                                             <button onClick={() => openEditModal(milestone)} className="p-3 rounded-xl bg-white/5 text-slate-400 hover:text-emerald-400 hover:bg-emerald-500/10 border border-white/10 hover:border-emerald-500/20 transition-all">
                                                 <Edit2 size={16} />
@@ -162,9 +162,9 @@ const JourneyManagement = () => {
                             initial={{ opacity: 0, scale: 0.95, y: 20 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 30 }}
-                            className="relative w-full max-w-xl bg-[#0f172a] border border-white/10 rounded-[3rem] p-10 shadow-2xl flex flex-col"
+                            className="relative w-full max-w-xl bg-[#0f172a] border border-white/10 rounded-[3rem] p-8 shadow-2xl flex flex-col"
                         >
-                            <div className="flex items-start justify-between gap-6 mb-10 shrink-0">
+                            <div className="flex items-start justify-between gap-6 mb-8 shrink-0">
                                 <div>
                                     <h3 className="text-3xl font-black text-white tracking-tight uppercase">
                                         {editingMilestone ? "Refine History" : "Write History"}
@@ -226,7 +226,7 @@ const JourneyManagement = () => {
                                     />
                                 </div>
 
-                                <div className="p-10 border-t border-white/5 flex justify-end items-center gap-4 shrink-0 -mx-10 -mb-10 mt-10 bg-white/5">
+                                <div className="p-8 border-t border-white/5 flex justify-end items-center gap-4 shrink-0 -mx-10 -mb-10 mt-8 bg-white/5">
                                     <button
                                         type="button"
                                         onClick={() => setIsModalOpen(false)}

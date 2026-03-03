@@ -164,7 +164,7 @@ const CourseManagement = () => {
     return (
         <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
             {/* Page Header */}
-            <div className="bg-[#0f172a]/40 backdrop-blur-xl p-8 rounded-3xl border border-white/5 shadow-2xl relative overflow-hidden group">
+            <div className="bg-[#0f172a]/40 backdrop-blur-xl p-6 rounded-3xl border border-white/5 shadow-2xl relative overflow-hidden group">
                 <div className="flex flex-col lg:flex-row gap-8 lg:items-center lg:justify-between relative z-10">
                     <div>
                         <div className="flex items-center gap-3 mb-1">
@@ -190,7 +190,7 @@ const CourseManagement = () => {
                         </div>
                         <button
                             onClick={() => { setEditingCourse(null); setFormData(initialFormState); setIsModalOpen(true); setImagePreview(null); }}
-                            className="bg-blue-600 text-white hover:bg-blue-500 px-6 py-3 rounded-xl font-bold shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2 transition-all active:scale-95 text-[10px] uppercase tracking-widest whitespace-nowrap"
+                            className="bg-blue-600 text-white hover:bg-blue-500 px-6 py-2.5 rounded-xl font-bold shadow-lg shadow-blue-500/20 flex items-center justify-center gap-2 transition-all active:scale-95 text-[10px] uppercase tracking-widest whitespace-nowrap"
                         >
                             <Plus size={16} />
                             <span>New Course</span>
@@ -226,10 +226,10 @@ const CourseManagement = () => {
                         <table className="w-full text-left border-collapse min-w-[800px]">
                             <thead>
                                 <tr className="bg-white/5 border-b border-white/10">
-                                    <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Course Entity</th>
-                                    <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Valuation & Data</th>
-                                    <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Syllabus / Brochure</th>
-                                    <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 text-right">Actions</th>
+                                    <th className="px-8 py-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Course Entity</th>
+                                    <th className="px-8 py-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Valuation & Data</th>
+                                    <th className="px-8 py-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Syllabus / Brochure</th>
+                                    <th className="px-8 py-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 text-right">Actions</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-white/5">
@@ -242,7 +242,7 @@ const CourseManagement = () => {
                                             exit={{ opacity: 0 }}
                                             className="hover:bg-white/5 transition-colors group"
                                         >
-                                            <td className="px-8 py-6">
+                                            <td className="px-8 py-4">
                                                 <div className="flex items-center gap-5">
                                                     <div className="w-16 h-16 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center overflow-hidden shrink-0 shadow-sm p-1 group-hover:border-blue-500/50 transition-all">
                                                         <img
@@ -261,7 +261,7 @@ const CourseManagement = () => {
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td className="px-8 py-6">
+                                            <td className="px-8 py-4">
                                                 <div className="flex flex-col gap-2">
                                                     <div className="text-white font-bold text-xs flex items-center gap-2">
                                                         <DollarSign size={14} className="text-blue-400" />
@@ -274,7 +274,7 @@ const CourseManagement = () => {
                                                     </div>
                                                 </div>
                                             </td>
-                                            <td className="px-8 py-6">
+                                            <td className="px-8 py-4">
                                                 <div className="flex gap-2">
                                                     {course.syllabusUrl && (
                                                         <span className="px-3 py-1 rounded-lg bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[9px] font-black uppercase tracking-widest">Syllabus</span>
@@ -284,7 +284,7 @@ const CourseManagement = () => {
                                                     )}
                                                 </div>
                                             </td>
-                                            <td className="px-8 py-6 text-right">
+                                            <td className="px-8 py-4 text-right">
                                                 <div className="flex justify-end gap-3">
                                                     <button
                                                         onClick={() => openEditModal(course)}
@@ -317,9 +317,9 @@ const CourseManagement = () => {
                             initial={{ opacity: 0, scale: 0.95, y: 20 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 30 }}
-                            className="relative w-full max-w-2xl bg-[#0f172a] border border-white/10 rounded-[2.5rem] sm:rounded-[3rem] p-6 sm:p-10 shadow-2xl flex flex-col max-h-[90vh] overflow-hidden"
+                            className="relative w-full max-w-2xl bg-[#0f172a] border border-white/10 rounded-[2.5rem] sm:rounded-[3rem] p-6 sm:p-8 shadow-2xl flex flex-col max-h-[90vh] overflow-hidden"
                         >
-                            <div className="flex items-start justify-between gap-6 mb-10 shrink-0">
+                            <div className="flex items-start justify-between gap-6 mb-8 shrink-0">
                                 <div>
                                     <h3 className="text-3xl font-black text-white tracking-tight uppercase">
                                         {editingCourse ? "Synthesize Curriculum" : "Materialize Course"}
@@ -335,7 +335,7 @@ const CourseManagement = () => {
                             </div>
 
                             <div className="flex-1 overflow-y-auto pr-4 -mr-4 custom-scrollbar">
-                                <form onSubmit={handleSubmit} className="space-y-10 pb-4">
+                                <form onSubmit={handleSubmit} className="space-y-8 pb-4">
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                                         <div className="md:col-span-2 space-y-3">
                                             <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Identity Title</label>
@@ -424,7 +424,7 @@ const CourseManagement = () => {
                                         </div>
                                     </div>
 
-                                    <div className="flex gap-4 pt-10 border-t border-white/5 -mx-10 px-10 -mb-10 bg-white/5 mt-10">
+                                    <div className="flex gap-4 pt-8 border-t border-white/5 -mx-10 px-10 -mb-10 bg-white/5 mt-8">
                                         <button type="button" onClick={closeModal} className="flex-1 py-4.5 rounded-2xl bg-white/5 text-slate-400 font-bold text-[10px] uppercase tracking-widest hover:text-white hover:bg-white/10 border border-white/10 transition-all">
                                             Abort Operation
                                         </button>

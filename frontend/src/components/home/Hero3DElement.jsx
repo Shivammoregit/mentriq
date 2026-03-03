@@ -45,7 +45,7 @@ const Hero3DElement = () => {
     }, []);
 
     return (
-        <div className="w-full min-h-[85vh] relative overflow-hidden bg-white pt-20">
+        <div className="w-full min-h-[85vh] relative overflow-hidden bg-white pt-12">
 
             {/* Animated color blobs */}
             <motion.div
@@ -74,13 +74,13 @@ const Hero3DElement = () => {
 
             <div className="flex flex-col lg:flex-row h-full min-h-[85vh] relative z-10">
                 {/* Left content */}
-                <div className="flex-1 p-8 lg:p-16 flex flex-col justify-center">
+                <div className="flex-1 p-6 lg:p-12 flex flex-col justify-center">
 
                     {/* Badge */}
                     <motion.div
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="inline-flex items-center gap-2 mb-6 px-4 py-1.5 rounded-full bg-indigo-50 border border-indigo-100 w-fit"
+                        className="inline-flex items-center gap-2 mb-4 px-4 py-1.5 rounded-full bg-indigo-50 border border-indigo-100 w-fit"
                     >
                         <Sparkles className="w-3.5 h-3.5 text-indigo-500" />
                         <span className="text-[10px] font-black uppercase tracking-[0.3em] text-indigo-600">
@@ -93,7 +93,7 @@ const Hero3DElement = () => {
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, ease: 'circOut' }}
-                        className="text-4xl md:text-5xl xl:text-7xl font-black mb-6 leading-[1.05] tracking-tighter uppercase text-slate-900"
+                        className="text-4xl md:text-5xl xl:text-7xl font-black mb-4 leading-[1.05] tracking-tighter uppercase text-slate-900"
                     >
                         REWIRE YOUR <br />
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-violet-600 to-cyan-500">
@@ -106,7 +106,7 @@ const Hero3DElement = () => {
                         initial={{ opacity: 0, y: 15 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.2 }}
-                        className="mt-2 text-slate-500 max-w-lg text-base leading-relaxed mb-8"
+                        className="mt-2 text-slate-500 max-w-lg text-base leading-relaxed mb-6"
                     >
                         MentriQ is where precision meets innovation. Master the core of modern technology with industry-first curriculums and elite mentorship.
                     </motion.p>

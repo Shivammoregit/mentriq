@@ -136,7 +136,7 @@ const SettingsManagement = () => {
     return (
         <div className="space-y-8 animate-in fade-in duration-500 max-w-7xl mx-auto">
             {/* Page Header */}
-            <div className="bg-[#0f172a]/40 backdrop-blur-xl p-8 rounded-3xl border border-white/5 shadow-2xl relative overflow-hidden group">
+            <div className="bg-[#0f172a]/40 backdrop-blur-xl p-6 rounded-3xl border border-white/5 shadow-2xl relative overflow-hidden group">
                 <div className="flex flex-col lg:flex-row gap-8 lg:items-center lg:justify-between relative z-10">
                     <div>
                         <div className="flex items-center gap-3 mb-1">
@@ -150,7 +150,7 @@ const SettingsManagement = () => {
                         form="settings-form"
                         type="submit"
                         disabled={saving}
-                        className="bg-emerald-600 text-white hover:bg-emerald-500 px-10 py-4 rounded-xl font-bold flex items-center gap-3 transition-all active:scale-95 shadow-lg shadow-emerald-500/20 text-[10px] uppercase tracking-widest justify-center disabled:opacity-50"
+                        className="bg-emerald-600 text-white hover:bg-emerald-500 px-10 py-3 rounded-xl font-bold flex items-center gap-3 transition-all active:scale-95 shadow-lg shadow-emerald-500/20 text-[10px] uppercase tracking-widest justify-center disabled:opacity-50"
                     >
                         {saving ? <Loader2 className="animate-spin" size={18} /> : <Save size={18} />}
                         <span>{saving ? "Synchronizing..." : "Synchronize System"}</span>
@@ -160,9 +160,9 @@ const SettingsManagement = () => {
 
             <form id="settings-form" onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {/* Contact & Physical Info */}
-                <div className="space-y-8">
-                    <div className="bg-[#0f172a]/40 backdrop-blur-xl p-10 rounded-[2.5rem] border border-white/5 shadow-xl">
-                        <div className="flex items-center gap-4 mb-8">
+                <div className="space-y-6">
+                    <div className="bg-[#0f172a]/40 backdrop-blur-xl p-8 rounded-[2.5rem] border border-white/5 shadow-xl">
+                        <div className="flex items-center gap-4 mb-6">
                             <div className="p-3 bg-emerald-500/10 rounded-2xl border border-emerald-500/20">
                                 <Globe size={24} className="text-emerald-400" />
                             </div>
@@ -216,8 +216,8 @@ const SettingsManagement = () => {
                     </div>
 
                     {/* Operational Stats */}
-                    <div className="bg-[#0f172a]/40 backdrop-blur-xl p-10 rounded-[2.5rem] border border-white/5 shadow-xl">
-                        <div className="flex items-center gap-4 mb-8">
+                    <div className="bg-[#0f172a]/40 backdrop-blur-xl p-8 rounded-[2.5rem] border border-white/5 shadow-xl">
+                        <div className="flex items-center gap-4 mb-6">
                             <div className="p-3 bg-blue-500/10 rounded-2xl border border-blue-500/20">
                                 <TrendingUp size={24} className="text-blue-400" />
                             </div>
@@ -252,9 +252,9 @@ const SettingsManagement = () => {
                 </div>
 
                 {/* Social & Maps */}
-                <div className="space-y-8">
-                    <div className="bg-[#0f172a]/40 backdrop-blur-xl p-10 rounded-[2.5rem] border border-white/5 shadow-xl">
-                        <div className="flex items-center gap-4 mb-8">
+                <div className="space-y-6">
+                    <div className="bg-[#0f172a]/40 backdrop-blur-xl p-8 rounded-[2.5rem] border border-white/5 shadow-xl">
+                        <div className="flex items-center gap-4 mb-6">
                             <div className="p-3 bg-purple-500/10 rounded-2xl border border-purple-500/20">
                                 <MessageCircle size={24} className="text-purple-400" />
                             </div>

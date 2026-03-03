@@ -109,7 +109,7 @@ const ServiceManagement = () => {
     return (
         <div className="space-y-6 animate-in fade-in duration-500">
             {/* Page Header */}
-            <div className="bg-[#0f172a]/40 backdrop-blur-xl p-8 rounded-3xl border border-white/5 shadow-2xl relative overflow-hidden group">
+            <div className="bg-[#0f172a]/40 backdrop-blur-xl p-6 rounded-3xl border border-white/5 shadow-2xl relative overflow-hidden group">
                 <div className="flex flex-col lg:flex-row gap-8 lg:items-center lg:justify-between relative z-10">
                     <div>
                         <div className="flex items-center gap-3 mb-1">
@@ -125,7 +125,7 @@ const ServiceManagement = () => {
                     <div className="flex gap-4">
                         <button
                             onClick={() => { setEditingService(null); setFormData(initialFormState); setIsModalOpen(true); }}
-                            className="bg-emerald-600 text-white hover:bg-emerald-500 px-6 py-4 rounded-xl font-bold flex items-center gap-3 transition-all active:scale-95 shadow-lg shadow-emerald-500/20 text-[10px] uppercase tracking-widest flex-1 sm:flex-none justify-center whitespace-nowrap"
+                            className="bg-emerald-600 text-white hover:bg-emerald-500 px-6 py-3 rounded-xl font-bold flex items-center gap-3 transition-all active:scale-95 shadow-lg shadow-emerald-500/20 text-[10px] uppercase tracking-widest flex-1 sm:flex-none justify-center whitespace-nowrap"
                         >
                             <Icons.Plus size={18} />
                             <span>New Service</span>
@@ -140,9 +140,9 @@ const ServiceManagement = () => {
                     <table className="w-full text-left border-collapse">
                         <thead>
                             <tr className="bg-white/5 border-b border-white/10">
-                                <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Service Identifier</th>
-                                <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Capability Overview</th>
-                                <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 text-right">Actions</th>
+                                <th className="px-8 py-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Service Identifier</th>
+                                <th className="px-8 py-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Capability Overview</th>
+                                <th className="px-8 py-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 text-right">Actions</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-white/5">
@@ -150,7 +150,7 @@ const ServiceManagement = () => {
                                 const IconComponent = Icons[service.icon] || Icons.Box;
                                 return (
                                     <tr key={service._id} className="hover:bg-white/5 transition-colors group">
-                                        <td className="px-8 py-6">
+                                        <td className="px-8 py-4">
                                             <div className="flex items-center gap-5">
                                                 <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${service.color || 'from-emerald-500 to-teal-500'} p-3.5 shadow-lg relative group-hover:scale-110 transition-transform duration-500`}>
                                                     <IconComponent className="w-full h-full text-white" />
@@ -161,12 +161,12 @@ const ServiceManagement = () => {
                                                 </div>
                                             </div>
                                         </td>
-                                        <td className="px-8 py-6 max-w-md">
+                                        <td className="px-8 py-4 max-w-md">
                                             <p className="text-slate-400 text-xs line-clamp-2 leading-relaxed font-medium">
                                                 {service.description}
                                             </p>
                                         </td>
-                                        <td className="px-8 py-6 text-right">
+                                        <td className="px-8 py-4 text-right">
                                             <div className="flex justify-end gap-3">
                                                 <button
                                                     onClick={() => handleEdit(service)}
@@ -198,9 +198,9 @@ const ServiceManagement = () => {
                             initial={{ opacity: 0, scale: 0.95, y: 30 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 30 }}
-                            className="relative w-full max-w-2xl bg-[#0f172a] border border-white/10 rounded-[3rem] p-10 shadow-2xl flex flex-col max-h-[90vh]"
+                            className="relative w-full max-w-2xl bg-[#0f172a] border border-white/10 rounded-[3rem] p-8 shadow-2xl flex flex-col max-h-[90vh]"
                         >
-                            <div className="flex items-start justify-between gap-6 mb-10 shrink-0">
+                            <div className="flex items-start justify-between gap-6 mb-8 shrink-0">
                                 <div>
                                     <h3 className="text-3xl font-black text-white tracking-tight uppercase">
                                         {editingService ? "Update Solution" : "Initialize Service"}
@@ -215,7 +215,7 @@ const ServiceManagement = () => {
                                 </button>
                             </div>
 
-                            <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto pr-4 -mr-4 space-y-10 custom-scrollbar">
+                            <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto pr-4 -mr-4 space-y-8 custom-scrollbar">
                                 <div className="space-y-8">
                                     <div className="space-y-2">
                                         <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Commercial Title</label>
@@ -262,7 +262,7 @@ const ServiceManagement = () => {
                                     </div>
                                 </div>
 
-                                <div className="p-10 border-t border-white/5 flex justify-end items-center gap-4 shrink-0 -mx-10 -mb-10 mt-10 bg-white/5">
+                                <div className="p-8 border-t border-white/5 flex justify-end items-center gap-4 shrink-0 -mx-10 -mb-10 mt-8 bg-white/5">
                                     <button
                                         type="button"
                                         onClick={() => setIsModalOpen(false)}

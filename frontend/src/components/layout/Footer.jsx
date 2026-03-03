@@ -91,7 +91,7 @@ const Footer = () => {
     const mapsLink = settings.mapLink;
 
     return (
-        <footer className="relative bg-slate-950 border-t border-slate-800 overflow-hidden pt-12 pb-8 mt-6">
+        <footer className="relative bg-slate-950 border-t border-slate-800 overflow-hidden pt-10 pb-6 mt-4">
             <div
                 className="absolute inset-0 pointer-events-none opacity-[0.08]"
                 style={{
@@ -103,16 +103,16 @@ const Footer = () => {
             <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-cyan-500/20 rounded-full blur-[100px]" />
 
             <div className="max-w-7xl mx-auto px-6 relative z-10">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-16 mb-12">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 mb-10">
                     <div className="lg:col-span-4">
-                        <Link to="/" className="inline-block mb-6">
+                        <Link to="/" className="inline-block mb-4">
                             <img
                                 src="/images/logo.jpg"
                                 alt="MentriQ Technologies"
                                 className="h-14 w-auto object-contain"
                             />
                         </Link>
-                        <p className="text-slate-300 text-sm font-medium leading-relaxed mb-6 max-w-sm">
+                        <p className="text-slate-300 text-sm font-medium leading-relaxed mb-4 max-w-sm">
                             Empowering the next generation of tech leaders through industry-expert mentorship and elite skill-architecting programs.
                         </p>
 
@@ -140,7 +140,7 @@ const Footer = () => {
                         </div>
                     </div>
 
-                    <div className="lg:col-span-5 grid grid-cols-3 gap-8">
+                    <div className="lg:col-span-5 grid grid-cols-3 gap-6">
                         {footerSections.map((section, idx) => (
                             <div key={idx}>
                                 <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-100 mb-4 px-1 border-l-2 border-indigo-400 py-1">
@@ -166,10 +166,10 @@ const Footer = () => {
                     </div>
 
                     <div className="lg:col-span-3">
-                        <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-100 mb-4 px-1 border-l-2 border-cyan-400 py-1">
+                        <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-100 mb-3 px-1 border-l-2 border-cyan-400 py-1">
                             Connect
                         </h4>
-                        <div className="space-y-5">
+                        <div className="space-y-4">
                             <a href={`mailto:${emailAddress}`} className="flex items-start gap-4 group/contact">
                                 <div className="w-10 h-10 flex-shrink-0 rounded-xl bg-indigo-500/10 border border-indigo-400/30 flex items-center justify-center text-indigo-300 group-hover/contact:bg-indigo-600 group-hover/contact:text-white transition-all duration-300">
                                     <Mail className="w-4 h-4" />
@@ -206,7 +206,7 @@ const Footer = () => {
                     </div>
                 </div>
 
-                <div className="pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-6">
+                <div className="pt-6 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-4">
                     <Link to="/" className="text-xs font-medium text-slate-400 hover:text-indigo-300 transition-colors">
                         &copy; {currentYear} MentriQ. All rights reserved.
                     </Link>
