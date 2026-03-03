@@ -4,7 +4,7 @@ import { Spotlight } from '@/components/ui/Spotlight';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { apiClient as api } from '../../utils/apiClient';
-import { ArrowRight, Sparkles, Mail, Instagram, Linkedin, Twitter, MessageCircle, Facebook, X } from 'lucide-react';
+import { ArrowRight, Sparkles, Mail, Instagram, Linkedin, Twitter, MessageCircle, X } from 'lucide-react';
 
 const Hero3DElement = () => {
     const navigate = useNavigate();
@@ -15,8 +15,7 @@ const Hero3DElement = () => {
             instagram: "https://www.instagram.com/mentriqtechnologies/",
             linkedin: "https://www.linkedin.com/company/mentriqtechnologies/",
             twitter: "https://x.com/MentriqT51419",
-            whatsapp: "https://wa.me/918890301264",
-            facebook: "https://www.facebook.com/profile.php?id=61588480116895"
+            whatsapp: "https://wa.me/918890301264"
         }
     });
 
@@ -32,8 +31,7 @@ const Hero3DElement = () => {
                             instagram: data.socialLinks?.instagram || prev.socialLinks.instagram,
                             linkedin: data.socialLinks?.linkedin || prev.socialLinks.linkedin,
                             twitter: data.socialLinks?.twitter || prev.socialLinks.twitter,
-                            whatsapp: data.socialLinks?.whatsapp || prev.socialLinks.whatsapp,
-                            facebook: data.socialLinks?.facebook || prev.socialLinks.facebook
+                            whatsapp: data.socialLinks?.whatsapp || prev.socialLinks.whatsapp
                         }
                     }));
                 }
@@ -214,19 +212,6 @@ const Hero3DElement = () => {
                             <Mail className="w-4 h-4 lg:w-5 lg:h-5" />
                         </motion.a>
 
-                        {/* Icon 6: Facebook (Bottom-Center) */}
-                        <motion.a
-                            href={settings.socialLinks.facebook}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            initial={{ opacity: 0, scale: 0 }}
-                            animate={{ opacity: 1, scale: 1, y: [0, 8, 0] }}
-                            transition={{ duration: 7.5, repeat: Infinity, ease: "easeInOut", delay: 1.5 }}
-                            whileHover={{ scale: 1.2, rotate: 10, backgroundColor: "rgba(24, 119, 242, 0.2)" }}
-                            className="absolute bottom-[5%] left-[45%] lg:bottom-[8%] lg:left-[48%] w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-white/5 border border-white/10 backdrop-blur-md flex items-center justify-center text-slate-400 shadow-lg pointer-events-auto hover:text-[#1877f2] hover:border-[#1877f2]/30 transition-all duration-300"
-                        >
-                            <Facebook className="w-4 h-4 lg:w-5 lg:h-5" />
-                        </motion.a>
                     </div>
                 </div>
             </div>
