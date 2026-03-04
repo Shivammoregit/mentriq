@@ -29,12 +29,12 @@ const Toast = ({ id, message, type, onClose }) => {
     };
 
     return (
-        <div
+        <motion.div
             layout
-            }
-            }
-exit = {{ opacity: 0, scale: 0.9, transition: { duration: 0.2 } }}
-className = {`flex items-center gap-3 min-w-[320px] max-w-md p-4 rounded-2xl border shadow-xl backdrop-blur-md ${bgColors[type] || bgColors.info} text-white pointer-events-auto`}
+            initial={{ opacity: 0, y: 50, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.2 } }}
+            className={`flex items-center gap-3 min-w-[320px] max-w-md p-4 rounded-2xl border shadow-xl backdrop-blur-md ${bgColors[type] || bgColors.info} text-white pointer-events-auto`}
         >
             <div className={`p-2 rounded-xl bg-white/5`}>
                 {icons[type] || icons.info}
@@ -48,7 +48,7 @@ className = {`flex items-center gap-3 min-w-[320px] max-w-md p-4 rounded-2xl bor
             >
                 <X size={16} />
             </button>
-        </div >
+        </motion.div>
     );
 };
 

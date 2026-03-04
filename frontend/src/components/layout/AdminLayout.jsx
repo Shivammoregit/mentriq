@@ -216,33 +216,33 @@ const AdminLayout = ({ children }) => {
             <AnimatePresence>
                 {isSidebarOpen && (
                     <>
-                        <div
-                            }
-                            }
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
                             exit={{ opacity: 0 }}
                             onClick={() => setIsSidebarOpen(false)}
                             className="fixed inset-0 bg-[#020617]/80 backdrop-blur-sm z-[100] lg:hidden"
                         />
-                        <aside
-                            }
-                            }
+                        <motion.aside
+                            initial={{ x: '-100%' }}
+                            animate={{ x: 0 }}
                             exit={{ x: '-100%' }}
-                            }
+                            transition={{ type: 'spring', damping: 25, stiffness: 200 }}
                             className="fixed inset-y-0 left-0 w-72 bg-[#020617] border-r border-white/5 z-[101] lg:hidden flex flex-col"
                         >
                             <SidebarContent isMobile={true} {...sidebarProps} />
-                        </aside>
+                        </motion.aside>
                     </>
                 )}
             </AnimatePresence>
 
-            <aside
-                
-                }
+            <motion.aside
+                initial={false}
+                animate={{ width: isDesktopSidebarOpen ? '18rem' : '0rem' }}
                 className="hidden lg:flex flex-col glass-premium border-r border-white/5 relative z-40 transition-all duration-300"
             >
                 <SidebarContent {...sidebarProps} />
-            </aside>
+            </motion.aside>
 
             <div className="flex-1 flex flex-col min-w-0 h-screen overflow-hidden relative z-10">
                 <header className="h-16 lg:hidden flex items-center justify-between px-6 border-b border-white/5 bg-[#070b14]/80 backdrop-blur-md sticky top-0 z-30 shrink-0">
@@ -263,15 +263,15 @@ const AdminLayout = ({ children }) => {
                 <main className="flex-1 overflow-x-hidden overflow-y-auto p-4 md:p-8 lg:p-10 scroll-smooth custom-scrollbar">
                     <div className="max-w-[1600px] mx-auto w-full">
                         <AnimatePresence mode="wait">
-                            <div
+                            <motion.div
                                 key={location.pathname}
-                                }
-                                }
+                                initial={{ opacity: 0, x: 20 }}
+                                animate={{ opacity: 1, x: 0 }}
                                 exit={{ opacity: 0, y: -10 }}
-                                }
+                                transition={{ duration: 0.3 }}
                             >
                                 {children}
-                            </div>
+                            </motion.div>
                         </AnimatePresence>
                     </div>
                 </main>
