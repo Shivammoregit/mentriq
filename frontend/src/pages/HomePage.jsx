@@ -32,7 +32,6 @@ import { getImageUrl } from '../utils/imageUtils'
 import SectionErrorBoundary from '../components/common/SectionErrorBoundary'
 
 // Home-specific components
-import HeroSection from '../components/home/HeroSection'
 import VisionSection from '../components/home/VisionSection'
 import StatsSection from '../components/home/StatsSection'
 import FeaturesSection from '../components/home/FeaturesSection'
