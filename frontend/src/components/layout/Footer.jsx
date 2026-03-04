@@ -132,7 +132,7 @@ const Footer = () => {
                                         transition={{ delay: idx * 0.1 }}
                                     >
                                         <div className="transition-transform duration-300 group-hover:scale-110">
-                                            {typeof Icon === 'function' ? <Icon /> : <Icon className="w-5 h-5 transition-transform duration-300 group-hover:rotate-12" />}
+                                            <Icon size={20} className="transition-transform duration-300 group-hover:rotate-12 text-slate-300 group-hover:text-white" />
                                         </div>
                                     </MotionA>
                                 );

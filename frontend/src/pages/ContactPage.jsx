@@ -242,7 +242,7 @@ const ContactPage = () => {
                     className={`w-12 h-12 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-400 ${social.color} hover:text-white shadow-lg shadow-slate-200/40 transition-all duration-300 group overflow-hidden`}
                   >
                     <div className="transition-transform duration-300 group-hover:scale-110">
-                      {typeof Icon === 'function' ? <Icon /> : <Icon size={20} />}
+                      <Icon size={20} />
                     </div>
                   </a>
                 );
