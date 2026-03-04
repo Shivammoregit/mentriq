@@ -8,7 +8,6 @@ import { ArrowRight, Sparkles, Mail, Instagram, Linkedin, Twitter, MessageCircle
 
 const Hero3DElement = () => {
     const navigate = useNavigate();
-
     const [settings, setSettings] = React.useState({
         email: "support@mentriqtechnologies.in",
         socialLinks: {
@@ -45,8 +44,7 @@ const Hero3DElement = () => {
     }, []);
 
     return (
-        <div className="w-full min-h-[85vh] relative overflow-hidden bg-white pt-12">
-
+        <div className="w-full min-h-[75vh] relative overflow-hidden bg-white pt-12">
             {/* Animated color blobs */}
             <motion.div
                 animate={{ x: [0, 60, -30, 0], y: [0, 40, -20, 0], scale: [1, 1.2, 0.95, 1] }}
@@ -72,10 +70,9 @@ const Hero3DElement = () => {
             {/* Spotlight */}
             <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="#6366f1" />
 
-            <div className="flex flex-col lg:flex-row h-full min-h-[85vh] relative z-10">
+            <div className="flex flex-col lg:flex-row h-full min-h-[75vh] relative z-10">
                 {/* Left content */}
                 <div className="flex-1 p-6 lg:p-12 flex flex-col justify-center">
-
                     {/* Badge */}
                     <motion.div
                         initial={{ opacity: 0, y: -10 }}
@@ -93,7 +90,7 @@ const Hero3DElement = () => {
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, ease: 'circOut' }}
-                        className="text-4xl md:text-5xl xl:text-7xl font-black mb-4 leading-[1.05] tracking-tighter uppercase text-slate-900"
+                        className="text-4xl md:text-5xl xl:text-6xl font-black mb-4 leading-[1.05] tracking-tighter uppercase text-slate-900"
                     >
                         REWIRE YOUR <br />
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-violet-600 to-cyan-500">
@@ -106,7 +103,7 @@ const Hero3DElement = () => {
                         initial={{ opacity: 0, y: 15 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.2 }}
-                        className="mt-2 text-slate-500 max-w-lg text-base leading-relaxed mb-6"
+                        className="mt-1 text-slate-500 max-w-lg text-sm leading-relaxed mb-6"
                     >
                         MentriQ is where precision meets innovation. Master the core of modern technology with industry-first curriculums and elite mentorship.
                     </motion.p>
@@ -116,27 +113,26 @@ const Hero3DElement = () => {
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.35 }}
-                        className="flex flex-col sm:flex-row gap-4"
+                        className="flex flex-col sm:flex-row gap-3"
                     >
                         <button
                             onClick={() => navigate('/courses')}
-                            className="group px-8 py-4 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm uppercase tracking-widest transition-all flex items-center justify-center gap-2 shadow-lg shadow-indigo-200"
+                            className="group px-7 py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-widest transition-all flex items-center justify-center gap-2 shadow-lg shadow-indigo-200"
                         >
                             Start Learning
                             <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                         </button>
                         <button
                             onClick={() => navigate('/contact')}
-                            className="px-8 py-4 rounded-xl bg-slate-100 border border-slate-200 text-slate-700 font-bold text-sm uppercase tracking-widest hover:bg-slate-200 transition-all"
+                            className="px-7 py-3.5 rounded-xl bg-slate-100 border border-slate-200 text-slate-700 font-bold text-xs uppercase tracking-widest hover:bg-slate-200 transition-all"
                         >
-                            Get a Consultation
+                            Consultation
                         </button>
                     </motion.div>
-
                 </div>
 
                 {/* Right: Spline 3D Scene */}
-                <div className="h-[500px] lg:h-auto lg:flex-1 relative w-full">
+                <div className="h-[400px] lg:h-auto lg:flex-1 relative w-full">
                     <SplineScene
                         scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
                         className="w-full h-full"
@@ -213,8 +209,6 @@ const Hero3DElement = () => {
                         >
                             <Mail className="w-4 h-4 lg:w-5 lg:h-5" />
                         </motion.a>
-
-
                     </div>
                 </div>
             </div>

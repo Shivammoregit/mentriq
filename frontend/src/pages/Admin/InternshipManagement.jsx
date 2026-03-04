@@ -112,24 +112,24 @@ const InternshipManagement = () => {
         <div className="space-y-6 animate-in fade-in duration-500">
             {/* Page Header */}
             <div className="bg-[#0f172a]/40 backdrop-blur-xl p-6 rounded-3xl border border-white/5 shadow-2xl relative overflow-hidden group">
-                <div className="flex flex-col lg:flex-row gap-8 lg:items-center lg:justify-between relative z-10">
+                <div className="flex flex-col lg:flex-row gap-6 lg:items-center lg:justify-between relative z-10">
                     <div>
-                        <div className="flex items-center gap-3 mb-1">
-                            <Briefcase size={28} className="text-emerald-400" />
-                            <h2 className="text-3xl font-extrabold text-white tracking-tight">Talent Pipeline</h2>
-                            <span className="ml-2 text-emerald-400 bg-emerald-500/10 px-3 py-1 rounded-lg border border-emerald-500/20 text-xs font-bold">
-                                {activeTab === "postings" ? internships.length : applications.length} {activeTab === "postings" ? "Opportunities" : "Candidates"}
+                        <div className="flex items-center gap-2 mb-1">
+                            <Briefcase size={24} className="text-emerald-400" />
+                            <h2 className="text-2xl font-black text-white tracking-tighter uppercase">Talent Pipeline</h2>
+                            <span className="ml-2 text-emerald-400 bg-emerald-500/10 px-2.5 py-0.5 rounded-lg border border-emerald-500/20 text-[10px] font-bold">
+                                {activeTab === "postings" ? internships.length : applications.length} {activeTab === "postings" ? "Nodes" : "Candidates"}
                             </span>
                         </div>
-                        <p className="text-slate-400 font-medium text-sm">Professional internship development and candidate acquisition management.</p>
+                        <p className="text-slate-400 font-medium text-xs">Professional internship development and candidate acquisition management.</p>
                     </div>
 
                     <div className="flex gap-4">
                         <button
                             onClick={() => { setEditingInternship(null); setFormData(initialFormState); setIsModalOpen(true); }}
-                            className="bg-emerald-600 text-white hover:bg-emerald-500 px-8 py-3 rounded-xl font-bold flex items-center gap-3 transition-all active:scale-95 shadow-lg shadow-emerald-500/20 text-[10px] uppercase tracking-widest justify-center"
+                            className="bg-emerald-600 text-white hover:bg-emerald-500 px-6 py-2.5 rounded-xl font-bold flex items-center gap-2 transition-all active:scale-95 shadow-lg shadow-emerald-500/20 text-[10px] uppercase tracking-widest justify-center"
                         >
-                            <Plus size={18} />
+                            <Plus size={16} />
                             <span>Deploy Post</span>
                         </button>
                     </div>
@@ -137,32 +137,32 @@ const InternshipManagement = () => {
             </div>
 
             {/* Tabs */}
-            <div className="flex gap-2 p-1.5 bg-white/5 border border-white/10 rounded-2xl w-fit">
+            <div className="flex gap-1.5 p-1 bg-white/5 border border-white/10 rounded-xl w-fit">
                 <button
                     onClick={() => setActiveTab("postings")}
-                    className={`px-6 py-3 rounded-xl font-bold text-[10px] uppercase tracking-widest transition-all ${activeTab === 'postings' ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/20' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
+                    className={`px-4 py-2 rounded-lg font-bold text-[9px] uppercase tracking-widest transition-all ${activeTab === 'postings' ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/20' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
                 >
                     Opportunity Grid
                 </button>
                 <button
                     onClick={() => setActiveTab("applications")}
-                    className={`px-6 py-3 rounded-xl font-bold text-[10px] uppercase tracking-widest transition-all ${activeTab === 'applications' ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/20' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
+                    className={`px-4 py-2 rounded-lg font-bold text-[9px] uppercase tracking-widest transition-all ${activeTab === 'applications' ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/20' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
                 >
                     Candidate Stream
                 </button>
             </div>
 
             {/* Content Area */}
-            <div className="bg-[#0f172a]/40 backdrop-blur-xl border border-white/5 rounded-[2.5rem] overflow-hidden shadow-2xl">
+            <div className="bg-[#0f172a]/40 backdrop-blur-xl border border-white/5 rounded-3xl overflow-hidden shadow-2xl">
                 <div className="overflow-x-auto">
                     {activeTab === "postings" ? (
                         <table className="w-full text-left border-collapse">
                             <thead>
                                 <tr className="bg-white/5 border-b border-white/10">
-                                    <th className="px-8 py-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Position Path</th>
-                                    <th className="px-8 py-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Operational Hub</th>
-                                    <th className="px-8 py-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Duration</th>
-                                    <th className="px-8 py-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 text-right">Actions</th>
+                                    <th className="px-8 py-4 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">Position Path</th>
+                                    <th className="px-8 py-4 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">Operational Hub</th>
+                                    <th className="px-8 py-4 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">Duration</th>
+                                    <th className="px-8 py-4 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400 text-right">Actions</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-white/5">
@@ -174,36 +174,36 @@ const InternshipManagement = () => {
                                         className="hover:bg-white/5 transition-colors group"
                                     >
                                         <td className="px-8 py-4">
-                                            <div className="flex flex-col gap-1">
-                                                <div className="font-bold text-white text-[15px] tracking-tight">{job.title}</div>
-                                                <div className="text-[10px] text-emerald-400 font-bold uppercase tracking-widest">{job.type}</div>
+                                            <div className="flex flex-col gap-0.5">
+                                                <div className="font-bold text-white text-[14px] tracking-tight">{job.title}</div>
+                                                <div className="text-[9px] text-emerald-400 font-bold uppercase tracking-widest">{job.type}</div>
                                             </div>
                                         </td>
                                         <td className="px-8 py-4">
-                                            <div className="flex flex-col gap-1">
-                                                <div className="text-white font-bold text-xs flex items-center gap-2">
-                                                    <Building2 size={12} className="text-emerald-400" />
+                                            <div className="flex flex-col gap-0.5">
+                                                <div className="text-white font-bold text-[11px] flex items-center gap-2">
+                                                    <Building2 size={10} className="text-emerald-400" />
                                                     {job.company}
                                                 </div>
-                                                <div className="text-slate-500 text-[10px] uppercase font-bold tracking-widest flex items-center gap-1.5">
-                                                    <MapPin size={12} />
+                                                <div className="text-slate-500 text-[9px] uppercase font-bold tracking-widest flex items-center gap-1.5">
+                                                    <MapPin size={10} />
                                                     {job.location}
                                                 </div>
                                             </div>
                                         </td>
                                         <td className="px-8 py-4">
-                                            <span className="text-slate-400 text-[10px] font-black uppercase tracking-widest flex items-center gap-2">
-                                                <Clock size={12} className="text-emerald-400" />
+                                            <span className="text-slate-400 text-[9px] font-black uppercase tracking-widest flex items-center gap-2">
+                                                <Clock size={10} className="text-emerald-400" />
                                                 {job.duration || "Permanent"}
                                             </span>
                                         </td>
                                         <td className="px-8 py-4 text-right">
-                                            <div className="flex justify-end gap-3">
-                                                <button onClick={() => openEditModal(job)} className="p-3 rounded-xl bg-white/5 text-slate-400 hover:text-emerald-400 hover:bg-emerald-500/10 border border-white/10 hover:border-emerald-500/20 transition-all">
-                                                    <Edit2 size={16} />
+                                            <div className="flex justify-end gap-2.5">
+                                                <button onClick={() => openEditModal(job)} className="p-2.5 rounded-xl bg-white/5 text-slate-400 hover:text-emerald-400 hover:bg-emerald-500/10 border border-white/10 hover:border-emerald-500/20 transition-all">
+                                                    <Edit2 size={14} />
                                                 </button>
-                                                <button onClick={() => handleDelete(job._id)} className="p-3 rounded-xl bg-white/5 text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 border border-white/10 hover:border-rose-500/20 transition-all">
-                                                    <Trash2 size={16} />
+                                                <button onClick={() => handleDelete(job._id)} className="p-2.5 rounded-xl bg-white/5 text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 border border-white/10 hover:border-rose-500/20 transition-all">
+                                                    <Trash2 size={14} />
                                                 </button>
                                             </div>
                                         </td>
@@ -215,10 +215,10 @@ const InternshipManagement = () => {
                         <table className="w-full text-left border-collapse">
                             <thead>
                                 <tr className="bg-white/5 border-b border-white/10">
-                                    <th className="px-8 py-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Candidate Identity</th>
-                                    <th className="px-8 py-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Target Role</th>
-                                    <th className="px-8 py-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">System Status</th>
-                                    <th className="px-8 py-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 text-right">Actions</th>
+                                    <th className="px-8 py-4 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">Candidate Identity</th>
+                                    <th className="px-8 py-4 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">Target Role</th>
+                                    <th className="px-8 py-4 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">System Status</th>
+                                    <th className="px-8 py-4 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400 text-right">Actions</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-white/5">
@@ -230,26 +230,26 @@ const InternshipManagement = () => {
                                         className="hover:bg-white/5 transition-colors group"
                                     >
                                         <td className="px-8 py-4">
-                                            <div className="flex flex-col gap-1">
-                                                <div className="font-bold text-white text-[15px] tracking-tight">{app.fullName}</div>
-                                                <div className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">{app.email}</div>
+                                            <div className="flex flex-col gap-0.5">
+                                                <div className="font-bold text-white text-[14px] tracking-tight">{app.fullName}</div>
+                                                <div className="text-[9px] text-slate-500 font-bold uppercase tracking-widest">{app.email}</div>
                                             </div>
                                         </td>
                                         <td className="px-8 py-4">
-                                            <div className="text-white font-bold text-xs uppercase tracking-wider">{app.internshipId?.title || "Legacy Position"}</div>
+                                            <div className="text-white font-bold text-[11px] uppercase tracking-wider">{app.internshipId?.title || "Legacy Position"}</div>
                                         </td>
                                         <td className="px-8 py-4">
-                                            <span className={`px-4 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-widest border ${app.status === 'Accepted' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : app.status === 'Rejected' ? 'bg-rose-500/10 text-rose-400 border-rose-500/20' : 'bg-white/5 text-slate-400 border-white/10'}`}>
+                                            <span className={`px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest border ${app.status === 'Accepted' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : app.status === 'Rejected' ? 'bg-rose-500/10 text-rose-400 border-rose-500/20' : 'bg-white/5 text-slate-400 border-white/10'}`}>
                                                 {app.status}
                                             </span>
                                         </td>
                                         <td className="px-8 py-4 text-right">
-                                            <div className="flex justify-end gap-3">
-                                                <button onClick={() => handleApplicationStatus(app._id, 'Accepted')} className="p-3 rounded-xl bg-white/5 text-slate-400 hover:text-emerald-400 hover:bg-emerald-500/10 border border-white/10 hover:border-emerald-500/20 transition-all">
-                                                    <CheckCircle size={16} />
+                                            <div className="flex justify-end gap-2.5">
+                                                <button onClick={() => handleApplicationStatus(app._id, 'Accepted')} className="p-2.5 rounded-xl bg-white/5 text-slate-400 hover:text-emerald-400 hover:bg-emerald-500/10 border border-white/10 hover:border-emerald-500/20 transition-all">
+                                                    <CheckCircle size={14} />
                                                 </button>
-                                                <button onClick={() => handleApplicationStatus(app._id, 'Rejected')} className="p-3 rounded-xl bg-white/5 text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 border border-white/10 hover:border-rose-500/20 transition-all">
-                                                    <X size={16} />
+                                                <button onClick={() => handleApplicationStatus(app._id, 'Rejected')} className="p-2.5 rounded-xl bg-white/5 text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 border border-white/10 hover:border-rose-500/20 transition-all">
+                                                    <X size={14} />
                                                 </button>
                                             </div>
                                         </td>
@@ -269,33 +269,33 @@ const InternshipManagement = () => {
                             initial={{ opacity: 0, scale: 0.95, y: 20 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 30 }}
-                            className="relative w-full max-w-2xl bg-[#0f172a] border border-white/10 rounded-[3rem] p-8 shadow-2xl flex flex-col max-h-[90vh]"
+                            className="relative w-full max-w-2xl bg-[#0f172a] border border-white/10 rounded-[2.5rem] p-6 sm:p-8 shadow-2xl flex flex-col max-h-[90vh]"
                         >
                             <div className="flex items-start justify-between gap-6 mb-8 shrink-0">
                                 <div>
-                                    <h3 className="text-3xl font-black text-white tracking-tight uppercase">
+                                    <h3 className="text-2xl font-black text-white tracking-tight uppercase">
                                         {editingInternship ? "Refine Position" : "Engineer Posting"}
                                     </h3>
                                     <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] mt-1">Opportunity Deployment Protocol</p>
                                 </div>
                                 <button
                                     onClick={() => setIsModalOpen(false)}
-                                    className="p-3.5 rounded-2xl bg-white/5 hover:bg-white/10 text-slate-500 hover:text-white transition-all border border-white/10"
+                                    className="p-3 rounded-2xl bg-white/5 hover:bg-white/10 text-slate-500 hover:text-white transition-all border border-white/10"
                                 >
-                                    <X size={24} />
+                                    <X size={20} />
                                 </button>
                             </div>
 
-                            <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto pr-4 -mr-4 space-y-8 custom-scrollbar">
-                                <div className="space-y-8">
-                                    <div className="grid grid-cols-2 gap-8">
+                            <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto pr-4 -mr-4 space-y-6 custom-scrollbar">
+                                <div className="space-y-6">
+                                    <div className="grid grid-cols-2 gap-6">
                                         <div className="space-y-2">
                                             <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Position Designation</label>
                                             <input
                                                 required
                                                 value={formData.title}
                                                 onChange={e => setFormData({ ...formData, title: e.target.value })}
-                                                className="w-full bg-white/5 border border-white/10 rounded-2xl p-6 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all"
+                                                className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all text-sm"
                                                 placeholder="e.g. AI Research Intern"
                                             />
                                         </div>
@@ -305,18 +305,18 @@ const InternshipManagement = () => {
                                                 required
                                                 value={formData.company}
                                                 onChange={e => setFormData({ ...formData, company: e.target.value })}
-                                                className="w-full bg-white/5 border border-white/10 rounded-2xl p-6 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all"
+                                                className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all text-sm"
                                             />
                                         </div>
                                     </div>
 
-                                    <div className="grid grid-cols-3 gap-8">
+                                    <div className="grid grid-cols-3 gap-6">
                                         <div className="space-y-2">
                                             <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Operational Zone</label>
                                             <input
                                                 value={formData.location}
                                                 onChange={e => setFormData({ ...formData, location: e.target.value })}
-                                                className="w-full bg-white/5 border border-white/10 rounded-2xl p-6 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all"
+                                                className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all text-sm"
                                             />
                                         </div>
                                         <div className="space-y-2">
@@ -324,7 +324,7 @@ const InternshipManagement = () => {
                                             <input
                                                 value={formData.duration}
                                                 onChange={e => setFormData({ ...formData, duration: e.target.value })}
-                                                className="w-full bg-white/5 border border-white/10 rounded-2xl p-6 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all"
+                                                className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all text-sm"
                                                 placeholder="e.g. 6 Months"
                                             />
                                         </div>
@@ -333,7 +333,7 @@ const InternshipManagement = () => {
                                             <select
                                                 value={formData.type}
                                                 onChange={e => setFormData({ ...formData, type: e.target.value })}
-                                                className="w-full bg-white/5 border border-white/10 rounded-2xl p-6 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all appearance-none cursor-pointer"
+                                                className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all appearance-none cursor-pointer text-sm"
                                             >
                                                 <option value="Remote" className="bg-slate-900">Remote</option>
                                                 <option value="Hybrid" className="bg-slate-900">Hybrid</option>
@@ -345,10 +345,10 @@ const InternshipManagement = () => {
                                     <div className="space-y-2">
                                         <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Prerequisite Matrix (One per line)</label>
                                         <textarea
-                                            rows={4}
+                                            rows={3}
                                             value={formData.requirements}
                                             onChange={e => setFormData({ ...formData, requirements: e.target.value })}
-                                            className="w-full bg-white/5 border border-white/10 rounded-[2rem] p-6 text-slate-300 font-medium focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-600 resize-none"
+                                            className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-slate-300 font-medium focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-600 resize-none text-xs"
                                             placeholder="React Expertise&#10;System Design Knowledge..."
                                         />
                                     </div>
@@ -357,27 +357,27 @@ const InternshipManagement = () => {
                                         <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Mission Description</label>
                                         <textarea
                                             required
-                                            rows={6}
+                                            rows={4}
                                             value={formData.description}
                                             onChange={e => setFormData({ ...formData, description: e.target.value })}
-                                            className="w-full bg-white/5 border border-white/10 rounded-[2rem] p-6 text-slate-300 font-medium focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-600 resize-none leading-relaxed"
+                                            className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-slate-300 font-medium focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-600 resize-none leading-relaxed text-xs"
                                         />
                                     </div>
                                 </div>
 
-                                <div className="p-8 border-t border-white/5 flex justify-end items-center gap-4 shrink-0 -mx-10 -mb-10 mt-8 bg-white/5">
+                                <div className="p-6 border-t border-white/5 flex justify-end items-center gap-4 shrink-0 -mx-8 -mb-8 mt-6 bg-white/5">
                                     <button
                                         type="button"
                                         onClick={() => setIsModalOpen(false)}
-                                        className="flex-1 py-4.5 rounded-2xl bg-white/5 text-slate-400 font-bold text-[10px] uppercase tracking-widest hover:text-white hover:bg-white/10 border border-white/10 transition-all"
+                                        className="flex-1 py-3.5 rounded-2xl bg-white/5 text-slate-400 font-bold text-[10px] uppercase tracking-widest hover:text-white hover:bg-white/10 border border-white/10 transition-all"
                                     >
                                         Dismiss
                                     </button>
                                     <button
                                         type="submit"
-                                        className="flex-2 py-4.5 rounded-2xl bg-emerald-600 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-emerald-500 shadow-lg shadow-emerald-600/20 transition-all flex items-center justify-center gap-2 active:scale-95"
+                                        className="flex-2 py-3.5 rounded-2xl bg-emerald-600 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-emerald-500 shadow-lg shadow-emerald-600/20 transition-all flex items-center justify-center gap-2 active:scale-95"
                                     >
-                                        <CheckCircle size={18} strokeWidth={3} />
+                                        <CheckCircle size={16} strokeWidth={3} />
                                         <span>Deploy Post</span>
                                     </button>
                                 </div>

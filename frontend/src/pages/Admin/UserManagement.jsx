@@ -146,7 +146,7 @@ const UserManagement = () => {
 
     return (
         <div className="space-y-6 animate-in fade-in duration-500">
-            <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8 bg-[#0f172a]/40 backdrop-blur-xl p-6 md:p-8 rounded-[2.5rem] border border-white/5 shadow-2xl relative overflow-hidden group">
+            <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8 bg-[#0f172a]/40 backdrop-blur-xl p-8 md:p-10 rounded-[2.5rem] border border-white/5 shadow-2xl relative overflow-hidden group">
                 <div className="absolute top-0 right-0 p-12 opacity-[0.03] group-hover:opacity-[0.05] transition-opacity">
                     <User size={200} className="text-blue-500" />
                 </div>
@@ -171,14 +171,14 @@ const UserManagement = () => {
                     <div className="flex gap-4">
                         <button
                             onClick={handleExportStudents}
-                            className="bg-white/5 text-slate-300 hover:bg-white/10 border border-white/10 px-8 py-3 rounded-xl font-bold flex items-center gap-3 transition-all active:scale-95 text-[10px] uppercase tracking-widest flex-1 sm:flex-none justify-center"
+                            className="bg-white/5 text-slate-300 hover:bg-white/10 border border-white/10 px-8 py-4 rounded-xl font-bold flex items-center gap-3 transition-all active:scale-95 text-[10px] uppercase tracking-widest flex-1 sm:flex-none justify-center"
                         >
                             <Download size={16} />
                             <span>Export Data</span>
                         </button>
                         <button
                             onClick={openCreateModal}
-                            className="bg-blue-600 text-white hover:bg-blue-500 px-8 py-3 rounded-xl font-bold flex items-center gap-3 transition-all active:scale-95 shadow-lg shadow-blue-500/20 text-[10px] uppercase tracking-widest flex-1 sm:flex-none justify-center"
+                            className="bg-blue-600 text-white hover:bg-blue-500 px-8 py-4 rounded-xl font-bold flex items-center gap-3 transition-all active:scale-95 shadow-lg shadow-blue-500/20 text-[10px] uppercase tracking-widest flex-1 sm:flex-none justify-center"
                         >
                             <Plus size={18} strokeWidth={2.5} />
                             <span>Deploy Profile</span>
@@ -192,9 +192,9 @@ const UserManagement = () => {
                     <table className="w-full text-left border-collapse min-w-[900px]">
                         <thead>
                             <tr className="bg-white/5 border-b border-white/5">
-                                <th className="px-8 py-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Student Profile</th>
-                                <th className="px-8 py-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Registration Cycle</th>
-                                <th className="px-8 py-4 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 text-right">Administrative Actions</th>
+                                <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Student Profile</th>
+                                <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Registration Cycle</th>
+                                <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 text-right">Administrative Actions</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-white/5">
@@ -208,7 +208,7 @@ const UserManagement = () => {
                                         exit={{ opacity: 0 }}
                                         className="hover:bg-white/5 transition-colors group"
                                     >
-                                        <td className="px-8 py-4">
+                                        <td className="px-8 py-6">
                                             <div className="flex items-center gap-5">
                                                 <div className="w-12 h-12 rounded-2xl bg-blue-500/10 flex items-center justify-center text-blue-400 font-bold border border-blue-500/20 shadow-sm transition-transform group-hover:scale-110">
                                                     {(user.name || "S").charAt(0).toUpperCase()}
@@ -219,7 +219,7 @@ const UserManagement = () => {
                                                 </div>
                                             </div>
                                         </td>
-                                        <td className="px-8 py-4">
+                                        <td className="px-8 py-6">
                                             <div className="flex items-center gap-2 text-slate-400 text-[11px] font-bold uppercase tracking-wider bg-white/5 w-fit px-3 py-1.5 rounded-lg border border-white/5">
                                                 <TrendingUp size={12} className="text-blue-500" />
                                                 {new Date(user.createdAt).toLocaleDateString(undefined, {
@@ -229,7 +229,7 @@ const UserManagement = () => {
                                                 })}
                                             </div>
                                         </td>
-                                        <td className="px-8 py-4 text-right">
+                                        <td className="px-8 py-6 text-right">
                                             <div className="flex justify-end gap-3">
                                                 <button
                                                     onClick={() => openEditModal(user)}
@@ -275,9 +275,9 @@ const UserManagement = () => {
                             initial={{ opacity: 0, scale: 0.95, y: 30 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 30 }}
-                            className="relative w-full max-w-3xl bg-[#0f172a] border border-white/10 rounded-[2.5rem] sm:rounded-[3rem] p-6 sm:p-8 shadow-2xl flex flex-col max-h-[90vh] overflow-hidden"
+                            className="relative w-full max-w-3xl bg-[#0f172a] border border-white/10 rounded-[2.5rem] sm:rounded-[3rem] p-6 sm:p-10 shadow-2xl flex flex-col max-h-[90vh] overflow-hidden"
                         >
-                            <div className="flex items-start justify-between gap-6 mb-8">
+                            <div className="flex items-start justify-between gap-6 mb-10">
                                 <div>
                                     <h3 className="text-3xl font-black text-white tracking-tight uppercase">{editingUser ? "Update Profile" : "Initialize Entity"}</h3>
                                     <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] mt-1">Registry Access Level: Student</p>
@@ -301,7 +301,7 @@ const UserManagement = () => {
                                             required
                                             value={formData.name}
                                             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                            className="w-full bg-white/5 border border-white/10 rounded-2xl p-5 pl-16 text-white font-bold focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500/30 transition-all placeholder:text-slate-600"
+                                            className="w-full bg-white/5 border border-white/10 rounded-2xl p-6 pl-16 text-white font-bold focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500/30 transition-all placeholder:text-slate-600"
                                             placeholder="Full Name"
                                         />
                                     </div>
@@ -316,7 +316,7 @@ const UserManagement = () => {
                                             required
                                             value={formData.email}
                                             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                            className="w-full bg-white/5 border border-white/10 rounded-2xl p-5 pl-16 text-white font-bold focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500/30 transition-all placeholder:text-slate-600"
+                                            className="w-full bg-white/5 border border-white/10 rounded-2xl p-6 pl-16 text-white font-bold focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500/30 transition-all placeholder:text-slate-600"
                                             placeholder="email@example.com"
                                         />
                                     </div>
@@ -342,7 +342,7 @@ const UserManagement = () => {
                                                 minLength={6}
                                                 value={formData.password}
                                                 onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                                                className="w-full bg-white/5 border border-white/10 rounded-2xl p-5 pl-16 text-white font-bold focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500/30 transition-all placeholder:text-slate-600"
+                                                className="w-full bg-white/5 border border-white/10 rounded-2xl p-6 pl-16 text-white font-bold focus:outline-none focus:ring-4 focus:ring-blue-500/10 focus:border-blue-500/30 transition-all placeholder:text-slate-600"
                                                 placeholder="Cryptographic String"
                                             />
                                         </div>

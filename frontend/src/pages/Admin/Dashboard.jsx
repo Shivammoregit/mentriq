@@ -32,13 +32,13 @@ const StatCard = ({ title, value, icon: Icon, color, delay, trend = 0 }) => (
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay }}
-        className="glass-premium p-6 rounded-[2.5rem] border border-white/5 hover:border-blue-500/30 hover:shadow-2xl hover:shadow-blue-500/20 transition-all group relative overflow-hidden"
+        className="glass-premium p-6 rounded-3xl border border-white/5 hover:border-blue-500/30 hover:shadow-2xl hover:shadow-blue-500/20 transition-all group relative overflow-hidden"
     >
         <div className="flex justify-between items-start relative z-10">
             <div>
-                <p className="text-slate-500/60 text-[10px] font-black uppercase tracking-[0.25em] mb-2">{title}</p>
+                <p className="text-slate-500/60 text-[10px] font-black uppercase tracking-[0.25em] mb-4">{title}</p>
                 <div className="flex items-baseline gap-2">
-                    <h3 className="text-4xl font-black text-white tracking-tighter font-display">
+                    <h3 className="text-3xl font-black text-white tracking-tighter font-display">
                         {typeof value === 'number' ? value.toLocaleString() : value}
                     </h3>
                 </div>
@@ -51,8 +51,8 @@ const StatCard = ({ title, value, icon: Icon, color, delay, trend = 0 }) => (
                     </div>
                 )}
             </div>
-            <div className={`p-5 rounded-[1.75rem] ${color} bg-opacity-[0.15] backdrop-blur-md border border-white/5 flex items-center justify-center transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 ring-8 ring-transparent group-hover:ring-white/5 shadow-2xl`}>
-                <Icon className={`w-8 h-8 ${color.replace('bg-', 'text-')}`} strokeWidth={2.5} />
+            <div className={`p-4 rounded-2xl ${color} bg-opacity-[0.15] backdrop-blur-md border border-white/5 flex items-center justify-center transition-all duration-500 group-hover:scale-110 group-hover:rotate-6 ring-8 ring-transparent group-hover:ring-white/5 shadow-2xl shrink-0`}>
+                <Icon className={`w-7 h-7 ${color.replace('bg-', 'text-')}`} strokeWidth={2.5} />
             </div>
         </div>
         <div className="absolute -bottom-10 -right-10 w-32 h-32 bg-blue-500/5 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
@@ -121,19 +121,19 @@ const Dashboard = () => {
     }
 
     return (
-        <div className="space-y-10 animate-in fade-in slide-in-from-bottom-2 duration-1000">
+        <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-1000">
             {/* Unified Header */}
-            <div className="glass-premium p-8 rounded-[3rem] border border-white/5 shadow-2xl flex flex-col md:flex-row justify-between items-start md:items-center gap-8 overflow-hidden relative group">
+            <div className="glass-premium p-8 rounded-3xl border border-white/5 shadow-2xl flex flex-col md:flex-row justify-between items-start md:items-center gap-6 overflow-hidden relative group">
                 <div className="absolute -top-10 -right-10 p-24 opacity-[0.02] group-hover:opacity-[0.05] transition-opacity duration-1000 rotate-12">
                     <Cpu size={300} className="text-blue-500" />
                 </div>
                 <div className="relative z-10">
-                    <h1 className="text-4xl font-black text-white tracking-tighter theme-gradient-text">Command Center</h1>
-                    <p className="text-slate-400 mt-2 font-medium text-sm tracking-tight opacity-80">Orchestrating MentriQ platform operations and entity engagement.</p>
+                    <h1 className="text-3xl font-black text-white tracking-tighter theme-gradient-text uppercase">Command Center</h1>
+                    <p className="text-slate-400 mt-1 font-medium text-xs tracking-tight opacity-80">Orchestrating MentriQ platform operations and entity engagement.</p>
                 </div>
-                <div className="flex items-center gap-4 bg-white/[0.03] px-6 py-3 rounded-2xl border border-white/10 relative z-10 shadow-inner">
-                    <div className="w-2.5 h-2.5 rounded-full bg-blue-500 shadow-lg shadow-blue-500/50 animate-pulse" />
-                    <span className="text-slate-300 font-black text-[10px] tracking-[0.2em] uppercase">Uplink Active</span>
+                <div className="flex items-center gap-4 bg-white/[0.03] px-5 py-2.5 rounded-2xl border border-white/10 relative z-10 shadow-inner">
+                    <div className="w-2 h-2 rounded-full bg-blue-500 shadow-lg shadow-blue-500/50 animate-pulse" />
+                    <span className="text-slate-300 font-black text-[9px] tracking-[0.2em] uppercase">Uplink Active</span>
                 </div>
             </div>
 
@@ -145,9 +145,9 @@ const Dashboard = () => {
                 <StatCard title="Signal Pulse" value={raw.activeVisitors || 0} icon={Eye} color="bg-slate-800" trend={0} delay={0.3} />
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                <div className="lg:col-span-2 glass-premium rounded-[3rem] p-8 border border-white/5 shadow-2xl relative overflow-hidden">
-                    <div className="flex justify-between items-center mb-10 relative z-10">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div className="lg:col-span-2 glass-premium rounded-[2.5rem] p-8 border border-white/5 shadow-2xl relative overflow-hidden">
+                    <div className="flex justify-between items-center mb-8 relative z-10">
                         <div>
                             <h3 className="text-2xl font-black text-white tracking-tight font-display">Growth Matrix</h3>
                             <p className="text-slate-500/60 text-[10px] font-black uppercase tracking-[0.25em] mt-2">Analytical trends • Last 30 Telemetry Cycles</p>
@@ -217,9 +217,9 @@ const Dashboard = () => {
                     </div>
                 </div>
 
-                <div className="glass-premium rounded-[3rem] p-8 border border-white/5 shadow-2xl flex flex-col relative overflow-hidden group">
+                <div className="glass-premium rounded-3xl p-8 border border-white/5 shadow-2xl flex flex-col relative overflow-hidden group">
                     <div className="absolute top-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-500/5 blur-[80px] rounded-full pointer-events-none" />
-                    <div className="flex items-center justify-between mb-8 relative z-10">
+                    <div className="flex items-center justify-between mb-6 relative z-10">
                         <div>
                             <h3 className="text-2xl font-black text-white tracking-tight font-display">Active Pulse</h3>
                             <p className="text-slate-500/60 text-[10px] font-black uppercase tracking-[0.25em] mt-2">Real-time Node Events</p>
@@ -229,22 +229,22 @@ const Dashboard = () => {
                         </div>
                     </div>
 
-                    <div className="flex-1 space-y-6 overflow-y-auto pr-2 custom-scrollbar max-h-[420px] relative z-10">
+                    <div className="flex-1 space-y-6 overflow-y-auto pr-2 custom-scrollbar max-h-[350px] relative z-10">
                         {analytics.recentActivity.map((activity, idx) => (
-                            <div key={activity.id} className="flex gap-5 group/item cursor-default">
-                                <div className="mt-1 relative">
-                                    <div className="w-12 h-12 rounded-2xl bg-white/[0.03] border border-white/10 flex items-center justify-center group-hover/item:bg-blue-500/10 group-hover/item:border-blue-500/20 transition-all shadow-sm">
+                            <div key={activity.id} className="flex gap-4 group/item cursor-default">
+                                <div className="mt-1 relative shrink-0">
+                                    <div className="w-10 h-10 rounded-xl bg-white/[0.03] border border-white/10 flex items-center justify-center group-hover/item:bg-blue-500/10 group-hover/item:border-blue-500/20 transition-all shadow-sm">
                                         {getActivityIcon(activity.type)}
                                     </div>
                                     {idx !== analytics.recentActivity.length - 1 && (
-                                        <div className="absolute top-14 left-1/2 -translate-x-1/2 w-px h-10 bg-white/5 group-hover/item:bg-blue-500/20 transition-colors" />
+                                        <div className="absolute top-12 left-1/2 -translate-x-1/2 w-px h-8 bg-white/5 group-hover/item:bg-blue-500/20 transition-colors" />
                                     )}
                                 </div>
                                 <div className="flex-1">
-                                    <div className="text-[14px] font-bold text-slate-300 leading-relaxed group-hover/item:text-white transition-colors">
+                                    <div className="text-[13px] font-bold text-slate-300 leading-tight group-hover/item:text-white transition-colors">
                                         {activity.message.replace('User', 'Node Entity').replace('student', 'authorized node')}
                                     </div>
-                                    <div className="text-[10px] text-slate-500/80 font-black mt-2 flex items-center gap-2 uppercase tracking-[0.2em]">
+                                    <div className="text-[9px] text-slate-500/80 font-black mt-2 flex items-center gap-2 uppercase tracking-[0.15em]">
                                         <div className="w-1.5 h-1.5 rounded-full bg-blue-500/50" />
                                         {new Date(activity.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })} • Live Signal
                                     </div>
@@ -253,30 +253,30 @@ const Dashboard = () => {
                         ))}
                     </div>
 
-                    <button className="w-full mt-8 py-4 bg-white/[0.03] hover:bg-blue-500/10 text-slate-400 hover:text-blue-400 font-black rounded-[1.5rem] border border-white/5 hover:border-blue-500/20 text-[10px] uppercase tracking-[0.3em] transition-all active:scale-[0.98] relative z-10">
+                    <button className="w-full mt-6 py-4 bg-white/[0.03] hover:bg-blue-500/10 text-slate-400 hover:text-blue-400 font-black rounded-2xl border border-white/5 hover:border-blue-500/20 text-[10px] uppercase tracking-[0.2em] transition-all active:scale-[0.98] relative z-10">
                         Access Performance Logs
                     </button>
                 </div>
             </div>
 
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                <div className="glass-premium rounded-[2.5rem] p-8 border border-white/5 relative overflow-hidden group">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div className="glass-premium rounded-3xl p-8 border border-white/5 relative overflow-hidden group">
                     <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 to-transparent pointer-events-none" />
-                    <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-8">
+                    <div className="relative z-10 flex flex-col md:flex-row justify-between items-start md:items-center gap-6">
                         <div>
-                            <h3 className="text-xl font-black text-white tracking-tight">Cloud Infrastructure</h3>
-                            <p className="text-slate-500/80 text-xs mt-1 font-bold">Core engine and database cluster status</p>
+                            <h3 className="text-lg font-black text-white tracking-tight uppercase">Infrastructure</h3>
+                            <p className="text-slate-500/80 text-[10px] mt-1 font-bold">Core engine cluster status</p>
                         </div>
-                        <div className="flex gap-10">
+                        <div className="flex gap-8">
                             {[
                                 { label: 'API Gateway', status: 'Operational', color: 'bg-blue-500' },
                                 { label: 'Compute Unit', status: 'Primary', color: 'bg-sky-500' }
                             ].map((s, i) => (
-                                <div key={i} className="space-y-2">
-                                    <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] block">{s.label}</span>
+                                <div key={i} className="space-y-1">
+                                    <span className="text-[9px] font-black text-slate-500 uppercase tracking-[0.2em] block">{s.label}</span>
                                     <div className="flex items-center gap-3">
                                         <div className={`w-2 h-2 rounded-full ${s.color} shadow-[0_0_10px_rgba(255,255,255,0.2)]`} />
-                                        <span className="text-xs font-black text-white tracking-widest uppercase">{s.status}</span>
+                                        <span className="text-[10px] font-black text-white tracking-widest uppercase">{s.status}</span>
                                     </div>
                                 </div>
                             ))}
@@ -284,14 +284,14 @@ const Dashboard = () => {
                     </div>
                 </div>
 
-                <div className="glass-premium rounded-[2.5rem] p-8 border border-white/5 shadow-2xl relative overflow-hidden group flex items-center justify-between">
+                <div className="glass-premium rounded-3xl p-8 border border-white/5 shadow-2xl relative overflow-hidden group flex items-center justify-between">
                     <div className="absolute inset-0 bg-gradient-to-tr from-sky-500/5 to-transparent pointer-events-none" />
                     <div className="relative z-10">
-                        <h3 className="text-xl font-black text-white tracking-tight">Visitor Reach</h3>
-                        <p className="text-slate-500/80 text-xs font-bold mt-1">Popular page segments across the portal</p>
+                        <h3 className="text-lg font-black text-white tracking-tight uppercase">Visitor Reach</h3>
+                        <p className="text-slate-500/80 text-[10px] font-bold mt-1">Popular page segments across the portal</p>
                     </div>
-                    <button onClick={() => navigate('/admin/settings')} className="relative z-10 p-5 rounded-2xl bg-white/[0.03] hover:bg-white/[0.1] text-blue-400 border border-white/5 transition-all">
-                        <ArrowRight size={24} />
+                    <button onClick={() => navigate('/admin/settings')} className="relative z-10 p-4 rounded-xl bg-white/[0.03] hover:bg-white/[0.1] text-blue-400 border border-white/5 transition-all shadow-lg">
+                        <ArrowRight size={20} />
                     </button>
                 </div>
             </div>

@@ -128,7 +128,7 @@ const StaffManagement = () => {
     return (
         <div className="space-y-10 animate-in fade-in slide-in-from-bottom-2 duration-1000">
             {/* Page Header */}
-            <div className="glass-premium p-6 rounded-3xl border border-white/5 shadow-2xl relative overflow-hidden group">
+            <div className="glass-premium p-10 rounded-[3rem] border border-white/5 shadow-2xl relative overflow-hidden group">
                 <div className="flex flex-col lg:flex-row gap-10 lg:items-center lg:justify-between relative z-10">
                     <div>
                         <div className="flex items-center gap-4 mb-2">
@@ -136,7 +136,7 @@ const StaffManagement = () => {
                                 <UserCog size={32} />
                             </div>
                             <div>
-                                <h2 className="text-3xl font-extrabold text-white tracking-tight">Personnel Registry</h2>
+                                <h2 className="text-4xl font-black text-white tracking-tighter theme-gradient-text">Personnel Registry</h2>
                                 <div className="flex items-center gap-2 mt-1">
                                     <span className="text-blue-400 bg-blue-500/10 px-3 py-1 rounded-lg border border-blue-500/20 text-[10px] font-black uppercase tracking-widest">
                                         {staffUsers.length} Authorized Nodes
@@ -160,7 +160,7 @@ const StaffManagement = () => {
                         </div>
                         <button
                             onClick={handleExportStaff}
-                            className="bg-white/[0.03] text-slate-300 hover:bg-blue-500/10 hover:text-blue-400 border border-white/10 hover:border-blue-500/30 px-8 py-3 rounded-xl font-bold flex items-center gap-4 transition-all active:scale-95 text-[10px] uppercase tracking-[0.2em] whitespace-nowrap justify-center shadow-lg"
+                            className="bg-white/[0.03] text-slate-300 hover:bg-blue-500/10 hover:text-blue-400 border border-white/10 hover:border-blue-500/30 px-10 py-5 rounded-2xl font-black flex items-center gap-4 transition-all active:scale-95 text-[10px] uppercase tracking-[0.2em] whitespace-nowrap justify-center shadow-lg"
                         >
                             <Download size={18} />
                             <span>Export Registry</span>
@@ -170,7 +170,7 @@ const StaffManagement = () => {
             </div>
 
             {/* Elevate Student Section */}
-            <div className="glass-premium p-8 rounded-3xl border border-white/5 shadow-2xl relative overflow-hidden group">
+            <div className="glass-premium p-10 rounded-[3rem] border border-white/5 shadow-2xl relative overflow-hidden group">
                 <div className="flex flex-col md:flex-row items-center gap-10 relative z-10">
                     <div className="p-5 bg-blue-500/10 rounded-[2rem] border border-blue-500/20 text-blue-400 shadow-xl shadow-blue-500/10 group-hover:scale-110 transition-transform duration-500">
                         <ShieldCheck size={40} />
@@ -218,9 +218,9 @@ const StaffManagement = () => {
                     <table className="w-full text-left border-collapse min-w-[700px]">
                         <thead>
                             <tr className="bg-white/[0.03] border-b border-white/10 shadow-sm">
-                                <th className="px-10 py-4 text-[10px] font-black uppercase tracking-[0.25em] text-slate-500/80">Authorized Node</th>
-                                <th className="px-10 py-4 text-[10px] font-black uppercase tracking-[0.25em] text-slate-500/80">Entity Role</th>
-                                <th className="px-10 py-4 text-[10px] font-black uppercase tracking-[0.25em] text-slate-500/80 text-right">Directives</th>
+                                <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.25em] text-slate-500/80">Authorized Node</th>
+                                <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.25em] text-slate-500/80">Entity Role</th>
+                                <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.25em] text-slate-500/80 text-right">Directives</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-white/5 backdrop-blur-sm">
@@ -229,7 +229,7 @@ const StaffManagement = () => {
                                 const isPending = updatingId === user._id;
                                 return (
                                     <tr key={user._id} className="hover:bg-white/[0.02] transition-colors group/row">
-                                        <td className="px-10 py-4">
+                                        <td className="px-10 py-8">
                                             <div className="flex items-center gap-6">
                                                 <div className="w-14 h-14 rounded-2xl bg-blue-500/10 flex items-center justify-center text-blue-400 font-black border border-blue-500/20 shadow-lg group-hover/row:scale-110 transition-transform duration-500 group-hover/row:border-blue-500/40">
                                                     {(user.name || "A").charAt(0).toUpperCase()}
@@ -240,7 +240,7 @@ const StaffManagement = () => {
                                                 </div>
                                             </div>
                                         </td>
-                                        <td className="px-10 py-4">
+                                        <td className="px-10 py-8">
                                             <div className="flex flex-wrap gap-3">
                                                 <span className={`px-5 py-2 rounded-xl text-[10px] font-black uppercase tracking-[0.15em] border ${user.role === 'admin'
                                                     ? 'bg-rose-500/10 text-rose-400 border border-rose-500/20 shadow-sm shadow-rose-500/10'
@@ -256,7 +256,7 @@ const StaffManagement = () => {
                                                 )}
                                             </div>
                                         </td>
-                                        <td className="px-10 py-4 text-right">
+                                        <td className="px-10 py-8 text-right">
                                             <div className="flex items-center justify-end gap-4">
                                                 <button
                                                     onClick={() => openResetModal(user)}

@@ -134,7 +134,7 @@ const ContactPage = () => {
   return (
     <div className="min-h-screen pt-0 bg-white selection:bg-indigo-500/20">
       {/* Contact Hero Section - Light */}
-      <section className="relative min-h-[45vh] flex items-center bg-white overflow-hidden pt-28 pb-16">
+      <section className="relative min-h-[40vh] flex items-center bg-white overflow-hidden pt-24 pb-12">
         {/* Advanced Atmospheric Background */}
         <div className="absolute inset-0 pointer-events-none">
           <motion.div
@@ -177,17 +177,17 @@ const ContactPage = () => {
       </section>
 
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 relative z-20 -mt-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-12 relative z-20 -mt-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 xl:gap-14">
           {/* Contact Info Cards */}
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
-            className="space-y-6"
+            className="space-y-8"
           >
-            <div className="mb-8 pt-4">
-              <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-3 tracking-tighter uppercase leading-none">
+            <div className="mb-10 pt-8">
+              <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-4 tracking-tighter uppercase leading-none">
                 Get in <span className="text-indigo-600">Touch</span>
               </h2>
               <p className="text-base text-slate-600 font-medium leading-relaxed max-w-md">
@@ -204,7 +204,7 @@ const ContactPage = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: idx * 0.1 }}
-                  className="flex items-center space-x-6 p-6 rounded-[2rem] bg-white border border-slate-100 shadow-2xl shadow-slate-200/50 hover:shadow-indigo-500/10 hover:border-indigo-500/20 transition-all duration-500 group relative overflow-hidden"
+                  className="flex items-center space-x-6 p-8 rounded-[2rem] bg-white border border-slate-100 shadow-2xl shadow-slate-200/50 hover:shadow-indigo-500/10 hover:border-indigo-500/20 transition-all duration-500 group relative overflow-hidden"
                 >
                   <div className={`absolute top-0 right-0 w-32 h-32 bg-gradient-to-br from-indigo-500 to-transparent opacity-[0.03] rounded-bl-[100%] transition-transform group-hover:scale-125`} />
 
@@ -224,7 +224,7 @@ const ContactPage = () => {
               ))}
             </div>
 
-            <div className="pt-6 flex gap-3">
+            <div className="pt-8 flex gap-4">
               {[
                 { icon: Instagram, color: 'hover:bg-pink-600', link: settings.socialLinks.instagram },
                 { icon: Linkedin, color: 'hover:bg-blue-700', link: settings.socialLinks.linkedin },

@@ -150,12 +150,12 @@ const PartnerManagement = () => {
                                 placeholder="Filter alliances..."
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                className="bg-transparent text-white placeholder:text-slate-600 focus:outline-none py-4 px-4 w-full lg:w-64 font-bold text-sm tracking-tight"
+                                className="bg-transparent text-white placeholder:text-slate-600 focus:outline-none py-3 px-4 w-full lg:w-64 font-bold text-sm tracking-tight"
                             />
                         </div>
                         <button
                             onClick={() => { setEditingPartner(null); setFormData(initialFormState); setIsModalOpen(true); }}
-                            className="bg-emerald-600 text-white hover:bg-emerald-500 px-6 py-4 rounded-xl font-bold flex items-center gap-3 transition-all active:scale-95 shadow-lg shadow-emerald-500/20 text-[10px] uppercase tracking-widest flex-1 sm:flex-none justify-center whitespace-nowrap"
+                            className="bg-emerald-600 text-white hover:bg-emerald-500 px-6 py-3 rounded-xl font-bold flex items-center gap-3 transition-all active:scale-95 shadow-lg shadow-emerald-500/20 text-[10px] uppercase tracking-widest flex-1 sm:flex-none justify-center whitespace-nowrap"
                         >
                             <Plus size={18} />
                             <span>New Alliance</span>
@@ -217,7 +217,7 @@ const PartnerManagement = () => {
                                                 <span className="text-[10px] font-black uppercase tracking-widest text-slate-600">No URL defined</span>
                                             )}
                                         </td>
-                                        <td className="px-8 py-4 text-right">
+                                        <td className="px-8 py-6 text-right">
                                             <div className="flex justify-end gap-3">
                                                 <button
                                                     onClick={() => openEditModal(partner)}
@@ -251,7 +251,7 @@ const PartnerManagement = () => {
                             exit={{ opacity: 0, scale: 0.95, y: 30 }}
                             className="relative w-full max-w-xl bg-[#0f172a] border border-white/10 rounded-[3rem] p-8 shadow-2xl flex flex-col"
                         >
-                            <div className="flex items-start justify-between gap-6 mb-8 shrink-0">
+                            <div className="flex items-start justify-between gap-6 mb-10 shrink-0">
                                 <div>
                                     <h3 className="text-3xl font-black text-white tracking-tight uppercase">
                                         {editingPartner ? "Refine Entity" : "Global Onboarding"}
@@ -266,7 +266,7 @@ const PartnerManagement = () => {
                                 </button>
                             </div>
 
-                            <form id="partnerForm" onSubmit={handleSubmit} className="flex-1 overflow-y-auto pr-4 -mr-4 space-y-10 custom-scrollbar">
+                            <form id="partnerForm" onSubmit={handleSubmit} className="flex-1 overflow-y-auto pr-4 -mr-4 space-y-6 custom-scrollbar">
                                 <div className="flex flex-col items-center justify-center">
                                     <label className="relative group cursor-pointer">
                                         <div className={`w-48 h-48 rounded-[2.5rem] border-2 border-dashed flex items-center justify-center overflow-hidden transition-all relative ${formData.logo ? 'border-emerald-500/50 bg-white/5' : 'border-white/10 bg-white/5 hover:border-emerald-500/50'}`}>
@@ -301,7 +301,7 @@ const PartnerManagement = () => {
                                                 required
                                                 value={formData.name}
                                                 onChange={e => setFormData({ ...formData, name: e.target.value })}
-                                                className="w-full bg-white/5 border border-white/10 rounded-2xl p-6 pl-16 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-600"
+                                                className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 pl-16 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-600"
                                                 placeholder="e.g. Aether Dynamics"
                                             />
                                         </div>
@@ -313,7 +313,7 @@ const PartnerManagement = () => {
                                             <input
                                                 value={formData.website}
                                                 onChange={e => setFormData({ ...formData, website: e.target.value })}
-                                                className="w-full bg-white/5 border border-white/10 rounded-2xl p-6 pl-16 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-600"
+                                                className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 pl-16 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-600"
                                                 placeholder="https://aether.network"
                                             />
                                         </div>
@@ -321,7 +321,7 @@ const PartnerManagement = () => {
                                 </div>
                             </form>
 
-                            <div className="p-8 border-t border-white/5 flex justify-end items-center gap-4 shrink-0 -mx-10 -mb-10 mt-8 bg-white/5">
+                            <div className="p-10 border-t border-white/5 flex justify-end items-center gap-4 shrink-0 -mx-10 -mb-10 mt-10 bg-white/5">
                                 <button
                                     type="button"
                                     onClick={() => setIsModalOpen(false)}
