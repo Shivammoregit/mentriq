@@ -1,20 +1,22 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 
 import { Filter, X } from 'lucide-react'
 
 const CoursesFilter = ({ filters, setFilters, categories = [] }) => {
   const [open, setOpen] = useState(false)
 
-  const categoryOptions = [
-    'Web Development',
-    'Data Structures',
-    'Java',
-    'React',
-    'Node.js',
-    'Full Stack',
-    'Mobile App',
-    'DevOps'
-  ]
+  const categoryOptions = categories.length > 0
+    ? categories
+    : [
+      'Web Development',
+      'Data Structures',
+      'Java',
+      'React',
+      'Node.js',
+      'Full Stack',
+      'Mobile App',
+      'DevOps'
+    ]
 
   const levelOptions = ['Beginner', 'Intermediate', 'Advanced']
 
@@ -27,8 +29,6 @@ const CoursesFilter = ({ filters, setFilters, categories = [] }) => {
 
   return (
     <div
-      }
-      }
       className="sticky top-20 z-10 bg-white/80 backdrop-blur-md shadow-lg border border-gray-200 rounded-3xl p-6 mb-12"
     >
       <button
@@ -49,7 +49,6 @@ const CoursesFilter = ({ filters, setFilters, categories = [] }) => {
             {categoryOptions.map((category) => (
               <button
                 key={category}
-                }
                 onClick={() => handleFilterChange('category', category)}
                 className={`w-full p-3 rounded-xl text-left transition-all duration-200 border-2 ${filters.category === category
                     ? 'bg-indigo-500 text-white border-indigo-500 shadow-lg'
@@ -68,7 +67,6 @@ const CoursesFilter = ({ filters, setFilters, categories = [] }) => {
             {levelOptions.map((level) => (
               <button
                 key={level}
-                }
                 onClick={() => handleFilterChange('level', level)}
                 className={`w-full p-3 rounded-xl text-left transition-all duration-200 border-2 ${filters.level === level
                     ? 'bg-indigo-500 text-white border-indigo-500 shadow-lg'
@@ -85,7 +83,6 @@ const CoursesFilter = ({ filters, setFilters, categories = [] }) => {
           <label className="block text-sm font-semibold text-gray-700 mb-3">Price Range</label>
           <div className="space-y-2">
             <button
-              }
               onClick={() => handleFilterChange('price', 'free')}
               className={`w-full p-3 rounded-xl text-left transition-all duration-200 border-2 ${filters.price === 'free'
                   ? 'bg-emerald-500 text-white border-emerald-500 shadow-lg'
@@ -95,7 +92,6 @@ const CoursesFilter = ({ filters, setFilters, categories = [] }) => {
               Free Courses
             </button>
             <button
-              }
               onClick={() => handleFilterChange('price', 'paid')}
               className={`w-full p-3 rounded-xl text-left transition-all duration-200 border-2 ${filters.price === 'paid'
                   ? 'bg-indigo-500 text-white border-indigo-500 shadow-lg'
@@ -109,7 +105,6 @@ const CoursesFilter = ({ filters, setFilters, categories = [] }) => {
 
         <div className="flex flex-col justify-center">
           <button
-            }
             onClick={() => setFilters({})}
             className="w-full p-3 bg-red-50 border-2 border-red-200 text-red-700 font-semibold rounded-xl hover:bg-red-100 hover:shadow-lg transition-all duration-300 flex items-center justify-center space-x-2"
           >

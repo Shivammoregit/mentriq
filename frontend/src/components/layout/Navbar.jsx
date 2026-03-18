@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { useAuth } from '../../context/AuthContext'
 import { Menu, X, LogOut, Phone } from 'lucide-react'
+import { AnimatePresence, motion, useMotionValueEvent, useScroll } from 'motion/react'
 import AuthModal from '../auth/AuthModal'
 
 
@@ -40,10 +41,10 @@ const Navbar = () => {
                 initialTab="login"
             />
 
-            <nav
-                }
-                }
-                }
+            <motion.nav
+                initial={{ y: -24, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 0.35, ease: 'easeOut' }}
                 className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isDarkPage
                     ? "bg-[#070b14]/95 backdrop-blur-md shadow-lg border-b border-white/5"
                     : "bg-white/95 backdrop-blur-md shadow-sm border-b border-slate-100"
@@ -118,9 +119,9 @@ const Navbar = () => {
                                 </div>
                             ) : (
                                 <Link to="/contact">
-                                    <button
-                                        }
-                                        }
+                                    <motion.button
+                                        whileHover={{ scale: 1.03 }}
+                                        whileTap={{ scale: 0.98 }}
                                         animate={{
                                             boxShadow: ["0px 0px 0px rgba(99, 102, 241, 0)", "0px 0px 20px rgba(99, 102, 241, 0.3)", "0px 0px 0px rgba(99, 102, 241, 0)"],
                                         }}
@@ -135,7 +136,7 @@ const Navbar = () => {
                                     >
                                         <span>Contact Us</span>
                                         <Phone size={16} className="fill-white/20" />
-                                    </button>
+                                    </motion.button>
                                 </Link>
                             )}
                         </div>
@@ -153,9 +154,9 @@ const Navbar = () => {
                 {/* Mobile Menu */}
                 <AnimatePresence>
                     {mobileOpen && (
-                        <div
-                            }
-                            }
+                        <motion.div
+                            initial={{ opacity: 0, height: 0 }}
+                            animate={{ opacity: 1, height: 'auto' }}
                             exit={{ opacity: 0, height: 0 }}
                             className={`md:hidden border-t overflow-hidden ${isDarkPage ? 'bg-[#0b1120] border-white/10' : 'bg-white border-slate-100'}`}
                         >
@@ -207,20 +208,20 @@ const Navbar = () => {
                                             onClick={() => setMobileOpen(false)}
                                             className="block w-full"
                                         >
-                                            <div
-                                                }
+                                            <motion.div
+                                                whileTap={{ scale: 0.98 }}
                                                 className={`w-full text-center px-4 py-3 bg-indigo-600 text-white rounded-xl text-sm font-bold shadow-lg ${isDarkPage ? 'shadow-indigo-500/20' : 'shadow-indigo-200'}`}
                                             >
                                                 Contact Us
-                                            </div>
+                                            </motion.div>
                                         </Link>
                                     )}
                                 </div>
                             </div>
-                        </div>
+                        </motion.div>
                     )}
                 </AnimatePresence>
-            </nav>
+            </motion.nav>
         </>
     )
 }

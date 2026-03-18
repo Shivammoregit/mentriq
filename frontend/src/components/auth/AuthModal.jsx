@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
 
 import { X, Mail, Lock, User, Eye, EyeOff } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
@@ -81,16 +82,16 @@ const AuthModal = ({ isOpen, onClose, initialTab = 'login' }) => {
 
   return (
     <AnimatePresence>
-      <div
-        }
-        }
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
         className="fixed inset-0 bg-[#0f172a]/40 backdrop-blur-md z-50 flex items-center justify-center px-4 top-16"
         onClick={onClose}
       >
-        <div
-          }
-          }
+        <motion.div
+          initial={{ scale: 0.94, opacity: 0, y: 24 }}
+          animate={{ scale: 1, opacity: 1, y: 0 }}
           exit={{ scale: 0.9, opacity: 0, y: 20 }}
           className="w-full max-w-md bg-white/95 backdrop-blur-3xl rounded-[2.5rem] shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)] border border-white overflow-hidden"
           onClick={(e) => e.stopPropagation()}
@@ -211,22 +212,21 @@ const AuthModal = ({ isOpen, onClose, initialTab = 'login' }) => {
 
             {/* General errors */}
             {errors.general && (
-              <div
-                }
-                }
+              <motion.div
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
                 className="p-4 bg-red-50 border border-red-100 rounded-2xl flex items-center gap-3"
               >
                 <div className="w-2 h-2 bg-red-500 rounded-full animate-pulse" />
                 <p className="text-red-800 text-xs font-bold">{errors.general}</p>
-              </div>
+              </motion.div>
             )}
 
             {/* Submit button */}
             <button
               type="submit"
               disabled={loading}
-              }
-              }
+              onMouseMove={() => {}}
               className="relative w-full overflow-hidden bg-gradient-to-r from-indigo-600 to-indigo-700 text-white font-black py-5 px-8 rounded-2xl shadow-[0_15px_30px_rgba(79,70,229,0.3)] hover:shadow-[0_20px_40px_rgba(79,70,229,0.4)] transition-all flex items-center justify-center space-x-3 group disabled:opacity-50"
             >
               {loading ? (
@@ -255,8 +255,8 @@ const AuthModal = ({ isOpen, onClose, initialTab = 'login' }) => {
               </p>
             </div>
           </form>
-        </div>
-      </div>
+        </motion.div>
+      </motion.div>
     </AnimatePresence>
   )
 }

@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { motion } from 'framer-motion'
 import {
     Zap,
     Users,
@@ -28,19 +28,13 @@ import {
 } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { apiClient as api } from '../utils/apiClient'
-import { getImageUrl } from '../utils/imageUtils'
 import SectionErrorBoundary from '../components/common/SectionErrorBoundary'
 
 // Home-specific components
-import VisionSection from '../components/home/VisionSection'
-import StatsSection from '../components/home/StatsSection'
-import FeaturesSection from '../components/home/FeaturesSection'
 import ServicesSection from '../components/home/ServicesSection'
 import MentorsSection from '../components/home/MentorsSection'
-import TestimonialsSection from '../components/home/TestimonialsSection'
 import PartnersSection from '../components/home/PartnersSection'
 import TechnologiesSection from '../components/home/TechnologiesSection'
-import CTASection from '../components/home/CTASection'
 
 const HomePage = () => {
     const navigate = useNavigate()
@@ -200,7 +194,7 @@ const HomePage = () => {
                             >
                                 <div className="absolute inset-0 opacity-[0.05] bg-[radial-gradient(#6366f1_1px,transparent_1px)] bg-[length:16px_16px]" />
                                 <img
-                                    src="/images/Mentriqlogo.png"
+                                    src="/images/logo2.png"
                                     alt="Technical Core"
                                     className="w-full h-full object-contain p-12 opacity-80"
                                 />
@@ -244,21 +238,6 @@ const HomePage = () => {
                 </div>
             </section>
 
-            {/* Vision Section */}
-            <SectionErrorBoundary>
-                <VisionSection />
-            </SectionErrorBoundary>
-
-            {/* Stats Section */}
-            <SectionErrorBoundary>
-                <StatsSection stats={stats} />
-            </SectionErrorBoundary>
-
-            {/* Features Section */}
-            <SectionErrorBoundary>
-                <FeaturesSection />
-            </SectionErrorBoundary>
-
             {/* Services Section */}
             <SectionErrorBoundary>
                 <ServicesSection />
@@ -267,11 +246,6 @@ const HomePage = () => {
             {/* Mentors Section */}
             <SectionErrorBoundary>
                 <MentorsSection />
-            </SectionErrorBoundary>
-
-            {/* Testimonials Section */}
-            <SectionErrorBoundary>
-                <TestimonialsSection />
             </SectionErrorBoundary>
 
             {/* Partners Section */}

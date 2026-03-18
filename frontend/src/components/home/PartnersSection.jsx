@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { motion } from 'framer-motion';
 
 import { apiClient as api } from '../../utils/apiClient';
 import { resolveImageUrl } from '../../utils/imageUtils';
@@ -40,10 +41,10 @@ const PartnersSection = () => {
             <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-[120px] pointer-events-none" />
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-12 relative z-10">
-                <div
-                    }
-                    }
-                    }
+                <motion.div
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
                     className="inline-block"
                 >
                     <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-[10px] font-black uppercase tracking-[0.3em] mb-4 mx-auto w-fit">
@@ -56,7 +57,7 @@ const PartnersSection = () => {
                     <p className="text-gray-400 max-w-2xl mx-auto text-base leading-relaxed">
                         Empowering careers by connecting our talent with industry leaders worldwide.
                     </p>
-                </div>
+                </motion.div>
             </div>
 
             <div className="relative w-full overflow-hidden flex flex-col gap-6">
@@ -68,7 +69,7 @@ const PartnersSection = () => {
                 <div className="flex overflow-hidden py-8">
                     <MotionDiv
                         className="flex gap-10 px-5 w-max"
-                        }
+                        animate={{ x: ['0%', '-50%'] }}
                         transition={{
                             repeat: Infinity,
                             duration: 50,
@@ -85,7 +86,7 @@ const PartnersSection = () => {
                 <div className="flex overflow-hidden py-8">
                     <MotionDiv
                         className="flex gap-10 px-5 w-max"
-                        }
+                        animate={{ x: ['-50%', '0%'] }}
                         transition={{
                             repeat: Infinity,
                             duration: 55,

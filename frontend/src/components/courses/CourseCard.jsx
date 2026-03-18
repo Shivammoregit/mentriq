@@ -1,14 +1,12 @@
 
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { useAuth } from '../../context/AuthContext'
+import { useMotionValue, useSpring, useTransform } from 'framer-motion'
 import { ArrowRight, Sparkles } from 'lucide-react'
 
 import { getCourseImageUrl } from '../../utils/imageUtils'
 
 const CourseCard = ({ course, baseUrl = '/courses' }) => {
-  const { isAuthenticated } = useAuth()
-
   // 3D Tilt Logic
   const x = useMotionValue(0)
   const y = useMotionValue(0)
@@ -44,10 +42,6 @@ const CourseCard = ({ course, baseUrl = '/courses' }) => {
     }
     return colors[level] || 'bg-gray-500'
   }
-
-  const price = course.price || 0
-  const discount = course.discount || 0
-  const finalPrice = discount > 0 ? price - (price * discount) / 100 : price
 
   return (
     <div

@@ -17,7 +17,7 @@ const InternshipManagement = () => {
         title: "",
         company: "MentriQ Technology",
         location: "Remote",
-        type: "Full-time",
+        type: "Remote",
         description: "",
         requirements: "",
         questions: "",
@@ -54,10 +54,19 @@ const InternshipManagement = () => {
             const payload = {
                 ...formData,
                 requirements: typeof formData.requirements === 'string'
-                    ? formData.requirements.split('\n').filter(r => r.trim())
+                    ? formData.requirements.trim()
                     : formData.requirements,
                 questions: typeof formData.questions === 'string'
-                    ? formData.questions.split('\n').filter(q => q.trim())
+                    ? formData.questions
+                        .split('\n')
+                        .map(q => q.trim())
+                        .filter(Boolean)
+                        .map((label, index) => ({
+                            id: `question-${index + 1}`,
+                            label,
+                            type: 'text',
+                            required: false
+                        }))
                     : formData.questions || []
             };
 
@@ -73,7 +82,7 @@ const InternshipManagement = () => {
             setFormData(initialFormState);
             fetchData();
         } catch (err) {
-            toast.error("Transmission failed");
+            toast.error(err.response?.data?.message || "Transmission failed");
         }
     };
 
@@ -102,8 +111,10 @@ const InternshipManagement = () => {
         setEditingInternship(internship);
         setFormData({
             ...internship,
-            requirements: Array.isArray(internship.requirements) ? internship.requirements.join('\n') : internship.requirements,
-            questions: Array.isArray(internship.questions) ? internship.questions.join('\n') : (internship.questions || "")
+            requirements: Array.isArray(internship.requirements) ? internship.requirements.join('\n') : (internship.requirements || ""),
+            questions: Array.isArray(internship.questions)
+                ? internship.questions.map((q) => typeof q === 'string' ? q : q.label).filter(Boolean).join('\n')
+                : (internship.questions || "")
         });
         setIsModalOpen(true);
     };

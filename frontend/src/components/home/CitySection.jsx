@@ -1,9 +1,12 @@
 import React, { useEffect, useState, useMemo } from 'react';
+import { motion, useAnimationFrame, useMotionValue, useSpring, useTransform } from 'framer-motion';
 
 import { MapPin, Navigation, Sparkles, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { apiClient } from '../../utils/apiClient';
 import { resolveImageUrl } from '../../utils/imageUtils';
+
+const MotionDiv = motion.div;
 
 const CityHubCard = ({ city, scrollX, index, totalItems }) => {
     const navigate = useNavigate();
@@ -35,7 +38,7 @@ const CityHubCard = ({ city, scrollX, index, totalItems }) => {
     const zIndex = useTransform(x, [-200, 0, 200], [10, 60, 10]);
 
     return (
-        <div
+        <MotionDiv
             style={{
                 x,
                 scale,
@@ -79,9 +82,9 @@ const CityHubCard = ({ city, scrollX, index, totalItems }) => {
 
             {/* Content Container */}
             <div className="absolute inset-x-0 bottom-0 p-8 z-20 text-center">
-                <div
-                    }
-                    }
+                <MotionDiv
+                    initial={{ opacity: 0, y: 16 }}
+                    whileInView={{ opacity: 1, y: 0 }}
                     className="flex flex-col items-center"
                 >
                     <div className="inline-flex items-center gap-2 mb-3 text-indigo-400">
@@ -97,26 +100,26 @@ const CityHubCard = ({ city, scrollX, index, totalItems }) => {
                         "{city.description || "Architecting digital excellence through state-of-the-art technical nodes."}"
                     </p>
 
-                    <div
+                    <MotionDiv
                         className="mt-6 flex items-center gap-2 px-5 py-2.5 bg-indigo-600/90 rounded-2xl text-white text-[10px] font-black uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all duration-700 pointer-events-none"
                     >
                         <span>Explore</span>
                         <ArrowRight size={14} strokeWidth={3} />
-                    </div>
-                </div>
+                    </MotionDiv>
+                </MotionDiv>
             </div>
 
             {/* Technical HUD Scanline */}
             <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%)] bg-[length:100%_4px] pointer-events-none opacity-[0.05] z-10" />
 
             {/* Animated Highlight Line */}
-            <div
+            <motion.div
                 className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-indigo-500/50 to-transparent z-30"
-                }
-                }
-                }
+                initial={{ x: '-100%' }}
+                animate={{ x: ['-100%', '100%'] }}
+                transition={{ duration: 2.6, repeat: Infinity, ease: 'linear' }}
             />
-        </div>
+        </MotionDiv>
     );
 };
 
@@ -178,10 +181,10 @@ const CitySection = () => {
             </div>
 
             <div className="max-w-7xl mx-auto px-6 relative z-10 text-center">
-                <div
-                    }
-                    }
-                    }
+                <MotionDiv
+                    initial={{ opacity: 0, y: 24 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true }}
                     className="mb-16"
                 >
                     <h2 className="text-5xl md:text-7xl font-black text-white tracking-tighter leading-[0.85] mb-6 uppercase font-display">
@@ -192,7 +195,7 @@ const CitySection = () => {
                     <p className="text-slate-400 text-lg font-medium leading-relaxed max-w-2xl mx-auto opacity-90">
                         Bridging the gap between theory and <span className="text-white italic underline decoration-indigo-500/50 decoration-4">real-world execution</span> through high-performance hubs across India.
                     </p>
-                </div>
+                </MotionDiv>
 
                 {/* SCROLLER AREA WITH CENTER FOCUS */}
                 <div

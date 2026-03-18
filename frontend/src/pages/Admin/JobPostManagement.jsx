@@ -31,7 +31,7 @@ const JobPostManagement = () => {
     const initialFormState = {
         title: "",
         company: "MentriQ Technology",
-        location: "Bengaluru, India",
+        location: "Remote",
         type: "Full-time",
         description: "",
         requirements: "",
@@ -98,7 +98,7 @@ const JobPostManagement = () => {
             setFormData(initialFormState);
             fetchJobs();
         } catch (err) {
-            toast.error("Transmission error");
+            toast.error(err.response?.data?.message || "Transmission error");
         }
     };
 
@@ -257,7 +257,7 @@ const JobPostManagement = () => {
 
                                     <div className="grid grid-cols-2 gap-6">
                                         <div className="space-y-2">
-                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Operational Zone</label>
+                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Location</label>
                                             <input
                                                 required
                                                 value={formData.location}
@@ -266,7 +266,7 @@ const JobPostManagement = () => {
                                             />
                                         </div>
                                         <div className="space-y-2">
-                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Employment Logic</label>
+                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Employment Type</label>
                                             <select
                                                 value={formData.type}
                                                 onChange={e => setFormData({ ...formData, type: e.target.value })}
@@ -274,15 +274,16 @@ const JobPostManagement = () => {
                                             >
                                                 <option value="Full-time" className="bg-slate-900">Full-time</option>
                                                 <option value="Part-time" className="bg-slate-900">Part-time</option>
+                                                <option value="Internship" className="bg-slate-900">Internship</option>
                                                 <option value="Contract" className="bg-slate-900">Contract</option>
-                                                <option value="Remote" className="bg-slate-900">Remote</option>
                                             </select>
                                         </div>
                                     </div>
 
                                     <div className="space-y-2">
-                                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Digital Uplink (Link)</label>
+                                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Application Link</label>
                                         <input
+                                            required
                                             value={formData.applicationLink}
                                             onChange={e => setFormData({ ...formData, applicationLink: e.target.value })}
                                             className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-600 text-sm"
@@ -291,8 +292,9 @@ const JobPostManagement = () => {
                                     </div>
 
                                     <div className="space-y-2">
-                                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Prerequisite Matrix (HTML/MD supported)</label>
+                                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Requirements</label>
                                         <textarea
+                                            required
                                             rows={3}
                                             value={formData.requirements}
                                             onChange={e => setFormData({ ...formData, requirements: e.target.value })}
