@@ -1,7 +1,8 @@
 import Navbar from './Navbar'
-import React from 'react'
+import React, { Suspense, lazy } from 'react'
 import Footer from './Footer'
-import Chatbot from '../common/Chatbot'
+
+const Chatbot = lazy(() => import('../common/Chatbot'))
 
 const Layout = ({ children }) => {
   return (
@@ -11,7 +12,9 @@ const Layout = ({ children }) => {
       <Navbar />
       <main className="flex-1 pt-16 relative z-10">{children}</main>
       <Footer />
-      <Chatbot />
+      <Suspense fallback={null}>
+        <Chatbot />
+      </Suspense>
     </div>
   )
 }

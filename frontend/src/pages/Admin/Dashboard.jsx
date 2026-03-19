@@ -17,6 +17,7 @@ import {
     Cpu
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import AdminLoader from "../../components/common/AdminLoader";
 import {
     AreaChart,
     Area,
@@ -75,16 +76,12 @@ const Dashboard = () => {
 
     const fetchDashData = useCallback(async () => {
         try {
-            const [statsRes, activityRes] = await Promise.all([
-                api.get('/admin/stats'),
-                api.get('/admin/activity')
-            ]);
-            setRaw(statsRes.data);
-            setAnalytics(prev => ({
-                ...prev,
-                enrollmentTrends: statsRes.data.trends || [],
-                recentActivity: activityRes.data || []
-            }));
+            const { data } = await api.get('/stats');
+            setRaw(data.raw || {});
+            setAnalytics({
+                enrollmentTrends: data.analytics?.enrollmentTrends || [],
+                recentActivity: data.analytics?.recentActivity || []
+            });
         } catch (err) {
             console.error("Dashboard uplift failure", err);
         } finally {
@@ -108,16 +105,7 @@ const Dashboard = () => {
     };
 
     if (loading) {
-        return (
-            <div className="h-[60vh] flex flex-col items-center justify-center gap-6">
-                <div className="relative">
-                    <div className="w-16 h-16 border-4 border-blue-500/20 border-t-blue-500 rounded-full animate-spin" />
-                    <div className="absolute inset-x-0 -bottom-12 whitespace-nowrap text-center">
-                        <span className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] animate-pulse">Syncing Command Center...</span>
-                    </div>
-                </div>
-            </div>
-        );
+        return <AdminLoader label="Loading dashboard" />;
     }
 
     return (

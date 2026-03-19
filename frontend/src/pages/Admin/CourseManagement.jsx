@@ -5,6 +5,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useToast } from "../../context/ToastContext";
 import { resolveImageUrl } from "../../utils/imageUtils";
 
+const COURSE_FALLBACK_IMAGE = "/images/learning4.jpg";
+
 const CourseManagement = () => {
     const [courses, setCourses] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -146,7 +148,7 @@ const CourseManagement = () => {
             thumbnailUrl: course.thumbnailUrl || "",
             thumbnailFile: null
         });
-        setImagePreview(resolveImageUrl(course.thumbnailUrl));
+        setImagePreview(resolveImageUrl(course.thumbnailUrl, COURSE_FALLBACK_IMAGE));
         setIsModalOpen(true);
     };
 
@@ -246,10 +248,12 @@ const CourseManagement = () => {
                                                 <div className="flex items-center gap-4">
                                                     <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center overflow-hidden shrink-0 shadow-sm group-hover:border-blue-500/50 transition-all">
                                                         <img
-                                                            src={resolveImageUrl(course.thumbnailUrl)}
+                                                            src={resolveImageUrl(course.thumbnailUrl, COURSE_FALLBACK_IMAGE)}
                                                             alt={course.title}
                                                             className="w-full h-full object-cover transition-transform group-hover:scale-110"
-                                                            onError={(e) => e.target.src = "https://via.placeholder.com/64?text=Course"}
+                                                            onError={(e) => {
+                                                                e.currentTarget.src = COURSE_FALLBACK_IMAGE;
+                                                            }}
                                                         />
                                                     </div>
                                                     <div>
@@ -346,9 +350,23 @@ const CourseManagement = () => {
                                             <div className="relative group">
                                                 <div className="w-full h-32 bg-white/5 border-2 border-dashed border-white/10 rounded-3xl flex flex-col items-center justify-center gap-3 group-hover:border-blue-400 transition-all overflow-hidden relative">
                                                     {imagePreview ? (
-                                                        <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
+                                                        <img
+                                                            src={imagePreview}
+                                                            alt="Preview"
+                                                            className="w-full h-full object-cover"
+                                                            onError={(e) => {
+                                                                e.currentTarget.src = COURSE_FALLBACK_IMAGE;
+                                                            }}
+                                                        />
                                                     ) : formData.thumbnailUrl ? (
-                                                        <img src={resolveImageUrl(formData.thumbnailUrl)} alt="Current" className="w-full h-full object-cover" />
+                                                        <img
+                                                            src={resolveImageUrl(formData.thumbnailUrl, COURSE_FALLBACK_IMAGE)}
+                                                            alt="Current"
+                                                            className="w-full h-full object-cover"
+                                                            onError={(e) => {
+                                                                e.currentTarget.src = COURSE_FALLBACK_IMAGE;
+                                                            }}
+                                                        />
                                                     ) : (
                                                         <>
                                                             <ImageIcon size={32} className="text-slate-500 group-hover:text-blue-400 transition-colors" strokeWidth={1.5} />

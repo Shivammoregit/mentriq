@@ -28,7 +28,7 @@ const courseSchema = new mongoose.Schema(
     },
     thumbnailUrl: {
       type: String,
-      default: "https://via.placeholder.com/400x300/3b82f6/ffffff?text=MentriQ"
+      default: "/images/learning4.jpg"
     },
     syllabusUrl: {
       type: String,

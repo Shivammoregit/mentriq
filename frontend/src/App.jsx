@@ -1,7 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
-import React, { useState, useEffect, Suspense, lazy } from 'react';
-import { AnimatePresence } from 'framer-motion';
-import Preloader from './components/common/Preloader';
+import React, { Suspense, lazy } from 'react';
+import RouteLoader from './components/common/RouteLoader';
 import AppErrorBoundary from './components/common/AppErrorBoundary';
 import Layout from './components/layout/Layout';
 import AdminLayout from './components/layout/AdminLayout';
@@ -50,30 +49,14 @@ import ScrollToTop from './pages/ScrollToTop';
 
 function App() {
   const { isAuthenticated } = useAuth();
-  const [loading, setLoading] = useState(true);
 
   // Global Visitor Intel tracking
   useVisitorTracking();
 
-  useEffect(() => {
-    // Simulate loading time (e.g., waiting for assets or initial checks)
-    const timer = setTimeout(() => {
-      setLoading(false);
-    }, 500);
-
-    return () => clearTimeout(timer);
-  }, []);
-
   return (
-    <>
-      <AnimatePresence mode="wait">
-        {loading && <Preloader key="preloader" />}
-      </AnimatePresence>
-
-      {!loading && (
-        <Suspense fallback={<Preloader />}>
-          <ScrollToTop />
-          <Routes>
+    <Suspense fallback={<RouteLoader />}>
+      <ScrollToTop />
+      <Routes>
             <Route path="/" element={<Layout><HomePage /></Layout>} />
             <Route path="/courses" element={<Layout><CoursesPage /></Layout>} />
             <Route path="/courses/:id" element={<Layout><CourseDetailPage /></Layout>} />
@@ -273,10 +256,8 @@ function App() {
               }
             />
             <Route path="*" element={<Layout><NotFoundPage /></Layout>} />
-          </Routes>
-        </Suspense>
-      )}
-    </>
+      </Routes>
+    </Suspense>
   );
 }
 

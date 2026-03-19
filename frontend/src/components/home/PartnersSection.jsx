@@ -41,12 +41,7 @@ const PartnersSection = () => {
             <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-[120px] pointer-events-none" />
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-12 relative z-10">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    className="inline-block"
-                >
+                <div className="inline-block">
                     <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-300 text-[10px] font-black uppercase tracking-[0.3em] mb-4 mx-auto w-fit">
                         <div className="w-1 h-1 rounded-full bg-indigo-400 animate-pulse" />
                         Trusted Network
@@ -57,7 +52,7 @@ const PartnersSection = () => {
                     <p className="text-gray-400 max-w-2xl mx-auto text-base leading-relaxed">
                         Empowering careers by connecting our talent with industry leaders worldwide.
                     </p>
-                </motion.div>
+                </div>
             </div>
 
             <div className="relative w-full overflow-hidden flex flex-col gap-6">
@@ -66,37 +61,27 @@ const PartnersSection = () => {
                 <div className="absolute inset-y-0 right-0 w-48 bg-gradient-to-l from-[#0f172a] via-[#0f172a]/80 to-transparent z-10 pointer-events-none" />
 
                 {/* Top Row: Scroll Left */}
-                <div className="flex overflow-hidden py-8">
-                    <MotionDiv
-                        className="flex gap-10 px-5 w-max"
-                        animate={{ x: ['0%', '-50%'] }}
-                        transition={{
-                            repeat: Infinity,
-                            duration: 50,
-                            ease: "linear",
-                        }}
+                <div className="group/row flex overflow-hidden py-8">
+                    <div
+                        className="animate-marquee-left flex w-max gap-10 px-5 group-hover/row:[animation-play-state:paused]"
+                        style={{ '--marquee-duration': '50s' }}
                     >
                         {[...displayPartners, ...displayPartners].map((partner, index) => (
                             <PartnerCard key={`top-${index}`} partner={partner} />
                         ))}
-                    </MotionDiv>
+                    </div>
                 </div>
 
                 {/* Bottom Row: Scroll Right */}
-                <div className="flex overflow-hidden py-8">
-                    <MotionDiv
-                        className="flex gap-10 px-5 w-max"
-                        animate={{ x: ['-50%', '0%'] }}
-                        transition={{
-                            repeat: Infinity,
-                            duration: 55,
-                            ease: "linear",
-                        }}
+                <div className="group/row flex overflow-hidden py-8">
+                    <div
+                        className="animate-marquee-right flex w-max gap-10 px-5 group-hover/row:[animation-play-state:paused]"
+                        style={{ '--marquee-duration': '55s' }}
                     >
                         {[...displayPartners, ...displayPartners].map((partner, index) => (
                             <PartnerCard key={`bottom-${index}`} partner={partner} />
                         ))}
-                    </MotionDiv>
+                    </div>
                 </div>
             </div>
         </section>
@@ -117,7 +102,9 @@ const PartnerCard = ({ partner }) => (
                     src={resolveImageUrl(partner.logo)}
                     alt={partner.name}
                     className="max-h-full max-w-full object-contain filter grayscale opacity-40 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700 transform group-hover:scale-110"
-                    onError={(e) => e.target.src = "https://via.placeholder.com/150?text=Logo"}
+                    onError={(e) => {
+                        e.currentTarget.src = "/images/logo2.png";
+                    }}
                 />
             </div>
 

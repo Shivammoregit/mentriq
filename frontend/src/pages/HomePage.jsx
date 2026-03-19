@@ -1,45 +1,44 @@
-import React, { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
+import React, { Suspense, lazy, useEffect, useState } from 'react'
+import { motion, useReducedMotion } from 'framer-motion'
 import {
     Zap,
-    Users,
-    Target,
-    Award,
     ChevronRight,
-    ArrowRight,
-    Smartphone,
-    Globe,
-    Shield,
-    CheckCircle2,
     Sparkles,
-    Play,
-    MessageSquare,
-    PieChart,
     Cpu,
     Network,
     Box,
-    HardDrive,
-    Layers,
-    Code,
-    Database,
-    Cloud,
-    Terminal,
-    Braces
+    UserRound,
 } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { apiClient as api } from '../utils/apiClient'
 import SectionErrorBoundary from '../components/common/SectionErrorBoundary'
+import DeferredSection from '../components/common/DeferredSection'
 
 // Home-specific components
-import ServicesSection from '../components/home/ServicesSection'
-import MentorsSection from '../components/home/MentorsSection'
-import PartnersSection from '../components/home/PartnersSection'
-import TechnologiesSection from '../components/home/TechnologiesSection'
+const ServicesSection = lazy(() => import('../components/home/ServicesSection'))
+const MentorsSection = lazy(() => import('../components/home/MentorsSection'))
+const PartnersSection = lazy(() => import('../components/home/PartnersSection'))
+const TechnologiesSection = lazy(() => import('../components/home/TechnologiesSection'))
+
+const trustedAvatars = [
+    '/images/aditya.jpg',
+    '/images/anushka.jpg',
+    '/images/amit.jpg',
+    '/images/vaibhav.jpg',
+]
+
+const SectionPlaceholder = ({ minHeight }) => (
+    <div
+        className="w-full rounded-[2rem] bg-transparent"
+        style={{ minHeight }}
+        aria-hidden="true"
+    />
+)
 
 const HomePage = () => {
     const navigate = useNavigate()
     const [statsData, setStatsData] = useState(null)
-    const [loading, setLoading] = useState(true)
+    const reduceMotion = useReducedMotion()
 
     useEffect(() => {
         const fetchStats = async () => {
@@ -48,39 +47,10 @@ const HomePage = () => {
                 setStatsData(data)
             } catch (error) {
                 console.error("Failed to fetch global stats:", error)
-            } finally {
-                setLoading(false)
             }
         }
         fetchStats()
     }, [])
-
-    const stats = [
-        {
-            number: statsData?.students || '10,000+',
-            label: 'Active Students',
-            icon: Users,
-            color: 'indigo'
-        },
-        {
-            number: statsData?.courses || '50+',
-            label: 'Industry Courses',
-            icon: Zap,
-            color: 'cyan'
-        },
-        {
-            number: statsData?.placements || '95%',
-            label: 'Placement Success',
-            icon: Target,
-            color: 'emerald'
-        },
-        {
-            number: statsData?.partners || '200+',
-            label: 'Hiring Partners',
-            icon: Award,
-            color: 'purple'
-        }
-    ]
 
     return (
         <>
@@ -88,21 +58,21 @@ const HomePage = () => {
                 {/* Advanced Atmospheric Background */}
                 <div className="absolute inset-0 pointer-events-none">
                     <motion.div
-                        animate={{
+                        animate={reduceMotion ? undefined : {
                             x: [0, 80, 0],
                             y: [0, 40, 0],
                             scale: [1, 1.2, 1]
                         }}
-                        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+                        transition={reduceMotion ? undefined : { duration: 20, repeat: Infinity, ease: "linear" }}
                         className="absolute -top-[10%] left-1/4 w-[600px] h-[600px] bg-indigo-600/20 rounded-full blur-[140px] animate-pulse"
                     />
                     <motion.div
-                        animate={{
+                        animate={reduceMotion ? undefined : {
                             x: [0, -60, 0],
                             y: [0, 70, 0],
                             scale: [1, 1.3, 1]
                         }}
-                        transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+                        transition={reduceMotion ? undefined : { duration: 25, repeat: Infinity, ease: "linear" }}
                         className="absolute -bottom-[10%] right-1/4 w-[600px] h-[600px] bg-cyan-500/10 rounded-full blur-[140px]"
                     />
 
@@ -162,12 +132,21 @@ const HomePage = () => {
                         {/* Social Verification */}
                         <div className="mt-16 pt-8 border-t border-white/5 flex items-center gap-8 opacity-40 grayscale hover:grayscale-0 transition-all">
                             <div className="flex -space-x-3">
-                                {[1, 2, 3, 4].map((i) => (
-                                    <div key={i} className="w-10 h-10 rounded-full border-2 border-[#070b14] bg-slate-800" />
+                                {trustedAvatars.map((avatar, i) => (
+                                    <div key={avatar} className="h-10 w-10 overflow-hidden rounded-full border-2 border-[#070b14] bg-slate-800 shadow-lg shadow-black/30">
+                                        <img
+                                            src={avatar}
+                                            alt={`MentriQ professional ${i + 1}`}
+                                            className="h-full w-full object-cover"
+                                            onError={(e) => {
+                                                e.currentTarget.src = '/images/user.png'
+                                            }}
+                                        />
+                                    </div>
                                 ))}
                             </div>
                             <div className="text-[10px] font-black uppercase tracking-widest text-slate-400">
-                                Trusted by <span className="text-white">5,000+</span> Industry Professionals
+                                Trusted by <span className="text-white">{statsData?.students || '5,000+'}</span> Industry Professionals
                             </div>
                         </div>
                     </motion.div>
@@ -179,84 +158,104 @@ const HomePage = () => {
                         transition={{ duration: 1 }}
                         className="relative hidden lg:block"
                     >
-                        {/* Central Neural Core */}
+                        {/* Central Mascot Core */}
                         <div className="relative w-[500px] h-[500px] mx-auto">
-                            <motion.div
-                                animate={{
-                                    rotate: 360,
-                                    scale: [1, 1.05, 1]
-                                }}
-                                transition={{
-                                    rotate: { duration: 40, repeat: Infinity, ease: "linear" },
-                                    scale: { duration: 5, repeat: Infinity, ease: "easeInOut" }
-                                }}
-                                className="absolute inset-0 rounded-[4rem] border-2 border-indigo-500/20 shadow-[0_0_80px_rgba(79,70,229,0.1)] overflow-hidden"
-                            >
+                            <div className="absolute inset-0 rounded-[4rem] border-2 border-indigo-500/20 shadow-[0_0_80px_rgba(79,70,229,0.1)] overflow-hidden">
                                 <div className="absolute inset-0 opacity-[0.05] bg-[radial-gradient(#6366f1_1px,transparent_1px)] bg-[length:16px_16px]" />
-                                <img
-                                    src="/images/logo2.png"
-                                    alt="Technical Core"
-                                    className="w-full h-full object-contain p-12 opacity-80"
-                                />
-                            </motion.div>
+                                <div className="absolute inset-0 flex items-center justify-center">
+                                    <div className="relative flex h-52 w-52 items-center justify-center rounded-full border border-cyan-400/20 bg-slate-950/70 shadow-[0_0_60px_rgba(34,211,238,0.12)] backdrop-blur-xl">
+                                        <div className="absolute inset-3 rounded-full border border-indigo-400/20 bg-gradient-to-br from-indigo-500/10 to-cyan-500/10" />
+                                        <img
+                                            src="/images/user.png"
+                                            alt="MentriQ Human Mascot"
+                                            loading="eager"
+                                            fetchPriority="high"
+                                            className="relative z-10 h-36 w-36 object-contain opacity-95 drop-shadow-[0_0_28px_rgba(103,232,249,0.3)]"
+                                            onError={(e) => {
+                                                e.currentTarget.style.display = 'none'
+                                            }}
+                                        />
+                                        <UserRound className="absolute z-0 h-28 w-28 text-cyan-300/30" />
+                                    </div>
+                                </div>
+                            </div>
 
                             {/* Orbiting Nodes */}
-                            {[Zap, Cpu, Network, Box].map((Icon, idx) => (
-                                <motion.div
-                                    key={idx}
-                                    animate={{
-                                        rotate: [0, 360],
-                                    }}
-                                    transition={{
-                                        duration: 20 + idx * 5,
-                                        repeat: Infinity,
-                                        ease: "linear"
-                                    }}
-                                    className="absolute inset-0 pointer-events-none"
-                                >
-                                    <motion.div
-                                        animate={{ rotate: [0, -360] }}
-                                        transition={{
-                                            duration: 20 + idx * 5,
-                                            repeat: Infinity,
-                                            ease: "linear"
-                                        }}
-                                        style={{
-                                            top: idx % 2 === 0 ? '-20px' : 'auto',
-                                            bottom: idx % 2 !== 0 ? '-20px' : 'auto',
-                                            left: '50%',
-                                            transform: 'translateX(-50%)'
-                                        }}
-                                        className="absolute w-14 h-14 bg-[#0f172a] border border-white/10 rounded-2xl flex items-center justify-center text-indigo-400 shadow-2xl backdrop-blur-xl"
-                                    >
-                                        <Icon className="w-6 h-6" />
-                                    </motion.div>
-                                </motion.div>
-                            ))}
+                            <motion.div
+                                animate={reduceMotion ? undefined : { rotate: 360 }}
+                                transition={reduceMotion ? undefined : {
+                                    duration: 24,
+                                    repeat: Infinity,
+                                    ease: "linear"
+                                }}
+                                className="absolute inset-0 pointer-events-none"
+                            >
+                                {[Zap, Cpu, Network, Box].map((Icon, idx) => {
+                                    const angle = idx * 90
+
+                                    return (
+                                        <div
+                                            key={idx}
+                                            className="absolute left-1/2 top-1/2"
+                                            style={{
+                                                transform: `rotate(${angle}deg) translateY(-230px)`
+                                            }}
+                                        >
+                                            <motion.div
+                                                animate={reduceMotion ? undefined : { rotate: -360 }}
+                                                transition={reduceMotion ? undefined : {
+                                                    duration: 24,
+                                                    repeat: Infinity,
+                                                    ease: "linear"
+                                                }}
+                                                className="flex h-14 w-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-2xl border border-white/10 bg-[#0f172a] text-indigo-400 shadow-2xl backdrop-blur-xl"
+                                            >
+                                                <Icon className="h-6 w-6" />
+                                            </motion.div>
+                                        </div>
+                                    )
+                                })}
+                            </motion.div>
                         </div>
                     </motion.div>
                 </div>
             </section>
 
             {/* Services Section */}
-            <SectionErrorBoundary>
-                <ServicesSection />
-            </SectionErrorBoundary>
+            <DeferredSection minHeight="420px">
+                <Suspense fallback={<SectionPlaceholder minHeight="420px" />}>
+                    <SectionErrorBoundary>
+                        <ServicesSection />
+                    </SectionErrorBoundary>
+                </Suspense>
+            </DeferredSection>
 
             {/* Mentors Section */}
-            <SectionErrorBoundary>
-                <MentorsSection />
-            </SectionErrorBoundary>
+            <DeferredSection minHeight="520px">
+                <Suspense fallback={<SectionPlaceholder minHeight="520px" />}>
+                    <SectionErrorBoundary>
+                        <MentorsSection />
+                    </SectionErrorBoundary>
+                </Suspense>
+            </DeferredSection>
 
             {/* Partners Section */}
-            <SectionErrorBoundary>
-                <PartnersSection />
-            </SectionErrorBoundary>
+            <DeferredSection minHeight="360px">
+                <Suspense fallback={<SectionPlaceholder minHeight="360px" />}>
+                    <SectionErrorBoundary>
+                        <PartnersSection />
+                    </SectionErrorBoundary>
+                </Suspense>
+            </DeferredSection>
 
             {/* Technologies Section */}
-            <SectionErrorBoundary>
-                <TechnologiesSection />
-            </SectionErrorBoundary>
+            <DeferredSection minHeight="380px">
+                <Suspense fallback={<SectionPlaceholder minHeight="380px" />}>
+                    <SectionErrorBoundary>
+                        <TechnologiesSection />
+                    </SectionErrorBoundary>
+                </Suspense>
+            </DeferredSection>
 
             {/* CTA Section */}
             <section className="py-32 bg-white relative overflow-hidden">
@@ -271,33 +270,19 @@ const HomePage = () => {
                         <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-600/10 rounded-full blur-[100px] -mr-48 -mt-48 transition-transform group-hover:scale-110" />
                         <div className="absolute bottom-0 left-0 w-96 h-96 bg-cyan-600/10 rounded-full blur-[100px] -ml-48 -mb-48 transition-transform group-hover:scale-110" />
 
-                        <motion.div className="relative z-10">
-                            <motion.h2
-                                initial={{ opacity: 0, scale: 0.95 }}
-                                whileInView={{ opacity: 1, scale: 1 }}
-                                className="text-4xl md:text-6xl font-black text-white mb-8 tracking-tighter uppercase leading-[0.9]"
-                            >
+                        <div className="relative z-10">
+                            <h2 className="text-4xl md:text-6xl font-black text-white mb-8 tracking-tighter uppercase leading-[0.9]">
                                 READY TO INITIALIZE <br />
                                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400">
                                     YOUR DEPLOYMENT?
                                 </span>
-                            </motion.h2>
+                            </h2>
 
-                            <motion.p
-                                initial={{ opacity: 0 }}
-                                whileInView={{ opacity: 1 }}
-                                transition={{ delay: 0.2 }}
-                                className="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto mb-16 font-medium leading-relaxed"
-                            >
+                            <p className="text-slate-400 text-lg md:text-xl max-w-2xl mx-auto mb-16 font-medium leading-relaxed">
                                 Join the elite network of technical architects. Start your journey with MentriQ protocols and redefine your potential.
-                            </motion.p>
+                            </p>
 
-                            <motion.div
-                                initial={{ opacity: 0, y: 20 }}
-                                whileInView={{ opacity: 1, y: 0 }}
-                                transition={{ delay: 0.3 }}
-                                className="flex flex-col md:flex-row items-center justify-center gap-6"
-                            >
+                            <div className="flex flex-col md:flex-row items-center justify-center gap-6">
                                 <motion.button
                                     whileHover={{ scale: 1.05 }}
                                     whileTap={{ scale: 0.98 }}
@@ -316,8 +301,8 @@ const HomePage = () => {
                                 >
                                     Contact Us
                                 </motion.button>
-                            </motion.div>
-                        </motion.div>
+                            </div>
+                        </div>
 
                         {/* Energy Surge Overlay */}
                         <div className="absolute inset-0 bg-gradient-to-tr from-indigo-500/5 via-transparent to-cyan-500/5 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />

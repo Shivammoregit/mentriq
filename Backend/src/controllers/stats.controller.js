@@ -59,9 +59,9 @@ const trackVisit = async (req, res) => {
 const getGlobalStats = async (req, res) => {
     try {
         const studentCount = await User.countDocuments({ role: "student" });
-        const courseCount = await Course.countDocuments({ isActive: true });
+        const courseCount = await Course.countDocuments();
         const partnerCount = await Partner.countDocuments();
-        const internshipCount = await Internship.countDocuments({ isActive: true });
+        const internshipCount = await Internship.countDocuments({ status: "Active" });
         const enrolledUserIds = await Enrollment.distinct("user");
         const enrolledStudentCount = await User.countDocuments({
             _id: { $in: enrolledUserIds },

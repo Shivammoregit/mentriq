@@ -5,7 +5,6 @@ import {
     Palette, Megaphone, Server, Shield, Database, Code, Zap, Star,
     TrendingUp, Users, Award, Clock
 } from 'lucide-react';
-import Footer from '../components/layout/Footer';
 import { apiClient as api } from '../utils/apiClient';
 import { useNavigate } from 'react-router-dom';
 import { resolveImageUrl } from '../utils/imageUtils';
@@ -353,8 +352,6 @@ const ServicesPage = () => {
                     </motion.div>
                 </div>
             </section>
-
-            <Footer />
         </div>
     );
 };

@@ -39,16 +39,11 @@ const TechnologiesSection = () => {
             </div>
 
             <div className="max-w-7xl mx-auto px-6 mb-16 text-center relative z-10">
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    className="inline-flex items-center gap-3 py-1.5 px-5 rounded-full bg-white/5 border border-white/10 mb-8 backdrop-blur-md"
-                >
+                <div className="inline-flex items-center gap-3 py-1.5 px-5 rounded-full bg-white/5 border border-white/10 mb-8 backdrop-blur-md">
                     <div className="w-1.5 h-1.5 bg-indigo-400 rounded-full animate-pulse shadow-[0_0_8px_rgba(129,140,248,0.5)]" />
                     <span className="text-indigo-300 text-[10px] font-black tracking-[0.4em] uppercase">Industry Standard Tech</span>
                     <div className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-pulse shadow-[0_0_8px_rgba(34,211,238,0.5)]" />
-                </motion.div>
+                </div>
 
                 <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6 tracking-tighter uppercase leading-none">
                     TECHNOLOGIES YOU'LL <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-cyan-400">MASTER</span>
@@ -60,7 +55,7 @@ const TechnologiesSection = () => {
 
             {/* 3D Perspective Scroller Container */}
             <div
-                className="relative py-10"
+                className="group/row relative py-10"
                 style={{
                     perspective: '2000px',
                     maskImage: 'linear-gradient(to right, transparent, black 15%, black 85%, transparent)',
@@ -68,25 +63,20 @@ const TechnologiesSection = () => {
                 }}
             >
                 <div style={{ transformStyle: 'preserve-3d' }}>
-                    <motion.div
-                        className="flex gap-8 px-4 w-max"
-                        animate={{ x: ['0%', '-50%'] }}
-                        transition={{
-                            repeat: Infinity,
-                            duration: Math.max(35, technologies.length * 2),
-                            ease: "linear",
+                    <div
+                        className="animate-marquee-left flex w-max gap-8 px-4 group-hover/row:[animation-play-state:paused]"
+                        style={{
+                            transformStyle: 'preserve-3d',
+                            '--marquee-duration': `${Math.max(35, technologies.length * 2)}s`
                         }}
-                        style={{ transformStyle: 'preserve-3d' }}
                     >
                         {/* Dual Buffer for Seamless Loop */}
                         {[...technologies, ...technologies].map((tech, index) => (
                             <motion.div
                                 key={`${tech._id}-${index}`}
                                 whileHover={{
-                                    scale: 1.1,
-                                    rotateX: 10,
-                                    rotateY: 10,
-                                    translateZ: 50,
+                                    scale: 1.08,
+                                    translateZ: 30,
                                     zIndex: 100
                                 }}
                                 className="w-32 h-32 bg-white/[0.03] backdrop-blur-md rounded-[1.5rem] border border-white/10 flex flex-col items-center justify-center gap-3 group cursor-pointer relative overflow-hidden transition-all duration-300 hover:bg-white/[0.08] hover:border-indigo-500/30 hover:shadow-[0_0_30px_rgba(99,102,241,0.2)]"
@@ -100,15 +90,15 @@ const TechnologiesSection = () => {
                                         alt={tech.name}
                                         className="w-full h-full object-contain filter drop-shadow-lg grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-300"
                                         onError={(e) => {
-                                            e.target.onerror = null;
-                                            e.target.src = "https://via.placeholder.com/64?text=Tech";
+                                            e.currentTarget.onerror = null;
+                                            e.currentTarget.src = "/images/logo2.png";
                                         }}
                                     />
                                 </div>
                                 <span className="text-xs font-black uppercase tracking-wider text-gray-500 group-hover:text-white transition-colors relative z-10">{tech.name}</span>
                             </motion.div>
                         ))}
-                    </motion.div>
+                    </div>
                 </div>
             </div>
         </section>

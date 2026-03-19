@@ -28,6 +28,21 @@ export const useVisitorTracking = () => {
             }
         };
 
-        trackPath();
+        const schedule =
+            window.requestIdleCallback
+                ? window.requestIdleCallback(() => {
+                    trackPath();
+                }, { timeout: 1500 })
+                : window.setTimeout(() => {
+                    trackPath();
+                }, 250);
+
+        return () => {
+            if (typeof schedule === 'number') {
+                window.clearTimeout(schedule);
+            } else if (window.cancelIdleCallback) {
+                window.cancelIdleCallback(schedule);
+            }
+        };
     }, [location.pathname]);
 };

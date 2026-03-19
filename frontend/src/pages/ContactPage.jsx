@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { Mail, Phone, MapPin, Send, Instagram, Linkedin, Twitter, User, Tag, MessageSquare, MessageCircle, Sparkles, Facebook } from 'lucide-react'
-import { motion, useMotionValue, useSpring, useTransform, AnimatePresence } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { apiClient as api } from '../utils/apiClient'
 
 const ContactPage = () => {
@@ -60,31 +60,6 @@ const ContactPage = () => {
 
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
-
-  // 3D Tilt Logic
-  const x = useMotionValue(0)
-  const y = useMotionValue(0)
-  const mouseXSpring = useSpring(x)
-  const mouseYSpring = useSpring(y)
-  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["10deg", "-10deg"])
-  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-10deg", "10deg"])
-
-  const handleMouseMove = (e) => {
-    const rect = e.currentTarget.getBoundingClientRect()
-    const width = rect.width
-    const height = rect.height
-    const mouseX = e.clientX - rect.left
-    const mouseY = e.clientY - rect.top
-    const xPct = (mouseX / width) - 0.5
-    const yPct = (mouseY / height) - 0.5
-    x.set(xPct)
-    y.set(yPct)
-  }
-
-  const handleMouseLeave = () => {
-    x.set(0)
-    y.set(0)
-  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -255,16 +230,14 @@ const ContactPage = () => {
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8 }}
-            className="relative"
-            onMouseMove={handleMouseMove}
-            onMouseLeave={handleMouseLeave}
-            style={{ perspective: "1500px" }}
+            whileHover={{ scale: 1.015 }}
+            className="relative group"
           >
             <motion.div
-              style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-              className="rounded-[2.5rem] p-8 md:p-12 bg-white border border-slate-100 shadow-[0_20px_50px_rgba(0,0,0,0.08)] relative z-10"
+              className="rounded-[2.5rem] p-8 md:p-12 bg-white border border-slate-100 shadow-[0_20px_50px_rgba(0,0,0,0.08)] group-hover:shadow-[0_28px_70px_rgba(99,102,241,0.16)] group-hover:border-indigo-200 transition-all duration-500 relative z-10"
             >
-              <div style={{ transform: "translateZ(50px)" }} className="relative">
+              <div className="absolute -inset-2 rounded-[2.75rem] bg-gradient-to-r from-indigo-500/0 via-indigo-500/10 to-cyan-500/0 opacity-0 blur-2xl transition-opacity duration-500 group-hover:opacity-100 pointer-events-none" />
+              <div className="relative">
                 <div className="mb-10">
                   <h2 className="text-3xl font-black text-slate-900 mb-2 tracking-tight">
                     Send a Message

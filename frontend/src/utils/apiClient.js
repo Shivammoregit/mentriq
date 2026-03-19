@@ -13,12 +13,14 @@ if (import.meta.env.DEV) {
   console.log('🚀 MentriQ API Base URL:', resolvedBaseURL);
 }
 
-const MAX_RETRIES = Number(import.meta.env.VITE_API_RETRY_COUNT || 2);
-const RETRY_DELAY_MS = Number(import.meta.env.VITE_API_RETRY_DELAY_MS || 1000); // 1s delay for Render cold starts
+const MAX_RETRIES = Number(
+  import.meta.env.VITE_API_RETRY_COUNT ?? (import.meta.env.PROD ? 1 : 0)
+);
+const RETRY_DELAY_MS = Number(import.meta.env.VITE_API_RETRY_DELAY_MS || 600);
 
 export const apiClient = axios.create({
   baseURL: resolvedBaseURL,
-  timeout: 60000, // 60s timeout for cold start boots
+  timeout: Number(import.meta.env.VITE_API_TIMEOUT_MS || 15000),
   withCredentials: true,
   headers: {
     'Content-Type': 'application/json'
