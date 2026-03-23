@@ -80,7 +80,7 @@ const TrainingDetailPage = () => {
     return (
         <div className="min-h-screen bg-gray-50 pt-0">
             {/* Hero Section */}
-            <section className="relative bg-[#0f172a] text-white py-16 pt-28 overflow-hidden">
+            <section className="relative bg-white text-slate-900 py-16 pt-28 overflow-hidden">
                 {/* Background Effects */}
                 <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-indigo-600/10 rounded-full blur-[120px]" />
                 <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[var(--color-accent)]/5 rounded-full blur-[120px]" />
@@ -93,7 +93,7 @@ const TrainingDetailPage = () => {
                     >
                         <button
                             onClick={() => navigate(-1)}
-                            className="group flex items-center gap-2 text-gray-400 hover:text-white mb-8 transition-colors"
+                            className="group flex items-center gap-2 text-gray-400 hover:text-slate-900 mb-8 transition-colors"
                         >
                             <ArrowLeft size={20} className="group-hover:-translate-x-1 transition-transform" />
                             Back to Training
@@ -167,7 +167,7 @@ const TrainingDetailPage = () => {
                                     href={course.syllabusUrl}
                                     target="_blank"
                                     rel="noopener noreferrer"
-                                    className="px-8 py-4 rounded-xl bg-white/5 border border-white/10 text-white font-bold hover:bg-white/10 transition flex items-center gap-2"
+                                    className="px-8 py-4 rounded-xl bg-slate-100 border border-slate-200 text-slate-900 font-bold hover:bg-slate-200 transition flex items-center gap-2"
                                 >
                                     <Download size={20} />
                                     Syllabus
@@ -208,7 +208,7 @@ const TrainingDetailPage = () => {
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.8, delay: 0.4 }}
-                                className="relative bg-white/5 backdrop-blur-xl border border-white/10 p-2 rounded-3xl overflow-hidden group shadow-2xl"
+                                className="relative bg-slate-100 backdrop-blur-xl border border-slate-200 p-2 rounded-3xl overflow-hidden group shadow-2xl"
                             >
                                 <div className="absolute inset-0 bg-indigo-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                                 <img
@@ -217,13 +217,13 @@ const TrainingDetailPage = () => {
                                     className="w-full h-auto rounded-2xl transition-transform duration-700 group-hover:scale-[1.02]"
                                 />
                                 <div className="absolute bottom-6 left-6 right-6">
-                                    <div className="bg-black/40 backdrop-blur-md border border-white/10 p-4 rounded-2xl flex items-center justify-between">
+                                    <div className="bg-black/40 backdrop-blur-md border border-slate-200 p-4 rounded-2xl flex items-center justify-between">
                                         <div className="flex items-center gap-3">
                                             <div className="w-10 h-10 bg-indigo-600 rounded-lg flex items-center justify-center">
-                                                <Layers className="text-white" size={20} />
+                                                <Layers className="text-slate-900" size={20} />
                                             </div>
                                             <div>
-                                                <p className="text-white font-bold text-sm">Official Brochure</p>
+                                                <p className="text-slate-900 font-bold text-sm">Official Brochure</p>
                                                 <p className="text-gray-400 text-[10px] uppercase tracking-widest">Available to Download</p>
                                             </div>
                                         </div>

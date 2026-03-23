@@ -92,13 +92,13 @@ const InternshipApplicationPage = () => {
     };
 
     if (loading) return (
-        <div className="min-h-[70vh] flex items-center justify-center bg-[#020617]">
+        <div className="min-h-[70vh] flex items-center justify-center bg-white">
             <div className="animate-spin h-12 w-12 border-4 border-indigo-600 border-t-transparent rounded-full"></div>
         </div>
     );
 
     if (!internship) return (
-        <div className="min-h-[70vh] flex flex-col items-center justify-center bg-[#020617] text-white p-10">
+        <div className="min-h-[70vh] flex flex-col items-center justify-center bg-white text-slate-900 p-10">
             <div className="w-20 h-20 bg-red-500/10 rounded-3xl flex items-center justify-center text-red-500 mb-6 border border-red-500/20">
                 <XCircle size={40} />
             </div>
@@ -106,7 +106,7 @@ const InternshipApplicationPage = () => {
             <p className="text-gray-400 text-center max-w-md mb-8">The internship program you're looking for might have been removed or is no longer accepting applications.</p>
             <button
                 onClick={() => navigate('/training')}
-                className="bg-white/5 hover:bg-white/10 border border-white/10 text-white px-8 py-3 rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all"
+                className="bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-900 px-8 py-3 rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all"
             >
                 Return to Directory
             </button>
@@ -114,7 +114,7 @@ const InternshipApplicationPage = () => {
     );
 
     return (
-        <section className="min-h-screen pb-14 px-4 flex items-center justify-center bg-[#020617]">
+        <section className="min-h-screen pb-14 px-4 flex items-center justify-center bg-[#020617] mt-16">
             {/* Background decoration */}
             <div className="fixed inset-0 overflow-hidden pointer-events-none">
                 <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-indigo-600/10 rounded-full blur-[120px]" />
@@ -125,10 +125,10 @@ const InternshipApplicationPage = () => {
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
-                className="relative bg-[#0f172a]/80 backdrop-blur-2xl border border-white/10 rounded-[2rem] shadow-2xl overflow-hidden max-w-6xl w-full flex flex-col md:flex-row"
+                className="relative bg-slate-900/60 backdrop-blur-2xl border border-slate-800 rounded-[2rem] shadow-2xl overflow-hidden max-w-6xl w-full flex flex-col md:flex-row"
             >
                 {/* Left Side: Internship Info */}
-                <div className="md:w-[40%] bg-white/5 backdrop-blur-md text-white p-8 flex flex-col justify-between relative overflow-hidden border-r border-white/5">
+                <div className="md:w-[40%] bg-slate-800/80 backdrop-blur-md text-white p-8 flex flex-col justify-between relative overflow-hidden border-r border-slate-700">
                     <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-600/20 rounded-full blur-3xl -mr-16 -mt-16" />
                     <div className="absolute bottom-0 left-0 w-64 h-64 bg-cyan-600/20 rounded-full blur-3xl -ml-16 -mb-16" />
 
@@ -147,17 +147,17 @@ const InternshipApplicationPage = () => {
                         </div>
 
                         <div className="space-y-4 text-gray-300">
-                            <div className="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-white/5">
+                            <div className="flex items-center gap-3 bg-slate-900 p-3 rounded-2xl border border-slate-700">
                                 <Clock className="text-cyan-400" size={18} />
-                                <span className="text-sm font-medium">{internship.duration} Duration</span>
+                                <span className="text-sm font-medium text-white">{internship.duration} Duration</span>
                             </div>
-                            <div className="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-white/5">
+                            <div className="flex items-center gap-3 bg-slate-900 p-3 rounded-2xl border border-slate-700">
                                 <MapPin className="text-emerald-400" size={18} />
-                                <span className="text-sm font-medium">{internship.location}</span>
+                                <span className="text-sm font-medium text-white">{internship.location}</span>
                             </div>
-                            <div className="flex items-center gap-3 bg-white/5 p-3 rounded-2xl border border-white/5">
+                            <div className="flex items-center gap-3 bg-slate-900 p-3 rounded-2xl border border-slate-700">
                                 <Briefcase className="text-purple-400" size={18} />
-                                <span className="text-sm font-medium">{internship.type} Role</span>
+                                <span className="text-sm font-medium text-white">{internship.type} Role</span>
                             </div>
                         </div>
                     </div>
@@ -197,13 +197,13 @@ const InternshipApplicationPage = () => {
                     </div>
 
                     {!user ? (
-                        <div className="bg-white/5 border border-white/10 rounded-3xl p-10 text-center space-y-6">
+                        <div className="bg-slate-800 border border-slate-700 rounded-3xl p-10 text-center space-y-6">
                             <div className="w-16 h-16 bg-yellow-500/10 rounded-2xl flex items-center justify-center text-yellow-400 mx-auto border border-yellow-500/20">
                                 <Shield size={32} />
                             </div>
                             <div>
                                 <h4 className="text-xl font-black text-white mb-2">Authentication Required</h4>
-                                <p className="text-gray-500 text-sm max-w-xs mx-auto">You must be signed in to submit an internship application. This helps us track your progress.</p>
+                                <p className="text-gray-400 text-sm max-w-xs mx-auto">You must be signed in to submit an internship application. This helps us track your progress.</p>
                             </div>
                             <button
                                 onClick={() => navigate('/login', { state: { from: location } })}
@@ -217,11 +217,11 @@ const InternshipApplicationPage = () => {
                             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                 <div className="space-y-2 opacity-50">
                                     <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">Full Name</label>
-                                    <input value={user?.name || ""} disabled className="w-full p-4 bg-white/5 rounded-2xl border border-white/10 text-white cursor-not-allowed" />
+                                    <input value={user?.name || ""} disabled className="w-full p-4 bg-slate-800/50 rounded-2xl border border-slate-700 text-white cursor-not-allowed" />
                                 </div>
                                 <div className="space-y-2 opacity-50">
                                     <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">Email</label>
-                                    <input value={user?.email || ""} disabled className="w-full p-4 bg-white/5 rounded-2xl border border-white/10 text-white cursor-not-allowed" />
+                                    <input value={user?.email || ""} disabled className="w-full p-4 bg-slate-800/50 rounded-2xl border border-slate-700 text-white cursor-not-allowed" />
                                 </div>
                                 <div className="space-y-2 md:col-span-2">
                                     <label className="text-[10px] font-black text-indigo-400 uppercase tracking-widest ml-1">Contact Number</label>
@@ -231,13 +231,13 @@ const InternshipApplicationPage = () => {
                                         placeholder="+91 00000 00000"
                                         value={formData.contact}
                                         onChange={(e) => setFormData({ ...formData, contact: e.target.value })}
-                                        className="w-full p-4 bg-white/5 rounded-2xl border border-white/10 text-white focus:border-indigo-500/50 outline-none transition-all"
+                                        className="w-full p-4 bg-slate-800/50 rounded-2xl border border-slate-700 text-white focus:bg-slate-800 focus:border-indigo-500/50 outline-none transition-all placeholder:text-slate-500"
                                     />
                                 </div>
                             </div>
 
                             {internship.questions?.length > 0 && (
-                                <div className="space-y-6 pt-8 border-t border-white/5">
+                                <div className="space-y-6 pt-8 border-t border-slate-100">
                                     <h4 className="text-[10px] font-black text-cyan-400 uppercase tracking-[0.2em] mb-4">Specific Requirements</h4>
                                     {internship.questions.map((q) => (
                                         <div key={q.id} className="space-y-2">
@@ -251,7 +251,7 @@ const InternshipApplicationPage = () => {
                                                     required={q.required}
                                                     value={responses[q.id] || ""}
                                                     onChange={(e) => handleResponseChange(q.id, e.target.value)}
-                                                    className="w-full p-4 bg-white/5 rounded-2xl border border-white/10 text-white focus:border-cyan-500/50 outline-none transition-all min-h-[120px] text-sm"
+                                                    className="w-full p-4 bg-slate-800/50 rounded-2xl border border-slate-700 text-white focus:bg-slate-800 focus:border-cyan-500/50 outline-none transition-all min-h-[120px] text-sm placeholder:text-slate-500"
                                                     placeholder="Type your response here..."
                                                 />
                                             ) : q.type === 'select' ? (
@@ -259,11 +259,11 @@ const InternshipApplicationPage = () => {
                                                     required={q.required}
                                                     value={responses[q.id] || ""}
                                                     onChange={(e) => handleResponseChange(q.id, e.target.value)}
-                                                    className="w-full p-4 bg-white/5 rounded-2xl border border-white/10 text-white focus:border-cyan-500/50 outline-none transition-all text-sm appearance-none"
+                                                    className="w-full p-4 bg-slate-800/50 rounded-2xl border border-slate-700 text-white focus:bg-slate-800 focus:border-cyan-500/50 outline-none transition-all text-sm appearance-none"
                                                 >
-                                                    <option value="">Select an option</option>
+                                                    <option value="" className="text-slate-500">Select an option</option>
                                                     {q.options?.map((opt, i) => (
-                                                        <option key={i} value={opt} className="bg-[#0f172a]">{opt}</option>
+                                                        <option key={i} value={opt} className="bg-slate-800 text-white">{opt}</option>
                                                     ))}
                                                 </select>
                                             ) : (
@@ -272,7 +272,7 @@ const InternshipApplicationPage = () => {
                                                     required={q.required}
                                                     value={responses[q.id] || ""}
                                                     onChange={(e) => handleResponseChange(q.id, e.target.value)}
-                                                    className="w-full p-4 bg-white/5 rounded-2xl border border-white/10 text-white focus:border-cyan-500/50 outline-none transition-all text-sm"
+                                                    className="w-full p-4 bg-slate-800/50 rounded-2xl border border-slate-700 text-white focus:bg-slate-800 focus:border-cyan-500/50 outline-none transition-all text-sm placeholder:text-slate-500"
                                                     placeholder={q.type === 'number' ? 'Enter a number...' : 'Short response...'}
                                                 />
                                             )}

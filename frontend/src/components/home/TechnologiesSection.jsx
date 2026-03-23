@@ -26,7 +26,7 @@ const TechnologiesSection = () => {
     if (technologies.length === 0) return null;
 
     return (
-        <section className="py-20 bg-[#0f172a] overflow-hidden relative">
+        <section className="py-20 bg-[#020617] overflow-hidden relative">
             {/* Advanced Ambient Glows */}
             <div className="absolute inset-0 pointer-events-none overflow-hidden">
                 <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-indigo-500/10 rounded-full blur-[120px]" />
@@ -48,7 +48,7 @@ const TechnologiesSection = () => {
                 <h2 className="text-4xl md:text-5xl lg:text-6xl font-black text-white mb-6 tracking-tighter uppercase leading-none">
                     TECHNOLOGIES YOU'LL <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-cyan-400">MASTER</span>
                 </h2>
-                <p className="text-base text-gray-400 max-w-2xl mx-auto font-medium leading-relaxed">
+                <p className="text-base text-slate-400 max-w-2xl mx-auto font-medium leading-relaxed">
                     Deployment-ready expertise in industry-standard tools and frameworks driving the <span className="text-white">modern digital economy.</span>
                 </p>
             </div>
@@ -79,7 +79,7 @@ const TechnologiesSection = () => {
                                     translateZ: 30,
                                     zIndex: 100
                                 }}
-                                className="w-32 h-32 bg-white/[0.03] backdrop-blur-md rounded-[1.5rem] border border-white/10 flex flex-col items-center justify-center gap-3 group cursor-pointer relative overflow-hidden transition-all duration-300 hover:bg-white/[0.08] hover:border-indigo-500/30 hover:shadow-[0_0_30px_rgba(99,102,241,0.2)]"
+                                className="w-32 h-32 bg-white/5 backdrop-blur-md rounded-[1.5rem] border border-white/10 flex flex-col items-center justify-center gap-3 group cursor-pointer relative overflow-hidden transition-all duration-300 hover:bg-white/[0.08] hover:border-indigo-500/30 hover:shadow-[0_0_30px_rgba(99,102,241,0.2)]"
                                 style={{ transformStyle: 'preserve-3d' }}
                             >
                                 <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 to-cyan-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
@@ -95,7 +95,7 @@ const TechnologiesSection = () => {
                                         }}
                                     />
                                 </div>
-                                <span className="text-xs font-black uppercase tracking-wider text-gray-500 group-hover:text-white transition-colors relative z-10">{tech.name}</span>
+                                <span className="text-xs font-black uppercase tracking-wider text-slate-500 group-hover:text-white transition-colors relative z-10">{tech.name}</span>
                             </motion.div>
                         ))}
                     </div>

@@ -46,7 +46,7 @@ const Navbar = () => {
                 animate={{ y: 0, opacity: 1 }}
                 transition={{ duration: 0.35, ease: 'easeOut' }}
                 className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isDarkPage
-                    ? "bg-[#070b14]/95 backdrop-blur-md shadow-lg border-b border-white/5"
+                    ? "bg-slate-50/95 backdrop-blur-md shadow-lg border-b border-slate-100"
                     : "bg-white/95 backdrop-blur-md shadow-sm border-b border-slate-100"
                     } ${isShrunk ? 'py-2' : 'py-4'}`}
             >
@@ -57,12 +57,12 @@ const Navbar = () => {
                         <div className="flex items-center gap-3">
                             <Link to="/" className="relative group">
                                 <div className={`relative rounded-xl overflow-hidden border shadow-md transition-all duration-300 ${isShrunk ? 'w-10 h-10' : 'w-12 h-12'
-                                    } ${isDarkPage ? 'border-white/10 shadow-white/5' : 'border-slate-200 shadow-slate-200/50'}`}>
+                                    } ${isDarkPage ? 'border-slate-200 shadow-white/5' : 'border-slate-200 shadow-slate-200/50'}`}>
                                     <img src="/images/logo.jpg" alt="Mentriq" className="w-full h-full object-cover scale-110" />
                                 </div>
                             </Link>
                             <Link to="/" className={`font-black tracking-tighter uppercase font-display transition-all duration-300 ${isShrunk ? 'text-lg md:text-xl' : 'text-xl md:text-2xl'
-                                } ${isDarkPage ? 'text-white' : 'text-slate-900'}`}>
+                                } ${isDarkPage ? 'text-slate-900' : 'text-slate-900'}`}>
                                 Mentriq <span className="text-indigo-600">Technologies.</span>
                             </Link>
                         </div>
@@ -76,7 +76,7 @@ const Navbar = () => {
                                     className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${location.pathname === item.path
                                         ? 'text-indigo-600 bg-indigo-50 font-bold'
                                         : isDarkPage
-                                            ? 'text-slate-300 hover:text-white hover:bg-white/10'
+                                            ? 'text-slate-700 hover:text-slate-900 hover:bg-slate-200'
                                             : 'text-slate-500 hover:text-indigo-600 hover:bg-slate-50'
                                         }`}
                                 >
@@ -89,7 +89,7 @@ const Navbar = () => {
                                     className={`px-4 py-2 rounded-lg text-sm font-bold transition-all duration-300 ${location.pathname.startsWith('/admin')
                                         ? 'text-emerald-600 bg-emerald-50'
                                         : isDarkPage
-                                            ? 'text-emerald-400 hover:text-emerald-300 hover:bg-white/10'
+                                            ? 'text-emerald-400 hover:text-emerald-300 hover:bg-slate-200'
                                             : 'text-emerald-600 hover:bg-emerald-50'
                                         }`}
                                 >
@@ -103,14 +103,14 @@ const Navbar = () => {
                             {isAuthenticated ? (
                                 <div className="flex items-center gap-4">
                                     <div className="text-right hidden lg:block">
-                                        <div className={`text-sm font-bold ${isDarkPage ? 'text-white' : 'text-slate-900'}`}>{user?.name?.split(' ')[0]}</div>
+                                        <div className={`text-sm font-bold ${isDarkPage ? 'text-slate-900' : 'text-slate-900'}`}>{user?.name?.split(' ')[0]}</div>
                                         <div className="text-[10px] text-indigo-600 font-black uppercase tracking-wider">{user?.role || 'Student'}</div>
                                     </div>
                                     <button
                                         onClick={logout}
                                         className={`p-2 rounded-full transition-colors ${isDarkPage
-                                            ? 'text-slate-400 hover:text-rose-400 hover:bg-white/5'
-                                            : 'text-slate-400 hover:text-rose-500 hover:bg-rose-50'
+                                            ? 'text-slate-600 hover:text-rose-400 hover:bg-slate-100'
+                                            : 'text-slate-600 hover:text-rose-500 hover:bg-rose-50'
                                             }`}
                                         title="Logout"
                                     >
@@ -143,7 +143,7 @@ const Navbar = () => {
 
                         {/* Mobile Toggle */}
                         <button
-                            className={`md:hidden p-2 transition-colors ${isDarkPage ? 'text-slate-200 hover:text-white' : 'text-slate-600 hover:text-indigo-600'}`}
+                            className={`md:hidden p-2 transition-colors ${isDarkPage ? 'text-slate-800 hover:text-slate-900' : 'text-slate-600 hover:text-indigo-600'}`}
                             onClick={() => setMobileOpen(!mobileOpen)}
                         >
                             {mobileOpen ? <X size={24} /> : <Menu size={24} />}
@@ -158,7 +158,7 @@ const Navbar = () => {
                             initial={{ opacity: 0, height: 0 }}
                             animate={{ opacity: 1, height: 'auto' }}
                             exit={{ opacity: 0, height: 0 }}
-                            className={`md:hidden border-t overflow-hidden ${isDarkPage ? 'bg-[#0b1120] border-white/10' : 'bg-white border-slate-100'}`}
+                            className={`md:hidden border-t overflow-hidden ${isDarkPage ? 'bg-slate-100 border-slate-200' : 'bg-white border-slate-100'}`}
                         >
                             <div className="p-4 flex flex-col space-y-2">
                                 {navItems.map((item) => (
@@ -169,7 +169,7 @@ const Navbar = () => {
                                         className={`px-4 py-3 rounded-xl text-sm font-bold ${location.pathname === item.path
                                             ? 'bg-indigo-500/10 text-indigo-500' // Universal active state
                                             : isDarkPage
-                                                ? 'text-slate-400 hover:bg-white/5 hover:text-white'
+                                                ? 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
                                                 : 'text-slate-600 hover:bg-slate-50'
                                             }`}
                                     >
@@ -183,14 +183,14 @@ const Navbar = () => {
                                         className={`px-4 py-3 rounded-xl text-sm font-bold ${location.pathname.startsWith('/admin')
                                             ? 'bg-emerald-500/10 text-emerald-500'
                                             : isDarkPage
-                                                ? 'text-emerald-400 hover:bg-white/5 hover:text-white'
+                                                ? 'text-emerald-400 hover:bg-slate-100 hover:text-slate-900'
                                                 : 'text-emerald-600 hover:bg-emerald-50'
                                             }`}
                                     >
                                         Admin Portal
                                     </Link>
                                 )}
-                                <div className={`pt-4 mt-2 border-t ${isDarkPage ? 'border-white/10' : 'border-slate-100'}`}>
+                                <div className={`pt-4 mt-2 border-t ${isDarkPage ? 'border-slate-200' : 'border-slate-100'}`}>
                                     {isAuthenticated ? (
                                         <button
                                             onClick={() => {

@@ -17,7 +17,9 @@ import {
     Settings,
     CheckCircle,
     Loader2,
-    Facebook
+    Facebook,
+    Percent,
+    Clock
 } from "lucide-react";
 import { useToast } from "../../context/ToastContext";
 import { motion } from "framer-motion";
@@ -44,6 +46,12 @@ const SettingsManagement = () => {
             courses: "",
             placements: "",
             trainers: ""
+        },
+        promo: {
+            isActive: false,
+            discountPercentage: 0,
+            endDate: "",
+            title: "Special Discount!"
         }
     });
 
@@ -77,6 +85,12 @@ const SettingsManagement = () => {
                     courses: statsData.courses || "",
                     placements: statsData.placements || "",
                     trainers: statsData.trainers || ""
+                },
+                promo: {
+                    isActive: settingsData.promo?.isActive || false,
+                    discountPercentage: settingsData.promo?.discountPercentage || 0,
+                    endDate: settingsData.promo?.endDate ? new Date(settingsData.promo.endDate).toISOString().slice(0, 16) : "",
+                    title: settingsData.promo?.title || "Special Discount!"
                 }
             });
         } catch (error) {
@@ -100,6 +114,15 @@ const SettingsManagement = () => {
                 ...prev,
                 siteStats: { ...prev.siteStats, [statKey]: value }
             }));
+        } else if (name.startsWith("promo.")) {
+            const promoKey = name.split(".")[1];
+            setFormData(prev => ({
+                ...prev,
+                promo: { 
+                    ...prev.promo, 
+                    [promoKey]: e.target.type === 'checkbox' ? e.target.checked : value 
+                }
+            }));
         } else {
             setFormData(prev => ({ ...prev, [name]: value }));
         }
@@ -115,7 +138,8 @@ const SettingsManagement = () => {
                     phone: formData.phone,
                     address: formData.address,
                     mapLink: formData.mapLink,
-                    socialLinks: formData.socialLinks
+                    socialLinks: formData.socialLinks,
+                    promo: formData.promo
                 }),
                 api.put("/stats", formData.siteStats)
             ]);
@@ -136,7 +160,7 @@ const SettingsManagement = () => {
     return (
         <div className="space-y-8 animate-in fade-in duration-500 max-w-7xl mx-auto">
             {/* Page Header */}
-            <div className="bg-[#0f172a]/40 backdrop-blur-xl p-8 rounded-3xl border border-white/5 shadow-2xl relative overflow-hidden group">
+            <div className="bg-[#0b1120]/40 backdrop-blur-xl p-8 rounded-3xl border border-white/5 shadow-2xl relative overflow-hidden group">
                 <div className="flex flex-col lg:flex-row gap-8 lg:items-center lg:justify-between relative z-10">
                     <div>
                         <div className="flex items-center gap-3 mb-1">
@@ -161,14 +185,14 @@ const SettingsManagement = () => {
             <form id="settings-form" onSubmit={handleSubmit} className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                 {/* Contact & Physical Info */}
                 <div className="space-y-8">
-                    <div className="bg-[#0f172a]/40 backdrop-blur-xl p-10 rounded-[2.5rem] border border-white/5 shadow-xl">
+                    <div className="bg-[#0b1120]/40 backdrop-blur-xl p-10 rounded-[2.5rem] border border-white/5 shadow-xl">
                         <div className="flex items-center gap-4 mb-8">
                             <div className="p-3 bg-emerald-500/10 rounded-2xl border border-emerald-500/20">
                                 <Globe size={24} className="text-emerald-400" />
                             </div>
                             <div>
                                 <h3 className="text-xl font-extrabold text-white tracking-tight">Entity Identity</h3>
-                                <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mt-0.5">Physical & Digital Vectors</p>
+                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-0.5">Physical & Digital Vectors</p>
                             </div>
                         </div>
 
@@ -176,12 +200,12 @@ const SettingsManagement = () => {
                             <div className="space-y-2">
                                 <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Digital Terminal (Email)</label>
                                 <div className="relative group">
-                                    <Mail className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-emerald-400 transition-colors" size={18} />
+                                    <Mail className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-emerald-400 transition-colors" size={18} />
                                     <input
                                         name="email"
                                         value={formData.email}
                                         onChange={handleChange}
-                                        className="w-full bg-white/5 border border-white/10 rounded-2xl p-5 pl-16 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all"
+                                        className="w-full bg-[#1e293b] border border-white/10 rounded-2xl p-5 pl-16 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all"
                                     />
                                 </div>
                             </div>
@@ -189,12 +213,12 @@ const SettingsManagement = () => {
                             <div className="space-y-2">
                                 <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Voice Uplink (Phone)</label>
                                 <div className="relative group">
-                                    <Phone className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-emerald-400 transition-colors" size={18} />
+                                    <Phone className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-emerald-400 transition-colors" size={18} />
                                     <input
                                         name="phone"
                                         value={formData.phone}
                                         onChange={handleChange}
-                                        className="w-full bg-white/5 border border-white/10 rounded-2xl p-5 pl-16 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all"
+                                        className="w-full bg-[#1e293b] border border-white/10 rounded-2xl p-5 pl-16 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all"
                                     />
                                 </div>
                             </div>
@@ -202,13 +226,13 @@ const SettingsManagement = () => {
                             <div className="space-y-2">
                                 <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">HQ Coordinates (Address)</label>
                                 <div className="relative group">
-                                    <MapPin className="absolute left-6 top-10 text-slate-500 group-focus-within:text-emerald-400 transition-colors" size={18} />
+                                    <MapPin className="absolute left-6 top-10 text-slate-400 group-focus-within:text-emerald-400 transition-colors" size={18} />
                                     <textarea
                                         name="address"
                                         value={formData.address}
                                         onChange={handleChange}
                                         rows={3}
-                                        className="w-full bg-white/5 border border-white/10 rounded-2xl p-5 pl-16 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all resize-none"
+                                        className="w-full bg-[#1e293b] border border-white/10 rounded-2xl p-5 pl-16 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all resize-none"
                                     />
                                 </div>
                             </div>
@@ -216,14 +240,14 @@ const SettingsManagement = () => {
                     </div>
 
                     {/* Operational Stats */}
-                    <div className="bg-[#0f172a]/40 backdrop-blur-xl p-10 rounded-[2.5rem] border border-white/5 shadow-xl">
+                    <div className="bg-[#0b1120]/40 backdrop-blur-xl p-10 rounded-[2.5rem] border border-white/5 shadow-xl">
                         <div className="flex items-center gap-4 mb-8">
                             <div className="p-3 bg-blue-500/10 rounded-2xl border border-blue-500/20">
                                 <TrendingUp size={24} className="text-blue-400" />
                             </div>
                             <div>
                                 <h3 className="text-xl font-extrabold text-white tracking-tight">Operational Metrics</h3>
-                                <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mt-0.5">Platform Performance Logic</p>
+                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-0.5">Platform Performance Logic</p>
                             </div>
                         </div>
 
@@ -237,30 +261,104 @@ const SettingsManagement = () => {
                                 <div key={stat.key} className="space-y-2">
                                     <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">{stat.label}</label>
                                     <div className="relative group">
-                                        <stat.icon className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-emerald-400 transition-colors" size={18} />
+                                        <stat.icon className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-emerald-400 transition-colors" size={18} />
                                         <input
                                             name={`stat.${stat.key}`}
                                             value={formData.siteStats?.[stat.key]}
                                             onChange={handleChange}
-                                            className="w-full bg-white/5 border border-white/10 rounded-2xl p-5 pl-16 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all"
+                                            className="w-full bg-[#1e293b] border border-white/10 rounded-2xl p-5 pl-16 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all"
                                         />
                                     </div>
                                 </div>
                             ))}
                         </div>
                     </div>
+                    
+                    {/* Promo & Discount Control */}
+                    <div className="bg-[#0b1120]/40 backdrop-blur-xl p-10 rounded-[2.5rem] border border-emerald-500/20 shadow-[0_0_30px_rgba(16,185,129,0.1)]">
+                        <div className="flex items-center gap-4 mb-8">
+                            <div className="p-3 bg-emerald-500/20 rounded-2xl border border-emerald-400/40">
+                                <Percent size={24} className="text-emerald-400" />
+                            </div>
+                            <div>
+                                <h3 className="text-xl font-extrabold text-white tracking-tight">Global Discount</h3>
+                                <p className="text-[10px] font-black text-emerald-400/80 uppercase tracking-widest mt-0.5">Platform-wide Course Offers</p>
+                            </div>
+                        </div>
+
+                        <div className="space-y-6">
+                            <div className="flex items-center justify-between p-4 bg-[#1e293b] rounded-2xl border border-white/10">
+                                <div>
+                                    <h4 className="text-sm font-bold text-white">Activate Global Discount</h4>
+                                    <p className="text-[10px] text-slate-400 uppercase tracking-widest mt-1">Apply to all courses automatically</p>
+                                </div>
+                                <label className="relative inline-flex items-center cursor-pointer">
+                                    <input 
+                                        type="checkbox" 
+                                        name="promo.isActive" 
+                                        checked={formData.promo.isActive} 
+                                        onChange={handleChange} 
+                                        className="sr-only peer" 
+                                    />
+                                    <div className="w-14 h-7 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-emerald-500"></div>
+                                </label>
+                            </div>
+
+                            <div className={`grid grid-cols-1 md:grid-cols-2 gap-6 transition-all duration-300 ${!formData.promo.isActive ? 'opacity-50 pointer-events-none' : ''}`}>
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Discount %</label>
+                                    <div className="relative group">
+                                        <Percent className="absolute left-4 top-1/2 -translate-y-1/2 text-emerald-400" size={16} />
+                                        <input
+                                            type="number"
+                                            name="promo.discountPercentage"
+                                            value={formData.promo.discountPercentage}
+                                            onChange={handleChange}
+                                            className="w-full bg-[#1e293b] border border-emerald-500/20 rounded-2xl p-4 pl-12 text-white font-bold focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                                            min="0" max="100"
+                                        />
+                                    </div>
+                                </div>
+                                
+                                <div className="space-y-2">
+                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Time Limit (End Date)</label>
+                                    <div className="relative group">
+                                        <Clock className="absolute left-4 top-1/2 -translate-y-1/2 text-orange-400" size={16} />
+                                        <input
+                                            type="datetime-local"
+                                            name="promo.endDate"
+                                            value={formData.promo.endDate}
+                                            onChange={handleChange}
+                                            className="w-full bg-[#1e293b] border border-orange-500/20 rounded-2xl p-4 pl-12 text-white font-bold focus:outline-none focus:ring-2 focus:ring-orange-500 [color-scheme:dark]"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div className={`space-y-2 transition-all duration-300 ${!formData.promo.isActive ? 'opacity-50 pointer-events-none' : ''}`}>
+                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Banner Title</label>
+                                <input
+                                    name="promo.title"
+                                    value={formData.promo.title}
+                                    onChange={handleChange}
+                                    className="w-full bg-[#1e293b] border border-emerald-500/20 rounded-2xl p-4 text-white font-bold focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                                    placeholder="e.g. Navratri Special Offer!"
+                                />
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 {/* Social & Maps */}
                 <div className="space-y-8">
-                    <div className="bg-[#0f172a]/40 backdrop-blur-xl p-10 rounded-[2.5rem] border border-white/5 shadow-xl">
+                    <div className="bg-[#0b1120]/40 backdrop-blur-xl p-10 rounded-[2.5rem] border border-white/5 shadow-xl">
                         <div className="flex items-center gap-4 mb-8">
                             <div className="p-3 bg-purple-500/10 rounded-2xl border border-purple-500/20">
                                 <MessageCircle size={24} className="text-purple-400" />
                             </div>
                             <div>
                                 <h3 className="text-xl font-extrabold text-white tracking-tight">Social Grid</h3>
-                                <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mt-0.5">Network Communication Hub</p>
+                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-0.5">Network Communication Hub</p>
                             </div>
                         </div>
 
@@ -277,12 +375,12 @@ const SettingsManagement = () => {
                                     <div key={social.key} className="space-y-2">
                                         <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">{social.label}</label>
                                         <div className="relative group">
-                                            {typeof Icon === 'function' ? <div className="absolute left-6 top-1/2 -translate-y-1/2"><Icon /></div> : <Icon className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-emerald-400 transition-colors" size={18} />}
+                                            {typeof Icon === 'function' ? <div className="absolute left-6 top-1/2 -translate-y-1/2"><Icon /></div> : <Icon className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-emerald-400 transition-colors" size={18} />}
                                             <input
                                                 name={`social.${social.key}`}
                                                 value={formData.socialLinks?.[social.key]}
                                                 onChange={handleChange}
-                                                className="w-full bg-white/5 border border-white/10 rounded-2xl p-5 pl-16 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all"
+                                                className="w-full bg-[#1e293b] border border-white/10 rounded-2xl p-5 pl-16 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all"
                                                 placeholder="https://..."
                                             />
                                         </div>
@@ -293,16 +391,16 @@ const SettingsManagement = () => {
                             <div className="space-y-2 pt-4">
                                 <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Geospatial Embed (Google Maps)</label>
                                 <div className="relative group">
-                                    <MapPin className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-emerald-400 transition-colors" size={18} />
+                                    <MapPin className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-emerald-400 transition-colors" size={18} />
                                     <input
                                         name="mapLink"
                                         value={formData.mapLink}
                                         onChange={handleChange}
-                                        className="w-full bg-white/5 border border-white/10 rounded-2xl p-5 pl-16 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all"
+                                        className="w-full bg-[#1e293b] border border-white/10 rounded-2xl p-5 pl-16 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all"
                                         placeholder="Embed URL..."
                                     />
                                 </div>
-                                <p className="text-[10px] font-bold text-slate-600 mt-2 ml-2">Secure geospatial uplink for frontend data visualization.</p>
+                                <p className="text-[10px] font-bold text-slate-400 mt-2 ml-2">Secure geospatial uplink for frontend data visualization.</p>
                             </div>
                         </div>
                     </div>

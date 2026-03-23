@@ -27,20 +27,20 @@ const CityManagement = () => {
     };
     const [formData, setFormData] = useState(initialFormState);
 
-    const fetchCities = useCallback(async () => {
+    const fetchCities = useCallback(async (silent = false) => {
         try {
             const { data } = await api.get("/cities/admin");
             setCities(Array.isArray(data) ? data : []);
         } catch {
-            toast.error("Failed to load cities");
+            if (!silent) toast.error("Failed to load cities");
         } finally {
             setLoading(false);
         }
     }, [toast]);
 
     useEffect(() => {
-        fetchCities();
-        const interval = setInterval(fetchCities, 15000);
+        fetchCities(false);
+        const interval = setInterval(() => fetchCities(true), 15000);
         return () => clearInterval(interval);
     }, [fetchCities]);
 
@@ -122,7 +122,7 @@ const CityManagement = () => {
     return (
         <div className="space-y-6 animate-in fade-in duration-500">
             {/* Page Header */}
-            <div className="bg-[#0f172a]/40 backdrop-blur-xl p-8 rounded-3xl border border-white/5 shadow-2xl relative overflow-hidden group">
+            <div className="bg-[#0b1120]/40 backdrop-blur-xl p-8 rounded-3xl border border-white/5 shadow-2xl relative overflow-hidden group">
                 <div className="flex flex-col lg:flex-row gap-8 lg:items-center lg:justify-between relative z-10">
                     <div>
                         <div className="flex items-center gap-3 mb-1">
@@ -136,14 +136,14 @@ const CityManagement = () => {
                     </div>
 
                     <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
-                        <div className="bg-white/5 border border-white/10 rounded-xl pr-6 flex items-center w-full lg:w-auto group focus-within:border-emerald-500/50 focus-within:ring-4 focus-within:ring-emerald-500/10 transition-all">
-                            <Search className="text-slate-500 ml-4 group-focus-within:text-emerald-400 transition-colors" size={18} />
+                        <div className="bg-[#1e293b] border border-white/10 rounded-xl pr-6 flex items-center w-full lg:w-auto group focus-within:border-emerald-500/50 focus-within:ring-4 focus-within:ring-emerald-500/10 transition-all">
+                            <Search className="text-slate-400 ml-4 group-focus-within:text-emerald-400 transition-colors" size={18} />
                             <input
                                 type="text"
                                 placeholder="Locate regional node..."
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                className="bg-transparent text-white placeholder:text-slate-600 focus:outline-none py-4 px-4 w-full lg:w-64 font-bold text-sm tracking-tight"
+                                className="bg-transparent text-white placeholder:text-slate-400 focus:outline-none py-4 px-4 w-full lg:w-64 font-bold text-sm tracking-tight"
                             />
                         </div>
                         <button
@@ -158,11 +158,11 @@ const CityManagement = () => {
             </div>
 
             {/* Cities Table */}
-            <div className="bg-[#0f172a]/40 backdrop-blur-xl border border-white/5 rounded-[2.5rem] overflow-hidden shadow-2xl">
+            <div className="bg-[#0b1120]/40 backdrop-blur-xl border border-white/5 rounded-[2.5rem] overflow-hidden shadow-2xl">
                 <div className="overflow-x-auto">
                     <table className="w-full text-left border-collapse">
                         <thead>
-                            <tr className="bg-white/5 border-b border-white/10">
+                            <tr className="bg-[#1e293b] border-b border-white/10">
                                 <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Regional Identity</th>
                                 <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Operational Priority</th>
                                 <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">System Status</th>
@@ -177,11 +177,11 @@ const CityManagement = () => {
                                         initial={{ opacity: 0, y: 10 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         exit={{ opacity: 0 }}
-                                        className="hover:bg-white/5 transition-colors group"
+                                        className="hover:bg-[#1e293b] transition-colors group"
                                     >
                                         <td className="px-8 py-6">
                                             <div className="flex items-center gap-5">
-                                                <div className="w-16 h-16 rounded-2xl overflow-hidden bg-white/5 border border-white/10 shrink-0 shadow-sm relative group-hover:border-emerald-500/50 transition-all">
+                                                <div className="w-16 h-16 rounded-2xl overflow-hidden bg-[#1e293b] border border-white/10 shrink-0 shadow-sm relative group-hover:border-emerald-500/50 transition-all">
                                                     <img
                                                         src={resolveImageUrl(city.image, "/images/city-placeholder.jpg")}
                                                         alt={city.name}
@@ -190,7 +190,7 @@ const CityManagement = () => {
                                                 </div>
                                                 <div>
                                                     <div className="font-bold text-white text-[15px] tracking-tight">{city.name}</div>
-                                                    <div className="text-[10px] text-slate-500 font-bold uppercase tracking-widest mt-1">Industrial Terminal</div>
+                                                    <div className="text-[10px] text-slate-400 font-bold uppercase tracking-widest mt-1">Industrial Terminal</div>
                                                 </div>
                                             </div>
                                         </td>
@@ -210,13 +210,13 @@ const CityManagement = () => {
                                             <div className="flex justify-end gap-3">
                                                 <button
                                                     onClick={() => handleEdit(city)}
-                                                    className="p-3 rounded-xl bg-white/5 text-slate-400 hover:text-emerald-400 hover:bg-emerald-500/10 border border-white/10 hover:border-emerald-500/20 transition-all"
+                                                    className="p-3 rounded-xl bg-[#1e293b] text-slate-400 hover:text-emerald-400 hover:bg-emerald-500/10 border border-white/10 hover:border-emerald-500/20 transition-all"
                                                 >
                                                     <Edit2 size={16} />
                                                 </button>
                                                 <button
                                                     onClick={() => handleDelete(city._id)}
-                                                    className="p-3 rounded-xl bg-white/5 text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 border border-white/10 hover:border-rose-500/20 transition-all"
+                                                    className="p-3 rounded-xl bg-[#1e293b] text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 border border-white/10 hover:border-rose-500/20 transition-all"
                                                 >
                                                     <Trash2 size={16} />
                                                 </button>
@@ -238,18 +238,18 @@ const CityManagement = () => {
                             initial={{ opacity: 0, scale: 0.95, y: 20 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 30 }}
-                            className="relative w-full max-w-xl bg-[#0f172a] border border-white/10 rounded-[3rem] p-10 shadow-2xl flex flex-col"
+                            className="relative w-full max-w-xl bg-[#0b1120] border border-white/10 rounded-[3rem] p-10 shadow-2xl flex flex-col"
                         >
                             <div className="flex items-start justify-between gap-6 mb-10 shrink-0">
                                 <div>
                                     <h3 className="text-3xl font-black text-white tracking-tight uppercase">
                                         {editingCity ? "Refine Terminal" : "Deploy Terminal"}
                                     </h3>
-                                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] mt-1">Geospatial Protocol v1.4</p>
+                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mt-1">Geospatial Protocol v1.4</p>
                                 </div>
                                 <button
                                     onClick={() => setIsModalOpen(false)}
-                                    className="p-3.5 rounded-2xl bg-white/5 hover:bg-white/10 text-slate-500 hover:text-white transition-all border border-white/10"
+                                    className="p-3.5 rounded-2xl bg-[#1e293b] hover:bg-white/10 text-slate-400 hover:text-white transition-all border border-white/10"
                                 >
                                     <X size={24} />
                                 </button>
@@ -258,11 +258,11 @@ const CityManagement = () => {
                             <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto pr-4 -mr-4 space-y-10 custom-scrollbar">
                                 <div className="flex flex-col items-center justify-center">
                                     <label className="relative group cursor-pointer">
-                                        <div className={`w-48 h-48 rounded-[2.5rem] border-2 border-dashed flex items-center justify-center overflow-hidden transition-all relative ${formData.image ? 'border-emerald-500/50 bg-white/5' : 'border-white/10 bg-white/5 hover:border-emerald-500/50'}`}>
+                                        <div className={`w-48 h-48 rounded-[2.5rem] border-2 border-dashed flex items-center justify-center overflow-hidden transition-all relative ${formData.image ? 'border-emerald-500/50 bg-[#1e293b]' : 'border-white/10 bg-[#1e293b] hover:border-emerald-500/50'}`}>
                                             {formData.image ? (
                                                 <img src={resolveImageUrl(formData.image)} alt="Preview" className="w-full h-full object-cover relative z-10" />
                                             ) : (
-                                                <div className="flex flex-col items-center gap-4 text-slate-500 group-hover:text-emerald-400 transition-colors relative z-10">
+                                                <div className="flex flex-col items-center gap-4 text-slate-400 group-hover:text-emerald-400 transition-colors relative z-10">
                                                     <Camera size={32} strokeWidth={1.5} />
                                                     <span className="text-[10px] font-black uppercase tracking-[0.3em]">Visual Uplink</span>
                                                 </div>
@@ -288,7 +288,7 @@ const CityManagement = () => {
                                             required
                                             value={formData.name}
                                             onChange={e => setFormData({ ...formData, name: e.target.value })}
-                                            className="w-full bg-white/5 border border-white/10 rounded-2xl p-6 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-600"
+                                            className="w-full bg-[#1e293b] border border-white/10 rounded-2xl p-6 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-400"
                                             placeholder="e.g. Neo Tokyo Sector"
                                         />
                                     </div>
@@ -300,7 +300,7 @@ const CityManagement = () => {
                                                 type="number"
                                                 value={formData.order}
                                                 onChange={e => setFormData({ ...formData, order: parseInt(e.target.value) })}
-                                                className="w-full bg-white/5 border border-white/10 rounded-2xl p-6 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all"
+                                                className="w-full bg-[#1e293b] border border-white/10 rounded-2xl p-6 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all"
                                             />
                                         </div>
                                         <div className="space-y-2">
@@ -308,7 +308,7 @@ const CityManagement = () => {
                                             <button
                                                 type="button"
                                                 onClick={() => setFormData({ ...formData, isActive: !formData.isActive })}
-                                                className={`w-full h-[74px] rounded-2xl border transition-all flex items-center justify-center gap-3 font-bold text-[10px] uppercase tracking-widest ${formData.isActive ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400' : 'bg-white/5 border-white/10 text-slate-500'}`}
+                                                className={`w-full h-[74px] rounded-2xl border transition-all flex items-center justify-center gap-3 font-bold text-[10px] uppercase tracking-widest ${formData.isActive ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400' : 'bg-[#1e293b] border-white/10 text-slate-400'}`}
                                             >
                                                 {formData.isActive ? <Eye size={18} /> : <EyeOff size={18} />}
                                                 {formData.isActive ? 'Active Node' : 'Suspended'}
@@ -317,11 +317,11 @@ const CityManagement = () => {
                                     </div>
                                 </div>
 
-                                <div className="p-10 border-t border-white/5 flex justify-end items-center gap-4 shrink-0 -mx-10 -mb-10 mt-10 bg-white/5">
+                                <div className="p-10 border-t border-white/5 flex justify-end items-center gap-4 shrink-0 -mx-10 -mb-10 mt-10 bg-[#1e293b]">
                                     <button
                                         type="button"
                                         onClick={() => setIsModalOpen(false)}
-                                        className="flex-1 py-4.5 rounded-2xl bg-white/5 text-slate-400 font-bold text-[10px] uppercase tracking-widest hover:text-white hover:bg-white/10 border border-white/10 transition-all"
+                                        className="flex-1 py-4.5 rounded-2xl bg-[#1e293b] text-slate-400 font-bold text-[10px] uppercase tracking-widest hover:text-white hover:bg-white/10 border border-white/10 transition-all"
                                     >
                                         Dismiss
                                     </button>

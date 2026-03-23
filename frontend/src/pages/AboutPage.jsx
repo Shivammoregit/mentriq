@@ -70,9 +70,9 @@ const AboutPage = () => {
   ]
 
   return (
-    <div className="min-h-screen pt-0 bg-white selection:bg-indigo-500/30 overflow-hidden">
+    <div className="min-h-screen pt-0 bg-[#020617] selection:bg-indigo-500/30 overflow-hidden">
       {/* Premium Dark Hero Section */}
-      <section className="relative min-h-[45vh] flex items-center bg-[#070b14] text-white overflow-hidden pt-24 pb-12">
+      <section className="relative min-h-[45vh] flex items-center bg-[#020617] text-white overflow-hidden pt-24 pb-12">
         {/* Advanced Atmospheric Animations for Dark */}
         <div className="absolute inset-0 pointer-events-none">
           <motion.div
@@ -91,19 +91,19 @@ const AboutPage = () => {
               scale: [1, 1.3, 1]
             }}
             transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-            className="absolute -bottom-[10%] right-1/4 w-[600px] h-[600px] bg-cyan-500/10 rounded-full blur-[140px]"
+            className="absolute -bottom-[10%] right-1/4 w-[600px] h-[600px] bg-cyan-500/15 rounded-full blur-[140px]"
           />
           {/* High-Contrast Technical Grid */}
-          <div className="absolute inset-0 opacity-[0.03] bg-[linear-gradient(#ffffff_1px,transparent_1px),linear-gradient(90deg,#ffffff_1px,transparent_1px)] bg-[length:40px_40px]" />
+          <div className="absolute inset-0 opacity-[0.05] bg-[linear-gradient(#ffffff_1px,transparent_1px),linear-gradient(90deg,#ffffff_1px,transparent_1px)] bg-[length:40px_40px]" />
         </div>
 
         <div className="relative max-w-7xl mx-auto px-6 text-center z-10 w-full">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="inline-flex items-center space-x-2 mb-8 px-5 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md shadow-lg shadow-black/20"
+            className="inline-flex items-center space-x-2 mb-8 px-5 py-2 rounded-full bg-slate-800/80 border border-slate-700 backdrop-blur-md shadow-lg shadow-black/20"
           >
-            <span className="w-1.5 h-1.5 bg-cyan-500 rounded-full animate-ping"></span>
+            <span className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-ping"></span>
             <span className="text-[10px] font-black uppercase tracking-[0.3em] text-cyan-300">Global Talent Architecture</span>
           </motion.div>
 
@@ -132,7 +132,7 @@ const AboutPage = () => {
       </section>
 
       {/* Stats - Premium Clean Glassmorphism */}
-      <section className="py-10 relative z-20">
+      <section className="py-10 relative z-20 bg-[#020617]">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {stats.map((stat, index) => {
@@ -144,16 +144,16 @@ const AboutPage = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
-                  className="bg-white border border-slate-100 shadow-[0_15px_40px_-15px_rgba(0,0,0,0.08)] p-6 rounded-[2.5rem] group text-center relative overflow-hidden"
+                  className="bg-slate-800/40 backdrop-blur-md border border-slate-700 shadow-[0_15px_40px_-15px_rgba(0,0,0,0.3)] p-6 rounded-[2.5rem] group text-center relative overflow-hidden"
                 >
                   <div className={`inline-flex items-center justify-center w-14 h-14 mb-5 bg-gradient-to-br ${stat.color} rounded-2xl text-white shadow-lg transition-all duration-500 group-hover:rotate-6 group-hover:scale-110`}>
                     <Icon className="w-7 h-7" strokeWidth={2.5} />
                   </div>
-                  <div className="text-3xl font-black text-slate-900 mb-1 tracking-tight font-display">{stat.number}</div>
+                  <div className="text-3xl font-black text-white mb-1 tracking-tight font-display">{stat.number}</div>
                   <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{stat.label}</div>
 
                   {/* Subtle hover background animation */}
-                  <div className="absolute inset-0 bg-indigo-50/0 group-hover:bg-indigo-50/40 transition-colors -z-10" />
+                  <div className="absolute inset-0 bg-white/0 group-hover:bg-white/5 transition-colors -z-10" />
                 </motion.div>
               )
             })}
@@ -162,7 +162,7 @@ const AboutPage = () => {
       </section>
 
       {/* Mission Section - Clean Image Parallax */}
-      <section className="py-16 relative bg-slate-50/50">
+      <section className="py-16 relative bg-white">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <motion.div
@@ -188,10 +188,10 @@ const AboutPage = () => {
                   <motion.div
                     key={i}
                     whileHover={{ x: 10, backgroundColor: 'rgba(99, 102, 241, 0.05)' }}
-                    className="flex items-center space-x-4 p-4 rounded-2xl bg-white border border-slate-100 shadow-sm transition-all hover:bg-indigo-50"
+                    className="flex items-center space-x-4 p-4 rounded-2xl bg-white border border-slate-200 shadow-sm transition-all hover:bg-slate-50 hover:border-indigo-100"
                   >
                     <span className="text-xl leading-none">{item.icon}</span>
-                    <span className="text-sm font-bold text-slate-700 uppercase tracking-tight">{item.text}</span>
+                    <span className="text-sm font-bold text-slate-800 uppercase tracking-tight">{item.text}</span>
                   </motion.div>
                 ))}
               </div>
@@ -222,27 +222,27 @@ const AboutPage = () => {
                   <motion.div
                     animate={{ height: ["0%", "80%", "0%"] }}
                     transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                    className="absolute left-6 top-1/2 -translate-y-1/2 w-[1px] bg-gradient-to-b from-transparent via-white/40 to-transparent"
+                    className="absolute left-6 top-1/2 -translate-y-1/2 w-[1px] bg-gradient-to-b from-transparent via-cyan-400/80 to-transparent"
                   />
                 </div>
 
                 {/* Animated Corner Accents */}
-                <div className="absolute top-0 left-0 w-12 h-12 border-t-2 border-l-2 border-indigo-500/50 rounded-tl-[2.5rem] pointer-events-none" />
-                <div className="absolute bottom-0 right-0 w-12 h-12 border-b-2 border-r-2 border-cyan-500/50 rounded-br-[2.5rem] pointer-events-none" />
+                <div className="absolute top-0 left-0 w-12 h-12 border-t-2 border-l-2 border-indigo-400/50 rounded-tl-[2.5rem] pointer-events-none" />
+                <div className="absolute bottom-0 right-0 w-12 h-12 border-b-2 border-r-2 border-cyan-400/50 rounded-br-[2.5rem] pointer-events-none" />
               </div>
 
               {/* Floating Ambient Glow */}
-              <div className="absolute -inset-10 bg-indigo-500/5 blur-[100px] rounded-full pointer-events-none group-hover:bg-indigo-500/10 transition-colors" />
+              <div className="absolute -inset-10 bg-indigo-500/10 blur-[100px] rounded-full pointer-events-none group-hover:bg-indigo-500/20 transition-colors" />
             </motion.div>
           </div>
         </div>
       </section>
 
       {/* Our Journey - MentriQ Digital Mainframe Timeline */}
-      <section ref={containerRef} className="py-24 bg-[#070b14] relative overflow-hidden">
+      <section ref={containerRef} className="py-24 bg-[#020617] relative overflow-hidden">
         {/* Digital Grid Background */}
-        <div className="absolute inset-0 opacity-[0.05] bg-[linear-gradient(#00f6ff_1px,transparent_1px),linear-gradient(90deg,#00f6ff_1px,transparent_1px)] bg-[length:40px_40px] pointer-events-none" />
-        <div className="absolute inset-0 bg-gradient-to-b from-[#070b14] via-transparent to-[#070b14] pointer-events-none" />
+        <div className="absolute inset-0 opacity-[0.1] bg-[linear-gradient(#00f6ff_1px,transparent_1px),linear-gradient(90deg,#00f6ff_1px,transparent_1px)] bg-[length:40px_40px] pointer-events-none" />
+        <div className="absolute inset-0 bg-gradient-to-b from-[#020617] via-transparent to-[#020617] pointer-events-none" />
 
         <div className="max-w-7xl mx-auto px-6 relative">
           <div className="text-center mb-24">
@@ -250,7 +250,7 @@ const AboutPage = () => {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              className="inline-flex items-center space-x-2 mb-4 px-4 py-1.5 rounded-full bg-cyan-900/20 border border-cyan-500/30 shadow-[0_0_15px_rgba(6,182,212,0.2)]"
+              className="inline-flex items-center space-x-2 mb-4 px-4 py-1.5 rounded-full bg-cyan-900/40 border border-cyan-500/30 shadow-[0_0_15px_rgba(6,182,212,0.2)]"
             >
               <span className="w-1.5 h-1.5 bg-cyan-400 rounded-full animate-pulse shadow-[0_0_10px_#22d3ee]"></span>
               <span className="text-[10px] font-black uppercase tracking-[0.2em] text-cyan-400">Strategic Roadmap</span>
@@ -313,7 +313,7 @@ const AboutPage = () => {
                 return (
                   <div key={item.year} className="relative py-2">
                     {/* Mobile Dot Indicator */}
-                    <div className="absolute left-8 top-12 w-3 h-3 rounded-full bg-cyan-500 ring-4 ring-slate-900 md:hidden -translate-x-[5px] z-10 shadow-[0_0_10px_#06b6d4]" />
+                    <div className="absolute left-8 top-12 w-3 h-3 rounded-full bg-cyan-500 ring-4 ring-[#020617] md:hidden -translate-x-[5px] z-10 shadow-[0_0_10px_#06b6d4]" />
 
                     {/* Content Card - Dark Glass Prism */}
                     <div className={`flex flex-col md:flex-row items-center ${isEven ? 'md:justify-start md:pr-12 md:pl-4 pl-16 pr-4' : 'md:justify-end md:pl-12 md:pr-4 pl-16 pr-4'}`}>
@@ -321,21 +321,21 @@ const AboutPage = () => {
                         initial={{ opacity: 0, x: isEven ? -50 : 50 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true, margin: "-100px" }}
-                        whileHover={{ y: -5, borderColor: 'rgba(6, 182, 212, 0.3)' }}
-                        className="w-full md:w-[480px] p-8 rounded-[2rem] bg-slate-900/60 border border-slate-800 backdrop-blur-xl shadow-2xl relative group overflow-hidden transition-all duration-500"
+                        whileHover={{ y: -5, borderColor: 'rgba(6, 182, 212, 0.4)' }}
+                        className="w-full md:w-[480px] p-8 rounded-[2rem] bg-slate-900/60 border border-slate-700/80 backdrop-blur-xl shadow-2xl relative group overflow-hidden transition-all duration-500"
                       >
                         {/* Interactive Border Accent */}
-                        <div className={`absolute top-6 bottom-6 w-1 bg-slate-800 group-hover:bg-cyan-400 group-hover:shadow-[0_0_10px_#06b6d4] transition-all duration-500 ${isEven ? 'right-0 rounded-l-none' : 'left-0 rounded-r-none'}`} />
+                        <div className={`absolute top-6 bottom-6 w-1 bg-slate-700 group-hover:bg-cyan-400 group-hover:shadow-[0_0_10px_#06b6d4] transition-all duration-500 ${isEven ? 'right-0 rounded-l-none' : 'left-0 rounded-r-none'}`} />
 
                         {/* Scanline Effect */}
-                        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-500/5 to-transparent opacity-0 group-hover:opacity-100 translate-y-[-100%] group-hover:translate-y-[100%] transition-all duration-1000 pointer-events-none" />
+                        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-cyan-500/10 to-transparent opacity-0 group-hover:opacity-100 translate-y-[-100%] group-hover:translate-y-[100%] transition-all duration-1000 pointer-events-none" />
 
                         <div className="relative z-10">
                           <div className="flex items-center gap-4 mb-5">
-                            <span className="text-4xl font-black text-slate-700 group-hover:text-cyan-500/20 transition-colors font-display tracking-tighter">
+                            <span className="text-4xl font-black text-slate-500 group-hover:text-cyan-400/50 transition-colors font-display tracking-tighter">
                               {item.year}
                             </span>
-                            <div className="h-px flex-1 bg-slate-800 group-hover:bg-cyan-500/20 transition-colors" />
+                            <div className="h-px flex-1 bg-slate-700 group-hover:bg-cyan-500/30 transition-colors" />
                             <span className="text-[10px] font-black uppercase tracking-widest text-cyan-400 opacity-0 group-hover:opacity-100 transition-opacity transform translate-x-4 group-hover:translate-x-0 hidden md:block text-glow">
                               System Update
                             </span>

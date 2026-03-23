@@ -74,16 +74,16 @@ const TrainingEnrollmentFormPage = () => {
     }
 
     if (loading) return (
-        <div className="min-h-[70vh] flex items-center justify-center bg-[#020617]">
+        <div className="min-h-[70vh] flex items-center justify-center bg-white">
             <div className="animate-spin h-12 w-12 border-4 border-indigo-600 border-t-transparent rounded-full"></div>
         </div>
     )
     if (!course) return (
-        <div className="min-h-[70vh] flex flex-col items-center justify-center bg-[#020617] text-white p-10">
+        <div className="min-h-[70vh] flex flex-col items-center justify-center bg-white text-slate-900 p-10">
             <h2 className="text-3xl font-black uppercase tracking-tight mb-4 text-center">Training Program Not Found</h2>
             <button
                 onClick={() => navigate('/training')}
-                className="bg-white/5 hover:bg-white/10 border border-white/10 text-white px-8 py-3 rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all"
+                className="bg-slate-100 hover:bg-slate-200 border border-slate-200 text-slate-900 px-8 py-3 rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all"
             >
                 Return to Training
             </button>
@@ -91,7 +91,7 @@ const TrainingEnrollmentFormPage = () => {
     )
 
     return (
-        <section className="min-h-screen pb-20 px-4 flex items-center justify-center bg-[#020617]">
+        <section className="min-h-screen pb-20 px-4 flex items-center justify-center bg-white">
             {/* Background decoration */}
             <div className="fixed inset-0 overflow-hidden pointer-events-none">
                 <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-indigo-600/10 rounded-full blur-[120px]" />
@@ -102,16 +102,16 @@ const TrainingEnrollmentFormPage = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
-                className="relative bg-[#0f172a]/80 backdrop-blur-2xl border border-white/10 rounded-[2.5rem] shadow-2xl overflow-hidden max-w-5xl w-full flex flex-col md:flex-row"
+                className="relative bg-white/80 backdrop-blur-2xl border border-slate-200 rounded-[2.5rem] shadow-2xl overflow-hidden max-w-5xl w-full flex flex-col md:flex-row"
             >
                 {/* Left Side: Course Info */}
-                <div className="md:w-2/5 bg-white/5 backdrop-blur-md text-white p-10 flex flex-col justify-between relative overflow-hidden border-r border-white/5">
+                <div className="md:w-2/5 bg-slate-100 backdrop-blur-md text-slate-900 p-10 flex flex-col justify-between relative overflow-hidden border-r border-slate-100">
                     {/* Abstract Bg */}
                     <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-600/20 rounded-full blur-3xl -mr-16 -mt-16" />
                     <div className="absolute bottom-0 left-0 w-64 h-64 bg-cyan-600/20 rounded-full blur-3xl -ml-16 -mb-16" />
 
                     <div className="relative z-10">
-                        <button onClick={() => navigate(-1)} className="flex items-center gap-2 text-gray-400 hover:text-white transition mb-8">
+                        <button onClick={() => navigate(-1)} className="flex items-center gap-2 text-gray-400 hover:text-slate-900 transition mb-8">
                             <ArrowLeft size={18} /> Back
                         </button>
                         <h2 className="text-3xl font-black mb-4 leading-tight tracking-tight uppercase">{course.title}</h2>
@@ -131,10 +131,10 @@ const TrainingEnrollmentFormPage = () => {
                         </div>
                     </div>
 
-                    <div className="mt-12 pt-8 border-t border-white/10 relative z-10">
+                    <div className="mt-12 pt-8 border-t border-slate-200 relative z-10">
                         <div className="flex justify-between items-end mb-2">
                             <span className="text-xs text-indigo-400 uppercase font-black tracking-widest">Training Status</span>
-                            <span className="text-2xl font-black text-white uppercase">Active</span>
+                            <span className="text-2xl font-black text-slate-900 uppercase">Active</span>
                         </div>
                         <p className="text-[10px] text-indigo-300/60 uppercase tracking-tighter">*Batch starting soon</p>
                     </div>
@@ -153,15 +153,15 @@ const TrainingEnrollmentFormPage = () => {
                 {/* Right Side: Form */}
                 <div className="md:w-3/5 p-10 md:p-14">
                     <div className="mb-10">
-                        <h3 className="text-2xl font-black text-white mb-2 tracking-tight uppercase">Training Application</h3>
+                        <h3 className="text-2xl font-black text-slate-900 mb-2 tracking-tight uppercase">Training Application</h3>
                         <p className="text-gray-400 text-sm">Fill in the details below to join the training program.</p>
                     </div>
 
                     <form onSubmit={handleSubmit} className="space-y-6">
                         {/* Profile Picture Upload Section */}
-                        <div className="flex flex-col items-center justify-center p-6 bg-white/5 rounded-[2rem] border border-white/5 border-dashed mb-8 group hover:border-indigo-500/50 transition-all">
+                        <div className="flex flex-col items-center justify-center p-6 bg-slate-100 rounded-[2rem] border border-slate-100 border-dashed mb-8 group hover:border-indigo-500/50 transition-all">
                             <div className="relative w-24 h-24 mb-4">
-                                <div className="w-full h-full rounded-2xl overflow-hidden bg-[#1e293b] border border-white/10 flex items-center justify-center relative group-hover:scale-105 transition-transform shadow-xl">
+                                <div className="w-full h-full rounded-2xl overflow-hidden bg-[#1e293b] border border-slate-200 flex items-center justify-center relative group-hover:scale-105 transition-transform shadow-xl">
                                     {formData.image ? (
                                         <img src={formData.image} alt="Profile Preview" className="w-full h-full object-cover" />
                                     ) : (
@@ -195,7 +195,7 @@ const TrainingEnrollmentFormPage = () => {
                                     placeholder="Enter your name"
                                     value={formData.name}
                                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                    className="w-full p-4 bg-white/5 rounded-2xl border border-white/10 text-white placeholder:text-gray-600 focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/10 transition-all outline-none"
+                                    className="w-full p-4 bg-slate-100 rounded-2xl border border-slate-200 text-slate-900 placeholder:text-gray-600 focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/10 transition-all outline-none"
                                 />
                             </div>
                             <div className="space-y-2">
@@ -206,7 +206,7 @@ const TrainingEnrollmentFormPage = () => {
                                     placeholder="your@email.com"
                                     value={formData.email}
                                     onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                    className="w-full p-4 bg-white/5 rounded-2xl border border-white/10 text-white placeholder:text-gray-600 focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/10 transition-all outline-none"
+                                    className="w-full p-4 bg-slate-100 rounded-2xl border border-slate-200 text-slate-900 placeholder:text-gray-600 focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/10 transition-all outline-none"
                                 />
                             </div>
                         </div>
@@ -220,7 +220,7 @@ const TrainingEnrollmentFormPage = () => {
                                     placeholder="Enter Father's name"
                                     value={formData.fatherName}
                                     onChange={(e) => setFormData({ ...formData, fatherName: e.target.value })}
-                                    className="w-full p-4 bg-white/5 rounded-2xl border border-white/10 text-white placeholder:text-gray-600 focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/10 transition-all outline-none"
+                                    className="w-full p-4 bg-slate-100 rounded-2xl border border-slate-200 text-slate-900 placeholder:text-gray-600 focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/10 transition-all outline-none"
                                 />
                             </div>
                             <div className="space-y-2">
@@ -230,7 +230,7 @@ const TrainingEnrollmentFormPage = () => {
                                     placeholder="Enter Mother's name"
                                     value={formData.motherName}
                                     onChange={(e) => setFormData({ ...formData, motherName: e.target.value })}
-                                    className="w-full p-4 bg-white/5 rounded-2xl border border-white/10 text-white placeholder:text-gray-600 focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/10 transition-all outline-none"
+                                    className="w-full p-4 bg-slate-100 rounded-2xl border border-slate-200 text-slate-900 placeholder:text-gray-600 focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/10 transition-all outline-none"
                                 />
                             </div>
                         </div>
@@ -245,7 +245,7 @@ const TrainingEnrollmentFormPage = () => {
                                     placeholder="+91 00000 00000"
                                     value={formData.contact}
                                     onChange={(e) => setFormData({ ...formData, contact: e.target.value })}
-                                    className="w-full p-4 bg-white/5 rounded-2xl border border-white/10 text-white placeholder:text-gray-600 focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/10 transition-all outline-none"
+                                    className="w-full p-4 bg-slate-100 rounded-2xl border border-slate-200 text-slate-900 placeholder:text-gray-600 focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/10 transition-all outline-none"
                                 />
                             </div>
                             <div className="space-y-2">
@@ -256,7 +256,7 @@ const TrainingEnrollmentFormPage = () => {
                                     placeholder="Mobile Number"
                                     value={formData.parentContact}
                                     onChange={(e) => setFormData({ ...formData, parentContact: e.target.value })}
-                                    className="w-full p-4 bg-white/5 rounded-2xl border border-white/10 text-white placeholder:text-gray-600 focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/10 transition-all outline-none"
+                                    className="w-full p-4 bg-slate-100 rounded-2xl border border-slate-200 text-slate-900 placeholder:text-gray-600 focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/10 transition-all outline-none"
                                 />
                             </div>
                         </div>
@@ -270,7 +270,7 @@ const TrainingEnrollmentFormPage = () => {
                                     type="date"
                                     value={formData.dob}
                                     onChange={(e) => setFormData({ ...formData, dob: e.target.value })}
-                                    className="w-full p-4 bg-white/5 rounded-2xl border border-white/10 text-white placeholder:text-gray-600 focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/10 transition-all outline-none"
+                                    className="w-full p-4 bg-slate-100 rounded-2xl border border-slate-200 text-slate-900 placeholder:text-gray-600 focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/10 transition-all outline-none"
                                 />
                             </div>
                             <div className="space-y-2 md:col-span-2">
@@ -280,7 +280,7 @@ const TrainingEnrollmentFormPage = () => {
                                     placeholder="State, City, Street, etc."
                                     value={formData.address}
                                     onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                                    className="w-full p-4 bg-white/5 rounded-2xl border border-white/10 text-white placeholder:text-gray-600 focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/10 transition-all outline-none"
+                                    className="w-full p-4 bg-slate-100 rounded-2xl border border-slate-200 text-slate-900 placeholder:text-gray-600 focus:border-indigo-500/50 focus:ring-4 focus:ring-indigo-500/10 transition-all outline-none"
                                 />
                             </div>
                         </div>

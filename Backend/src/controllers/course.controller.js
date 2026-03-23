@@ -1,4 +1,5 @@
 const Course = require("../models/Course");
+const Settings = require("../models/Settings");
 
 const getCourses = async (req, res) => {
   try {
@@ -12,8 +13,20 @@ const getCourses = async (req, res) => {
       if (minPrice) filter.price.$gte = Number(minPrice);
       if (maxPrice) filter.price.$lte = Number(maxPrice);
     }
+    let courses = await Course.find(filter).sort({ createdAt: -1 });
 
-    const courses = await Course.find(filter).sort({ createdAt: -1 });
+    // Apply global discount if active
+    const settings = await Settings.findOne();
+    if (settings && settings.promo && settings.promo.isActive && settings.promo.endDate && new Date(settings.promo.endDate) > new Date()) {
+      const discountRatio = (100 - settings.promo.discountPercentage) / 100;
+      courses = courses.map(course => {
+        const courseObj = course.toObject();
+        courseObj.originalPrice = courseObj.price;
+        courseObj.price = Math.round(courseObj.price * discountRatio);
+        return courseObj;
+      });
+    }
+
     return res.json(courses);
   } catch (error) {
     console.error("Get courses error:", error);
@@ -25,7 +38,18 @@ const getCourseById = async (req, res) => {
   try {
     const course = await Course.findById(req.params.id);
     if (!course) return res.status(404).json({ message: "Course not found" });
-    return res.json(course);
+
+    let courseObj = course.toObject();
+    
+    // Apply global discount if active
+    const settings = await Settings.findOne();
+    if (settings && settings.promo && settings.promo.isActive && settings.promo.endDate && new Date(settings.promo.endDate) > new Date()) {
+      const discountRatio = (100 - settings.promo.discountPercentage) / 100;
+      courseObj.originalPrice = courseObj.price;
+      courseObj.price = Math.round(courseObj.price * discountRatio);
+    }
+
+    return res.json(courseObj);
   } catch (error) {
     console.error("Get course by ID error:", error);
     return res.status(500).json({ message: "Server error" });

@@ -5,7 +5,7 @@ import React from 'react'
 
 const NotFoundPage = () => {
   return (
-    <div className="min-h-screen pt-16 relative bg-[#0f172a] overflow-hidden flex items-center justify-center px-4">
+    <div className="min-h-screen pt-16 relative bg-white overflow-hidden flex items-center justify-center px-4">
 
       {/* Background Effects */}
       <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-indigo-600/10 rounded-full blur-[120px]" />
@@ -20,11 +20,11 @@ const NotFoundPage = () => {
         <div className="relative w-40 h-40 mx-auto mb-8">
           <div className="absolute inset-0 bg-indigo-500 blur-2xl opacity-30 animate-pulse" />
           <div className="relative w-full h-full bg-gradient-to-br from-indigo-500 to-cyan-500 rounded-3xl flex items-center justify-center shadow-2xl rotate-3 hover:rotate-6 transition-transform duration-500">
-            <span className="text-6xl font-black text-white">404</span>
+            <span className="text-6xl font-black text-slate-900">404</span>
           </div>
         </div>
 
-        <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
+        <h1 className="text-4xl md:text-5xl font-bold text-slate-900 mb-4">
           Page Not Found
         </h1>
 

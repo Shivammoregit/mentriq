@@ -12,6 +12,12 @@ const settingsSchema = new mongoose.Schema({
         whatsapp: { type: String, trim: true, default: "https://wa.me/918890301264" },
         facebook: { type: String, trim: true, default: "https://www.facebook.com/profile.php?id=61588480116895" }
     },
+    promo: {
+        isActive: { type: Boolean, default: false },
+        discountPercentage: { type: Number, default: 0 },
+        endDate: { type: Date, default: null },
+        title: { type: String, trim: true, default: "Special Discount!" }
+    },
     updatedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" }
 }, { timestamps: true });
 

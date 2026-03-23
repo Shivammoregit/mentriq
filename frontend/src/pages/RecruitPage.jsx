@@ -114,7 +114,7 @@ const RecruitPage = () => {
     return (
         <div className="min-h-screen pt-0 bg-white selection:bg-indigo-100">
             {/* Premium Dark Hero Section */}
-            <section className="relative min-h-[70vh] flex items-center bg-[#070b14] text-white overflow-hidden pt-32 pb-20">
+            <section className="relative min-h-[70vh] flex items-center bg-[#020617] text-white overflow-hidden pt-32 pb-20">
                 {/* Advanced Atmospheric Animations for Dark */}
                 <div className="absolute inset-0 pointer-events-none">
                     <motion.div
@@ -148,13 +148,13 @@ const RecruitPage = () => {
                             <motion.div
                                 initial={{ opacity: 0, scale: 0.9 }}
                                 animate={{ opacity: 1, scale: 1 }}
-                                className="inline-flex items-center space-x-2 mb-8 px-5 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md shadow-lg shadow-black/20"
+                                className="inline-flex items-center space-x-2 mb-8 px-5 py-2 rounded-full bg-slate-800/80 border border-slate-700 backdrop-blur-md shadow-lg shadow-black/40"
                             >
                                 <span className="w-1.5 h-1.5 bg-indigo-400 rounded-full animate-ping"></span>
                                 <span className="text-[10px] font-black uppercase tracking-[0.3em] text-indigo-300">Hire Top Tier Talent</span>
                             </motion.div>
 
-                            <h1 className="text-4xl md:text-6xl lg:text-7xl font-black mb-6 tracking-tighter uppercase font-display leading-[0.9]">
+                            <h1 className="text-4xl md:text-6xl lg:text-7xl font-black mb-6 tracking-tighter uppercase font-display leading-[0.9] text-white">
                                 BUILD YOUR <br />
                                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-cyan-400">
                                     DREAM TEAM.
@@ -183,10 +183,10 @@ const RecruitPage = () => {
                             className="hidden lg:block relative"
                         >
                             <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/20 to-cyan-500/20 rounded-3xl blur-[80px]" />
-                            <div className="relative bg-[#0f172a]/50 border border-white/10 backdrop-blur-xl rounded-[2rem] p-10 shadow-2xl">
+                            <div className="relative bg-slate-900/60 border border-slate-800 backdrop-blur-xl rounded-[2rem] p-10 shadow-2xl">
                                 <div className="grid grid-cols-2 gap-6">
                                     {talentDomains.map((domain, idx) => (
-                                        <div key={idx} className="bg-white/5 border border-white/5 rounded-2xl p-6 hover:bg-white/10 transition-colors group">
+                                        <div key={idx} className="bg-slate-800 border border-slate-700 rounded-2xl p-6 hover:bg-slate-700 transition-colors group">
                                             <domain.icon size={32} className="text-indigo-400 mb-4 group-hover:scale-110 transition-transform" />
                                             <div className="text-white font-black text-3xl mb-1">{domain.students}</div>
                                             <div className="text-slate-400 text-[10px] font-bold uppercase tracking-widest">{domain.name}</div>
@@ -259,13 +259,13 @@ const RecruitPage = () => {
                                         </div>
                                         <div className="space-y-3 mb-8">
                                             <div className="flex items-center gap-3 text-sm text-gray-500 font-medium">
-                                                <div className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-400">
+                                                <div className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-600">
                                                     <MapPin size={14} />
                                                 </div>
                                                 {job.location}
                                             </div>
                                             <div className="flex items-center gap-3 text-sm text-gray-500 font-medium">
-                                                <div className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-400">
+                                                <div className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-600">
                                                     <Clock size={14} />
                                                 </div>
                                                 Posted {new Date(job.postedDate).toLocaleDateString()}
@@ -360,7 +360,7 @@ const RecruitPage = () => {
                                         <div className="absolute -top-3 -right-3 w-8 h-8 bg-indigo-600 text-white rounded-full flex items-center justify-center font-bold text-sm shadow-lg">
                                             {step.number}
                                         </div>
-                                        <step.icon className="text-slate-300 group-hover:text-indigo-600 transition-colors" size={32} />
+                                        <step.icon className="text-slate-700 group-hover:text-indigo-600 transition-colors" size={32} />
                                     </div>
                                     <h4 className="text-xl font-black text-slate-900 mb-4">{step.title}</h4>
                                     <p className="text-slate-500 text-sm leading-relaxed font-medium">{step.desc}</p>
@@ -372,13 +372,13 @@ const RecruitPage = () => {
             </section>
 
             {/* Hire Form Section */}
-            <section id="hire-form" className="py-24 bg-[#070b14] relative overflow-hidden">
+            <section id="hire-form" className="py-24 bg-[#020617] relative overflow-hidden">
                 <div className="absolute inset-0 opacity-[0.05] bg-[linear-gradient(#ffffff_1px,transparent_1px),linear-gradient(90deg,#ffffff_1px,transparent_1px)] bg-[length:30px_30px]" />
                 <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-indigo-600/10 rounded-full blur-[120px]" />
                 <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-cyan-600/10 rounded-full blur-[100px]" />
 
                 <div className="relative max-w-5xl mx-auto px-6">
-                    <div className="bg-white/5 border border-white/10 backdrop-blur-2xl rounded-[3rem] p-8 md:p-16 shadow-2xl relative overflow-hidden">
+                    <div className="bg-slate-900/60 border border-slate-800 backdrop-blur-2xl rounded-[3rem] p-8 md:p-16 shadow-2xl relative overflow-hidden">
                         <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-indigo-500 to-transparent opacity-50" />
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
                             <div>
@@ -398,7 +398,7 @@ const RecruitPage = () => {
                                         { icon: Users, text: 'Dedicated Partnership Manager' }
                                     ].map((feat, i) => (
                                         <div key={i} className="flex items-center gap-4 text-slate-200 font-bold tracking-tight group">
-                                            <div className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center border border-white/10 group-hover:bg-indigo-500/20 group-hover:border-indigo-500/50 transition-colors">
+                                            <div className="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center border border-slate-700 group-hover:bg-indigo-500/20 group-hover:border-indigo-500/50 transition-colors">
                                                 <feat.icon size={18} className="text-cyan-400" />
                                             </div>
                                             {feat.text}
@@ -416,34 +416,34 @@ const RecruitPage = () => {
                                             className="h-full flex flex-col items-center justify-center text-center p-10 bg-indigo-500/10 rounded-2xl border border-indigo-500/20"
                                         >
                                             <div className="w-20 h-20 rounded-full bg-indigo-500 flex items-center justify-center mb-6 shadow-xl shadow-indigo-500/20">
-                                                <Send size={32} className="text-white" />
+                                                <Send size={32} className="text-slate-900" />
                                             </div>
-                                            <h3 className="text-2xl font-black text-white mb-2">TRANSMISSION RECEIVED</h3>
+                                            <h3 className="text-2xl font-black text-slate-900 mb-2">TRANSMISSION RECEIVED</h3>
                                             <p className="text-indigo-200">Our agents will contact you shortly.</p>
                                         </motion.div>
                                     ) : (
                                         <form onSubmit={handleSubmit} className="space-y-5">
                                             <div className="grid grid-cols-2 gap-5">
                                                 <div>
-                                                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 block mb-2 px-1">Organization</label>
-                                                    <input required type="text" placeholder="MentriQ" value={formData.company} onChange={e => setFormData({ ...formData, company: e.target.value })} className="w-full bg-[#070b14]/50 border border-white/5 rounded-xl px-5 py-4 text-white focus:bg-[#070b14] focus:border-indigo-500 outline-none transition-all font-medium placeholder:text-slate-600" />
+                                                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-2 px-1">Organization</label>
+                                                    <input required type="text" placeholder="MentriQ" value={formData.company} onChange={e => setFormData({ ...formData, company: e.target.value })} className="w-full bg-slate-800/50 border border-slate-700 rounded-xl px-5 py-4 text-white focus:bg-slate-800 focus:border-indigo-500 outline-none transition-all font-medium placeholder:text-slate-500" />
                                                 </div>
                                                 <div>
-                                                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 block mb-2 px-1">Contact Name</label>
-                                                    <input required type="text" placeholder="John Doe" value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} className="w-full bg-[#070b14]/50 border border-white/5 rounded-xl px-5 py-4 text-white focus:bg-[#070b14] focus:border-indigo-500 outline-none transition-all font-medium placeholder:text-slate-600" />
+                                                    <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-2 px-1">Contact Name</label>
+                                                    <input required type="text" placeholder="John Doe" value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} className="w-full bg-slate-800/50 border border-slate-700 rounded-xl px-5 py-4 text-white focus:bg-slate-800 focus:border-indigo-500 outline-none transition-all font-medium placeholder:text-slate-500" />
                                                 </div>
                                             </div>
                                             <div>
-                                                <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 block mb-2 px-1">Work Email</label>
-                                                <input required type="email" placeholder="john@company.com" value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} className="w-full bg-[#070b14]/50 border border-white/5 rounded-xl px-5 py-4 text-white focus:bg-[#070b14] focus:border-indigo-500 outline-none transition-all font-medium placeholder:text-slate-600" />
+                                                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-2 px-1">Work Email</label>
+                                                <input required type="email" placeholder="john@company.com" value={formData.email} onChange={e => setFormData({ ...formData, email: e.target.value })} className="w-full bg-slate-800/50 border border-slate-700 rounded-xl px-5 py-4 text-white focus:bg-slate-800 focus:border-indigo-500 outline-none transition-all font-medium placeholder:text-slate-500" />
                                             </div>
                                             <div>
-                                                <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 block mb-2 px-1">Resource Requirements</label>
-                                                <input required type="text" placeholder="e.g. Full Stack Developers" value={formData.hiringNeeds} onChange={e => setFormData({ ...formData, hiringNeeds: e.target.value })} className="w-full bg-[#070b14]/50 border border-white/5 rounded-xl px-5 py-4 text-white focus:bg-[#070b14] focus:border-indigo-500 outline-none transition-all font-medium placeholder:text-slate-600" />
+                                                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-2 px-1">Resource Requirements</label>
+                                                <input required type="text" placeholder="e.g. Full Stack Developers" value={formData.hiringNeeds} onChange={e => setFormData({ ...formData, hiringNeeds: e.target.value })} className="w-full bg-slate-800/50 border border-slate-700 rounded-xl px-5 py-4 text-white focus:bg-slate-800 focus:border-indigo-500 outline-none transition-all font-medium placeholder:text-slate-500" />
                                             </div>
                                             <div>
-                                                <label className="text-[10px] font-black uppercase tracking-widest text-slate-500 block mb-2 px-1">Briefing (Optional)</label>
-                                                <textarea rows="4" placeholder="Tell us about your requirements..." value={formData.message} onChange={e => setFormData({ ...formData, message: e.target.value })} className="w-full bg-[#070b14]/50 border border-white/5 rounded-xl px-5 py-4 text-white focus:bg-[#070b14] focus:border-indigo-500 outline-none transition-all font-medium resize-none placeholder:text-slate-600" />
+                                                <label className="text-[10px] font-black uppercase tracking-widest text-slate-400 block mb-2 px-1">Briefing (Optional)</label>
+                                                <textarea rows="4" placeholder="Tell us about your requirements..." value={formData.message} onChange={e => setFormData({ ...formData, message: e.target.value })} className="w-full bg-slate-800/50 border border-slate-700 rounded-xl px-5 py-4 text-white focus:bg-slate-800 focus:border-indigo-500 outline-none transition-all font-medium resize-none placeholder:text-slate-500" />
                                             </div>
                                             <button disabled={isSubmitting} className="w-full py-5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl font-black uppercase tracking-[0.2em] text-sm shadow-xl shadow-indigo-600/20 transition-all disabled:opacity-50 flex items-center justify-center gap-3 group">
                                                 {isSubmitting ? 'Transmitting...' : 'Initialize Partnership'}

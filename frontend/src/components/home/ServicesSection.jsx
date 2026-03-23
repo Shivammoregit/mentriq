@@ -45,16 +45,16 @@ const ServicesSection = () => {
     const displayServices = services.length > 0 ? services : FALLBACK_SERVICES;
 
     return (
-        <section className="py-20 bg-slate-950 relative overflow-hidden">
+        <section className="py-20 bg-slate-900 relative overflow-hidden">
             {/* Ambient Background Glows */}
             <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-                <div className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] bg-indigo-500/10 rounded-full blur-[120px] animate-pulse" />
-                <div className="absolute bottom-[-10%] left-[-5%] w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-[100px]" />
+                <div className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] bg-indigo-500/20 rounded-full blur-[120px] animate-pulse" />
+                <div className="absolute bottom-[-10%] left-[-5%] w-[500px] h-[500px] bg-cyan-500/15 rounded-full blur-[100px]" />
             </div>
 
             <div className="max-w-7xl mx-auto px-6 relative z-10">
                 <div className="text-center max-w-3xl mx-auto mb-16">
-                    <div className="inline-flex items-center space-x-2 py-1.5 px-4 rounded-full bg-indigo-500/10 border border-indigo-500/20 mb-6">
+                    <div className="inline-flex items-center space-x-2 py-1.5 px-4 rounded-full bg-indigo-500/15 border border-indigo-500/30 mb-6">
                         <span className="w-2 h-2 bg-indigo-400 rounded-full animate-pulse" />
                         <span className="text-indigo-300 text-[10px] font-black tracking-widest uppercase">Our Ecosystem</span>
                     </div>
@@ -88,12 +88,12 @@ const ServicesSection = () => {
                                 key={service._id || index}
                                 onClick={() => navigate('/contact')}
                                 whileHover={{ y: -6 }}
-                                className="group relative bg-slate-900/40 backdrop-blur-2xl rounded-[2.5rem] p-10 border border-white/5 hover:border-indigo-500/20 transition-all duration-500 cursor-pointer overflow-hidden"
+                                className="group relative bg-slate-800/60 backdrop-blur-2xl rounded-[2.5rem] p-10 border border-slate-700/50 hover:border-indigo-500/40 transition-all duration-500 cursor-pointer overflow-hidden"
                             >
                                 {/* Inner Light Core (Persistent) */}
                                 <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/5 blur-3xl opacity-50 group-hover:opacity-100 transition-opacity" />
 
-                                <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${serviceColor} flex items-center justify-center text-white mb-6 shadow-2xl group-hover:scale-110 group-hover:-rotate-6 transition-all duration-500 relative z-10 overflow-hidden`}>
+                                <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${serviceColor} flex items-center justify-center text-slate-900 mb-6 shadow-2xl group-hover:scale-110 group-hover:-rotate-6 transition-all duration-500 relative z-10 overflow-hidden`}>
                                     {isImage ? (
                                         <img src={resolveImageUrl(service.icon)} alt={service.title} className="w-full h-full object-cover" />
                                     ) : (
@@ -135,7 +135,7 @@ const ServicesSection = () => {
                 <div className="text-center mt-12">
                     <button
                         onClick={() => navigate('/services')}
-                        className="group flex items-center space-x-4 mx-auto px-10 py-5 bg-white/5 border border-white/10 rounded-2xl text-white font-black uppercase tracking-[0.2em] text-xs hover:bg-white/10 hover:border-indigo-500/30 transition-all duration-500 backdrop-blur-md shadow-2xl relative overflow-hidden"
+                        className="group flex items-center space-x-4 mx-auto px-10 py-5 bg-slate-800 border border-slate-700 rounded-2xl text-white font-black uppercase tracking-[0.2em] text-xs hover:bg-slate-700 hover:border-indigo-500/40 transition-all duration-500 backdrop-blur-md shadow-2xl relative overflow-hidden"
                     >
                         <span className="relative z-10">Deploy New Inquiry</span>
                         <ArrowRight size={18} className="relative z-10 group-hover:translate-x-2 transition-transform duration-300" />

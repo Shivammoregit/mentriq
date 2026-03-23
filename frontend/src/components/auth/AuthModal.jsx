@@ -86,7 +86,7 @@ const AuthModal = ({ isOpen, onClose, initialTab = 'login' }) => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 bg-[#0f172a]/40 backdrop-blur-md z-50 flex items-center justify-center px-4 top-16"
+        className="fixed inset-0 bg-white/40 backdrop-blur-md z-50 flex items-center justify-center px-4 top-16"
         onClick={onClose}
       >
         <motion.div

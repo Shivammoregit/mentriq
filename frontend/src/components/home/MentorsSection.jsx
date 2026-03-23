@@ -126,7 +126,7 @@ const MentorCard = ({ item, scrollX, index, totalItems }) => {
                             <p className="text-xl font-black text-slate-900 tracking-tighter group-hover/stat:text-indigo-600 transition-colors font-display">
                                 {stat.value}
                             </p>
-                            <p className="text-[8px] text-slate-400 font-black uppercase tracking-[0.3em] mt-0.5 opacity-60 group-hover/stat:opacity-100">
+                            <p className="text-[8px] text-slate-600 font-black uppercase tracking-[0.3em] mt-0.5 opacity-60 group-hover/stat:opacity-100">
                                 {stat.label}
                             </p>
                         </div>

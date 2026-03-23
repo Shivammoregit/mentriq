@@ -1,15 +1,12 @@
 import React, { useEffect, useState, useMemo } from 'react';
 import { motion, useAnimationFrame, useMotionValue, useSpring, useTransform } from 'framer-motion';
-
-import { MapPin, Navigation, Sparkles, ArrowRight } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { MapPin } from 'lucide-react';
 import { apiClient } from '../../utils/apiClient';
 import { resolveImageUrl } from '../../utils/imageUtils';
 
 const MotionDiv = motion.div;
 
 const CityHubCard = ({ city, scrollX, index, totalItems }) => {
-    const navigate = useNavigate();
     const CARD_WIDTH = 280;
     const GAP = 30;
     const FULL_STEP = CARD_WIDTH + GAP;
@@ -39,14 +36,7 @@ const CityHubCard = ({ city, scrollX, index, totalItems }) => {
 
     return (
         <MotionDiv
-            style={{
-                x,
-                scale,
-                opacity,
-                zIndex,
-                filter: filterStyle,
-                willChange: "transform, opacity, filter"
-            }}
+            style={{ x, scale, opacity, zIndex, filter: filterStyle, willChange: 'transform, opacity, filter' }}
             whileHover={{
                 scale: 1.05,
                 rotateY: 12,
@@ -54,67 +44,59 @@ const CityHubCard = ({ city, scrollX, index, totalItems }) => {
                 zIndex: 100,
                 transition: { duration: 0.5, ease: [0.23, 1, 0.32, 1] }
             }}
-            onClick={() => navigate('/contact')}
-            className="absolute h-[380px] w-[280px] rounded-[2.5rem] overflow-hidden group bg-[#070b14] border border-white/10 shadow-[0_30px_70px_-15px_rgba(0,0,0,0.6)] cursor-pointer perspective-2000"
+            className="absolute h-[380px] w-[280px] rounded-[2.5rem] overflow-hidden group bg-[#0b1120] border border-white/10 shadow-[0_30px_70px_-15px_rgba(0,0,0,0.8)] perspective-2000"
         >
             {/* Full-Bleed Background Image */}
             <div className="absolute inset-0 z-0">
                 <img
                     src={resolveImageUrl(city.image)}
                     alt={city.name}
-                    className="w-full h-full object-cover transition-all duration-[1.5s] group-hover:scale-110 opacity-60 group-hover:opacity-100"
-                    onError={(e) => { e.currentTarget.src = "https://via.placeholder.com/400x600?text=Centre"; }}
+                    className="w-full h-full object-cover transition-all duration-[1.5s] group-hover:scale-110 opacity-50 group-hover:opacity-80"
+                    onError={(e) => { e.currentTarget.src = 'https://via.placeholder.com/400x600?text=Centre'; }}
                 />
-                {/* Dark Gradient Scrim for Legibility */}
-                <div className="absolute inset-0 bg-gradient-to-t from-[#070b14] via-[#070b14]/40 to-transparent opacity-80" />
+                {/* Dark gradient scrim */}
+                <div className="absolute inset-0 bg-gradient-to-t from-[#020617] via-[#020617]/60 to-transparent" />
             </div>
 
-            {/* Inner High-Glow Border */}
-            <div className="absolute inset-px rounded-[2.5rem] border border-white/10 group-hover:border-indigo-500/30 transition-colors z-20 pointer-events-none" />
+            {/* Inner border — glows emerald on hover */}
+            <div className="absolute inset-px rounded-[2.5rem] border border-white/5 group-hover:border-emerald-500/50 transition-colors duration-500 z-20 pointer-events-none" />
 
             {/* Hub Status Badge */}
             <div className="absolute top-6 left-6 z-20">
-                <div className="px-3 py-1.5 bg-[#070b14]/80 backdrop-blur-md rounded-xl border border-white/10 flex items-center gap-2">
-                    <div className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse" />
-                    <span className="text-[8px] font-black text-white uppercase tracking-[0.2em] font-display">Admission Open</span>
+                <div className="px-3 py-1.5 bg-[#0b1120]/80 backdrop-blur-md rounded-xl border border-white/10 flex items-center gap-2">
+                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                    <span className="text-[8px] font-black text-white uppercase tracking-[0.2em]">Admission Open</span>
                 </div>
             </div>
 
-            {/* Content Container */}
+            {/* Content */}
             <div className="absolute inset-x-0 bottom-0 p-8 z-20 text-center">
                 <MotionDiv
                     initial={{ opacity: 0, y: 16 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     className="flex flex-col items-center"
                 >
-                    <div className="inline-flex items-center gap-2 mb-3 text-indigo-400">
+                    <div className="inline-flex items-center gap-2 mb-3 text-emerald-400">
                         <MapPin size={12} strokeWidth={3} />
-                        <span className="text-[9px] font-black uppercase tracking-[0.3em] font-display">Regional Centre</span>
+                        <span className="text-[9px] font-black uppercase tracking-[0.3em]">Regional Centre</span>
                     </div>
 
-                    <h3 className="text-3xl font-black text-white mb-3 tracking-tighter uppercase font-display group-hover:text-indigo-400 transition-colors leading-none">
+                    <h3 className="text-3xl font-black text-white mb-3 tracking-tighter uppercase leading-none group-hover:text-emerald-400 transition-colors duration-300">
                         {city.name}
                     </h3>
 
-                    <p className="text-[13px] text-slate-300 leading-relaxed line-clamp-2 px-2 font-medium italic opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500">
-                        "{city.description || "Architecting digital excellence through state-of-the-art technical nodes."}"
+                    <p className="text-[13px] text-slate-400 leading-relaxed line-clamp-2 px-2 font-medium italic opacity-0 group-hover:opacity-100 translate-y-4 group-hover:translate-y-0 transition-all duration-500">
+                        "{city.description || 'Architecting digital excellence through state-of-the-art technical nodes.'}"
                     </p>
-
-                    <MotionDiv
-                        className="mt-6 flex items-center gap-2 px-5 py-2.5 bg-indigo-600/90 rounded-2xl text-white text-[10px] font-black uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all duration-700 pointer-events-none"
-                    >
-                        <span>Explore</span>
-                        <ArrowRight size={14} strokeWidth={3} />
-                    </MotionDiv>
                 </MotionDiv>
             </div>
 
-            {/* Technical HUD Scanline */}
-            <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%)] bg-[length:100%_4px] pointer-events-none opacity-[0.05] z-10" />
+            {/* Scanline overlay */}
+            <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%)] bg-[length:100%_4px] pointer-events-none opacity-[0.04] z-10" />
 
-            {/* Animated Highlight Line */}
+            {/* Animated highlight line */}
             <motion.div
-                className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-indigo-500/50 to-transparent z-30"
+                className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-emerald-500/50 to-transparent z-30"
                 initial={{ x: '-100%' }}
                 animate={{ x: ['-100%', '100%'] }}
                 transition={{ duration: 2.6, repeat: Infinity, ease: 'linear' }}
@@ -134,9 +116,7 @@ const CitySection = () => {
         const fetchCities = async () => {
             try {
                 const { data } = await apiClient.get('/cities');
-                if (Array.isArray(data) && data.length > 0) {
-                    setCities(data);
-                }
+                if (Array.isArray(data) && data.length > 0) setCities(data);
             } catch (error) {
                 console.error('Failed to fetch cities:', error);
             } finally {
@@ -151,31 +131,29 @@ const CitySection = () => {
         rawScrollX.set(rawScrollX.get() + moveBy);
     });
 
-    const displayCities = cities;
     const extendedCities = useMemo(() => {
-        if (!displayCities.length) return [];
-        return [...displayCities, ...displayCities];
-    }, [displayCities]);
+        if (!cities.length) return [];
+        return [...cities, ...cities];
+    }, [cities]);
 
     if (loading) {
         return (
-            <div className="py-20 bg-[#070b14] flex flex-col items-center justify-center gap-4">
-                <div className="w-10 h-10 border-4 border-indigo-500/20 border-t-indigo-500 rounded-full animate-spin" />
-                <span className="text-indigo-400 font-black uppercase tracking-[0.4em] text-[9px]">Mapping Infrastructure...</span>
+            <div className="py-20 bg-[#020617] flex flex-col items-center justify-center gap-4">
+                <div className="w-10 h-10 border-4 border-emerald-500/20 border-t-emerald-500 rounded-full animate-spin" />
+                <span className="text-emerald-400 font-black uppercase tracking-[0.4em] text-[9px]">Mapping Infrastructure...</span>
             </div>
         );
     }
 
     return (
-        <section className="py-16 bg-[#070b14] relative overflow-hidden group/section">
-            {/* Advanced Atmospheric Background */}
+        <section className="py-16 bg-[#020617] relative overflow-hidden">
+            {/* Atmospheric background */}
             <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                <div className="absolute -top-[10%] left-1/4 w-[600px] h-[600px] bg-indigo-600/10 rounded-full blur-[160px] animate-pulse" />
-                <div className="absolute -bottom-[10%] right-1/4 w-[600px] h-[600px] bg-cyan-600/10 rounded-full blur-[160px]" style={{ animationDelay: '2s' }} />
-
-                {/* High-Contrast Technical Grid */}
-                <div className="absolute inset-0 opacity-[0.05]" style={{
-                    backgroundImage: `linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)`,
+                <div className="absolute -top-[10%] left-1/4 w-[600px] h-[600px] bg-emerald-600/8 rounded-full blur-[160px] animate-pulse" />
+                <div className="absolute -bottom-[10%] right-1/4 w-[600px] h-[600px] bg-cyan-600/8 rounded-full blur-[160px]" />
+                {/* Subtle grid */}
+                <div className="absolute inset-0 opacity-[0.03]" style={{
+                    backgroundImage: `linear-gradient(rgba(255,255,255,0.15) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.15) 1px, transparent 1px)`,
                     backgroundSize: '80px 80px'
                 }} />
             </div>
@@ -187,17 +165,22 @@ const CitySection = () => {
                     viewport={{ once: true }}
                     className="mb-16"
                 >
-                    <h2 className="text-5xl md:text-7xl font-black text-white tracking-tighter leading-[0.85] mb-6 uppercase font-display">
-                        GLOBAL <br />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-cyan-400">DEPLOYMENT AREA.</span>
+                    <h2 className="text-5xl md:text-7xl font-black text-white tracking-tighter leading-[0.85] mb-6 uppercase">
+                        GLOBAL{' '}
+                        <br />
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-cyan-400 to-indigo-400">
+                            DEPLOYMENT AREA.
+                        </span>
                     </h2>
 
-                    <p className="text-slate-400 text-lg font-medium leading-relaxed max-w-2xl mx-auto opacity-90">
-                        Bridging the gap between theory and <span className="text-white italic underline decoration-indigo-500/50 decoration-4">real-world execution</span> through high-performance hubs across India.
+                    <p className="text-slate-400 text-lg font-medium leading-relaxed max-w-2xl mx-auto">
+                        Bridging the gap between theory and{' '}
+                        <span className="text-white italic underline decoration-emerald-500/50 decoration-4">real-world execution</span>{' '}
+                        through high-performance hubs across India.
                     </p>
                 </MotionDiv>
 
-                {/* SCROLLER AREA WITH CENTER FOCUS */}
+                {/* Carousel */}
                 <div
                     className="relative h-[480px] flex items-center justify-center overflow-visible select-none"
                     style={{

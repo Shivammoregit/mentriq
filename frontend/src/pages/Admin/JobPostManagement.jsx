@@ -40,20 +40,20 @@ const JobPostManagement = () => {
     };
     const [formData, setFormData] = useState(initialFormState);
 
-    const fetchJobs = async () => {
+    const fetchJobs = async (silent = false) => {
         try {
             const { data } = await api.get("/jobs");
             setJobs(data || []);
         } catch (err) {
-            toast.error("Failed to load recruitment streams");
+            if (!silent) toast.error("Failed to load recruitment streams");
         } finally {
             setLoading(false);
         }
     };
 
     useEffect(() => {
-        fetchJobs();
-        const interval = setInterval(fetchJobs, 15000);
+        fetchJobs(false);
+        const interval = setInterval(() => fetchJobs(true), 15000);
         return () => clearInterval(interval);
     }, []);
 
@@ -110,7 +110,7 @@ const JobPostManagement = () => {
     return (
         <div className="space-y-6 animate-in fade-in duration-500">
             {/* Page Header */}
-            <div className="bg-[#0f172a]/40 backdrop-blur-xl p-6 rounded-3xl border border-white/5 shadow-2xl relative overflow-hidden group">
+            <div className="bg-[#0b1120]/40 backdrop-blur-xl p-6 rounded-3xl border border-white/5 shadow-2xl relative overflow-hidden group">
                 <div className="flex flex-col lg:flex-row gap-6 lg:items-center lg:justify-between relative z-10">
                     <div>
                         <div className="flex items-center gap-2 mb-1">
@@ -124,14 +124,14 @@ const JobPostManagement = () => {
                     </div>
 
                     <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
-                        <div className="bg-white/5 border border-white/10 rounded-xl pr-6 flex items-center w-full lg:w-auto group focus-within:border-emerald-500/50 focus-within:ring-4 focus-within:ring-emerald-500/10 transition-all">
-                            <Search className="text-slate-500 ml-4 group-focus-within:text-emerald-400 transition-colors" size={16} />
+                        <div className="bg-[#1e293b] border border-white/10 rounded-xl pr-6 flex items-center w-full lg:w-auto group focus-within:border-emerald-500/50 focus-within:ring-4 focus-within:ring-emerald-500/10 transition-all">
+                            <Search className="text-slate-400 ml-4 group-focus-within:text-emerald-400 transition-colors" size={16} />
                             <input
                                 type="text"
                                 placeholder="Scan opportunities..."
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                className="bg-transparent text-white placeholder:text-slate-600 focus:outline-none py-3 px-4 w-full lg:w-64 font-bold text-sm tracking-tight"
+                                className="bg-transparent text-white placeholder:text-slate-400 focus:outline-none py-3 px-4 w-full lg:w-64 font-bold text-sm tracking-tight"
                             />
                         </div>
                         <button
@@ -146,11 +146,11 @@ const JobPostManagement = () => {
             </div>
 
             {/* Jobs Table */}
-            <div className="bg-[#0f172a]/40 backdrop-blur-xl border border-white/5 rounded-3xl overflow-hidden shadow-2xl">
+            <div className="bg-[#0b1120]/40 backdrop-blur-xl border border-white/5 rounded-3xl overflow-hidden shadow-2xl">
                 <div className="overflow-x-auto">
                     <table className="w-full text-left border-collapse">
                         <thead>
-                            <tr className="bg-white/5 border-b border-white/10">
+                            <tr className="bg-[#1e293b] border-b border-white/10">
                                 <th className="px-8 py-4 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">Position Identifier</th>
                                 <th className="px-8 py-4 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">Operational Hub</th>
                                 <th className="px-8 py-4 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">Status</th>
@@ -164,7 +164,7 @@ const JobPostManagement = () => {
                                     initial={{ opacity: 0, y: 15 }}
                                     animate={{ opacity: 1, y: 0 }}
                                     transition={{ delay: idx * 0.03 }}
-                                    className="hover:bg-white/5 transition-colors group"
+                                    className="hover:bg-[#1e293b] transition-colors group"
                                 >
                                     <td className="px-8 py-4">
                                         <div className="flex flex-col gap-0.5">
@@ -178,7 +178,7 @@ const JobPostManagement = () => {
                                                 <Building2 size={10} className="text-emerald-400" />
                                                 {job.company}
                                             </div>
-                                            <div className="text-slate-500 text-[9px] uppercase font-bold tracking-widest flex items-center gap-1.5">
+                                            <div className="text-slate-400 text-[9px] uppercase font-bold tracking-widest flex items-center gap-1.5">
                                                 <MapPin size={10} />
                                                 {job.location}
                                             </div>
@@ -191,10 +191,10 @@ const JobPostManagement = () => {
                                     </td>
                                     <td className="px-8 py-4 text-right">
                                         <div className="flex justify-end gap-2.5">
-                                            <button onClick={() => handleEdit(job)} className="p-2.5 rounded-xl bg-white/5 text-slate-400 hover:text-emerald-400 hover:bg-emerald-500/10 border border-white/10 hover:border-emerald-500/20 transition-all">
+                                            <button onClick={() => handleEdit(job)} className="p-2.5 rounded-xl bg-[#1e293b] text-slate-400 hover:text-emerald-400 hover:bg-emerald-500/10 border border-white/10 hover:border-emerald-500/20 transition-all">
                                                 <Edit2 size={14} />
                                             </button>
-                                            <button onClick={() => handleDelete(job._id)} className="p-2.5 rounded-xl bg-white/5 text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 border border-white/10 hover:border-rose-500/20 transition-all">
+                                            <button onClick={() => handleDelete(job._id)} className="p-2.5 rounded-xl bg-[#1e293b] text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 border border-white/10 hover:border-rose-500/20 transition-all">
                                                 <Trash2 size={14} />
                                             </button>
                                         </div>
@@ -214,18 +214,18 @@ const JobPostManagement = () => {
                             initial={{ opacity: 0, scale: 0.95, y: 20 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 30 }}
-                            className="relative w-full max-w-2xl bg-[#0f172a] border border-white/10 rounded-[2.5rem] p-6 sm:p-8 shadow-2xl flex flex-col max-h-[90vh]"
+                            className="relative w-full max-w-2xl bg-[#0b1120] border border-white/10 rounded-[2.5rem] p-6 sm:p-8 shadow-2xl flex flex-col max-h-[90vh]"
                         >
                             <div className="flex items-start justify-between gap-6 mb-8 shrink-0">
                                 <div>
                                     <h3 className="text-2xl font-black text-white tracking-tight uppercase">
                                         {editingJob ? "Refine Position" : "Engineer Posting"}
                                     </h3>
-                                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] mt-1">Industrial Logic v2.1</p>
+                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mt-1">Industrial Logic v2.1</p>
                                 </div>
                                 <button
                                     onClick={() => setIsModalOpen(false)}
-                                    className="p-3 rounded-2xl bg-white/5 hover:bg-white/10 text-slate-500 hover:text-white transition-all border border-white/10"
+                                    className="p-3 rounded-2xl bg-[#1e293b] hover:bg-white/10 text-slate-400 hover:text-white transition-all border border-white/10"
                                 >
                                     <X size={20} />
                                 </button>
@@ -240,7 +240,7 @@ const JobPostManagement = () => {
                                                 required
                                                 value={formData.title}
                                                 onChange={e => setFormData({ ...formData, title: e.target.value })}
-                                                className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all text-sm"
+                                                className="w-full bg-[#1e293b] border border-white/10 rounded-2xl p-4 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all text-sm"
                                                 placeholder="e.g. Lead Systems Engineer"
                                             />
                                         </div>
@@ -250,7 +250,7 @@ const JobPostManagement = () => {
                                                 required
                                                 value={formData.company}
                                                 onChange={e => setFormData({ ...formData, company: e.target.value })}
-                                                className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all text-sm"
+                                                className="w-full bg-[#1e293b] border border-white/10 rounded-2xl p-4 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all text-sm"
                                             />
                                         </div>
                                     </div>
@@ -262,7 +262,7 @@ const JobPostManagement = () => {
                                                 required
                                                 value={formData.location}
                                                 onChange={e => setFormData({ ...formData, location: e.target.value })}
-                                                className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all text-sm"
+                                                className="w-full bg-[#1e293b] border border-white/10 rounded-2xl p-4 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all text-sm"
                                             />
                                         </div>
                                         <div className="space-y-2">
@@ -270,12 +270,12 @@ const JobPostManagement = () => {
                                             <select
                                                 value={formData.type}
                                                 onChange={e => setFormData({ ...formData, type: e.target.value })}
-                                                className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all appearance-none cursor-pointer text-sm"
+                                                className="w-full bg-[#1e293b] border border-white/10 rounded-2xl p-4 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all appearance-none cursor-pointer text-sm"
                                             >
-                                                <option value="Full-time" className="bg-slate-900">Full-time</option>
-                                                <option value="Part-time" className="bg-slate-900">Part-time</option>
-                                                <option value="Internship" className="bg-slate-900">Internship</option>
-                                                <option value="Contract" className="bg-slate-900">Contract</option>
+                                                <option value="Full-time" className="bg-[#1e293b]">Full-time</option>
+                                                <option value="Part-time" className="bg-[#1e293b]">Part-time</option>
+                                                <option value="Internship" className="bg-[#1e293b]">Internship</option>
+                                                <option value="Contract" className="bg-[#1e293b]">Contract</option>
                                             </select>
                                         </div>
                                     </div>
@@ -286,7 +286,7 @@ const JobPostManagement = () => {
                                             required
                                             value={formData.applicationLink}
                                             onChange={e => setFormData({ ...formData, applicationLink: e.target.value })}
-                                            className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-600 text-sm"
+                                            className="w-full bg-[#1e293b] border border-white/10 rounded-2xl p-4 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-400 text-sm"
                                             placeholder="https://mentriq.tech/careers/..."
                                         />
                                     </div>
@@ -298,7 +298,7 @@ const JobPostManagement = () => {
                                             rows={3}
                                             value={formData.requirements}
                                             onChange={e => setFormData({ ...formData, requirements: e.target.value })}
-                                            className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-slate-300 font-medium focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-600 resize-none text-xs"
+                                            className="w-full bg-[#1e293b] border border-white/10 rounded-2xl p-4 text-slate-300 font-medium focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-400 resize-none text-xs"
                                         />
                                     </div>
 
@@ -309,16 +309,16 @@ const JobPostManagement = () => {
                                             rows={4}
                                             value={formData.description}
                                             onChange={e => setFormData({ ...formData, description: e.target.value })}
-                                            className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-slate-300 font-medium focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all leading-relaxed text-xs"
+                                            className="w-full bg-[#1e293b] border border-white/10 rounded-2xl p-4 text-slate-300 font-medium focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all leading-relaxed text-xs"
                                         />
                                     </div>
                                 </div>
 
-                                <div className="p-6 border-t border-white/5 flex justify-end items-center gap-4 shrink-0 -mx-8 -mb-8 mt-6 bg-white/5">
+                                <div className="p-6 border-t border-white/5 flex justify-end items-center gap-4 shrink-0 -mx-8 -mb-8 mt-6 bg-[#1e293b]">
                                     <button
                                         type="button"
                                         onClick={() => setIsModalOpen(false)}
-                                        className="flex-1 py-3.5 rounded-2xl bg-white/5 text-slate-400 font-bold text-[10px] uppercase tracking-widest hover:text-white hover:bg-white/10 border border-white/10 transition-all"
+                                        className="flex-1 py-3.5 rounded-2xl bg-[#1e293b] text-slate-400 font-bold text-[10px] uppercase tracking-widest hover:text-white hover:bg-white/10 border border-white/10 transition-all"
                                     >
                                         Dismiss
                                     </button>

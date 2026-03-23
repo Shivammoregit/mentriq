@@ -1,5 +1,6 @@
 const User = require("../models/User");
 const bcrypt = require("bcryptjs");
+const { sendBroadcastEmail } = require("../utils/emailService");
 const SUPER_ADMIN_EMAIL = process.env.SUPER_ADMIN_EMAIL || "admin@mentriqtechnologies.in";
 
 const getAllUsers = async (req, res) => {
@@ -170,4 +171,31 @@ const updateUser = async (req, res) => {
     }
 };
 
-module.exports = { getAllUsers, createUser, updateUserRole, deleteUser, resetUserPassword, updateUser };
+const broadcastMessage = async (req, res) => {
+    try {
+        const { subject, message, roleFilter } = req.body;
+        
+        if (!subject || !message) {
+            return res.status(400).json({ message: "Subject and Message are required" });
+        }
+
+        const query = roleFilter ? { role: roleFilter } : {};
+        const users = await User.find(query, "email");
+        
+        if (users.length === 0) {
+            return res.status(404).json({ message: "No recipients match the filter" });
+        }
+
+        const bccEmails = users.map(u => u.email).filter(e => e);
+
+        // Call email service
+        await sendBroadcastEmail(bccEmails, subject, message);
+
+        res.json({ success: true, message: `Broadcast sent to ${bccEmails.length} recipients successfully` });
+    } catch (error) {
+        console.error("BROADCAST MESSAGE ERROR", error);
+        res.status(500).json({ message: "Failed to broadcast message" });
+    }
+};
+
+module.exports = { getAllUsers, createUser, updateUserRole, deleteUser, resetUserPassword, updateUser, broadcastMessage };

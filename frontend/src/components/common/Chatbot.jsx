@@ -152,26 +152,26 @@ const Chatbot = () => {
                         initial={{ opacity: 0, y: 30, scale: 0.95 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 30, scale: 0.95 }}
-                        className="absolute bottom-16 right-0 w-[350px] md:w-[380px] h-[520px] bg-[#0b1220]/95 backdrop-blur-2xl rounded-[2rem] border border-white/10 shadow-[0_20px_60px_rgba(0,0,0,0.6)] overflow-hidden flex flex-col"
+                        className="absolute bottom-16 right-0 w-[350px] md:w-[380px] h-[520px] bg-[#0b1220]/95 backdrop-blur-2xl rounded-[2rem] border border-slate-200 shadow-[0_20px_60px_rgba(0,0,0,0.6)] overflow-hidden flex flex-col"
                     >
                         {/* Header */}
-                        <div className="p-5 bg-gradient-to-r from-indigo-600 to-violet-600 flex items-center justify-between shadow-lg relative overflow-hidden">
-                            <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-10" />
+                        <div className="p-5 bg-[#1e293b] border-b border-white/10 flex items-center justify-between shadow-lg relative overflow-hidden">
+                            <div className="absolute inset-0 bg-gradient-to-r from-emerald-500/10 to-blue-500/10 opacity-50" />
                             <div className="flex items-center space-x-3 relative z-10">
-                                <div className="w-9 h-9 bg-white/20 rounded-xl flex items-center justify-center backdrop-blur-md border border-white/30">
-                                    <div className="text-white">
+                                <div className="w-9 h-9 bg-[#0b1120] rounded-xl flex items-center justify-center backdrop-blur-md border border-white/10">
+                                    <div className="text-emerald-400">
                                         <MessageCircle size={18} />
                                     </div>
                                 </div>
                                 <div>
                                     <h3 className="text-white font-black text-base tracking-tight leading-none mb-1">Happy Assistant</h3>
                                     <div className="flex items-center space-x-1.5">
-                                        <span className="w-1.5 h-1.5 bg-green-400 rounded-full shadow-[0_0_8px_rgba(74,222,128,1)]" />
-                                        <span className="text-indigo-100 text-[9px] font-black uppercase tracking-widest">Online Now</span>
+                                        <span className="w-1.5 h-1.5 bg-emerald-400 rounded-full shadow-[0_0_8px_rgba(52,211,153,0.8)]" />
+                                        <span className="text-slate-400 text-[9px] font-black uppercase tracking-widest">Online Now</span>
                                     </div>
                                 </div>
                             </div>
-                            <button onClick={() => setIsOpen(false)} className="text-white/60 hover:text-white transition-colors bg-black/20 p-2 rounded-lg relative z-10">
+                            <button onClick={() => setIsOpen(false)} className="text-slate-400 hover:text-white transition-colors bg-[#0b1120] hover:bg-white/10 border border-white/10 p-2 rounded-lg relative z-10">
                                 <X size={18} />
                             </button>
                         </div>
@@ -182,8 +182,8 @@ const Chatbot = () => {
                                 <div key={msg.id} className="space-y-4">
                                     <div className={`flex ${msg.type === 'user' ? 'justify-end' : 'justify-start'}`}>
                                         <div className={`max-w-[85%] p-4 rounded-2xl shadow-xl ${msg.type === 'user'
-                                            ? 'bg-gradient-to-br from-indigo-500 to-indigo-700 text-white rounded-tr-none'
-                                            : 'bg-white/10 text-gray-200 rounded-tl-none border border-white/10'
+                                            ? 'bg-emerald-600 text-white rounded-tr-none'
+                                            : 'bg-[#1e293b] text-slate-200 rounded-tl-none border border-white/10'
                                             }`}>
                                             <p className="text-sm font-medium leading-relaxed">{msg.text}</p>
                                         </div>
@@ -201,11 +201,11 @@ const Chatbot = () => {
                                                     key={idx}
                                                     to={c.path}
                                                     onClick={() => setIsOpen(false)}
-                                                    className="flex items-center justify-between p-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-indigo-300 transition-all text-sm font-bold group"
+                                                    className="flex items-center justify-between p-3 bg-[#1e293b] hover:bg-white/5 border border-white/10 rounded-xl text-emerald-400 transition-all text-sm font-bold group"
                                                 >
                                                     <div className="flex items-center space-x-3">
                                                         <c.icon size={16} />
-                                                        <span>{c.label}</span>
+                                                        <span className="text-slate-300 group-hover:text-white transition-colors">{c.label}</span>
                                                     </div>
                                                     <ChevronRight size={14} className="group-hover:translate-x-1 transition-transform" />
                                                 </Link>
@@ -217,10 +217,10 @@ const Chatbot = () => {
                                                     href={c.link}
                                                     target="_blank"
                                                     rel="noopener noreferrer"
-                                                    className="flex flex-col p-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-left transition-all group"
+                                                    className="flex flex-col p-3 bg-[#1e293b] hover:bg-white/5 border border-white/10 rounded-xl text-left transition-all group"
                                                 >
-                                                    <span className="text-[10px] font-black uppercase text-gray-500 mb-0.5">{c.label}</span>
-                                                    <span className="text-sm font-bold text-cyan-400">{c.value}</span>
+                                                    <span className="text-[10px] font-black uppercase text-slate-500 mb-0.5">{c.label}</span>
+                                                    <span className="text-sm font-bold text-emerald-400">{c.value}</span>
                                                 </a>
                                             ))}
 
@@ -231,10 +231,10 @@ const Chatbot = () => {
                                                         addMessage('user', c.q);
                                                         simulateBotReply(c.a, 700);
                                                     }}
-                                                    className="flex items-center justify-between p-3 bg-white/5 hover:bg-white/10 border border-white/10 rounded-xl text-left text-gray-300 text-sm font-bold transition-all group"
+                                                    className="flex items-center justify-between p-3 bg-[#1e293b] hover:bg-white/5 border border-white/10 rounded-xl text-left text-slate-300 text-sm font-bold transition-all group"
                                                 >
-                                                    <span>{c.q}</span>
-                                                    <ChevronRight size={14} className="text-indigo-500 group-hover:translate-x-1 transition-transform" />
+                                                    <span className="group-hover:text-white transition-colors">{c.q}</span>
+                                                    <ChevronRight size={14} className="text-emerald-500 group-hover:translate-x-1 transition-transform" />
                                                 </button>
                                             ))}
                                         </MotionDiv>
@@ -244,10 +244,10 @@ const Chatbot = () => {
 
                             {isTyping && (
                                 <div className="flex justify-start">
-                                    <div className="bg-white/10 p-4 rounded-2xl rounded-tl-none border border-white/10 flex space-x-1">
-                                        <div className="w-1.5 h-1.5 bg-indigo-400 rounded-full animate-bounce [animation-delay:-0.3s]" />
-                                        <div className="w-1.5 h-1.5 bg-indigo-400 rounded-full animate-bounce [animation-delay:-0.15s]" />
-                                        <div className="w-1.5 h-1.5 bg-indigo-400 rounded-full animate-bounce" />
+                                    <div className="bg-[#1e293b] p-4 rounded-2xl rounded-tl-none border border-white/10 flex space-x-1">
+                                        <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-bounce [animation-delay:-0.3s]" />
+                                        <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-bounce [animation-delay:-0.15s]" />
+                                        <div className="w-1.5 h-1.5 bg-emerald-400 rounded-full animate-bounce" />
                                     </div>
                                 </div>
                             )}
@@ -258,12 +258,12 @@ const Chatbot = () => {
                                         <button
                                             key={opt.id}
                                             onClick={() => handleOptionClick(opt.id)}
-                                            className="flex items-center space-x-4 p-4 rounded-2xl bg-white/5 border border-white/10 hover:bg-indigo-500/10 hover:border-indigo-500/50 transition-all text-left group"
+                                            className="flex items-center space-x-4 p-4 rounded-2xl bg-[#1e293b] border border-white/5 hover:bg-emerald-500/10 hover:border-emerald-500/30 transition-all text-left group"
                                         >
-                                            <div className="w-10 h-10 bg-indigo-500/20 rounded-xl flex items-center justify-center text-indigo-400 group-hover:scale-110 transition-transform shadow-lg shadow-indigo-500/5">
+                                            <div className="w-10 h-10 bg-emerald-500/10 border border-emerald-500/20 rounded-xl flex items-center justify-center text-emerald-400 group-hover:scale-110 transition-transform shadow-lg shadow-emerald-500/5">
                                                 <opt.icon size={20} />
                                             </div>
-                                            <span className="text-sm font-black text-gray-200 tracking-tight">{opt.label}</span>
+                                            <span className="text-sm font-black text-slate-300 group-hover:text-white tracking-tight leading-loose transition-colors">{opt.label}</span>
                                         </button>
                                     ))}
                                 </div>
@@ -272,7 +272,7 @@ const Chatbot = () => {
                             {!showOptions && !isTyping && (
                                 <button
                                     onClick={resetChat}
-                                    className="w-full py-4 text-[9px] font-black uppercase tracking-[0.4em] text-indigo-400 hover:text-white transition-all bg-white/5 hover:bg-white/10 rounded-xl border border-dashed border-white/10 mt-4"
+                                    className="w-full py-4 text-[9px] font-black uppercase tracking-[0.4em] text-emerald-400 hover:text-white transition-all bg-[#0b1120] hover:bg-white/5 rounded-xl border border-dashed border-emerald-500/30 hover:border-emerald-500/50 mt-4"
                                 >
                                     New Consultation
                                 </button>
@@ -282,21 +282,21 @@ const Chatbot = () => {
                         </div>
 
                         {/* Input Footer */}
-                        <form onSubmit={handleSend} className="p-5 bg-black/20 border-t border-white/5">
+                        <form onSubmit={handleSend} className="p-5 bg-[#0b1120] border-t border-white/5">
                             <div className="relative group">
                                 <input
                                     type="text"
                                     value={inputValue}
                                     onChange={(e) => setInputValue(e.target.value)}
                                     placeholder="Ask anything..."
-                                    className="w-full bg-white/5 border border-white/10 rounded-xl px-5 py-3.5 pr-12 text-sm text-white placeholder-gray-500 outline-none focus:bg-white/10 focus:border-indigo-500/50 transition-all"
+                                    className="w-full bg-[#1e293b] border border-white/10 rounded-xl px-5 py-3.5 pr-12 text-sm text-white placeholder-slate-500 outline-none focus:bg-[#0b1120] focus:border-emerald-500/50 transition-all"
                                 />
                                 <button
                                     type="submit"
                                     disabled={!inputValue.trim()}
-                                    className="absolute right-2 top-1/2 -translate-y-1/2 w-9 h-9 flex items-center justify-center text-indigo-400 hover:text-white disabled:text-gray-700 transition-colors"
+                                    className="absolute right-2 top-1/2 -translate-y-1/2 w-9 h-9 flex items-center justify-center text-emerald-400 hover:text-white disabled:text-slate-600 transition-colors bg-[#0b1120] hover:bg-emerald-600 border border-white/5 rounded-lg disabled:bg-transparent disabled:border-transparent"
                                 >
-                                    <Send size={18} />
+                                    <Send size={16} />
                                 </button>
                             </div>
                         </form>
@@ -308,9 +308,9 @@ const Chatbot = () => {
                 initial={{ scale: 0.8, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 onClick={() => setIsOpen(!isOpen)}
-                className={`group relative w-14 h-14 rounded-2xl flex items-center justify-center shadow-2xl transition-all duration-500 ${isOpen
-                    ? 'bg-white text-indigo-600 rotate-90'
-                    : ''
+                className={`group relative w-14 h-14 rounded-2xl flex items-center justify-center shadow-2xl transition-all duration-500 border border-slate-200 ${isOpen
+                    ? 'bg-white text-emerald-600 rotate-90 shadow-emerald-500/20'
+                    : 'bg-white shadow-black/10 hover:bg-slate-50'
                     }`}
             >
                 {isOpen ? (
@@ -321,47 +321,47 @@ const Chatbot = () => {
                         <div className="relative scale-[0.55] transition-transform duration-500 group-hover:scale-[0.6]">
                             {/* Antenna */}
                             <div className="absolute -top-9 left-1/2 -translate-x-1/2 flex flex-col items-center">
-                                <div className="w-0.5 h-4 bg-indigo-300" />
+                                <div className="w-0.5 h-4 bg-emerald-300" />
                                 <MotionDiv
                                     animate={{ scale: [1, 1.2, 1], opacity: [0.5, 1, 0.5] }}
                                     transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                                    className="w-3 h-3 bg-cyan-400 rounded-full blur-[1px] -mt-1 shadow-[0_0_10px_rgba(34,211,238,1)]"
+                                    className="w-3 h-3 bg-emerald-400 rounded-full blur-[1px] -mt-1 shadow-[0_0_10px_rgba(52,211,153,1)]"
                                 />
                             </div>
 
                             {/* Head */}
-                            <div className="w-20 h-16 bg-white rounded-[2rem] relative border-[2px] border-indigo-100 flex items-center justify-center shadow-xl">
+                            <div className="w-20 h-16 bg-white rounded-[2rem] relative border-[2px] border-slate-200 flex items-center justify-center shadow-md">
                                 {/* Faceplate */}
-                                <div className="w-[4.2rem] h-12 bg-[#0f172a] rounded-[1.2rem] flex flex-col items-center justify-center p-2 border border-white/10">
+                                <div className="w-[4.2rem] h-12 bg-slate-900 rounded-[1.2rem] flex flex-col items-center justify-center p-2 border border-slate-300 shadow-inner">
                                     <div className="flex space-x-3 mb-1">
                                         <MotionDiv
                                             animate={{ scaleY: [1, 0.1, 1] }}
                                             transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                                            className="w-2.5 h-2.5 bg-cyan-400 rounded-full shadow-[0_0_8px_rgba(34,211,238,0.8)]"
+                                            className="w-2.5 h-2.5 bg-emerald-400 rounded-full shadow-[0_0_8px_rgba(52,211,153,0.8)]"
                                         />
                                         <MotionDiv
                                             animate={{ scaleY: [1, 0.1, 1] }}
                                             transition={{ duration: 4, repeat: Infinity, ease: "easeInOut", delay: 1.2 }}
-                                            className="w-2.5 h-2.5 bg-cyan-400 rounded-full shadow-[0_0_8px_rgba(34,211,238,0.8)]"
+                                            className="w-2.5 h-2.5 bg-emerald-400 rounded-full shadow-[0_0_8px_rgba(52,211,153,0.8)]"
                                         />
                                     </div>
-                                    <div className="w-5 h-1.5 border-b-2 border-cyan-400 rounded-full" />
+                                    <div className="w-5 h-1.5 border-b-2 border-emerald-400 rounded-full" />
                                 </div>
                                 {/* Ears */}
-                                <div className="absolute -left-2 top-1/2 -translate-y-1/2 w-3 h-6 bg-indigo-50 rounded-full border border-indigo-100" />
-                                <div className="absolute -right-2 top-1/2 -translate-y-1/2 w-3 h-6 bg-indigo-50 rounded-full border border-indigo-100" />
+                                <div className="absolute -left-2 top-1/2 -translate-y-1/2 w-3 h-6 bg-slate-50 rounded-full border border-slate-200" />
+                                <div className="absolute -right-2 top-1/2 -translate-y-1/2 w-3 h-6 bg-slate-50 rounded-full border border-slate-200" />
                             </div>
 
                             {/* Body */}
-                            <div className="w-16 h-20 bg-white rounded-[2.5rem] mt-1 relative mx-auto border-[2px] border-indigo-100 shadow-lg flex flex-col items-center pt-3 overflow-hidden">
+                            <div className="w-16 h-20 bg-white rounded-[2.5rem] mt-1 relative mx-auto border-[2px] border-slate-200 shadow-md flex flex-col items-center pt-3 overflow-hidden">
                                 {/* Chest Badge */}
-                                <div className="w-10 h-6 bg-[#0f172a] rounded-lg flex items-center justify-center shadow-inner mb-2 border border-white/5">
-                                    <span className="text-[7px] font-black text-cyan-400 animate-pulse tracking-widest">HI!</span>
+                                <div className="w-10 h-6 bg-slate-50 border border-slate-200 rounded-lg flex items-center justify-center shadow-inner mb-2">
+                                    <span className="text-[7px] font-black text-emerald-500 animate-pulse tracking-widest">ON</span>
                                 </div>
                                 {/* Body Stripes */}
-                                <div className="w-14 h-[2px] bg-cyan-400/20 mb-2" />
-                                <div className="w-14 h-[2px] bg-cyan-400/20 mb-2" />
-                                <div className="w-14 h-[2px] bg-cyan-400/20" />
+                                <div className="w-14 h-[2px] bg-emerald-400/20 mb-2" />
+                                <div className="w-14 h-[2px] bg-emerald-400/20 mb-2" />
+                                <div className="w-14 h-[2px] bg-emerald-400/20" />
                             </div>
 
                             {/* Arms */}
@@ -369,13 +369,13 @@ const Chatbot = () => {
                                 animate={{ rotate: [0, 20, 0] }}
                                 transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
                                 style={{ originX: 0, originY: 0 }}
-                                className="absolute top-18 -right-6 w-10 h-4 bg-white border-[2px] border-indigo-100 rounded-full shadow-md z-[-1]"
+                                className="absolute top-18 -right-6 w-10 h-4 bg-white border-[2px] border-slate-200 rounded-full shadow-sm z-[-1]"
                             />
                             <MotionDiv
                                 animate={{ rotate: [0, -10, 0] }}
                                 transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
                                 style={{ originX: 1, originY: 0 }}
-                                className="absolute top-18 -left-6 w-10 h-4 bg-white border-[2px] border-indigo-100 rounded-full shadow-md z-[-1]"
+                                className="absolute top-18 -left-6 w-10 h-4 bg-white border-[2px] border-slate-200 rounded-full shadow-sm z-[-1]"
                             />
                         </div>
                     </div>
@@ -383,7 +383,7 @@ const Chatbot = () => {
 
                 {/* Subtle Hover Glow */}
                 {!isOpen && (
-                    <div className="absolute inset-0 rounded-2xl bg-indigo-400/20 scale-100 group-hover:scale-125 blur-xl opacity-0 group-hover:opacity-100 transition-all duration-500" />
+                    <div className="absolute inset-0 rounded-2xl bg-emerald-400/10 scale-100 group-hover:scale-125 blur-xl opacity-0 group-hover:opacity-100 transition-all duration-500" />
                 )}
             </MotionButton>
         </div>

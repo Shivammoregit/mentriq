@@ -67,7 +67,7 @@ const ServicesPage = () => {
     return (
         <div className="bg-[#f8f9fc] min-h-screen">
             {/* ─── Hero ─── */}
-            <section className="relative min-h-[60vh] flex items-center bg-[#070b14] text-white overflow-hidden pt-28 pb-20">
+            <section className="relative min-h-[60vh] flex items-center bg-[#020617] text-white overflow-hidden pt-28 pb-20">
                 {/* Advanced Atmospheric Animations for Dark */}
                 <div className="absolute inset-0 pointer-events-none">
                     <motion.div
@@ -98,7 +98,7 @@ const ServicesPage = () => {
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ duration: 0.8 }}
-                            className="inline-flex items-center gap-2 mb-6 px-5 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md shadow-lg shadow-black/20"
+                            className="inline-flex items-center gap-2 mb-6 px-5 py-2 rounded-full bg-slate-800/80 border border-slate-700 backdrop-blur-md shadow-lg shadow-black/40"
                         >
                             <span className="w-1.5 h-1.5 rounded-full bg-indigo-500 animate-pulse" />
                             <span className="text-[10px] font-black uppercase tracking-[0.25em] text-indigo-300">What We Build</span>
@@ -141,7 +141,7 @@ const ServicesPage = () => {
                             </button>
                             <button
                                 onClick={() => navigate('/about')}
-                                className="px-8 py-4 rounded-xl bg-white/5 border border-white/10 text-white font-bold text-sm uppercase tracking-widest hover:bg-white/10 transition-all backdrop-blur-sm"
+                                className="px-8 py-4 rounded-xl bg-slate-800/60 border border-slate-700 text-white font-bold text-sm uppercase tracking-widest hover:bg-slate-700 transition-all backdrop-blur-sm"
                             >
                                 Learn About Us
                             </button>
@@ -191,7 +191,7 @@ const ServicesPage = () => {
                                     {/* Card body */}
                                     <div className="p-8 flex flex-col flex-1">
                                         {/* Icon */}
-                                        <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${g.from} ${g.to} flex items-center justify-center text-white mb-6 shadow-md transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3`}>
+                                        <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${g.from} ${g.to} flex items-center justify-center text-slate-900 mb-6 shadow-md transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3`}>
                                             {isImage ? (
                                                 <img src={resolveImageUrl(iconValue)} alt={service.title} className="w-full h-full object-cover rounded-2xl" />
                                             ) : (
@@ -200,7 +200,7 @@ const ServicesPage = () => {
                                         </div>
 
                                         {/* Number badge */}
-                                        <span className="text-xs font-black text-slate-300 uppercase tracking-widest mb-2">
+                                        <span className="text-xs font-black text-slate-700 uppercase tracking-widest mb-2">
                                             {String(index + 1).padStart(2, '0')}
                                         </span>
 
@@ -223,8 +223,8 @@ const ServicesPage = () => {
                     </div>
                 ) : (
                     <div className="text-center py-32 bg-white rounded-3xl shadow border border-slate-100">
-                        <Layers size={56} className="mx-auto text-slate-200 mb-4" />
-                        <h3 className="text-xl font-black text-slate-400">No active services yet</h3>
+                        <Layers size={56} className="mx-auto text-slate-800 mb-4" />
+                        <h3 className="text-xl font-black text-slate-600">No active services yet</h3>
                     </div>
                 )}
             </section>
@@ -272,7 +272,7 @@ const ServicesPage = () => {
                                     className="p-6 rounded-2xl bg-slate-50 border border-slate-100 hover:border-indigo-200 hover:bg-indigo-50/30 transition-all group"
                                 >
                                     <div className="w-9 h-9 rounded-xl bg-indigo-100 flex items-center justify-center mb-4 group-hover:bg-indigo-600 transition-colors">
-                                        <CheckCircle2 size={18} className="text-indigo-600 group-hover:text-white transition-colors" />
+                                        <CheckCircle2 size={18} className="text-indigo-600 group-hover:text-slate-900 transition-colors" />
                                     </div>
                                     <h4 className="text-sm font-black text-slate-900 mb-1 uppercase tracking-tight">{item.title}</h4>
                                     <p className="text-xs text-slate-500 leading-relaxed">{item.desc}</p>
@@ -299,10 +299,10 @@ const ServicesPage = () => {
                         initial={{ opacity: 0, scale: 0.9 }}
                         whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true }}
-                        className="inline-flex items-center gap-2 mb-8 px-4 py-2 rounded-full bg-white/5 border border-white/10"
+                        className="inline-flex items-center gap-2 mb-8 px-4 py-2 rounded-full bg-white border border-slate-200"
                     >
                         <Zap size={12} className="text-yellow-400" />
-                        <span className="text-xs font-bold uppercase tracking-widest text-slate-300">Ready to Build?</span>
+                        <span className="text-xs font-black uppercase tracking-widest text-slate-900">Ready to Build?</span>
                     </motion.div>
 
                     <motion.h2
@@ -345,7 +345,7 @@ const ServicesPage = () => {
                         </button>
                         <button
                             onClick={() => navigate('/courses')}
-                            className="px-10 py-5 rounded-xl bg-white/5 border border-white/10 text-white font-black text-sm uppercase tracking-widest hover:bg-white/10 transition-all"
+                            className="px-10 py-5 rounded-xl bg-[#0f172a] border border-slate-700 text-white font-black text-sm uppercase tracking-widest hover:bg-slate-800 transition-all"
                         >
                             Explore Courses
                         </button>

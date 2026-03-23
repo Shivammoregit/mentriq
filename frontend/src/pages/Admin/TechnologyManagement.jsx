@@ -27,12 +27,12 @@ const TechnologyManagement = () => {
 
     const [imagePreview, setImagePreview] = useState(null);
 
-    const fetchTechnologies = useCallback(async () => {
+    const fetchTechnologies = useCallback(async (silent = false) => {
         try {
             const { data } = await api.get("/technologies");
             setTechnologies(data.data || []);
         } catch (error) {
-            toast.error("Failed to load tech registry");
+            if (!silent) toast.error("Failed to load tech registry");
         } finally {
             setLoading(false);
         }
@@ -40,8 +40,8 @@ const TechnologyManagement = () => {
 
 
     useEffect(() => {
-        fetchTechnologies();
-        const interval = setInterval(fetchTechnologies, 15000);
+        fetchTechnologies(false);
+        const interval = setInterval(() => fetchTechnologies(true), 15000);
         return () => clearInterval(interval);
     }, [fetchTechnologies]);
 
@@ -128,7 +128,7 @@ const TechnologyManagement = () => {
     return (
         <div className="space-y-6 animate-in fade-in duration-500">
             {/* Page Header */}
-            <div className="bg-[#0f172a]/40 backdrop-blur-xl p-8 rounded-3xl border border-white/5 shadow-2xl relative overflow-hidden group">
+            <div className="bg-[#0b1120]/40 backdrop-blur-xl p-8 rounded-3xl border border-white/5 shadow-2xl relative overflow-hidden group">
                 <div className="flex flex-col lg:flex-row gap-8 lg:items-center lg:justify-between relative z-10">
                     <div>
                         <div className="flex items-center gap-3 mb-1">
@@ -142,14 +142,14 @@ const TechnologyManagement = () => {
                     </div>
 
                     <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
-                        <div className="bg-white/5 border border-white/10 rounded-xl pr-6 flex items-center w-full lg:w-auto group focus-within:border-emerald-500/50 focus-within:ring-4 focus-within:ring-emerald-500/10 transition-all">
-                            <Search className="text-slate-500 ml-4 group-focus-within:text-emerald-400 transition-colors" size={18} />
+                        <div className="bg-[#1e293b] border border-white/10 rounded-xl pr-6 flex items-center w-full lg:w-auto group focus-within:border-emerald-500/50 focus-within:ring-4 focus-within:ring-emerald-500/10 transition-all">
+                            <Search className="text-slate-400 ml-4 group-focus-within:text-emerald-400 transition-colors" size={18} />
                             <input
                                 type="text"
                                 placeholder="Locate component..."
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                className="bg-transparent text-white placeholder:text-slate-600 focus:outline-none py-4 px-4 w-full lg:w-64 font-bold text-sm tracking-tight"
+                                className="bg-transparent text-white placeholder:text-slate-400 focus:outline-none py-4 px-4 w-full lg:w-64 font-bold text-sm tracking-tight"
                             />
                         </div>
                         <div className="flex gap-4">
@@ -166,11 +166,11 @@ const TechnologyManagement = () => {
             </div>
 
             {/* Tech Table */}
-            <div className="bg-[#0f172a]/40 backdrop-blur-xl border border-white/5 rounded-[2.5rem] overflow-hidden shadow-2xl">
+            <div className="bg-[#0b1120]/40 backdrop-blur-xl border border-white/5 rounded-[2.5rem] overflow-hidden shadow-2xl">
                 <div className="overflow-x-auto">
                     <table className="w-full text-left border-collapse">
                         <thead>
-                            <tr className="bg-white/5 border-b border-white/10">
+                            <tr className="bg-[#1e293b] border-b border-white/10">
                                 <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Component Identity</th>
                                 <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Execution Category</th>
                                 <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Operational Rank</th>
@@ -179,10 +179,10 @@ const TechnologyManagement = () => {
                         </thead>
                         <tbody className="divide-y divide-white/5">
                             {filteredTechnologies.map((tech) => (
-                                <tr key={tech._id} className="hover:bg-white/5 transition-colors group">
+                                <tr key={tech._id} className="hover:bg-[#1e293b] transition-colors group">
                                     <td className="px-8 py-6">
                                         <div className="flex items-center gap-5">
-                                            <div className="w-12 h-12 rounded-xl bg-white/5 border border-white/10 p-2 flex items-center justify-center group-hover:border-emerald-500/50 transition-all">
+                                            <div className="w-12 h-12 rounded-xl bg-[#1e293b] border border-white/10 p-2 flex items-center justify-center group-hover:border-emerald-500/50 transition-all">
                                                 <img src={resolveImageUrl(tech.logo)} alt={tech.name} className="max-w-full max-h-full object-contain filter grayscale group-hover:grayscale-0 transition-all duration-500" />
                                             </div>
                                             <div className="font-bold text-white text-[15px] tracking-tight">{tech.name}</div>
@@ -198,10 +198,10 @@ const TechnologyManagement = () => {
                                     </td>
                                     <td className="px-8 py-6 text-right">
                                         <div className="flex justify-end gap-3">
-                                            <button onClick={() => handleEdit(tech)} className="p-3 rounded-xl bg-white/5 text-slate-400 hover:text-emerald-400 hover:bg-emerald-500/10 border border-white/10 hover:border-emerald-500/20 transition-all">
+                                            <button onClick={() => handleEdit(tech)} className="p-3 rounded-xl bg-[#1e293b] text-slate-400 hover:text-emerald-400 hover:bg-emerald-500/10 border border-white/10 hover:border-emerald-500/20 transition-all">
                                                 <Edit2 size={16} />
                                             </button>
-                                            <button onClick={() => handleDelete(tech._id)} className="p-3 rounded-xl bg-white/5 text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 border border-white/10 hover:border-rose-500/20 transition-all">
+                                            <button onClick={() => handleDelete(tech._id)} className="p-3 rounded-xl bg-[#1e293b] text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 border border-white/10 hover:border-rose-500/20 transition-all">
                                                 <Trash2 size={16} />
                                             </button>
                                         </div>
@@ -221,18 +221,18 @@ const TechnologyManagement = () => {
                             initial={{ opacity: 0, scale: 0.95, y: 30 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 30 }}
-                            className="relative w-full max-w-xl bg-[#0f172a] border border-white/10 rounded-[3rem] p-10 shadow-2xl flex flex-col"
+                            className="relative w-full max-w-xl bg-[#0b1120] border border-white/10 rounded-[3rem] p-10 shadow-2xl flex flex-col"
                         >
                             <div className="flex items-start justify-between gap-6 mb-10 shrink-0">
                                 <div>
                                     <h3 className="text-3xl font-black text-white tracking-tight uppercase">
                                         {editingTech ? "Refine Node" : "Deploy Node"}
                                     </h3>
-                                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] mt-1">Component Logic Architecture</p>
+                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mt-1">Component Logic Architecture</p>
                                 </div>
                                 <button
                                     onClick={() => setIsModalOpen(false)}
-                                    className="p-3.5 rounded-2xl bg-white/5 hover:bg-white/10 text-slate-500 hover:text-white transition-all border border-white/10"
+                                    className="p-3.5 rounded-2xl bg-[#1e293b] hover:bg-white/10 text-slate-400 hover:text-white transition-all border border-white/10"
                                 >
                                     <X size={24} />
                                 </button>
@@ -241,11 +241,11 @@ const TechnologyManagement = () => {
                             <form onSubmit={handleSubmit} className="flex-1 space-y-10">
                                 <div className="flex flex-col items-center justify-center">
                                     <label className="relative group cursor-pointer">
-                                        <div className={`w-32 h-32 rounded-3xl border-2 border-dashed flex items-center justify-center overflow-hidden transition-all relative ${imagePreview ? 'border-emerald-500/50 bg-white/5' : 'border-white/10 bg-white/5 hover:border-emerald-500/50'}`}>
+                                        <div className={`w-32 h-32 rounded-3xl border-2 border-dashed flex items-center justify-center overflow-hidden transition-all relative ${imagePreview ? 'border-emerald-500/50 bg-[#1e293b]' : 'border-white/10 bg-[#1e293b] hover:border-emerald-500/50'}`}>
                                             {imagePreview ? (
                                                 <img src={imagePreview} alt="Preview" className="max-w-[70%] max-h-[70%] object-contain" />
                                             ) : (
-                                                <ImageIcon size={32} className="text-slate-500 group-hover:text-emerald-400 transition-colors" strokeWidth={1.5} />
+                                                <ImageIcon size={32} className="text-slate-400 group-hover:text-emerald-400 transition-colors" strokeWidth={1.5} />
                                             )}
                                         </div>
                                         <div className="absolute -bottom-2 -right-2 p-3 bg-emerald-600 text-white rounded-xl shadow-xl group-hover:scale-110 transition-all z-20 border border-white/10">
@@ -253,7 +253,7 @@ const TechnologyManagement = () => {
                                         </div>
                                         <input type="file" className="hidden" accept="image/*" onChange={handleImageChange} />
                                     </label>
-                                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mt-4">Visual Component Source</p>
+                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-4">Visual Component Source</p>
                                 </div>
 
                                 <div className="space-y-8">
@@ -263,7 +263,7 @@ const TechnologyManagement = () => {
                                             required
                                             value={formData.name}
                                             onChange={e => setFormData({ ...formData, name: e.target.value })}
-                                            className="w-full bg-white/5 border border-white/10 rounded-2xl p-6 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-600"
+                                            className="w-full bg-[#1e293b] border border-white/10 rounded-2xl p-6 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-400"
                                             placeholder="e.g. NextJS Matrix"
                                         />
                                     </div>
@@ -274,14 +274,14 @@ const TechnologyManagement = () => {
                                             <select
                                                 value={formData.category}
                                                 onChange={e => setFormData({ ...formData, category: e.target.value })}
-                                                className="w-full bg-white/5 border border-white/10 rounded-2xl p-6 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all appearance-none cursor-pointer"
+                                                className="w-full bg-[#1e293b] border border-white/10 rounded-2xl p-6 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all appearance-none cursor-pointer"
                                             >
-                                                <option value="frontend" className="bg-slate-900">Frontend</option>
-                                                <option value="backend" className="bg-slate-900">Backend</option>
-                                                <option value="database" className="bg-slate-900">Database</option>
-                                                <option value="mobile" className="bg-slate-900">Mobile</option>
-                                                <option value="devops" className="bg-slate-900">DevOps</option>
-                                                <option value="other" className="bg-slate-900">General</option>
+                                                <option value="frontend" className="bg-[#1e293b]">Frontend</option>
+                                                <option value="backend" className="bg-[#1e293b]">Backend</option>
+                                                <option value="database" className="bg-[#1e293b]">Database</option>
+                                                <option value="mobile" className="bg-[#1e293b]">Mobile</option>
+                                                <option value="devops" className="bg-[#1e293b]">DevOps</option>
+                                                <option value="other" className="bg-[#1e293b]">General</option>
                                             </select>
                                         </div>
                                         <div className="space-y-2">
@@ -290,17 +290,17 @@ const TechnologyManagement = () => {
                                                 type="number"
                                                 value={formData.order}
                                                 onChange={e => setFormData({ ...formData, order: e.target.value })}
-                                                className="w-full bg-white/5 border border-white/10 rounded-2xl p-6 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all"
+                                                className="w-full bg-[#1e293b] border border-white/10 rounded-2xl p-6 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all"
                                             />
                                         </div>
                                     </div>
                                 </div>
 
-                                <div className="p-10 border-t border-white/5 flex justify-end items-center gap-4 shrink-0 -mx-10 -mb-10 mt-10 bg-white/5">
+                                <div className="p-10 border-t border-white/5 flex justify-end items-center gap-4 shrink-0 -mx-10 -mb-10 mt-10 bg-[#1e293b]">
                                     <button
                                         type="button"
                                         onClick={() => setIsModalOpen(false)}
-                                        className="flex-1 py-4.5 rounded-2xl bg-white/5 text-slate-400 font-bold text-[10px] uppercase tracking-widest hover:text-white hover:bg-white/10 border border-white/10 transition-all"
+                                        className="flex-1 py-4.5 rounded-2xl bg-[#1e293b] text-slate-400 font-bold text-[10px] uppercase tracking-widest hover:text-white hover:bg-white/10 border border-white/10 transition-all"
                                     >
                                         Dismiss
                                     </button>

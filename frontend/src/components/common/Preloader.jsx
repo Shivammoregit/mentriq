@@ -87,7 +87,7 @@ const Preloader = () => {
                                 filter: 'blur(15px)',
                                 opacity: 0.1
                             }}
-                            className="absolute inset-0 bg-slate-900 rounded-3xl"
+                            className="absolute inset-0 bg-slate-100 rounded-3xl"
                         />
 
                         <div
@@ -159,7 +159,7 @@ const Preloader = () => {
                         </div>
 
                         <div className="mt-5 flex flex-col items-center gap-2">
-                            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.3em]">
+                            <span className="text-[10px] font-bold text-slate-600 uppercase tracking-[0.3em]">
                                 {progress}%
                             </span>
 

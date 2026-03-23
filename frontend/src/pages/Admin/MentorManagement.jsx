@@ -30,20 +30,20 @@ const MentorManagement = () => {
     };
     const [formData, setFormData] = useState(initialFormState);
 
-    const fetchMentors = useCallback(async () => {
+    const fetchMentors = useCallback(async (silent = false) => {
         try {
             const { data } = await api.get("/mentors");
             setMentors(data);
         } catch (err) {
-            toast.error("Failed to load mentors");
+            if (!silent) toast.error("Failed to load mentors");
         } finally {
             setLoading(false);
         }
     }, [toast]);
 
     useEffect(() => {
-        fetchMentors();
-        const interval = setInterval(fetchMentors, 15000);
+        fetchMentors(false);
+        const interval = setInterval(() => fetchMentors(true), 15000);
         return () => clearInterval(interval);
     }, [fetchMentors]);
 
@@ -135,7 +135,7 @@ const MentorManagement = () => {
     return (
         <div className="space-y-6 animate-in fade-in duration-500">
             {/* Page Header */}
-            <div className="bg-[#0f172a]/40 backdrop-blur-xl p-6 rounded-3xl border border-white/5 shadow-2xl relative overflow-hidden group">
+            <div className="bg-[#0b1120]/40 backdrop-blur-xl p-6 rounded-3xl border border-white/5 shadow-2xl relative overflow-hidden group">
                 <div className="flex flex-col lg:flex-row gap-6 lg:items-center lg:justify-between relative z-10">
                     <div>
                         <div className="flex items-center gap-2 mb-1">
@@ -149,14 +149,14 @@ const MentorManagement = () => {
                     </div>
 
                     <div className="flex flex-col sm:flex-row gap-4 w-full lg:w-auto">
-                        <div className="bg-white/5 border border-white/10 rounded-xl pr-6 flex items-center w-full lg:w-auto group focus-within:border-emerald-500/50 focus-within:ring-4 focus-within:ring-emerald-500/10 transition-all">
-                            <Search className="text-slate-500 ml-4 group-focus-within:text-emerald-400 transition-colors" size={16} />
+                        <div className="bg-[#1e293b] border border-white/10 rounded-xl pr-6 flex items-center w-full lg:w-auto group focus-within:border-emerald-500/50 focus-within:ring-4 focus-within:ring-emerald-500/10 transition-all">
+                            <Search className="text-slate-400 ml-4 group-focus-within:text-emerald-400 transition-colors" size={16} />
                             <input
                                 type="text"
                                 placeholder="Locate expert profile..."
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                className="bg-transparent text-white placeholder:text-slate-600 focus:outline-none py-3 px-4 w-full lg:w-64 font-bold text-sm tracking-tight"
+                                className="bg-transparent text-white placeholder:text-slate-400 focus:outline-none py-3 px-4 w-full lg:w-64 font-bold text-sm tracking-tight"
                             />
                         </div>
                         <div className="flex gap-4">
@@ -173,11 +173,11 @@ const MentorManagement = () => {
             </div>
 
             {/* Mentors Table */}
-            <div className="bg-[#0f172a]/40 backdrop-blur-xl border border-white/5 rounded-3xl overflow-hidden shadow-2xl">
+            <div className="bg-[#0b1120]/40 backdrop-blur-xl border border-white/5 rounded-3xl overflow-hidden shadow-2xl">
                 <div className="overflow-x-auto">
                     <table className="w-full text-left border-collapse">
                         <thead>
-                            <tr className="bg-white/5 border-b border-white/10">
+                            <tr className="bg-[#1e293b] border-b border-white/10">
                                 <th className="px-8 py-4 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">Expert Entity</th>
                                 <th className="px-8 py-4 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">Credentials</th>
                                 <th className="px-8 py-4 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">Bio Overview</th>
@@ -190,11 +190,11 @@ const MentorManagement = () => {
                                     key={mentor._id}
                                     initial={{ opacity: 0, y: 15 }}
                                     animate={{ opacity: 1, y: 0 }}
-                                    className="hover:bg-white/5 transition-colors group"
+                                    className="hover:bg-[#1e293b] transition-colors group"
                                 >
                                     <td className="px-8 py-4">
                                         <div className="flex items-center gap-4">
-                                            <div className="w-12 h-12 rounded-xl overflow-hidden bg-white/5 border border-white/10 shrink-0 shadow-sm relative p-0.5 group-hover:border-emerald-500/50 transition-all">
+                                            <div className="w-12 h-12 rounded-xl overflow-hidden bg-[#1e293b] border border-white/10 shrink-0 shadow-sm relative p-0.5 group-hover:border-emerald-500/50 transition-all">
                                                 <img
                                                     src={resolveImageUrl(mentor.image, "/images/user.png")}
                                                     alt={mentor.name}
@@ -214,7 +214,7 @@ const MentorManagement = () => {
                                     </td>
                                     <td className="px-8 py-4">
                                         <div className="text-white font-bold text-[11px] uppercase tracking-wider">{mentor.role}</div>
-                                        <div className="text-slate-500 text-[9px] uppercase font-black tracking-widest mt-1 flex items-center gap-2">
+                                        <div className="text-slate-400 text-[9px] uppercase font-black tracking-widest mt-1 flex items-center gap-2">
                                             <Briefcase size={10} className="text-emerald-400" />
                                             {mentor.company}
                                         </div>
@@ -228,13 +228,13 @@ const MentorManagement = () => {
                                         <div className="flex justify-end gap-2.5">
                                             <button
                                                 onClick={() => openEditModal(mentor)}
-                                                className="p-2.5 rounded-xl bg-white/5 text-slate-400 hover:text-emerald-400 hover:bg-emerald-500/10 border border-white/10 hover:border-emerald-500/20 transition-all"
+                                                className="p-2.5 rounded-xl bg-[#1e293b] text-slate-400 hover:text-emerald-400 hover:bg-emerald-500/10 border border-white/10 hover:border-emerald-500/20 transition-all"
                                             >
                                                 <Edit2 size={14} />
                                             </button>
                                             <button
                                                 onClick={() => handleDelete(mentor._id)}
-                                                className="p-2.5 rounded-xl bg-white/5 text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 border border-white/10 hover:border-rose-500/20 transition-all"
+                                                className="p-2.5 rounded-xl bg-[#1e293b] text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 border border-white/10 hover:border-rose-500/20 transition-all"
                                             >
                                                 <Trash2 size={14} />
                                             </button>
@@ -255,18 +255,18 @@ const MentorManagement = () => {
                             initial={{ opacity: 0, scale: 0.95, y: 20 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 30 }}
-                            className="relative w-full max-w-2xl bg-[#0f172a] border border-white/10 rounded-[2.5rem] p-6 sm:p-8 shadow-2xl flex flex-col max-h-[90vh]"
+                            className="relative w-full max-w-2xl bg-[#0b1120] border border-white/10 rounded-[2.5rem] p-6 sm:p-8 shadow-2xl flex flex-col max-h-[90vh]"
                         >
                             <div className="flex items-start justify-between gap-6 mb-8 shrink-0">
                                 <div>
                                     <h3 className="text-2xl font-black text-white tracking-tight uppercase">
                                         {editingMentor ? "Update Experience" : "Onboard Expert"}
                                     </h3>
-                                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] mt-1">Registry Access Level: Global Mentor</p>
+                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mt-1">Registry Access Level: Global Mentor</p>
                                 </div>
                                 <button
                                     onClick={() => setIsModalOpen(false)}
-                                    className="p-3 rounded-2xl bg-white/5 hover:bg-white/10 text-slate-500 hover:text-white transition-all border border-white/10"
+                                    className="p-3 rounded-2xl bg-[#1e293b] hover:bg-white/10 text-slate-400 hover:text-white transition-all border border-white/10"
                                 >
                                     <X size={20} />
                                 </button>
@@ -276,7 +276,7 @@ const MentorManagement = () => {
                                 <form onSubmit={handleSubmit} className="space-y-6">
                                     <div className="flex flex-col items-center justify-center">
                                         <div className="relative group">
-                                            <div className="w-24 h-24 rounded-[2rem] overflow-hidden bg-white/5 border-2 border-dashed border-white/10 flex items-center justify-center group-hover:border-emerald-500/50 transition-all">
+                                            <div className="w-24 h-24 rounded-[2rem] overflow-hidden bg-[#1e293b] border-2 border-dashed border-white/10 flex items-center justify-center group-hover:border-emerald-500/50 transition-all">
                                                 {imageFile ? (
                                                     <img src={URL.createObjectURL(imageFile)} alt="Preview" className="w-full h-full object-cover" />
                                                 ) : formData.image ? (
@@ -287,7 +287,7 @@ const MentorManagement = () => {
                                                         onError={(e) => { e.target.src = "/images/user.png" }}
                                                     />
                                                 ) : (
-                                                    <div className="flex flex-col items-center gap-2 text-slate-500 group-hover:text-emerald-400 transition-colors">
+                                                    <div className="flex flex-col items-center gap-2 text-slate-400 group-hover:text-emerald-400 transition-colors">
                                                         <User size={24} strokeWidth={1.5} />
                                                         <span className="text-[8px] font-black uppercase tracking-widest">Init Avatar</span>
                                                     </div>
@@ -303,39 +303,39 @@ const MentorManagement = () => {
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <div className="col-span-2 space-y-2">
                                             <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Full Name</label>
-                                            <input required value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-600 text-sm" placeholder="e.g. Satoshi Nakamoto" />
+                                            <input required value={formData.name} onChange={e => setFormData({ ...formData, name: e.target.value })} className="w-full bg-[#1e293b] border border-white/10 rounded-2xl p-4 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-400 text-sm" placeholder="e.g. Satoshi Nakamoto" />
                                         </div>
                                         <div className="space-y-2">
                                             <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Professional Designation</label>
-                                            <input required value={formData.role} onChange={e => setFormData({ ...formData, role: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-600 text-sm" placeholder="e.g. Quantum Lead" />
+                                            <input required value={formData.role} onChange={e => setFormData({ ...formData, role: e.target.value })} className="w-full bg-[#1e293b] border border-white/10 rounded-2xl p-4 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-400 text-sm" placeholder="e.g. Quantum Lead" />
                                         </div>
                                         <div className="space-y-2">
                                             <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Parent Organization</label>
-                                            <input required value={formData.company} onChange={e => setFormData({ ...formData, company: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-600 text-sm" placeholder="e.g. OpenAI" />
+                                            <input required value={formData.company} onChange={e => setFormData({ ...formData, company: e.target.value })} className="w-full bg-[#1e293b] border border-white/10 rounded-2xl p-4 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-400 text-sm" placeholder="e.g. OpenAI" />
                                         </div>
                                         <div className="space-y-2">
                                             <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Knowledge Node (LinkedIn)</label>
-                                            <input value={formData.linkedin} onChange={e => setFormData({ ...formData, linkedin: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-600 text-sm" placeholder="https://linkedin.com/in/id" />
+                                            <input value={formData.linkedin} onChange={e => setFormData({ ...formData, linkedin: e.target.value })} className="w-full bg-[#1e293b] border border-white/10 rounded-2xl p-4 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-400 text-sm" placeholder="https://linkedin.com/in/id" />
                                         </div>
                                         <div className="grid grid-cols-2 gap-4">
                                             <div className="space-y-2">
                                                 <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Years Hub</label>
-                                                <input value={formData.yearsExperience} onChange={e => setFormData({ ...formData, yearsExperience: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all text-sm" placeholder="10+" />
+                                                <input value={formData.yearsExperience} onChange={e => setFormData({ ...formData, yearsExperience: e.target.value })} className="w-full bg-[#1e293b] border border-white/10 rounded-2xl p-4 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all text-sm" placeholder="10+" />
                                             </div>
                                             <div className="space-y-2">
                                                 <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Project Nodes</label>
-                                                <input value={formData.projectsCompleted} onChange={e => setFormData({ ...formData, projectsCompleted: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all text-sm" placeholder="50+" />
+                                                <input value={formData.projectsCompleted} onChange={e => setFormData({ ...formData, projectsCompleted: e.target.value })} className="w-full bg-[#1e293b] border border-white/10 rounded-2xl p-4 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all text-sm" placeholder="50+" />
                                             </div>
                                         </div>
                                     </div>
 
                                     <div className="space-y-2">
                                         <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Expert Synopsis</label>
-                                        <textarea required rows={3} value={formData.description} onChange={e => setFormData({ ...formData, description: e.target.value })} className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-slate-300 font-medium focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-600 resize-none leading-relaxed text-xs" placeholder="Brief professional synopsis..." />
+                                        <textarea required rows={3} value={formData.description} onChange={e => setFormData({ ...formData, description: e.target.value })} className="w-full bg-[#1e293b] border border-white/10 rounded-2xl p-4 text-slate-300 font-medium focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-400 resize-none leading-relaxed text-xs" placeholder="Brief professional synopsis..." />
                                     </div>
 
-                                    <div className="flex gap-4 pt-6 border-t border-white/5 -mx-8 px-8 -mb-8 bg-white/5 mt-6">
-                                        <button type="button" onClick={() => setIsModalOpen(false)} className="flex-1 py-3.5 rounded-2xl bg-white/5 text-slate-400 font-bold text-[10px] uppercase tracking-widest hover:text-white hover:bg-white/10 border border-white/10 transition-all">
+                                    <div className="flex gap-4 pt-6 border-t border-white/5 -mx-8 px-8 -mb-8 bg-[#1e293b] mt-6">
+                                        <button type="button" onClick={() => setIsModalOpen(false)} className="flex-1 py-3.5 rounded-2xl bg-[#1e293b] text-slate-400 font-bold text-[10px] uppercase tracking-widest hover:text-white hover:bg-white/10 border border-white/10 transition-all">
                                             Abort Deployment
                                         </button>
                                         <button type="submit" disabled={submitting} className="flex-2 py-3.5 rounded-2xl bg-emerald-600 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-emerald-500 shadow-lg shadow-emerald-600/20 transition-all flex items-center justify-center gap-2 active:scale-95">

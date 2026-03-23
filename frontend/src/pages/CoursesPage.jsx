@@ -37,7 +37,7 @@ const CoursesPage = () => {
   return (
     <div className="min-h-screen pt-0 bg-white">
       {/* Premium Dark Hero Section */}
-      <section className="relative min-h-[50vh] flex items-center bg-[#070b14] text-white overflow-hidden pt-28 pb-16">
+      <section className="relative min-h-[50vh] flex items-center bg-[#020617] text-white overflow-hidden pt-28 pb-16">
         {/* Advanced Atmospheric Animations for Dark */}
         <div className="absolute inset-0 pointer-events-none">
           <motion.div
@@ -73,7 +73,7 @@ const CoursesPage = () => {
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5, delay: 0.2 }}
-              className="inline-flex items-center space-x-2 mb-8 px-5 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md shadow-lg shadow-black/20"
+              className="inline-flex items-center space-x-2 mb-8 px-5 py-2 rounded-full bg-slate-800/80 border border-slate-700 backdrop-blur-md shadow-lg shadow-black/40"
             >
               <span className="w-1.5 h-1.5 bg-indigo-500 rounded-full animate-ping"></span>
               <span className="text-[10px] font-black uppercase tracking-[0.3em] text-indigo-300">New Courses Added</span>
@@ -95,7 +95,7 @@ const CoursesPage = () => {
                 Start Learning Now
                 <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
               </button>
-              <button className="px-8 py-4 rounded-2xl bg-white/5 border border-white/10 text-white font-bold hover:bg-white/10 transition-all duration-300 backdrop-blur-sm">
+              <button className="px-8 py-4 rounded-2xl bg-slate-800/60 border border-slate-700 text-white font-bold hover:bg-slate-700 transition-all duration-300 backdrop-blur-sm">
                 Browse Path
               </button>
             </div>
@@ -112,18 +112,18 @@ const CoursesPage = () => {
               {/* Outer Glow */}
               <div className="absolute -inset-4 bg-gradient-to-tr from-indigo-600 to-cyan-500 rounded-[2.5rem] blur-2xl opacity-20 group-hover:opacity-40 transition duration-1000" />
 
-              <div className="relative z-10 rounded-[2.5rem] overflow-hidden border border-white/10 shadow-2xl shadow-black/50 transform transition-all duration-700 group-hover:scale-105 group-hover:-rotate-2">
+              <div className="relative z-10 rounded-[2.5rem] overflow-hidden border border-slate-200 shadow-2xl shadow-black/50 transform transition-all duration-700 group-hover:scale-105 group-hover:-rotate-2">
                 <img
                   src="/images/learning4.jpg"
                   alt="Premium Course Learning"
                   className="w-full max-w-lg object-cover"
                 />
                 {/* Glass Overlays */}
-                <div className="absolute bottom-6 left-6 right-6 p-6 rounded-3xl bg-black/40 backdrop-blur-xl border border-white/10 transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 shadow-lg">
+                <div className="absolute bottom-6 left-6 right-6 p-6 rounded-3xl bg-black/40 backdrop-blur-xl border border-slate-200 transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 shadow-lg">
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 bg-indigo-600 rounded-full flex items-center justify-center text-white font-bold shadow-lg">100%</div>
                     <div>
-                      <p className="font-bold text-white leading-none mb-1">Success Focus</p>
+                      <p className="font-bold text-slate-900 leading-none mb-1">Success Focus</p>
                       <p className="text-xs text-indigo-300 font-bold">Industry standard training</p>
                     </div>
                   </div>

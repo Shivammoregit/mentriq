@@ -81,6 +81,24 @@ const getGlobalStats = async (req, res) => {
             { $limit: 15 }
         ]);
 
+        // Revenue Calculation
+        const revenueAggregation = await Enrollment.aggregate([
+            { $lookup: { from: "courses", localField: "course", foreignField: "_id", as: "courseDetails" } },
+            { $unwind: "$courseDetails" },
+            { $group: { _id: null, totalRevenue: { $sum: "$courseDetails.price" } } }
+        ]);
+        const totalRevenue = revenueAggregation[0]?.totalRevenue || 0;
+
+        // Popular Courses Calculation
+        const popularCourses = await Enrollment.aggregate([
+            { $group: { _id: "$course", count: { $sum: 1 } } },
+            { $lookup: { from: "courses", localField: "_id", foreignField: "_id", as: "courseDetails" } },
+            { $unwind: "$courseDetails" },
+            { $sort: { count: -1 } },
+            { $limit: 4 },
+            { $project: { _id: 1, count: 1, title: "$courseDetails.title", category: "$courseDetails.category", price: "$courseDetails.price", thumbnailUrl: "$courseDetails.thumbnailUrl" } }
+        ]);
+
         // Dashboard specific analytics (charts)
         const userTrends = await getDailyTrends(User);
         const enrollmentTrends = await getDailyTrends(Enrollment);
@@ -134,13 +152,15 @@ const getGlobalStats = async (req, res) => {
                 homepageStudents: statsConfig?.students || defaultStudents,
                 homepageCourses: statsConfig?.courses || defaultCourses,
                 homepagePlacements: statsConfig?.placements || defaultPlacements,
-                homepageTrainers: statsConfig?.trainers || defaultTrainers
+                homepageTrainers: statsConfig?.trainers || defaultTrainers,
+                totalRevenue: totalRevenue || 0
             },
             analytics: {
                 userTrends: userTrends || [],
                 enrollmentTrends: enrollmentTrends || [],
                 recentActivity: recentActivity || [],
-                popularPages: popularPages.map(p => ({ path: p._id, count: p.count }))
+                popularPages: popularPages.map(p => ({ path: p._id, count: p.count })),
+                popularCourses: popularCourses || []
             }
         });
     } catch (error) {

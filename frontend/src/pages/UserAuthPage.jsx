@@ -90,10 +90,10 @@ const UserAuthPage = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8 }}
-                className="relative w-full max-w-5xl grid grid-cols-1 lg:grid-cols-2 bg-[#0f172a]/80 backdrop-blur-2xl border border-white/10 rounded-[2.5rem] shadow-2xl overflow-hidden shadow-indigo-500/10"
+                className="relative w-full max-w-5xl grid grid-cols-1 lg:grid-cols-2 bg-slate-900/60 backdrop-blur-2xl border border-slate-800 rounded-[2.5rem] shadow-2xl overflow-hidden shadow-indigo-500/10"
             >
                 {/* Left Side: Branding & Info */}
-                <div className="relative p-10 lg:p-14 hidden lg:flex flex-col justify-between overflow-hidden border-r border-white/5 bg-gradient-to-br from-indigo-600/5 to-transparent">
+                <div className="relative p-10 lg:p-14 hidden lg:flex flex-col justify-between overflow-hidden border-r border-slate-800 bg-gradient-to-br from-indigo-500/10 to-transparent">
                     {/* Abstract Elements */}
                     <div className="absolute top-0 right-0 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl -mr-16 -mt-16" />
                     <div className="absolute bottom-0 left-0 w-64 h-64 bg-cyan-500/10 rounded-full blur-3xl -ml-16 -mb-16" />
@@ -133,7 +133,7 @@ const UserAuthPage = () => {
                                         transition={{ duration: 0.5, delay: 0.5 + idx * 0.1 }}
                                         className="flex items-center gap-4 group"
                                     >
-                                        <div className={`w-10 h-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center ${item.color} group-hover:scale-110 transition-transform`}>
+                                        <div className={`w-10 h-10 rounded-xl bg-slate-800 border border-slate-700 flex items-center justify-center ${item.color} group-hover:scale-110 transition-transform`}>
                                             <item.icon size={20} />
                                         </div>
                                         <span className="font-bold text-gray-300 group-hover:text-white transition-colors">{item.text}</span>
@@ -143,7 +143,7 @@ const UserAuthPage = () => {
                         </div>
                     </div>
 
-                    <div className="relative z-10 pt-10 border-t border-white/5 flex items-center justify-between">
+                    <div className="relative z-10 pt-10 border-t border-slate-800 flex items-center justify-between">
                         <p className="text-xs text-gray-500 font-bold uppercase tracking-widest">© 2026 MentriQ Tech</p>
                         <div className="flex gap-4">
                             <div className="w-2 h-2 rounded-full bg-indigo-600 animate-pulse" />
@@ -170,16 +170,16 @@ const UserAuthPage = () => {
                             <p className="text-gray-500 font-medium">{isLogin ? 'Signing back to your console' : 'Set up your learning identity'}</p>
                         </div>
 
-                        <div className="flex p-1.5 bg-white/5 rounded-2xl border border-white/5 mb-10 backdrop-blur-md">
+                        <div className="flex p-1.5 bg-slate-800/80 rounded-2xl border border-slate-700 mb-10 backdrop-blur-md">
                             <button
                                 onClick={() => setIsLogin(true)}
-                                className={`flex-1 py-3.5 rounded-xl font-black text-[10px] uppercase tracking-[0.2em] transition-all duration-500 ${isLogin ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30' : 'text-gray-500 hover:text-gray-300'}`}
+                                className={`flex-1 py-3.5 rounded-xl font-black text-[10px] uppercase tracking-[0.2em] transition-all duration-500 ${isLogin ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30' : 'text-gray-400 hover:text-white'}`}
                             >
                                 Login
                             </button>
                             <button
                                 onClick={() => setIsLogin(false)}
-                                className={`flex-1 py-3.5 rounded-xl font-black text-[10px] uppercase tracking-[0.2em] transition-all duration-500 ${!isLogin ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30' : 'text-gray-500 hover:text-gray-300'}`}
+                                className={`flex-1 py-3.5 rounded-xl font-black text-[10px] uppercase tracking-[0.2em] transition-all duration-500 ${!isLogin ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/30' : 'text-gray-400 hover:text-white'}`}
                             >
                                 Register
                             </button>
@@ -204,7 +204,7 @@ const UserAuthPage = () => {
                                                 placeholder="Enter your full name"
                                                 value={formData.name}
                                                 onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                                                className="w-full pl-14 pr-6 py-4.5 bg-white/5 border border-white/10 rounded-2xl text-white placeholder:text-gray-600 focus:bg-white/10 focus:border-indigo-500 transition-all outline-none font-bold"
+                                                className="w-full pl-14 pr-6 py-4.5 bg-slate-800/50 border border-slate-700 rounded-2xl text-white placeholder:text-gray-500 focus:bg-slate-800 focus:border-indigo-500 transition-all outline-none font-bold"
                                             />
                                         </div>
                                     </motion.div>
@@ -221,7 +221,7 @@ const UserAuthPage = () => {
                                         placeholder="name@domain.com"
                                         value={formData.email}
                                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                                        className="w-full pl-14 pr-6 py-4.5 bg-white/5 border border-white/10 rounded-2xl text-white placeholder:text-gray-600 focus:bg-white/10 focus:border-indigo-500 transition-all outline-none font-bold"
+                                        className="w-full pl-14 pr-6 py-4.5 bg-slate-800/50 border border-slate-700 rounded-2xl text-white placeholder:text-gray-500 focus:bg-slate-800 focus:border-indigo-500 transition-all outline-none font-bold"
                                     />
                                 </div>
                             </div>
@@ -239,7 +239,7 @@ const UserAuthPage = () => {
                                         placeholder="••••••••"
                                         value={formData.password}
                                         onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-                                        className="w-full pl-14 pr-12 py-4.5 bg-white/5 border border-white/10 rounded-2xl text-white placeholder:text-gray-600 focus:bg-white/10 focus:border-indigo-500 transition-all outline-none font-bold"
+                                        className="w-full pl-14 pr-12 py-4.5 bg-slate-800/50 border border-slate-700 rounded-2xl text-white placeholder:text-gray-500 focus:bg-slate-800 focus:border-indigo-500 transition-all outline-none font-bold"
                                     />
                                     <button
                                         type="button"

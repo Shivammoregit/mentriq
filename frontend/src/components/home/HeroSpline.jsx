@@ -43,7 +43,7 @@ export function HeroSpline() {
 
                         <button
                             onClick={() => navigate("/contact")}
-                            className="px-8 py-4 rounded-xl bg-white/5 border border-white/10 text-white font-bold hover:bg-white/10 transition-all duration-300 uppercase tracking-widest text-xs"
+                            className="px-8 py-4 rounded-xl bg-slate-100 border border-slate-200 text-slate-900 font-bold hover:bg-slate-200 transition-all duration-300 uppercase tracking-widest text-xs"
                         >
                             Get a Consultation
                         </button>

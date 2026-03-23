@@ -13,7 +13,7 @@ const AdminLoader = ({ fullScreen = false, label = 'Loading admin panel' }) => {
                     initial={{ opacity: 0, scale: 0.96 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.25 }}
-                    className="w-20 h-20 rounded-3xl border border-white/10 bg-white/[0.04] shadow-[0_20px_50px_rgba(37,99,235,0.12)] backdrop-blur-md flex items-center justify-center p-3"
+                    className="w-20 h-20 rounded-3xl border border-slate-200 bg-white/[0.04] shadow-[0_20px_50px_rgba(37,99,235,0.12)] backdrop-blur-md flex items-center justify-center p-3"
                 >
                     <img
                         src="/images/logo.jpeg"
@@ -23,7 +23,7 @@ const AdminLoader = ({ fullScreen = false, label = 'Loading admin panel' }) => {
                 </motion.div>
 
                 <div className="w-52">
-                    <div className="h-1.5 overflow-hidden rounded-full border border-white/10 bg-white/[0.05]">
+                    <div className="h-1.5 overflow-hidden rounded-full border border-slate-200 bg-white/[0.05]">
                         <motion.div
                             className="h-full rounded-full bg-gradient-to-r from-indigo-500 via-blue-500 to-cyan-400"
                             initial={{ x: '-100%' }}

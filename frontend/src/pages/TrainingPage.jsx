@@ -50,7 +50,7 @@ const TrainingPage = () => {
     return (
         <div className="min-h-screen pt-0 bg-white">
             {/* Premium Dark Hero Section */}
-            <section className="relative min-h-[45vh] flex items-center bg-[#070b14] text-white overflow-hidden pt-24 pb-12">
+            <section className="relative min-h-[45vh] flex items-center bg-[#020617] text-white overflow-hidden pt-24 pb-12">
                 {/* Advanced Atmospheric Animations for Dark */}
                 <div className="absolute inset-0 pointer-events-none">
                     <motion.div
@@ -80,7 +80,7 @@ const TrainingPage = () => {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8 }}
-                        className="inline-flex items-center space-x-2 mb-8 px-5 py-2 rounded-full bg-white/5 border border-white/10 backdrop-blur-md shadow-lg shadow-black/20"
+                        className="inline-flex items-center space-x-2 mb-8 px-5 py-2 rounded-full bg-slate-800/80 border border-slate-700 backdrop-blur-md shadow-lg shadow-black/40"
                     >
                         <Award size={16} className="text-cyan-400" />
                         <span className="text-[10px] font-black uppercase tracking-[0.3em] text-cyan-300">Elite Training Programs</span>
@@ -90,7 +90,7 @@ const TrainingPage = () => {
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, delay: 0.1 }}
-                        className="text-4xl md:text-6xl lg:text-7xl font-black mb-6 tracking-tighter uppercase font-display leading-[0.9]"
+                        className="text-4xl md:text-6xl lg:text-7xl font-black mb-6 tracking-tighter uppercase font-display leading-[0.9] text-white"
                     >
                         MASTERING <br />
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-cyan-400">

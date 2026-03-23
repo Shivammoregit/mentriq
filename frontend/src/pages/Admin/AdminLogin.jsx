@@ -87,7 +87,7 @@ const AdminLogin = () => {
     };
 
     return (
-        <div className="min-h-screen bg-[#020617] text-white flex items-center justify-center p-4 relative overflow-hidden font-inter">
+        <div className="min-h-screen bg-[#0b1120] text-white flex items-center justify-center p-4 relative overflow-hidden font-inter">
             {/* Background elements */}
             <div className="fixed inset-0 overflow-hidden pointer-events-none">
                 <div className="absolute top-[-10%] right-[-10%] w-[800px] h-[800px] bg-emerald-600/5 rounded-full blur-[120px] animate-pulse" />
@@ -107,7 +107,7 @@ const AdminLogin = () => {
                     </motion.div>
                     <div className="space-y-1">
                         <h1 className="text-4xl font-black tracking-tighter uppercase italic">Control Nexus</h1>
-                        <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.4em]">Restricted Administrative Entity Access</p>
+                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.4em]">Restricted Administrative Entity Access</p>
                     </div>
                 </div>
 
@@ -115,7 +115,7 @@ const AdminLogin = () => {
                 <motion.div
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
-                    className="bg-[#0f172a]/40 backdrop-blur-2xl border border-white/5 rounded-[3rem] p-10 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] relative overflow-hidden group"
+                    className="bg-[#0b1120]/40 backdrop-blur-2xl border border-white/5 rounded-[3rem] p-10 shadow-[0_25px_50px_-12px_rgba(0,0,0,0.5)] relative overflow-hidden group"
                 >
                     <div className="absolute inset-0 bg-gradient-to-br from-emerald-600/5 via-transparent to-blue-600/5 opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
 
@@ -124,13 +124,13 @@ const AdminLogin = () => {
                             <div className="space-y-2">
                                 <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Personnel Email</label>
                                 <div className="relative group/input">
-                                    <Mail className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within/input:text-emerald-400 transition-colors" size={18} />
+                                    <Mail className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within/input:text-emerald-400 transition-colors" size={18} />
                                     <input
                                         type="email"
                                         required
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
-                                        className="w-full bg-white/5 border border-white/10 rounded-2xl p-6 pl-16 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-600"
+                                        className="w-full bg-[#1e293b] border border-white/10 rounded-2xl p-6 pl-16 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-400"
                                         placeholder="admin@mentriq.tech"
                                     />
                                 </div>
@@ -139,19 +139,19 @@ const AdminLogin = () => {
                             <div className="space-y-2">
                                 <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Access Cipher (Password)</label>
                                 <div className="relative group/input">
-                                    <Key className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within/input:text-emerald-400 transition-colors" size={18} />
+                                    <Key className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within/input:text-emerald-400 transition-colors" size={18} />
                                     <input
                                         type={showPassword ? 'text' : 'password'}
                                         required
                                         value={password}
                                         onChange={(e) => setPassword(e.target.value)}
-                                        className="w-full bg-white/5 border border-white/10 rounded-2xl p-6 pl-16 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-600"
+                                        className="w-full bg-[#1e293b] border border-white/10 rounded-2xl p-6 pl-16 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-400"
                                         placeholder="••••••••"
                                     />
                                     <button
                                         type="button"
                                         onClick={() => setShowPassword(!showPassword)}
-                                        className="absolute right-6 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white transition-colors"
+                                        className="absolute right-6 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition-colors"
                                     >
                                         {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
                                     </button>
@@ -189,11 +189,11 @@ const AdminLogin = () => {
                             className="space-y-4"
                         >
                             <div className="flex items-center justify-between px-2">
-                                <p className="text-[10px] font-black text-slate-600 uppercase tracking-widest flex items-center gap-2">
+                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
                                     <CheckCircle size={12} className="text-emerald-500" />
                                     Encrypted Portal Vault
                                 </p>
-                                <span className="text-[10px] font-bold text-slate-700">{credentialBucket.length}/5 Slots Used</span>
+                                <span className="text-[10px] font-bold text-slate-300">{credentialBucket.length}/5 Slots Used</span>
                             </div>
 
                             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -201,7 +201,7 @@ const AdminLogin = () => {
                                     <motion.div
                                         key={item.id}
                                         layout
-                                        className="bg-white/5 border border-white/5 rounded-2xl p-4 flex items-center justify-between hover:bg-white/10 hover:border-emerald-500/20 transition-all cursor-pointer group/bucket"
+                                        className="bg-[#1e293b] border border-white/5 rounded-2xl p-4 flex items-center justify-between hover:bg-white/10 hover:border-emerald-500/20 transition-all cursor-pointer group/bucket"
                                         onClick={() => applyBucketCredential(item)}
                                     >
                                         <div className="flex items-center gap-3">
@@ -210,7 +210,7 @@ const AdminLogin = () => {
                                             </div>
                                             <div className="flex flex-col">
                                                 <span className="text-xs font-black text-white uppercase tracking-wider">{item.label}</span>
-                                                <span className="text-[9px] text-slate-500 font-bold truncate max-w-[100px]">{item.email}</span>
+                                                <span className="text-[9px] text-slate-400 font-bold truncate max-w-[100px]">{item.email}</span>
                                             </div>
                                         </div>
                                         <button
@@ -218,7 +218,7 @@ const AdminLogin = () => {
                                                 e.stopPropagation();
                                                 removeBucketCredential(item.id);
                                             }}
-                                            className="p-2 text-slate-600 hover:text-rose-400 hover:bg-rose-500/10 rounded-lg transition-all opacity-0 group-hover/bucket:opacity-100"
+                                            className="p-2 text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 rounded-lg transition-all opacity-0 group-hover/bucket:opacity-100"
                                         >
                                             <Trash2 size={14} />
                                         </button>
@@ -231,7 +231,7 @@ const AdminLogin = () => {
 
                 {/* Footer Trace */}
                 <div className="text-center">
-                    <p className="text-[9px] font-bold text-slate-700 uppercase tracking-[0.2em]">
+                    <p className="text-[9px] font-bold text-slate-300 uppercase tracking-[0.2em]">
                         MentriQ Intelligence Systems &copy; {new Date().getFullYear()} / Authorized Personnel Only
                     </p>
                 </div>

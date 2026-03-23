@@ -189,9 +189,9 @@ const ContactPage = () => {
 
                   <div className="relative z-10">
                     <div className="flex items-center gap-3 mb-1.5 font-display">
-                      <h3 className="text-xs font-black uppercase tracking-[0.2em] text-slate-400 group-hover:text-indigo-600 transition-colors leading-none">{item.title}</h3>
+                      <h3 className="text-xs font-black uppercase tracking-[0.2em] text-slate-600 group-hover:text-indigo-600 transition-colors leading-none">{item.title}</h3>
                       <div className="h-1 w-1 bg-slate-200 rounded-full" />
-                      <span className="text-[10px] font-bold text-slate-300 italic tracking-wider">{item.desc}</span>
+                      <span className="text-[10px] font-bold text-slate-700 italic tracking-wider">{item.desc}</span>
                     </div>
                     <p className="text-lg md:text-xl text-slate-900 font-black tracking-tight">{item.value}</p>
                   </div>
@@ -214,7 +214,7 @@ const ContactPage = () => {
                     href={social.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className={`w-12 h-12 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-400 ${social.color} hover:text-white shadow-lg shadow-slate-200/40 transition-all duration-300 group overflow-hidden`}
+                    className={`w-12 h-12 rounded-xl bg-white border border-slate-200 flex items-center justify-center text-slate-600 ${social.color} hover:text-slate-900 shadow-lg shadow-slate-200/40 transition-all duration-300 group overflow-hidden`}
                   >
                     <div className="transition-transform duration-300 group-hover:scale-110">
                       <Icon size={20} />
@@ -242,7 +242,7 @@ const ContactPage = () => {
                   <h2 className="text-3xl font-black text-slate-900 mb-2 tracking-tight">
                     Send a Message
                   </h2>
-                  <p className="text-slate-400 font-bold uppercase tracking-widest text-[10px]">We'll get back to you shortly</p>
+                  <p className="text-slate-600 font-bold uppercase tracking-widest text-[10px]">We'll get back to you shortly</p>
                 </div>
 
                 <AnimatePresence mode="wait">
@@ -261,7 +261,7 @@ const ContactPage = () => {
                       <p className="text-slate-500 font-medium mb-10 max-w-xs mx-auto">Thank you for reaching out. Our team will review your message and contact you soon.</p>
                       <button
                         onClick={() => setSubmitted(false)}
-                        className="px-8 py-4 bg-slate-900 text-white rounded-xl font-black text-xs tracking-widest uppercase hover:bg-slate-800 transition shadow-xl"
+                        className="px-8 py-4 bg-slate-100 text-slate-900 rounded-xl font-black text-xs tracking-widest uppercase hover:bg-white transition shadow-xl"
                       >
                         Send Another
                       </button>
@@ -277,30 +277,30 @@ const ContactPage = () => {
                     >
                       <div className="grid md:grid-cols-2 gap-6">
                         <div className="space-y-2">
-                          <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-1">Identity</label>
+                          <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-600 ml-1">Identity</label>
                           <div className="relative group/input">
-                            <User className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within/input:text-indigo-500 transition-colors" size={18} />
+                            <User className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-700 group-focus-within/input:text-indigo-500 transition-colors" size={18} />
                             <input
                               type="text"
                               required
                               value={formData.name}
                               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                              className="w-full pl-14 pr-6 py-4 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/5 transition-all font-bold text-slate-900 placeholder:text-slate-300 shadow-sm text-sm"
+                              className="w-full pl-14 pr-6 py-4 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/5 transition-all font-bold text-slate-900 placeholder:text-slate-700 shadow-sm text-sm"
                               placeholder="Full Name"
                             />
                           </div>
                         </div>
 
                         <div className="space-y-2">
-                          <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-1">Comms Hub</label>
+                          <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-600 ml-1">Comms Hub</label>
                           <div className="relative group/input">
-                            <Mail className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within/input:text-indigo-500 transition-colors" size={18} />
+                            <Mail className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-700 group-focus-within/input:text-indigo-500 transition-colors" size={18} />
                             <input
                               type="email"
                               required
                               value={formData.email}
                               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                              className="w-full pl-14 pr-6 py-4 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/5 transition-all font-bold text-slate-900 placeholder:text-slate-300 shadow-sm text-sm"
+                              className="w-full pl-14 pr-6 py-4 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/5 transition-all font-bold text-slate-900 placeholder:text-slate-700 shadow-sm text-sm"
                               placeholder="Email Address"
                             />
                           </div>
@@ -309,30 +309,30 @@ const ContactPage = () => {
 
                       <div className="grid md:grid-cols-2 gap-6">
                         <div className="space-y-2">
-                          <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-1">Terminal ID</label>
+                          <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-600 ml-1">Terminal ID</label>
                           <div className="relative group/input">
-                            <Phone className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within/input:text-indigo-500 transition-colors" size={18} />
+                            <Phone className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-700 group-focus-within/input:text-indigo-500 transition-colors" size={18} />
                             <input
                               type="tel"
                               required
                               value={formData.phone}
                               onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                              className="w-full pl-14 pr-6 py-4 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/5 transition-all font-bold text-slate-900 placeholder:text-slate-300 shadow-sm text-sm"
+                              className="w-full pl-14 pr-6 py-4 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/5 transition-all font-bold text-slate-900 placeholder:text-slate-700 shadow-sm text-sm"
                               placeholder="Phone Number"
                             />
                           </div>
                         </div>
 
                         <div className="space-y-2">
-                          <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-1">Priority</label>
+                          <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-600 ml-1">Priority</label>
                           <div className="relative group/input">
-                            <Tag className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within/input:text-indigo-500 transition-colors" size={18} />
+                            <Tag className="absolute left-5 top-1/2 -translate-y-1/2 text-slate-700 group-focus-within/input:text-indigo-500 transition-colors" size={18} />
                             <input
                               type="text"
                               required
                               value={formData.subject}
                               onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                              className="w-full pl-14 pr-6 py-4 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/5 transition-all font-bold text-slate-900 placeholder:text-slate-300 shadow-sm text-sm"
+                              className="w-full pl-14 pr-6 py-4 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/5 transition-all font-bold text-slate-900 placeholder:text-slate-700 shadow-sm text-sm"
                               placeholder="Inquiry Type"
                             />
                           </div>
@@ -340,15 +340,15 @@ const ContactPage = () => {
                       </div>
 
                       <div className="space-y-2">
-                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 ml-1">Message</label>
+                        <label className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-600 ml-1">Message</label>
                         <div className="relative group/input">
-                          <MessageSquare className="absolute left-5 top-6 text-slate-300 group-focus-within/input:text-indigo-500 transition-colors" size={18} />
+                          <MessageSquare className="absolute left-5 top-6 text-slate-700 group-focus-within/input:text-indigo-500 transition-colors" size={18} />
                           <textarea
                             rows="4"
                             required
                             value={formData.message}
                             onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                            className="w-full pl-14 pr-6 py-4 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/5 transition-all font-bold text-slate-900 placeholder:text-slate-300 resize-none shadow-sm text-sm"
+                            className="w-full pl-14 pr-6 py-4 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/5 transition-all font-bold text-slate-900 placeholder:text-slate-700 resize-none shadow-sm text-sm"
                             placeholder="Describe your requirements..."
                           />
                         </div>

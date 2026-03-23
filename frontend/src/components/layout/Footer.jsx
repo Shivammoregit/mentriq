@@ -91,11 +91,11 @@ const Footer = () => {
     const mapsLink = settings.mapLink;
 
     return (
-        <footer className="relative bg-slate-950 border-t border-slate-800 overflow-hidden pt-8 pb-4 mt-4">
+        <footer className="relative bg-[#020617] border-t border-slate-800/50 overflow-hidden pt-8 pb-4 mt-4">
             <div
                 className="absolute inset-0 pointer-events-none opacity-[0.08]"
                 style={{
-                    backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(148,163,184,0.35) 1px, transparent 0)',
+                    backgroundImage: 'radial-gradient(circle at 2px 2px, rgba(255,255,255,0.05) 1px, transparent 0)',
                     backgroundSize: '40px 40px'
                 }}
             />
@@ -125,14 +125,14 @@ const Footer = () => {
                                         href={social.href}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="w-12 h-12 rounded-2xl bg-slate-900 border border-slate-700 flex items-center justify-center text-slate-300 hover:text-white hover:bg-indigo-600 hover:border-indigo-500 transition-all duration-300 group shadow-sm shadow-black/40 overflow-hidden"
+                                        className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-slate-400 hover:text-white hover:bg-white/10 hover:border-white/20 transition-all duration-300 group shadow-sm shadow-black/40 overflow-hidden"
                                         aria-label={social.label}
                                         initial={{ opacity: 0, y: 10 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         transition={{ delay: idx * 0.1 }}
                                     >
                                         <div className="transition-transform duration-300 group-hover:scale-110">
-                                            <Icon size={20} className="transition-transform duration-300 group-hover:rotate-12 text-slate-300 group-hover:text-white" />
+                                            <Icon size={20} className="transition-transform duration-300 group-hover:rotate-12 text-slate-400 group-hover:text-white" />
                                         </div>
                                     </MotionA>
                                 );
@@ -151,12 +151,12 @@ const Footer = () => {
                                         <li key={lIdx}>
                                             <Link
                                                 to={link.path}
-                                                className="text-xs font-semibold text-slate-300 hover:text-indigo-300 transition-colors duration-300 flex items-center group/link"
+                                                className="text-xs font-semibold text-white hover:text-indigo-400 transition-colors duration-300 flex items-center group/link"
                                             >
                                                 <MotionSpan>
                                                     {link.name}
                                                 </MotionSpan>
-                                                <ArrowRight className="w-3 h-3 ml-2 opacity-0 -translate-x-2 group-hover/link:opacity-100 group-hover/link:translate-x-0 transition-all duration-300 text-indigo-300" />
+                                                <ArrowRight className="w-3 h-3 ml-2 opacity-0 -translate-x-2 group-hover/link:opacity-100 group-hover/link:translate-x-0 transition-all duration-300 text-indigo-400" />
                                             </Link>
                                         </li>
                                     ))}
@@ -175,7 +175,7 @@ const Footer = () => {
                                     <Mail className="w-4 h-4" />
                                 </div>
                                 <div className="pt-0.5">
-                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1.5">Email Us</p>
+                                    <p className="text-[10px] font-black text-slate-600 uppercase tracking-widest leading-none mb-1.5">Email Us</p>
                                     <p className="text-sm font-bold text-slate-100">{emailAddress}</p>
                                 </div>
                             </a>
@@ -184,7 +184,7 @@ const Footer = () => {
                                     <Phone className="w-4 h-4" />
                                 </div>
                                 <div className="pt-0.5">
-                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1.5">Call Us</p>
+                                    <p className="text-[10px] font-black text-slate-600 uppercase tracking-widest leading-none mb-1.5">Call Us</p>
                                     <p className="text-sm font-bold text-slate-100">{phoneNumber}</p>
                                 </div>
                             </a>
@@ -198,7 +198,7 @@ const Footer = () => {
                                     <MapPin className="w-4 h-4" />
                                 </div>
                                 <div className="pt-0.5">
-                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest leading-none mb-1.5">Location</p>
+                                    <p className="text-[10px] font-black text-slate-600 uppercase tracking-widest leading-none mb-1.5">Location</p>
                                     <p className="text-sm font-bold text-slate-100">{settings.address}</p>
                                 </div>
                             </a>
@@ -206,8 +206,8 @@ const Footer = () => {
                     </div>
                 </div>
 
-                <div className="pt-8 border-t border-slate-800 flex flex-col md:flex-row justify-between items-center gap-6">
-                    <Link to="/" className="text-xs font-medium text-slate-400 hover:text-indigo-300 transition-colors">
+                <div className="pt-8 border-t border-slate-800/50 flex flex-col md:flex-row justify-between items-center gap-6">
+                    <Link to="/" className="text-xs font-medium text-slate-400 hover:text-indigo-400 transition-colors">
                         &copy; {currentYear} MentriQ. All rights reserved.
                     </Link>
                 </div>

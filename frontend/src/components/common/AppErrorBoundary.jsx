@@ -27,8 +27,8 @@ class AppErrorBoundary extends React.Component {
                     this.state.error.message?.includes('error loading dynamically imported module'));
 
             return (
-                <div className="min-h-screen bg-[#020617] text-white flex items-center justify-center p-6">
-                    <div className="w-full max-w-xl bg-white/5 border border-white/10 rounded-3xl p-8 text-center">
+                <div className="min-h-screen bg-white text-slate-900 flex items-center justify-center p-6">
+                    <div className="w-full max-w-xl bg-slate-100 border border-slate-200 rounded-3xl p-8 text-center">
                         <div className="w-14 h-14 mx-auto mb-5 rounded-2xl bg-indigo-500/20 border border-indigo-400/30 flex items-center justify-center">
                             <AlertTriangle className={isChunkError ? "text-indigo-300" : "text-red-300"} size={28} />
                         </div>

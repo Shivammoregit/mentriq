@@ -149,7 +149,7 @@ const Hero3DElement = () => {
                             animate={{ opacity: 1, scale: 1, y: [0, -8, 0] }}
                             transition={{ duration: 6, repeat: Infinity, ease: "easeInOut", delay: 0 }}
                             whileHover={{ scale: 1.2, rotate: 5, backgroundColor: "rgba(0, 119, 181, 0.2)" }}
-                            className="absolute top-[15%] left-[15%] lg:top-[20%] lg:left-[20%] w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-white/5 border border-white/10 backdrop-blur-md flex items-center justify-center text-slate-400 shadow-lg pointer-events-auto hover:text-[#0077b5] hover:border-[#0077b5]/30 transition-all duration-300"
+                            className="absolute top-[15%] left-[15%] lg:top-[20%] lg:left-[20%] w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-slate-100 border border-slate-200 backdrop-blur-md flex items-center justify-center text-slate-600 shadow-lg pointer-events-auto hover:text-[#0077b5] hover:border-[#0077b5]/30 transition-all duration-300"
                         >
                             <Linkedin className="w-4 h-4 lg:w-5 lg:h-5" />
                         </motion.a>
@@ -163,7 +163,7 @@ const Hero3DElement = () => {
                             animate={{ opacity: 1, scale: 1, y: [0, -10, 0] }}
                             transition={{ duration: 7, repeat: Infinity, ease: "easeInOut", delay: 1 }}
                             whileHover={{ scale: 1.2, rotate: -5, backgroundColor: "rgba(0, 0, 0, 0.1)" }}
-                            className="absolute top-[8%] left-[30%] lg:top-[10%] lg:left-[35%] w-8 h-8 lg:w-10 lg:h-10 rounded-full bg-white/5 border border-white/10 backdrop-blur-md flex items-center justify-center text-slate-400 shadow-lg pointer-events-auto hover:text-black hover:border-black/20 transition-all duration-300"
+                            className="absolute top-[8%] left-[30%] lg:top-[10%] lg:left-[35%] w-8 h-8 lg:w-10 lg:h-10 rounded-full bg-slate-100 border border-slate-200 backdrop-blur-md flex items-center justify-center text-slate-600 shadow-lg pointer-events-auto hover:text-black hover:border-black/20 transition-all duration-300"
                         >
                             <X className="w-3 h-3 lg:w-4 lg:h-4" />
                         </motion.a>
@@ -177,7 +177,7 @@ const Hero3DElement = () => {
                             animate={{ opacity: 1, scale: 1, y: [0, -12, 0] }}
                             transition={{ duration: 6.5, repeat: Infinity, ease: "easeInOut", delay: 2 }}
                             whileHover={{ scale: 1.25, rotate: 10, backgroundColor: "rgba(225, 48, 108, 0.15)" }}
-                            className="absolute top-[5%] right-[35%] lg:top-[5%] lg:right-[40%] w-12 h-12 lg:w-14 lg:h-14 rounded-full bg-white/5 border border-white/10 backdrop-blur-md flex items-center justify-center text-slate-400 shadow-xl pointer-events-auto hover:text-[#e1306c] hover:border-[#e1306c]/30 transition-all duration-300"
+                            className="absolute top-[5%] right-[35%] lg:top-[5%] lg:right-[40%] w-12 h-12 lg:w-14 lg:h-14 rounded-full bg-slate-100 border border-slate-200 backdrop-blur-md flex items-center justify-center text-slate-600 shadow-xl pointer-events-auto hover:text-[#e1306c] hover:border-[#e1306c]/30 transition-all duration-300"
                         >
                             <Instagram className="w-5 h-5 lg:w-6 lg:h-6" />
                         </motion.a>
@@ -191,7 +191,7 @@ const Hero3DElement = () => {
                             animate={{ opacity: 1, scale: 1, y: [0, -8, 0] }}
                             transition={{ duration: 7.2, repeat: Infinity, ease: "easeInOut", delay: 3 }}
                             whileHover={{ scale: 1.2, rotate: -5, backgroundColor: "rgba(37, 211, 102, 0.15)" }}
-                            className="absolute top-[10%] right-[20%] lg:top-[12%] lg:right-[20%] w-8 h-8 lg:w-10 lg:h-10 rounded-full bg-white/5 border border-white/10 backdrop-blur-md flex items-center justify-center text-slate-400 shadow-lg pointer-events-auto hover:text-[#25D366] hover:border-[#25D366]/30 transition-all duration-300"
+                            className="absolute top-[10%] right-[20%] lg:top-[12%] lg:right-[20%] w-8 h-8 lg:w-10 lg:h-10 rounded-full bg-slate-100 border border-slate-200 backdrop-blur-md flex items-center justify-center text-slate-600 shadow-lg pointer-events-auto hover:text-[#25D366] hover:border-[#25D366]/30 transition-all duration-300"
                         >
                             <MessageCircle className="w-3 h-3 lg:w-4 lg:h-4" />
                         </motion.a>
@@ -205,7 +205,7 @@ const Hero3DElement = () => {
                             animate={{ opacity: 1, scale: 1, y: [0, -6, 0] }}
                             transition={{ duration: 6.8, repeat: Infinity, ease: "easeInOut", delay: 2.5 }}
                             whileHover={{ scale: 1.2, rotate: 5, backgroundColor: "rgba(234, 67, 53, 0.15)" }}
-                            className="absolute top-[20%] right-[10%] lg:top-[25%] lg:right-[10%] w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-white/5 border border-white/10 backdrop-blur-md flex items-center justify-center text-slate-400 shadow-lg pointer-events-auto hover:text-[#EA4335] hover:border-[#EA4335]/30 transition-all duration-300"
+                            className="absolute top-[20%] right-[10%] lg:top-[25%] lg:right-[10%] w-10 h-10 lg:w-12 lg:h-12 rounded-full bg-slate-100 border border-slate-200 backdrop-blur-md flex items-center justify-center text-slate-600 shadow-lg pointer-events-auto hover:text-[#EA4335] hover:border-[#EA4335]/30 transition-all duration-300"
                         >
                             <Mail className="w-4 h-4 lg:w-5 lg:h-5" />
                         </motion.a>

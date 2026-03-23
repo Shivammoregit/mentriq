@@ -29,19 +29,19 @@ const MyEnrollmentsPage = () => {
 
             <div className="space-y-3 pt-6 border-t border-slate-50">
               <p className="flex justify-between items-center text-sm">
-                <span className="text-slate-400 font-bold uppercase tracking-widest text-[10px]">Duration</span>
+                <span className="text-slate-600 font-bold uppercase tracking-widest text-[10px]">Duration</span>
                 <span className="text-indigo-600 font-black">{e.course?.duration}</span>
               </p>
               <p className="flex justify-between items-center text-sm">
-                <span className="text-slate-400 font-bold uppercase tracking-widest text-[10px]">Level</span>
+                <span className="text-slate-600 font-bold uppercase tracking-widest text-[10px]">Level</span>
                 <span className="text-indigo-600 font-black uppercase">{e.course?.level}</span>
               </p>
             </div>
           </motion.div>
         ))}
         {enrollments.length === 0 && (
-          <div className="col-span-full py-20 text-center bg-white/50 backdrop-blur-md rounded-[3rem] border border-dashed border-slate-300">
-            <p className="text-slate-400 font-bold uppercase tracking-widest">No active enrollments found.</p>
+          <div className="col-span-full py-20 text-center bg-slate-1000 backdrop-blur-md rounded-[3rem] border border-dashed border-slate-300">
+            <p className="text-slate-600 font-bold uppercase tracking-widest">No active enrollments found.</p>
           </div>
         )}
       </div>

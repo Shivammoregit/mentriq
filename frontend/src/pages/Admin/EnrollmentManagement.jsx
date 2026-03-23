@@ -10,20 +10,20 @@ const EnrollmentManagement = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const toast = useToast();
 
-    const fetchEnrollments = async () => {
+    const fetchEnrollments = async (silent = false) => {
         try {
             const { data } = await api.get("/enrollments");
             setEnrollments(data || []);
         } catch {
-            toast.error("Failed to load enrollment registry");
+            if (!silent) toast.error("Failed to load enrollment registry");
         } finally {
             setLoading(false);
         }
     };
 
     useEffect(() => {
-        fetchEnrollments();
-        const interval = setInterval(fetchEnrollments, 15000);
+        fetchEnrollments(false);
+        const interval = setInterval(() => fetchEnrollments(true), 15000);
         return () => clearInterval(interval);
     }, []);
 
@@ -88,7 +88,7 @@ const EnrollmentManagement = () => {
     return (
         <div className="space-y-6 animate-in fade-in duration-500">
             {/* Page Header */}
-            <div className="bg-[#0f172a]/40 backdrop-blur-xl p-6 rounded-3xl border border-white/5 shadow-2xl relative overflow-hidden group">
+            <div className="bg-[#0b1120]/40 backdrop-blur-xl p-6 rounded-3xl border border-white/5 shadow-2xl relative overflow-hidden group">
                 <div className="flex flex-col lg:flex-row gap-6 lg:items-center lg:justify-between relative z-10">
                     <div>
                         <div className="flex items-center gap-2 mb-1">
@@ -102,19 +102,19 @@ const EnrollmentManagement = () => {
                     </div>
 
                     <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
-                        <div className="bg-white/5 border border-white/10 rounded-xl pr-4 flex items-center w-full lg:w-auto group focus-within:border-emerald-500/50 focus-within:ring-4 focus-within:ring-emerald-500/10 transition-all">
-                            <Search className="text-slate-500 ml-4 group-focus-within:text-emerald-400 transition-colors" size={14} />
+                        <div className="bg-[#1e293b] border border-white/10 rounded-xl pr-4 flex items-center w-full lg:w-auto group focus-within:border-emerald-500/50 focus-within:ring-4 focus-within:ring-emerald-500/10 transition-all">
+                            <Search className="text-slate-400 ml-4 group-focus-within:text-emerald-400 transition-colors" size={14} />
                             <input
                                 type="text"
                                 placeholder="Locate student access..."
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                className="bg-transparent text-white placeholder:text-slate-600 focus:outline-none py-2.5 px-4 w-full lg:w-64 font-bold text-xs tracking-tight"
+                                className="bg-transparent text-white placeholder:text-slate-400 focus:outline-none py-2.5 px-4 w-full lg:w-64 font-bold text-xs tracking-tight"
                             />
                         </div>
                         <button
                             onClick={handleExportEnrollments}
-                            className="bg-white/5 text-slate-300 hover:bg-white/10 border border-white/10 px-6 py-2.5 rounded-xl font-bold flex items-center gap-2 transition-all active:scale-95 text-[10px] uppercase tracking-widest whitespace-nowrap justify-center"
+                            className="bg-[#1e293b] text-slate-300 hover:bg-white/10 border border-white/10 px-6 py-2.5 rounded-xl font-bold flex items-center gap-2 transition-all active:scale-95 text-[10px] uppercase tracking-widest whitespace-nowrap justify-center"
                         >
                             <Download size={14} />
                             <span>Export Registry</span>
@@ -124,11 +124,11 @@ const EnrollmentManagement = () => {
             </div>
 
             {/* Enrollments Table */}
-            <div className="bg-[#0f172a]/40 backdrop-blur-xl border border-white/5 rounded-3xl overflow-hidden shadow-2xl">
+            <div className="bg-[#0b1120]/40 backdrop-blur-xl border border-white/5 rounded-3xl overflow-hidden shadow-2xl">
                 <div className="overflow-x-auto">
                     <table className="w-full text-left border-collapse">
                         <thead>
-                            <tr className="bg-white/5 border-b border-white/10">
+                            <tr className="bg-[#1e293b] border-b border-white/10">
                                 <th className="px-8 py-4 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">Student Identity</th>
                                 <th className="px-8 py-4 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">Subject Logic</th>
                                 <th className="px-8 py-4 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">Registry Status</th>
@@ -143,12 +143,12 @@ const EnrollmentManagement = () => {
                                         initial={{ opacity: 0, y: 10 }}
                                         animate={{ opacity: 1, y: 0 }}
                                         exit={{ opacity: 0 }}
-                                        className="hover:bg-white/5 transition-colors group"
+                                        className="hover:bg-[#1e293b] transition-colors group"
                                     >
                                         <td className="px-8 py-4">
                                             <div className="flex flex-col gap-0.5">
                                                 <div className="font-bold text-white text-[14px] tracking-tight">{enrollment.user?.name || "Unidentified Student"}</div>
-                                                <div className="text-[9px] text-slate-500 font-bold uppercase tracking-widest flex items-center gap-1.5">
+                                                <div className="text-[9px] text-slate-400 font-bold uppercase tracking-widest flex items-center gap-1.5">
                                                     <User size={10} className="text-emerald-400" />
                                                     {enrollment.user?.email}
                                                 </div>
@@ -157,25 +157,25 @@ const EnrollmentManagement = () => {
                                         <td className="px-8 py-4">
                                             <div className="flex flex-col gap-0.5">
                                                 <div className="text-white font-bold text-[11px] uppercase tracking-wider">{enrollment.course?.title || "Legacy Module"}</div>
-                                                <div className="text-slate-500 text-[9px] uppercase font-bold tracking-widest flex items-center gap-2">
+                                                <div className="text-slate-400 text-[9px] uppercase font-bold tracking-widest flex items-center gap-2">
                                                     <BookOpen size={10} className="text-emerald-400" />
                                                     {new Date(enrollment.createdAt).toLocaleDateString()}
                                                 </div>
                                             </div>
                                         </td>
                                         <td className="px-8 py-4">
-                                            <span className={`px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest border ${enrollment.status === 'completed' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : enrollment.status === 'cancelled' ? 'bg-rose-500/10 text-rose-400 border-rose-500/20' : 'bg-white/5 text-slate-400 border-white/10'}`}>
+                                            <span className={`px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest border ${enrollment.status === 'completed' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : enrollment.status === 'cancelled' ? 'bg-rose-500/10 text-rose-400 border-rose-500/20' : 'bg-[#1e293b] text-slate-400 border-white/10'}`}>
                                                 {enrollment.status}
                                             </span>
                                         </td>
                                         <td className="px-8 py-4 text-right">
                                             <div className="flex justify-end gap-2.5">
                                                 {enrollment.status === 'pending' && (
-                                                    <button onClick={() => handleStatusUpdate(enrollment._id, 'completed')} className="p-2.5 rounded-xl bg-white/5 text-slate-400 hover:text-emerald-400 hover:bg-emerald-500/10 border border-white/10 hover:border-emerald-500/20 transition-all">
+                                                    <button onClick={() => handleStatusUpdate(enrollment._id, 'completed')} className="p-2.5 rounded-xl bg-[#1e293b] text-slate-400 hover:text-emerald-400 hover:bg-emerald-500/10 border border-white/10 hover:border-emerald-500/20 transition-all">
                                                         <CheckCircle size={14} />
                                                     </button>
                                                 )}
-                                                <button onClick={() => handleDelete(enrollment._id)} className="p-2.5 rounded-xl bg-white/5 text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 border border-white/10 hover:border-rose-500/20 transition-all">
+                                                <button onClick={() => handleDelete(enrollment._id)} className="p-2.5 rounded-xl bg-[#1e293b] text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 border border-white/10 hover:border-rose-500/20 transition-all">
                                                     <Trash2 size={14} />
                                                 </button>
                                             </div>

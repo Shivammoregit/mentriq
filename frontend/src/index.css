@@ -1,27 +1,27 @@
 @import "tailwindcss";
 
 :root {
-    --theme-bg: #020617;
+    --theme-bg: #ffffff;
     /* Deeper Navy base */
-    --theme-bg-soft: #0b1120;
-    --theme-surface: rgba(15, 23, 42, 0.6);
-    --theme-surface-strong: rgba(7, 10, 25, 0.95);
-    --theme-border: rgba(255, 255, 255, 0.06);
-    --theme-border-glow: rgba(56, 189, 248, 0.2);
-    --theme-text: #f1f5f9;
-    --theme-text-muted: #94a3b8;
-    --theme-primary: #38bdf8;
+    --theme-bg-soft: #f8fafc;
+    --theme-surface: rgba(255, 255, 255, 0.8);
+    --theme-surface-strong: rgba(255, 255, 255, 0.95);
+    --theme-border: rgba(0, 0, 0, 0.1);
+    --theme-border-glow: rgba(37, 99, 235, 0.2);
+    --theme-text: #0f172a;
+    --theme-text-muted: #64748b;
+    --theme-primary: #2563eb;
     /* Sky Blue Primary */
     --theme-primary-glow: rgba(56, 189, 248, 0.4);
-    --theme-secondary: #6366f1;
+    --theme-secondary: #4f46e5;
     /* Indigo Secondary */
 }
 
 @theme {
-    --color-primary: #38bdf8;
-    --color-secondary: #6366f1;
-    --color-background: #020617;
-    --color-surface: #0f172a;
+    --color-primary: #2563eb;
+    --color-secondary: #4f46e5;
+    --color-background: #ffffff;
+    --color-surface: #f8fafc;
     --font-display: "Space Grotesk", sans-serif;
 }
 
@@ -32,13 +32,13 @@
     }
 
     .glass-dark {
-        @apply bg-[#0f172a]/50 backdrop-blur-3xl border border-white/5 shadow-2xl;
+        @apply bg-white/70 backdrop-blur-3xl border border-slate-200 shadow-xl;
     }
 
     .glass-premium {
         background: linear-gradient(135deg, rgba(255, 255, 255, 0.04) 0%, rgba(255, 255, 255, 0.01) 100%);
         backdrop-filter: blur(24px);
-        border: 1px solid rgba(255, 255, 255, 0.08);
+        border: 1px solid rgba(255, 255, 255, 0.06);
         box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8),
             inset 0 0 1px 1px rgba(56, 189, 248, 0.05);
         /* Sapphire inner glow */
@@ -49,13 +49,13 @@
     }
 
     .glass-panel {
-        @apply bg-white/5 backdrop-blur-2xl border border-white/10;
+        @apply bg-white/80 backdrop-blur-2xl border border-slate-200 shadow-sm;
     }
 
     .theme-shell {
-        background: radial-gradient(1000px 600px at 0% 0%, rgba(30, 58, 138, 0.2), transparent 50%),
-            radial-gradient(800px 500px at 100% 100%, rgba(79, 70, 229, 0.1), transparent 45%),
-            #020617;
+        background: radial-gradient(1000px 600px at 0% 0%, rgba(30, 58, 138, 0.05), transparent 50%),
+            radial-gradient(800px 500px at 100% 100%, rgba(79, 70, 229, 0.03), transparent 45%),
+            #ffffff;
     }
 
     .font-display {
@@ -75,7 +75,7 @@
     }
 
     .theme-gradient-text {
-        background: linear-gradient(135deg, #38bdf8, #818cf8);
+        background: linear-gradient(135deg, #2563eb, #818cf8);
         -webkit-background-clip: text;
         background-clip: text;
         color: transparent;
@@ -119,8 +119,8 @@
     .loader {
         width: 32px;
         height: 32px;
-        border: 3px solid rgba(255, 255, 255, 0.2);
-        border-top-color: rgba(255, 255, 255, 0.9);
+        border: 3px solid rgba(0, 0, 0, 0.2);
+        border-top-color: rgba(0, 0, 0, 0.9);
         border-radius: 9999px;
         display: inline-block;
         animation: spin 0.8s linear infinite;
@@ -197,16 +197,16 @@ body {
 }
 
 ::-webkit-scrollbar-track {
-    background: #020617;
+    background: #ffffff;
 }
 
 ::-webkit-scrollbar-thumb {
-    background: linear-gradient(to bottom, #1e293b, #334155);
+    background: linear-gradient(to bottom, #cbd5e1, #94a3b8);
     border-radius: 10px;
-    border: 1px solid rgba(56, 189, 248, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 ::-webkit-scrollbar-thumb:hover {
-    background: linear-gradient(to bottom, #38bdf8, #6366f1);
+    background: linear-gradient(to bottom, #2563eb, #4f46e5);
     box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
 }

@@ -22,10 +22,10 @@ const Toast = ({ id, message, type, onClose }) => {
     };
 
     const bgColors = {
-        success: 'bg-gray-900 border-green-500/30',
-        error: 'bg-gray-900 border-red-500/30',
-        info: 'bg-gray-900 border-blue-500/30',
-        warning: 'bg-gray-900 border-yellow-500/30'
+        success: 'bg-white border-green-500/30',
+        error: 'bg-white border-red-500/30',
+        info: 'bg-white border-blue-500/30',
+        warning: 'bg-white border-yellow-500/30'
     };
 
     return (
@@ -34,9 +34,9 @@ const Toast = ({ id, message, type, onClose }) => {
             initial={{ opacity: 0, y: 50, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, scale: 0.9, transition: { duration: 0.2 } }}
-            className={`flex items-center gap-3 min-w-[320px] max-w-md p-4 rounded-2xl border shadow-xl backdrop-blur-md ${bgColors[type] || bgColors.info} text-white pointer-events-auto`}
+            className={`flex items-center gap-3 min-w-[320px] max-w-md p-4 rounded-2xl border shadow-xl backdrop-blur-md ${bgColors[type] || bgColors.info} text-slate-900 pointer-events-auto`}
         >
-            <div className={`p-2 rounded-xl bg-white/5`}>
+            <div className={`p-2 rounded-xl bg-slate-100`}>
                 {icons[type] || icons.info}
             </div>
             <div className="flex-1">
@@ -44,7 +44,7 @@ const Toast = ({ id, message, type, onClose }) => {
             </div>
             <button
                 onClick={() => onClose(id)}
-                className="p-1 hover:bg-white/10 rounded-lg transition-colors text-gray-400 hover:text-white"
+                className="p-1 hover:bg-slate-200 rounded-lg transition-colors text-gray-400 hover:text-slate-900"
             >
                 <X size={16} />
             </button>

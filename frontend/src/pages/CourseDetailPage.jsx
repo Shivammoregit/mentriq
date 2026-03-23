@@ -81,7 +81,7 @@ const CourseDetailPage = () => {
     <div className="min-h-screen bg-gray-50 pt-0">
 
       {/* Course Hero */}
-      <section className="relative bg-[#0f172a] text-white py-16 pt-28 overflow-hidden">
+      <section className="relative bg-[#020617] text-white py-16 pt-28 overflow-hidden">
         {/* Background Effects */}
         <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-indigo-600/10 rounded-full blur-[120px]" />
         <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-[var(--color-accent)]/5 rounded-full blur-[120px]" />
@@ -158,7 +158,7 @@ const CourseDetailPage = () => {
                   href={course.syllabusUrl}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-8 py-4 rounded-xl bg-white/5 border border-white/10 text-white font-bold hover:bg-white/10 transition flex items-center gap-2"
+                  className="px-8 py-4 rounded-xl bg-slate-800 border border-slate-700 text-white font-bold hover:bg-slate-700 transition flex items-center gap-2"
                 >
                   <Download size={20} />
                   Syllabus
@@ -200,7 +200,7 @@ const CourseDetailPage = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.4 }}
-                className="relative bg-white/5 backdrop-blur-xl border border-white/10 p-2 rounded-3xl overflow-hidden group shadow-2xl"
+                className="relative bg-slate-800/80 backdrop-blur-xl border border-slate-700 p-2 rounded-3xl overflow-hidden group shadow-2xl"
               >
                 <div className="absolute inset-0 bg-indigo-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <img
@@ -209,14 +209,14 @@ const CourseDetailPage = () => {
                   className="w-full h-auto rounded-2xl transition-transform duration-700 group-hover:scale-[1.02]"
                 />
                 <div className="absolute bottom-6 left-6 right-6">
-                  <div className="bg-black/40 backdrop-blur-md border border-white/10 p-4 rounded-2xl flex items-center justify-between">
+                  <div className="bg-slate-900/80 backdrop-blur-md border border-slate-700 p-4 rounded-2xl flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 bg-indigo-600 rounded-lg flex items-center justify-center">
-                        <Layers className="text-white" size={20} />
+                      <div className="w-10 h-10 bg-indigo-500/20 rounded-lg flex items-center justify-center border border-indigo-500/30">
+                        <Layers className="text-indigo-400" size={20} />
                       </div>
                       <div>
                         <p className="text-white font-bold text-sm">Course Brochure</p>
-                        <p className="text-gray-400 text-[10px] uppercase tracking-widest">Available to Download</p>
+                        <p className="text-indigo-300 text-[10px] uppercase tracking-widest">Available to Download</p>
                       </div>
                     </div>
                     <a

@@ -14,20 +14,20 @@ const JourneyManagement = () => {
     const initialFormState = { year: "", title: "", description: "", order: 0 };
     const [formData, setFormData] = useState(initialFormState);
 
-    const fetchMilestones = async () => {
+    const fetchMilestones = async (silent = false) => {
         try {
             const { data } = await api.get("/journey");
             setMilestones(data || []);
         } catch (err) {
-            toast.error("Failed to load timeline data");
+            if (!silent) toast.error("Failed to load timeline data");
         } finally {
             setLoading(false);
         }
     };
 
     useEffect(() => {
-        fetchMilestones();
-        const interval = setInterval(fetchMilestones, 15000);
+        fetchMilestones(false);
+        const interval = setInterval(() => fetchMilestones(true), 15000);
         return () => clearInterval(interval);
     }, []);
 
@@ -81,7 +81,7 @@ const JourneyManagement = () => {
     return (
         <div className="space-y-6 animate-in fade-in duration-500">
             {/* Page Header */}
-            <div className="bg-[#0f172a]/40 backdrop-blur-xl p-6 rounded-3xl border border-white/5 shadow-2xl relative overflow-hidden group">
+            <div className="bg-[#0b1120]/40 backdrop-blur-xl p-6 rounded-3xl border border-white/5 shadow-2xl relative overflow-hidden group">
                 <div className="flex flex-col lg:flex-row gap-6 lg:items-center lg:justify-between relative z-10">
                     <div>
                         <div className="flex items-center gap-2 mb-1">
@@ -107,11 +107,11 @@ const JourneyManagement = () => {
             </div>
 
             {/* Journey Table */}
-            <div className="bg-[#0f172a]/40 backdrop-blur-xl border border-white/5 rounded-3xl overflow-hidden shadow-2xl">
+            <div className="bg-[#0b1120]/40 backdrop-blur-xl border border-white/5 rounded-3xl overflow-hidden shadow-2xl">
                 <div className="overflow-x-auto">
                     <table className="w-full text-left border-collapse">
                         <thead>
-                            <tr className="bg-white/5 border-b border-white/10">
+                            <tr className="bg-[#1e293b] border-b border-white/10">
                                 <th className="px-8 py-4 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">Temporal Node (Year)</th>
                                 <th className="px-8 py-4 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">Event Designation</th>
                                 <th className="px-8 py-4 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400 text-right">Actions</th>
@@ -123,7 +123,7 @@ const JourneyManagement = () => {
                                     key={milestone._id}
                                     initial={{ opacity: 0, y: 10 }}
                                     animate={{ opacity: 1, y: 0 }}
-                                    className="hover:bg-white/5 transition-colors group"
+                                    className="hover:bg-[#1e293b] transition-colors group"
                                 >
                                     <td className="px-8 py-4">
                                         <div className="flex items-center gap-2.5">
@@ -139,10 +139,10 @@ const JourneyManagement = () => {
                                     </td>
                                     <td className="px-8 py-4 text-right">
                                         <div className="flex justify-end gap-2.5">
-                                            <button onClick={() => openEditModal(milestone)} className="p-2.5 rounded-xl bg-white/5 text-slate-400 hover:text-emerald-400 hover:bg-emerald-500/10 border border-white/10 hover:border-emerald-500/20 transition-all">
+                                            <button onClick={() => openEditModal(milestone)} className="p-2.5 rounded-xl bg-[#1e293b] text-slate-400 hover:text-emerald-400 hover:bg-emerald-500/10 border border-white/10 hover:border-emerald-500/20 transition-all">
                                                 <Edit2 size={14} />
                                             </button>
-                                            <button onClick={() => handleDelete(milestone._id)} className="p-2.5 rounded-xl bg-white/5 text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 border border-white/10 hover:border-rose-500/20 transition-all">
+                                            <button onClick={() => handleDelete(milestone._id)} className="p-2.5 rounded-xl bg-[#1e293b] text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 border border-white/10 hover:border-rose-500/20 transition-all">
                                                 <Trash2 size={14} />
                                             </button>
                                         </div>
@@ -162,18 +162,18 @@ const JourneyManagement = () => {
                             initial={{ opacity: 0, scale: 0.95, y: 20 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 30 }}
-                            className="relative w-full max-w-xl bg-[#0f172a] border border-white/10 rounded-[2.5rem] p-6 sm:p-8 shadow-2xl flex flex-col"
+                            className="relative w-full max-w-xl bg-[#0b1120] border border-white/10 rounded-[2.5rem] p-6 sm:p-8 shadow-2xl flex flex-col"
                         >
                             <div className="flex items-start justify-between gap-6 mb-8 shrink-0">
                                 <div>
                                     <h3 className="text-2xl font-black text-white tracking-tight uppercase">
                                         {editingMilestone ? "Refine History" : "Write History"}
                                     </h3>
-                                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] mt-1">Temporal Alignment Module</p>
+                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mt-1">Temporal Alignment Module</p>
                                 </div>
                                 <button
                                     onClick={() => setIsModalOpen(false)}
-                                    className="p-3 rounded-2xl bg-white/5 hover:bg-white/10 text-slate-500 hover:text-white transition-all border border-white/10"
+                                    className="p-3 rounded-2xl bg-[#1e293b] hover:bg-white/10 text-slate-400 hover:text-white transition-all border border-white/10"
                                 >
                                     <X size={20} />
                                 </button>
@@ -188,7 +188,7 @@ const JourneyManagement = () => {
                                             type="number"
                                             value={formData.year}
                                             onChange={e => setFormData({ ...formData, year: e.target.value })}
-                                            className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-600 text-sm"
+                                            className="w-full bg-[#1e293b] border border-white/10 rounded-2xl p-4 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-400 text-sm"
                                             placeholder="2024"
                                         />
                                     </div>
@@ -199,7 +199,7 @@ const JourneyManagement = () => {
                                             type="number"
                                             value={formData.order}
                                             onChange={e => setFormData({ ...formData, order: e.target.value })}
-                                            className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all text-sm"
+                                            className="w-full bg-[#1e293b] border border-white/10 rounded-2xl p-4 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all text-sm"
                                         />
                                     </div>
                                 </div>
@@ -210,7 +210,7 @@ const JourneyManagement = () => {
                                         required
                                         value={formData.title}
                                         onChange={e => setFormData({ ...formData, title: e.target.value })}
-                                        className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-600 text-sm"
+                                        className="w-full bg-[#1e293b] border border-white/10 rounded-2xl p-4 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-400 text-sm"
                                         placeholder="e.g. Major Platform Shift"
                                     />
                                 </div>
@@ -222,15 +222,15 @@ const JourneyManagement = () => {
                                         rows={4}
                                         value={formData.description}
                                         onChange={e => setFormData({ ...formData, description: e.target.value })}
-                                        className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-slate-300 font-medium focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all leading-relaxed text-xs"
+                                        className="w-full bg-[#1e293b] border border-white/10 rounded-2xl p-4 text-slate-300 font-medium focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all leading-relaxed text-xs"
                                     />
                                 </div>
 
-                                <div className="p-6 border-t border-white/5 flex justify-end items-center gap-4 shrink-0 -mx-8 -mb-8 mt-6 bg-white/5">
+                                <div className="p-6 border-t border-white/5 flex justify-end items-center gap-4 shrink-0 -mx-8 -mb-8 mt-6 bg-[#1e293b]">
                                     <button
                                         type="button"
                                         onClick={() => setIsModalOpen(false)}
-                                        className="flex-1 py-3.5 rounded-2xl bg-white/5 text-slate-400 font-bold text-[10px] uppercase tracking-widest hover:text-white hover:bg-white/10 border border-white/10 transition-all"
+                                        className="flex-1 py-3.5 rounded-2xl bg-[#1e293b] text-slate-400 font-bold text-[10px] uppercase tracking-widest hover:text-white hover:bg-white/10 border border-white/10 transition-all"
                                     >
                                         Dismiss
                                     </button>

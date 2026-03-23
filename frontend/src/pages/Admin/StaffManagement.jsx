@@ -21,18 +21,18 @@ const StaffManagement = () => {
 
     const toast = useToast();
 
-    const fetchUsers = useCallback(async () => {
+    const fetchUsers = useCallback(async (silent = false) => {
         try {
             const { data } = await api.get("/users");
             setUsers(Array.isArray(data) ? data : []);
         } catch {
-            toast.error("Failed to load users");
+            if (!silent) toast.error("Failed to load users");
         }
     }, [toast]);
 
     useEffect(() => {
-        fetchUsers();
-        const interval = setInterval(fetchUsers, 15000);
+        fetchUsers(false);
+        const interval = setInterval(() => fetchUsers(true), 15000);
         return () => clearInterval(interval);
     }, [fetchUsers]);
 
@@ -148,19 +148,19 @@ const StaffManagement = () => {
                     </div>
 
                     <div className="flex flex-col sm:flex-row gap-5 w-full lg:w-auto">
-                        <div className="bg-white/[0.03] border border-white/10 rounded-2xl pr-8 flex items-center w-full lg:w-auto group focus-within:border-blue-500/50 focus-within:ring-8 focus-within:ring-blue-500/5 transition-all duration-300 shadow-inner">
-                            <Search className="text-slate-500 ml-6 group-focus-within:text-blue-400 transition-colors" size={20} />
+                        <div className="bg-[#0b1120]/[0.03] border border-white/10 rounded-2xl pr-8 flex items-center w-full lg:w-auto group focus-within:border-blue-500/50 focus-within:ring-8 focus-within:ring-blue-500/5 transition-all duration-300 shadow-inner">
+                            <Search className="text-slate-400 ml-6 group-focus-within:text-blue-400 transition-colors" size={20} />
                             <input
                                 type="text"
                                 placeholder="Scan Registry..."
                                 value={searchTerm}
                                 onChange={(e) => setSearchTerm(e.target.value)}
-                                className="bg-transparent text-white placeholder:text-slate-600 focus:outline-none py-5 px-5 w-full lg:w-72 font-bold text-sm tracking-tight"
+                                className="bg-transparent text-white placeholder:text-slate-400 focus:outline-none py-5 px-5 w-full lg:w-72 font-bold text-sm tracking-tight"
                             />
                         </div>
                         <button
                             onClick={handleExportStaff}
-                            className="bg-white/[0.03] text-slate-300 hover:bg-blue-500/10 hover:text-blue-400 border border-white/10 hover:border-blue-500/30 px-10 py-5 rounded-2xl font-black flex items-center gap-4 transition-all active:scale-95 text-[10px] uppercase tracking-[0.2em] whitespace-nowrap justify-center shadow-lg"
+                            className="bg-[#0b1120]/[0.03] text-slate-300 hover:bg-blue-500/10 hover:text-blue-400 border border-white/10 hover:border-blue-500/30 px-10 py-5 rounded-2xl font-black flex items-center gap-4 transition-all active:scale-95 text-[10px] uppercase tracking-[0.2em] whitespace-nowrap justify-center shadow-lg"
                         >
                             <Download size={18} />
                             <span>Export Registry</span>
@@ -184,7 +184,7 @@ const StaffManagement = () => {
                             <select
                                 value={selectedStudentId}
                                 onChange={(e) => setSelectedStudentId(e.target.value)}
-                                className="w-full bg-white/[0.03] border border-white/10 rounded-2xl py-4.5 pl-6 pr-12 text-slate-300 font-bold text-sm focus:outline-none focus:ring-8 focus:ring-blue-500/5 focus:border-blue-500/30 transition-all appearance-none cursor-pointer shadow-inner"
+                                className="w-full bg-[#0b1120]/[0.03] border border-white/10 rounded-2xl py-4.5 pl-6 pr-12 text-slate-300 font-bold text-sm focus:outline-none focus:ring-8 focus:ring-blue-500/5 focus:border-blue-500/30 transition-all appearance-none cursor-pointer shadow-inner"
                             >
                                 <option value="" className="bg-[#030712]">Select Entity Profile...</option>
                                 {students.map((s) => (
@@ -193,7 +193,7 @@ const StaffManagement = () => {
                                     </option>
                                 ))}
                             </select>
-                            <ChevronDown className="absolute right-6 top-1/2 -translate-y-1/2 text-slate-500 pointer-events-none" size={18} />
+                            <ChevronDown className="absolute right-6 top-1/2 -translate-y-1/2 text-slate-400 pointer-events-none" size={18} />
                         </div>
                         <div className="flex gap-3 w-full md:w-auto">
                             <button
@@ -213,14 +213,14 @@ const StaffManagement = () => {
                 </div>
             </div>
             {/* Staff Entity Registry */}
-            <div className="bg-[#0f172a]/40 backdrop-blur-xl border border-white/5 rounded-[2.5rem] overflow-hidden shadow-2xl animate-in slide-in-from-bottom-4 duration-700">
+            <div className="bg-[#0b1120]/40 backdrop-blur-xl border border-white/5 rounded-[2.5rem] overflow-hidden shadow-2xl animate-in slide-in-from-bottom-4 duration-700">
                 <div className="overflow-x-auto custom-scrollbar">
                     <table className="w-full text-left border-collapse min-w-[700px]">
                         <thead>
-                            <tr className="bg-white/[0.03] border-b border-white/10 shadow-sm">
-                                <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.25em] text-slate-500/80">Authorized Node</th>
-                                <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.25em] text-slate-500/80">Entity Role</th>
-                                <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.25em] text-slate-500/80 text-right">Directives</th>
+                            <tr className="bg-[#0b1120]/[0.03] border-b border-white/10 shadow-sm">
+                                <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.25em] text-slate-400/80">Authorized Node</th>
+                                <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.25em] text-slate-400/80">Entity Role</th>
+                                <th className="px-10 py-6 text-[10px] font-black uppercase tracking-[0.25em] text-slate-400/80 text-right">Directives</th>
                             </tr>
                         </thead>
                         <tbody className="divide-y divide-white/5 backdrop-blur-sm">
@@ -228,7 +228,7 @@ const StaffManagement = () => {
                                 const isSuperAdmin = user.email === SUPER_ADMIN_EMAIL;
                                 const isPending = updatingId === user._id;
                                 return (
-                                    <tr key={user._id} className="hover:bg-white/[0.02] transition-colors group/row">
+                                    <tr key={user._id} className="hover:bg-[#0b1120]/[0.02] transition-colors group/row">
                                         <td className="px-10 py-8">
                                             <div className="flex items-center gap-6">
                                                 <div className="w-14 h-14 rounded-2xl bg-blue-500/10 flex items-center justify-center text-blue-400 font-black border border-blue-500/20 shadow-lg group-hover/row:scale-110 transition-transform duration-500 group-hover/row:border-blue-500/40">
@@ -236,7 +236,7 @@ const StaffManagement = () => {
                                                 </div>
                                                 <div>
                                                     <div className="font-black text-white text-[16px] tracking-tight group-hover/row:text-blue-400 transition-colors">{user.name}</div>
-                                                    <div className="text-[11px] font-bold text-slate-500/80 tracking-widest mt-1 uppercase">{user.email}</div>
+                                                    <div className="text-[11px] font-bold text-slate-400/80 tracking-widest mt-1 uppercase">{user.email}</div>
                                                 </div>
                                             </div>
                                         </td>
@@ -260,7 +260,7 @@ const StaffManagement = () => {
                                             <div className="flex items-center justify-end gap-4">
                                                 <button
                                                     onClick={() => openResetModal(user)}
-                                                    className="p-3 sm:p-4 rounded-2xl bg-white/[0.03] border border-white/5 text-slate-500 hover:text-blue-400 hover:bg-blue-500/10 hover:border-blue-500/30 transition-all flex items-center gap-3 group/btn active:scale-95"
+                                                    className="p-3 sm:p-4 rounded-2xl bg-[#0b1120]/[0.03] border border-white/5 text-slate-400 hover:text-blue-400 hover:bg-blue-500/10 hover:border-blue-500/30 transition-all flex items-center gap-3 group/btn active:scale-95"
                                                     title="Security Reset"
                                                 >
                                                     <Key size={16} className="group-hover/btn:rotate-12 transition-transform" />
@@ -270,7 +270,7 @@ const StaffManagement = () => {
                                                 {!isSuperAdmin && (
                                                     <button
                                                         onClick={() => handleRoleUpdate(user._id, 'student')}
-                                                        className="p-3 sm:p-4 rounded-2xl bg-white/[0.03] border border-white/5 text-slate-500 hover:text-rose-400 hover:bg-rose-500/10 hover:border-rose-500/30 transition-all flex items-center gap-3 group/btn active:scale-95"
+                                                        className="p-3 sm:p-4 rounded-2xl bg-[#0b1120]/[0.03] border border-white/5 text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 hover:border-rose-500/30 transition-all flex items-center gap-3 group/btn active:scale-95"
                                                         disabled={updatingId === user._id}
                                                         title="Revoke Access"
                                                     >
@@ -294,10 +294,10 @@ const StaffManagement = () => {
                 </div>
                 {filteredStaff.length === 0 && (
                     <div className="py-32 text-center relative z-10">
-                        <div className="w-24 h-24 bg-white/[0.02] rounded-full flex items-center justify-center mx-auto mb-6 border border-white/5 shadow-inner">
-                            <UserRound size={48} className="text-slate-700" />
+                        <div className="w-24 h-24 bg-[#0b1120]/[0.02] rounded-full flex items-center justify-center mx-auto mb-6 border border-white/5 shadow-inner">
+                            <UserRound size={48} className="text-slate-300" />
                         </div>
-                        <p className="text-slate-500 font-bold uppercase tracking-[0.2em] text-xs">No personnel entries detected.</p>
+                        <p className="text-slate-400 font-bold uppercase tracking-[0.2em] text-xs">No personnel entries detected.</p>
                     </div>
                 )}
             </div>
@@ -309,7 +309,7 @@ const StaffManagement = () => {
                             initial={{ opacity: 0, scale: 0.95, y: 30 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 30 }}
-                            className="relative w-full max-w-lg bg-[#0f172a] border border-white/10 rounded-[2.5rem] sm:rounded-[3rem] p-6 sm:p-10 shadow-2xl flex flex-col max-h-[90vh] overflow-hidden"
+                            className="relative w-full max-w-lg bg-[#0b1120] border border-white/10 rounded-[2.5rem] sm:rounded-[3rem] p-6 sm:p-10 shadow-2xl flex flex-col max-h-[90vh] overflow-hidden"
                         >
                             {/* Modal Background Ambient */}
                             <div className="absolute top-[-10%] right-[-10%] w-[50%] h-[50%] bg-blue-500/5 blur-[100px] pointer-events-none" />
@@ -317,11 +317,11 @@ const StaffManagement = () => {
                             <div className="flex items-start justify-between mb-12 relative z-10">
                                 <div>
                                     <h3 className="text-3xl font-black text-white tracking-tighter uppercase font-display theme-gradient-text">Security Override</h3>
-                                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.35em] mt-3 bg-white/5 px-4 py-1.5 rounded-lg inline-block border border-white/5">Signal Target: {selectedUserForReset?.name}</p>
+                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.35em] mt-3 bg-[#1e293b] px-4 py-1.5 rounded-lg inline-block border border-white/5">Signal Target: {selectedUserForReset?.name}</p>
                                 </div>
                                 <button
                                     onClick={() => !resetting && setResetModalOpen(false)}
-                                    className="p-4 rounded-2xl bg-white/[0.03] hover:bg-white/[0.1] text-slate-400 hover:text-white transition-all border border-white/10 shadow-lg"
+                                    className="p-4 rounded-2xl bg-[#0b1120]/[0.03] hover:bg-[#0b1120]/[0.1] text-slate-400 hover:text-white transition-all border border-white/10 shadow-lg"
                                 >
                                     <X size={24} />
                                 </button>
@@ -331,7 +331,7 @@ const StaffManagement = () => {
                                 <div className="space-y-4">
                                     <label className="text-[10px] font-black text-slate-400/80 uppercase tracking-[0.25em] ml-2">New Secret Access Key</label>
                                     <div className="relative group">
-                                        <div className="absolute left-7 top-1/2 -translate-y-1/2 text-slate-500 group-focus-within:text-blue-400 transition-colors">
+                                        <div className="absolute left-7 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-blue-400 transition-colors">
                                             <Key size={22} />
                                         </div>
                                         <input
@@ -340,12 +340,12 @@ const StaffManagement = () => {
                                             value={newPassword}
                                             onChange={(e) => setNewPassword(e.target.value)}
                                             placeholder="Min. 6 alphanumeric"
-                                            className="w-full bg-white/[0.03] border border-white/10 rounded-[2rem] p-7 pl-16 pr-16 text-white text-lg font-black tracking-[0.15em] focus:outline-none focus:ring-8 focus:ring-blue-500/5 focus:border-blue-500/30 transition-all placeholder:text-slate-700 shadow-inner"
+                                            className="w-full bg-[#0b1120]/[0.03] border border-white/10 rounded-[2rem] p-7 pl-16 pr-16 text-white text-lg font-black tracking-[0.15em] focus:outline-none focus:ring-8 focus:ring-blue-500/5 focus:border-blue-500/30 transition-all placeholder:text-slate-300 shadow-inner"
                                         />
                                         <button
                                             type="button"
                                             onClick={() => setShowPassword(!showPassword)}
-                                            className="absolute right-7 top-1/2 -translate-y-1/2 text-slate-500 hover:text-white transition-colors p-2"
+                                            className="absolute right-7 top-1/2 -translate-y-1/2 text-slate-400 hover:text-white transition-colors p-2"
                                         >
                                             {showPassword ? <EyeOff size={22} /> : <Eye size={22} />}
                                         </button>
@@ -356,7 +356,7 @@ const StaffManagement = () => {
                                     <button
                                         type="button"
                                         onClick={() => !resetting && setResetModalOpen(false)}
-                                        className="flex-1 py-5 rounded-[1.75rem] bg-white/[0.03] text-slate-400 font-black text-[10px] uppercase tracking-[0.25em] hover:bg-white/[0.08] border border-white/5 transition-all active:scale-[0.98]"
+                                        className="flex-1 py-5 rounded-[1.75rem] bg-[#0b1120]/[0.03] text-slate-400 font-black text-[10px] uppercase tracking-[0.25em] hover:bg-[#0b1120]/[0.08] border border-white/5 transition-all active:scale-[0.98]"
                                     >
                                         Abort
                                     </button>

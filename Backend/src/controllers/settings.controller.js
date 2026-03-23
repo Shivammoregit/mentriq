@@ -43,6 +43,15 @@ const updateSettings = async (req, res) => {
             };
         }
 
+        if (req.body.promo) {
+            settings.promo = {
+                isActive: req.body.promo.isActive !== undefined ? req.body.promo.isActive : settings.promo.isActive,
+                discountPercentage: req.body.promo.discountPercentage !== undefined ? req.body.promo.discountPercentage : settings.promo.discountPercentage,
+                endDate: req.body.promo.endDate !== undefined ? req.body.promo.endDate : settings.promo.endDate,
+                title: req.body.promo.title !== undefined ? req.body.promo.title : settings.promo.title
+            };
+        }
+
         settings.updatedBy = req.user._id;
 
         const updatedSettings = await settings.save();

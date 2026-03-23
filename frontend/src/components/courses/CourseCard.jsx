@@ -59,7 +59,7 @@ const CourseCard = ({ course, baseUrl = '/courses' }) => {
           transform: "translateZ(50px)",
           transformStyle: "preserve-3d",
         }}
-        className="group h-full bg-white rounded-3xl shadow-xl hover:shadow-2xl overflow-hidden border border-gray-200 hover:border-indigo-300 transition-all duration-500 cursor-pointer"
+        className="group flex flex-col h-full bg-white rounded-3xl shadow-xl hover:shadow-2xl overflow-hidden border border-gray-200 hover:border-indigo-300 transition-all duration-500 cursor-pointer"
       >
         <div className="h-64 relative overflow-hidden">
           <img
@@ -82,13 +82,13 @@ const CourseCard = ({ course, baseUrl = '/courses' }) => {
           </div>
 
           <div className="absolute top-6 right-6 z-10 opacity-0 group-hover:opacity-100 transition-opacity" style={{ transform: "translateZ(40px)" }}>
-            <div className="bg-white/20 backdrop-blur-md p-2 rounded-full border border-white/30 text-white shadow-xl animate-bounce">
+            <div className="bg-white/20 backdrop-blur-md p-2 rounded-full border border-white/30 text-slate-900 shadow-xl animate-bounce">
               <Sparkles size={20} />
             </div>
           </div>
         </div>
 
-        <div className="p-8" style={{ transform: "translateZ(20px)" }}>
+        <div className="p-8 flex flex-col flex-grow" style={{ transform: "translateZ(20px)" }}>
           <div className="flex items-center justify-between mb-3">
             <span className="text-xs font-bold text-indigo-600 uppercase tracking-widest bg-indigo-50 px-3 py-1 rounded-lg">
               {course.duration || '12 weeks'}
@@ -112,7 +112,7 @@ const CourseCard = ({ course, baseUrl = '/courses' }) => {
 
           <Link
             to={`${baseUrl}/${course._id}`}
-            className="w-full text-center bg-gradient-to-r from-indigo-500 to-cyan-500 hover:from-indigo-600 hover:to-cyan-600 text-white font-bold py-4 px-6 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 flex items-center justify-center space-x-3 group/btn"
+            className="mt-auto w-full text-center bg-[#51B3EA] hover:bg-[#3DA0D8] text-white font-bold py-4 px-6 rounded-2xl shadow-xl hover:shadow-2xl transition-all duration-300 flex items-center justify-center space-x-3 group/btn"
           >
             <span>{course.type === 'internship' ? 'Apply Now' : 'Explore Program'}</span>
             <ArrowRight size={20} className="group-hover/btn:translate-x-2 transition-transform" />

@@ -25,20 +25,20 @@ const ServiceManagement = () => {
     const [formData, setFormData] = useState(initialFormState);
     const [imagePreview, setImagePreview] = useState(null);
 
-    const fetchServices = async () => {
+    const fetchServices = async (silent = false) => {
         try {
             const { data } = await api.get("/services/admin");
             setServices(data);
         } catch (err) {
-            toast.error("Failed to load services");
+            if (!silent) toast.error("Failed to load services");
         } finally {
             setLoading(false);
         }
     };
 
     useEffect(() => {
-        fetchServices();
-        const interval = setInterval(fetchServices, 15000);
+        fetchServices(false);
+        const interval = setInterval(() => fetchServices(true), 15000);
         return () => clearInterval(interval);
     }, []);
 
@@ -109,7 +109,7 @@ const ServiceManagement = () => {
     return (
         <div className="space-y-6 animate-in fade-in duration-500">
             {/* Page Header */}
-            <div className="bg-[#0f172a]/40 backdrop-blur-xl p-8 rounded-3xl border border-white/5 shadow-2xl relative overflow-hidden group">
+            <div className="bg-[#0b1120]/40 backdrop-blur-xl p-8 rounded-3xl border border-white/5 shadow-2xl relative overflow-hidden group">
                 <div className="flex flex-col lg:flex-row gap-8 lg:items-center lg:justify-between relative z-10">
                     <div>
                         <div className="flex items-center gap-3 mb-1">
@@ -135,11 +135,11 @@ const ServiceManagement = () => {
             </div>
 
             {/* Services Table */}
-            <div className="bg-[#0f172a]/40 backdrop-blur-xl border border-white/5 rounded-[2.5rem] overflow-hidden shadow-2xl animate-in slide-in-from-bottom-4 duration-700">
+            <div className="bg-[#0b1120]/40 backdrop-blur-xl border border-white/5 rounded-[2.5rem] overflow-hidden shadow-2xl animate-in slide-in-from-bottom-4 duration-700">
                 <div className="overflow-x-auto">
                     <table className="w-full text-left border-collapse">
                         <thead>
-                            <tr className="bg-white/5 border-b border-white/10">
+                            <tr className="bg-[#1e293b] border-b border-white/10">
                                 <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Service Identifier</th>
                                 <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400">Capability Overview</th>
                                 <th className="px-8 py-5 text-[10px] font-bold uppercase tracking-[0.2em] text-slate-400 text-right">Actions</th>
@@ -149,7 +149,7 @@ const ServiceManagement = () => {
                             {services.map((service) => {
                                 const IconComponent = Icons[service.icon] || Icons.Box;
                                 return (
-                                    <tr key={service._id} className="hover:bg-white/5 transition-colors group">
+                                    <tr key={service._id} className="hover:bg-[#1e293b] transition-colors group">
                                         <td className="px-8 py-6">
                                             <div className="flex items-center gap-5">
                                                 <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${service.color || 'from-emerald-500 to-teal-500'} p-3.5 shadow-lg relative group-hover:scale-110 transition-transform duration-500`}>
@@ -157,7 +157,7 @@ const ServiceManagement = () => {
                                                 </div>
                                                 <div>
                                                     <div className="font-bold text-white text-[15px] tracking-tight">{service.title}</div>
-                                                    <div className="text-[10px] font-black text-slate-500 uppercase tracking-widest mt-1">Active Portfolio</div>
+                                                    <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest mt-1">Active Portfolio</div>
                                                 </div>
                                             </div>
                                         </td>
@@ -170,13 +170,13 @@ const ServiceManagement = () => {
                                             <div className="flex justify-end gap-3">
                                                 <button
                                                     onClick={() => handleEdit(service)}
-                                                    className="p-3 rounded-xl bg-white/5 text-slate-400 hover:text-emerald-400 hover:bg-emerald-500/10 border border-white/10 hover:border-emerald-500/20 transition-all"
+                                                    className="p-3 rounded-xl bg-[#1e293b] text-slate-400 hover:text-emerald-400 hover:bg-emerald-500/10 border border-white/10 hover:border-emerald-500/20 transition-all"
                                                 >
                                                     <Icons.Edit2 size={16} />
                                                 </button>
                                                 <button
                                                     onClick={() => handleDelete(service._id)}
-                                                    className="p-3 rounded-xl bg-white/5 text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 border border-white/10 hover:border-rose-500/20 transition-all"
+                                                    className="p-3 rounded-xl bg-[#1e293b] text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 border border-white/10 hover:border-rose-500/20 transition-all"
                                                 >
                                                     <Icons.Trash2 size={16} />
                                                 </button>
@@ -198,18 +198,18 @@ const ServiceManagement = () => {
                             initial={{ opacity: 0, scale: 0.95, y: 30 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 30 }}
-                            className="relative w-full max-w-2xl bg-[#0f172a] border border-white/10 rounded-[3rem] p-10 shadow-2xl flex flex-col max-h-[90vh]"
+                            className="relative w-full max-w-2xl bg-[#0b1120] border border-white/10 rounded-[3rem] p-10 shadow-2xl flex flex-col max-h-[90vh]"
                         >
                             <div className="flex items-start justify-between gap-6 mb-10 shrink-0">
                                 <div>
                                     <h3 className="text-3xl font-black text-white tracking-tight uppercase">
                                         {editingService ? "Update Solution" : "Initialize Service"}
                                     </h3>
-                                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] mt-1">Portfolio Expansion Protocol</p>
+                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mt-1">Portfolio Expansion Protocol</p>
                                 </div>
                                 <button
                                     onClick={() => setIsModalOpen(false)}
-                                    className="p-3.5 rounded-2xl bg-white/5 hover:bg-white/10 text-slate-500 hover:text-white transition-all border border-white/10"
+                                    className="p-3.5 rounded-2xl bg-[#1e293b] hover:bg-white/10 text-slate-400 hover:text-white transition-all border border-white/10"
                                 >
                                     <Icons.X size={24} />
                                 </button>
@@ -223,7 +223,7 @@ const ServiceManagement = () => {
                                             required
                                             value={formData.title}
                                             onChange={e => setFormData({ ...formData, title: e.target.value })}
-                                            className="w-full bg-white/5 border border-white/10 rounded-2xl p-6 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-600"
+                                            className="w-full bg-[#1e293b] border border-white/10 rounded-2xl p-6 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-400"
                                             placeholder="e.g. Neural Architecture Design"
                                         />
                                     </div>
@@ -234,7 +234,7 @@ const ServiceManagement = () => {
                                             <input
                                                 value={formData.icon}
                                                 onChange={e => setFormData({ ...formData, icon: e.target.value })}
-                                                className="w-full bg-white/5 border border-white/10 rounded-2xl p-6 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-600"
+                                                className="w-full bg-[#1e293b] border border-white/10 rounded-2xl p-6 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-400"
                                                 placeholder="e.g. Brain, Zap, Codesandbox"
                                             />
                                         </div>
@@ -243,7 +243,7 @@ const ServiceManagement = () => {
                                             <input
                                                 value={formData.color}
                                                 onChange={e => setFormData({ ...formData, color: e.target.value })}
-                                                className="w-full bg-white/5 border border-white/10 rounded-2xl p-6 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-600"
+                                                className="w-full bg-[#1e293b] border border-white/10 rounded-2xl p-6 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-400"
                                                 placeholder="from-blue-500 to-cyan-500"
                                             />
                                         </div>
@@ -256,17 +256,17 @@ const ServiceManagement = () => {
                                             rows={4}
                                             value={formData.description}
                                             onChange={e => setFormData({ ...formData, description: e.target.value })}
-                                            className="w-full bg-white/5 border border-white/10 rounded-[2rem] p-6 text-slate-300 font-medium focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-600 resize-none leading-relaxed"
+                                            className="w-full bg-[#1e293b] border border-white/10 rounded-[2rem] p-6 text-slate-300 font-medium focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-400 resize-none leading-relaxed"
                                             placeholder="Define technical scope and business impact..."
                                         />
                                     </div>
                                 </div>
 
-                                <div className="p-10 border-t border-white/5 flex justify-end items-center gap-4 shrink-0 -mx-10 -mb-10 mt-10 bg-white/5">
+                                <div className="p-10 border-t border-white/5 flex justify-end items-center gap-4 shrink-0 -mx-10 -mb-10 mt-10 bg-[#1e293b]">
                                     <button
                                         type="button"
                                         onClick={() => setIsModalOpen(false)}
-                                        className="flex-1 py-4.5 rounded-2xl bg-white/5 text-slate-400 font-bold text-[10px] uppercase tracking-widest hover:text-white hover:bg-white/10 border border-white/10 transition-all"
+                                        className="flex-1 py-4.5 rounded-2xl bg-[#1e293b] text-slate-400 font-bold text-[10px] uppercase tracking-widest hover:text-white hover:bg-white/10 border border-white/10 transition-all"
                                     >
                                         Dismiss
                                     </button>

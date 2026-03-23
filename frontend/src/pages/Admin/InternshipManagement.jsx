@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { apiClient as api } from "../../utils/apiClient";
-import { Plus, Edit2, Trash2, Briefcase, FileText, Check, X, Calendar, ChevronDown, CheckCircle, Clock, MapPin, Building2, ExternalLink } from "lucide-react";
+import { Plus, Edit2, Trash2, Briefcase, FileText, Check, X, Calendar, ChevronDown, CheckCircle, Clock, MapPin, Building2, ExternalLink, Eye } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useToast } from "../../context/ToastContext";
 
@@ -11,6 +11,7 @@ const InternshipManagement = () => {
     const [loading, setLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingInternship, setEditingInternship] = useState(null);
+    const [viewingApp, setViewingApp] = useState(null);
     const toast = useToast();
 
     const initialFormState = {
@@ -102,6 +103,9 @@ const InternshipManagement = () => {
             await api.put(`/internships/applications/${id}`, { status });
             toast.success(`Applicant status: ${status}`);
             setApplications(applications.map(app => app._id === id ? { ...app, status } : app));
+            if (viewingApp && viewingApp._id === id) {
+                setViewingApp({ ...viewingApp, status });
+            }
         } catch (err) {
             toast.error("Update failed");
         }
@@ -122,7 +126,7 @@ const InternshipManagement = () => {
     return (
         <div className="space-y-6 animate-in fade-in duration-500">
             {/* Page Header */}
-            <div className="bg-[#0f172a]/40 backdrop-blur-xl p-6 rounded-3xl border border-white/5 shadow-2xl relative overflow-hidden group">
+            <div className="bg-[#0b1120]/40 backdrop-blur-xl p-6 rounded-3xl border border-white/5 shadow-2xl relative overflow-hidden group">
                 <div className="flex flex-col lg:flex-row gap-6 lg:items-center lg:justify-between relative z-10">
                     <div>
                         <div className="flex items-center gap-2 mb-1">
@@ -148,28 +152,28 @@ const InternshipManagement = () => {
             </div>
 
             {/* Tabs */}
-            <div className="flex gap-1.5 p-1 bg-white/5 border border-white/10 rounded-xl w-fit">
+            <div className="flex gap-1.5 p-1 bg-[#1e293b] border border-white/10 rounded-xl w-fit">
                 <button
                     onClick={() => setActiveTab("postings")}
-                    className={`px-4 py-2 rounded-lg font-bold text-[9px] uppercase tracking-widest transition-all ${activeTab === 'postings' ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/20' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
+                    className={`px-4 py-2 rounded-lg font-bold text-[9px] uppercase tracking-widest transition-all ${activeTab === 'postings' ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/20' : 'text-slate-400 hover:text-white hover:bg-[#1e293b]'}`}
                 >
                     Opportunity Grid
                 </button>
                 <button
                     onClick={() => setActiveTab("applications")}
-                    className={`px-4 py-2 rounded-lg font-bold text-[9px] uppercase tracking-widest transition-all ${activeTab === 'applications' ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/20' : 'text-slate-400 hover:text-white hover:bg-white/5'}`}
+                    className={`px-4 py-2 rounded-lg font-bold text-[9px] uppercase tracking-widest transition-all ${activeTab === 'applications' ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/20' : 'text-slate-400 hover:text-white hover:bg-[#1e293b]'}`}
                 >
                     Candidate Stream
                 </button>
             </div>
 
             {/* Content Area */}
-            <div className="bg-[#0f172a]/40 backdrop-blur-xl border border-white/5 rounded-3xl overflow-hidden shadow-2xl">
+            <div className="bg-[#0b1120]/40 backdrop-blur-xl border border-white/5 rounded-3xl overflow-hidden shadow-2xl">
                 <div className="overflow-x-auto">
                     {activeTab === "postings" ? (
                         <table className="w-full text-left border-collapse">
                             <thead>
-                                <tr className="bg-white/5 border-b border-white/10">
+                                <tr className="bg-[#1e293b] border-b border-white/10">
                                     <th className="px-8 py-4 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">Position Path</th>
                                     <th className="px-8 py-4 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">Operational Hub</th>
                                     <th className="px-8 py-4 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">Duration</th>
@@ -182,7 +186,7 @@ const InternshipManagement = () => {
                                         key={job._id}
                                         initial={{ opacity: 0, y: 10 }}
                                         animate={{ opacity: 1, y: 0 }}
-                                        className="hover:bg-white/5 transition-colors group"
+                                        className="hover:bg-[#1e293b] transition-colors group"
                                     >
                                         <td className="px-8 py-4">
                                             <div className="flex flex-col gap-0.5">
@@ -196,7 +200,7 @@ const InternshipManagement = () => {
                                                     <Building2 size={10} className="text-emerald-400" />
                                                     {job.company}
                                                 </div>
-                                                <div className="text-slate-500 text-[9px] uppercase font-bold tracking-widest flex items-center gap-1.5">
+                                                <div className="text-slate-400 text-[9px] uppercase font-bold tracking-widest flex items-center gap-1.5">
                                                     <MapPin size={10} />
                                                     {job.location}
                                                 </div>
@@ -210,10 +214,10 @@ const InternshipManagement = () => {
                                         </td>
                                         <td className="px-8 py-4 text-right">
                                             <div className="flex justify-end gap-2.5">
-                                                <button onClick={() => openEditModal(job)} className="p-2.5 rounded-xl bg-white/5 text-slate-400 hover:text-emerald-400 hover:bg-emerald-500/10 border border-white/10 hover:border-emerald-500/20 transition-all">
+                                                <button onClick={() => openEditModal(job)} className="p-2.5 rounded-xl bg-[#1e293b] text-slate-400 hover:text-emerald-400 hover:bg-emerald-500/10 border border-white/10 hover:border-emerald-500/20 transition-all">
                                                     <Edit2 size={14} />
                                                 </button>
-                                                <button onClick={() => handleDelete(job._id)} className="p-2.5 rounded-xl bg-white/5 text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 border border-white/10 hover:border-rose-500/20 transition-all">
+                                                <button onClick={() => handleDelete(job._id)} className="p-2.5 rounded-xl bg-[#1e293b] text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 border border-white/10 hover:border-rose-500/20 transition-all">
                                                     <Trash2 size={14} />
                                                 </button>
                                             </div>
@@ -225,7 +229,7 @@ const InternshipManagement = () => {
                     ) : (
                         <table className="w-full text-left border-collapse">
                             <thead>
-                                <tr className="bg-white/5 border-b border-white/10">
+                                <tr className="bg-[#1e293b] border-b border-white/10">
                                     <th className="px-8 py-4 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">Candidate Identity</th>
                                     <th className="px-8 py-4 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">Target Role</th>
                                     <th className="px-8 py-4 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">System Status</th>
@@ -238,29 +242,37 @@ const InternshipManagement = () => {
                                         key={app._id}
                                         initial={{ opacity: 0, y: 10 }}
                                         animate={{ opacity: 1, y: 0 }}
-                                        className="hover:bg-white/5 transition-colors group"
+                                        className="hover:bg-[#1e293b] transition-colors group cursor-pointer"
+                                        onClick={() => setViewingApp(app)}
                                     >
                                         <td className="px-8 py-4">
                                             <div className="flex flex-col gap-0.5">
                                                 <div className="font-bold text-white text-[14px] tracking-tight">{app.fullName}</div>
-                                                <div className="text-[9px] text-slate-500 font-bold uppercase tracking-widest">{app.email}</div>
+                                                <div className="text-[9px] text-slate-400 font-bold uppercase tracking-widest">{app.email}</div>
                                             </div>
                                         </td>
                                         <td className="px-8 py-4">
                                             <div className="text-white font-bold text-[11px] uppercase tracking-wider">{app.internshipId?.title || "Legacy Position"}</div>
                                         </td>
                                         <td className="px-8 py-4">
-                                            <span className={`px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest border ${app.status === 'Accepted' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : app.status === 'Rejected' ? 'bg-rose-500/10 text-rose-400 border-rose-500/20' : 'bg-white/5 text-slate-400 border-white/10'}`}>
-                                                {app.status}
+                                            <span className={`px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest border ${app.status === 'Accepted' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : app.status === 'Rejected' ? 'bg-rose-500/10 text-rose-400 border-rose-500/20' : 'bg-[#1e293b] text-slate-400 border-white/10'}`}>
+                                                {app.status || 'Pending'}
                                             </span>
                                         </td>
                                         <td className="px-8 py-4 text-right">
-                                            <div className="flex justify-end gap-2.5">
-                                                <button onClick={() => handleApplicationStatus(app._id, 'Accepted')} className="p-2.5 rounded-xl bg-white/5 text-slate-400 hover:text-emerald-400 hover:bg-emerald-500/10 border border-white/10 hover:border-emerald-500/20 transition-all">
-                                                    <CheckCircle size={14} />
-                                                </button>
-                                                <button onClick={() => handleApplicationStatus(app._id, 'Rejected')} className="p-2.5 rounded-xl bg-white/5 text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 border border-white/10 hover:border-rose-500/20 transition-all">
-                                                    <X size={14} />
+                                            <div className="flex justify-end gap-2.5" onClick={e => e.stopPropagation()}>
+                                                {app.status !== 'Accepted' && app.status !== 'Rejected' && (
+                                                    <>
+                                                        <button onClick={() => handleApplicationStatus(app._id, 'Accepted')} className="p-2.5 rounded-xl bg-[#1e293b] text-slate-400 hover:text-emerald-400 hover:bg-emerald-500/10 border border-white/10 hover:border-emerald-500/20 transition-all">
+                                                            <CheckCircle size={14} />
+                                                        </button>
+                                                        <button onClick={() => handleApplicationStatus(app._id, 'Rejected')} className="p-2.5 rounded-xl bg-[#1e293b] text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 border border-white/10 hover:border-rose-500/20 transition-all">
+                                                            <X size={14} />
+                                                        </button>
+                                                    </>
+                                                )}
+                                                <button onClick={() => setViewingApp(app)} className="p-2.5 rounded-xl bg-[#1e293b] text-slate-400 hover:text-blue-400 hover:bg-blue-500/10 border border-white/10 hover:border-blue-500/20 transition-all">
+                                                    <Eye size={14} />
                                                 </button>
                                             </div>
                                         </td>
@@ -280,18 +292,18 @@ const InternshipManagement = () => {
                             initial={{ opacity: 0, scale: 0.95, y: 20 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 30 }}
-                            className="relative w-full max-w-2xl bg-[#0f172a] border border-white/10 rounded-[2.5rem] p-6 sm:p-8 shadow-2xl flex flex-col max-h-[90vh]"
+                            className="relative w-full max-w-2xl bg-[#0b1120] border border-white/10 rounded-[2.5rem] p-6 sm:p-8 shadow-2xl flex flex-col max-h-[90vh]"
                         >
                             <div className="flex items-start justify-between gap-6 mb-8 shrink-0">
                                 <div>
                                     <h3 className="text-2xl font-black text-white tracking-tight uppercase">
                                         {editingInternship ? "Refine Position" : "Engineer Posting"}
                                     </h3>
-                                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] mt-1">Opportunity Deployment Protocol</p>
+                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mt-1">Opportunity Deployment Protocol</p>
                                 </div>
                                 <button
                                     onClick={() => setIsModalOpen(false)}
-                                    className="p-3 rounded-2xl bg-white/5 hover:bg-white/10 text-slate-500 hover:text-white transition-all border border-white/10"
+                                    className="p-3 rounded-2xl bg-[#1e293b] hover:bg-white/10 text-slate-400 hover:text-white transition-all border border-white/10"
                                 >
                                     <X size={20} />
                                 </button>
@@ -306,7 +318,7 @@ const InternshipManagement = () => {
                                                 required
                                                 value={formData.title}
                                                 onChange={e => setFormData({ ...formData, title: e.target.value })}
-                                                className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all text-sm"
+                                                className="w-full bg-[#1e293b] border border-white/10 rounded-2xl p-4 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all text-sm"
                                                 placeholder="e.g. AI Research Intern"
                                             />
                                         </div>
@@ -316,7 +328,7 @@ const InternshipManagement = () => {
                                                 required
                                                 value={formData.company}
                                                 onChange={e => setFormData({ ...formData, company: e.target.value })}
-                                                className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all text-sm"
+                                                className="w-full bg-[#1e293b] border border-white/10 rounded-2xl p-4 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all text-sm"
                                             />
                                         </div>
                                     </div>
@@ -327,7 +339,7 @@ const InternshipManagement = () => {
                                             <input
                                                 value={formData.location}
                                                 onChange={e => setFormData({ ...formData, location: e.target.value })}
-                                                className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all text-sm"
+                                                className="w-full bg-[#1e293b] border border-white/10 rounded-2xl p-4 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all text-sm"
                                             />
                                         </div>
                                         <div className="space-y-2">
@@ -335,7 +347,7 @@ const InternshipManagement = () => {
                                             <input
                                                 value={formData.duration}
                                                 onChange={e => setFormData({ ...formData, duration: e.target.value })}
-                                                className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all text-sm"
+                                                className="w-full bg-[#1e293b] border border-white/10 rounded-2xl p-4 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all text-sm"
                                                 placeholder="e.g. 6 Months"
                                             />
                                         </div>
@@ -344,11 +356,11 @@ const InternshipManagement = () => {
                                             <select
                                                 value={formData.type}
                                                 onChange={e => setFormData({ ...formData, type: e.target.value })}
-                                                className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all appearance-none cursor-pointer text-sm"
+                                                className="w-full bg-[#1e293b] border border-white/10 rounded-2xl p-4 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all appearance-none cursor-pointer text-sm"
                                             >
-                                                <option value="Remote" className="bg-slate-900">Remote</option>
-                                                <option value="Hybrid" className="bg-slate-900">Hybrid</option>
-                                                <option value="On-site" className="bg-slate-900">On-site</option>
+                                                <option value="Remote" className="bg-[#1e293b]">Remote</option>
+                                                <option value="Hybrid" className="bg-[#1e293b]">Hybrid</option>
+                                                <option value="On-site" className="bg-[#1e293b]">On-site</option>
                                             </select>
                                         </div>
                                     </div>
@@ -359,7 +371,7 @@ const InternshipManagement = () => {
                                             rows={3}
                                             value={formData.requirements}
                                             onChange={e => setFormData({ ...formData, requirements: e.target.value })}
-                                            className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-slate-300 font-medium focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-600 resize-none text-xs"
+                                            className="w-full bg-[#1e293b] border border-white/10 rounded-2xl p-4 text-slate-300 font-medium focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-400 resize-none text-xs"
                                             placeholder="React Expertise&#10;System Design Knowledge..."
                                         />
                                     </div>
@@ -371,16 +383,16 @@ const InternshipManagement = () => {
                                             rows={4}
                                             value={formData.description}
                                             onChange={e => setFormData({ ...formData, description: e.target.value })}
-                                            className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-slate-300 font-medium focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-600 resize-none leading-relaxed text-xs"
+                                            className="w-full bg-[#1e293b] border border-white/10 rounded-2xl p-4 text-slate-300 font-medium focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-400 resize-none leading-relaxed text-xs"
                                         />
                                     </div>
                                 </div>
 
-                                <div className="p-6 border-t border-white/5 flex justify-end items-center gap-4 shrink-0 -mx-8 -mb-8 mt-6 bg-white/5">
+                                <div className="p-6 border-t border-white/5 flex justify-end items-center gap-4 shrink-0 -mx-8 -mb-8 mt-6 bg-[#1e293b]">
                                     <button
                                         type="button"
                                         onClick={() => setIsModalOpen(false)}
-                                        className="flex-1 py-3.5 rounded-2xl bg-white/5 text-slate-400 font-bold text-[10px] uppercase tracking-widest hover:text-white hover:bg-white/10 border border-white/10 transition-all"
+                                        className="flex-1 py-3.5 rounded-2xl bg-[#1e293b] text-slate-400 font-bold text-[10px] uppercase tracking-widest hover:text-white hover:bg-white/10 border border-white/10 transition-all"
                                     >
                                         Dismiss
                                     </button>
@@ -393,6 +405,145 @@ const InternshipManagement = () => {
                                     </button>
                                 </div>
                             </form>
+                        </motion.div>
+                    </div>
+                )}
+            </AnimatePresence>
+
+            {/* Candidate Details Modal */}
+            <AnimatePresence>
+                {viewingApp && (
+                    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-xl" onClick={() => setViewingApp(null)}>
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.95, y: 20 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.95, y: 30 }}
+                            onClick={e => e.stopPropagation()}
+                            className="relative w-full max-w-3xl bg-[#0b1120] border border-white/10 rounded-[2.5rem] p-6 sm:p-8 shadow-2xl flex flex-col max-h-[90vh]"
+                        >
+                            <div className="flex items-start justify-between gap-6 mb-8 shrink-0">
+                                <div>
+                                    <h3 className="text-2xl font-black text-white tracking-tight uppercase">
+                                        Candidate Review
+                                    </h3>
+                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mt-1">
+                                        Evaluating Profile for: <span className="text-emerald-400">{viewingApp.internshipId?.title || "Legacy Position"}</span>
+                                    </p>
+                                </div>
+                                <button
+                                    onClick={() => setViewingApp(null)}
+                                    className="p-3 rounded-2xl bg-[#1e293b] hover:bg-white/10 text-slate-400 hover:text-white transition-all border border-white/10"
+                                >
+                                    <X size={20} />
+                                </button>
+                            </div>
+
+                            <div className="flex-1 overflow-y-auto pr-4 -mr-4 space-y-8 custom-scrollbar">
+                                <div className="space-y-6">
+                                    {/* Personal Info */}
+                                    <div className="bg-[#1e293b] rounded-2xl p-6 border border-white/5 space-y-4">
+                                        <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 border-b border-white/10 pb-2">Profile Information</h4>
+                                        <div className="grid grid-cols-2 gap-4">
+                                            <div>
+                                                <p className="text-slate-500 text-[10px] font-bold uppercase tracking-wider mb-1">Full Name</p>
+                                                <p className="text-white font-medium text-sm">{viewingApp.fullName}</p>
+                                            </div>
+                                            <div>
+                                                <p className="text-slate-500 text-[10px] font-bold uppercase tracking-wider mb-1">Email Address</p>
+                                                <p className="text-white font-medium text-sm">{viewingApp.email}</p>
+                                            </div>
+                                            <div>
+                                                <p className="text-slate-500 text-[10px] font-bold uppercase tracking-wider mb-1">Phone Number</p>
+                                                <p className="text-white font-medium text-sm">{viewingApp.phone || "N/A"}</p>
+                                            </div>
+                                            <div>
+                                                <p className="text-slate-500 text-[10px] font-bold uppercase tracking-wider mb-1">Current Status</p>
+                                                <span className={`inline-block mt-0.5 px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest border ${viewingApp.status === 'Accepted' ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20' : viewingApp.status === 'Rejected' ? 'bg-rose-500/10 text-rose-400 border-rose-500/20' : 'bg-[#1e293b] text-slate-400 border-white/10'}`}>
+                                                    {viewingApp.status || 'Pending'}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Links & Attachments */}
+                                    <div className="bg-[#1e293b] rounded-2xl p-6 border border-white/5 space-y-4">
+                                        <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 border-b border-white/10 pb-2">Documents & Links</h4>
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            {viewingApp.resumeUrl && (
+                                                <a href={viewingApp.resumeUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 p-3 rounded-xl bg-[#0b1120] border border-white/5 hover:border-emerald-500/30 transition-all group">
+                                                    <FileText size={18} className="text-slate-400 group-hover:text-emerald-400" />
+                                                    <span className="text-xs font-semibold text-slate-300 group-hover:text-white">View Resume / CV</span>
+                                                    <ExternalLink size={14} className="ml-auto text-slate-500" />
+                                                </a>
+                                            )}
+                                            {viewingApp.portfolioUrl && (
+                                                <a href={viewingApp.portfolioUrl} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 p-3 rounded-xl bg-[#0b1120] border border-white/5 hover:border-emerald-500/30 transition-all group">
+                                                    <Briefcase size={18} className="text-slate-400 group-hover:text-emerald-400" />
+                                                    <span className="text-xs font-semibold text-slate-300 group-hover:text-white">Portfolio / GitHub</span>
+                                                    <ExternalLink size={14} className="ml-auto text-slate-500" />
+                                                </a>
+                                            )}
+                                            {!viewingApp.resumeUrl && !viewingApp.portfolioUrl && (
+                                                <p className="text-slate-500 text-sm italic">No external documents provided.</p>
+                                            )}
+                                        </div>
+                                    </div>
+
+                                    {/* Custom Answers */}
+                                    {viewingApp.answers && Object.keys(viewingApp.answers).length > 0 && (
+                                        <div className="bg-[#1e293b] rounded-2xl p-6 border border-white/5 space-y-4">
+                                            <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 border-b border-white/10 pb-2">Questionnaire Responses</h4>
+                                            <div className="space-y-4">
+                                                {Object.entries(viewingApp.answers).map(([key, answer], i) => {
+                                                    // Find the full question text from the associated internship, if available
+                                                    const internshipQuestions = viewingApp.internshipId?.questions || [];
+                                                    const matchedQuestion = internshipQuestions.find(q => q.id === key);
+                                                    const questionLabel = matchedQuestion ? matchedQuestion.label : key;
+
+                                                    return (
+                                                        <div key={key}>
+                                                            <p className="text-slate-400 text-xs font-bold mb-1.5">{i + 1}. {questionLabel}</p>
+                                                            <div className="bg-[#0b1120] p-4 rounded-xl border border-white/5 text-sm text-slate-300 whitespace-pre-wrap">
+                                                                {answer || <span className="text-slate-500 italic">No answer provided</span>}
+                                                            </div>
+                                                        </div>
+                                                    );
+                                                })}
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {/* Cover Letter */}
+                                    {viewingApp.coverLetter && (
+                                        <div className="bg-[#1e293b] rounded-2xl p-6 border border-white/5 space-y-4">
+                                            <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 border-b border-white/10 pb-2">Cover Letter / Additional Note</h4>
+                                            <div className="bg-[#0b1120] p-4 rounded-xl border border-white/5 text-sm text-slate-300 whitespace-pre-wrap leading-relaxed">
+                                                {viewingApp.coverLetter}
+                                            </div>
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+
+                            {/* Actions Footer */}
+                            {viewingApp.status !== 'Accepted' && viewingApp.status !== 'Rejected' && (
+                                <div className="p-6 border-t border-white/5 flex justify-end items-center gap-4 shrink-0 -mx-8 -mb-8 mt-6 bg-[#1e293b]">
+                                    <button
+                                        onClick={() => handleApplicationStatus(viewingApp._id, 'Rejected')}
+                                        className="flex-1 py-3.5 rounded-2xl bg-rose-500/10 text-rose-400 font-bold text-[10px] uppercase tracking-widest hover:text-white hover:bg-rose-500 shadow-lg shadow-rose-500/0 hover:shadow-rose-500/20 transition-all flex items-center justify-center gap-2 active:scale-95"
+                                    >
+                                        <X size={16} strokeWidth={3} />
+                                        <span>Reject Candidate</span>
+                                    </button>
+                                    <button
+                                        onClick={() => handleApplicationStatus(viewingApp._id, 'Accepted')}
+                                        className="flex-2 py-3.5 rounded-2xl bg-emerald-600/10 text-emerald-400 font-bold text-[10px] uppercase tracking-widest hover:text-white hover:bg-emerald-600 shadow-lg shadow-emerald-500/0 hover:shadow-emerald-500/20 transition-all flex items-center justify-center gap-2 active:scale-95"
+                                    >
+                                        <CheckCircle size={16} strokeWidth={3} />
+                                        <span>Accept Candidate</span>
+                                    </button>
+                                </div>
+                            )}
                         </motion.div>
                     </div>
                 )}

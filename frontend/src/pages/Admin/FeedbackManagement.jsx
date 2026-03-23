@@ -20,20 +20,20 @@ const FeedbackManagement = () => {
     const initialFormState = { name: "", role: "", message: "", rating: 5, image: "" };
     const [formData, setFormData] = useState(initialFormState);
 
-    const fetchFeedbacks = useCallback(async () => {
+    const fetchFeedbacks = useCallback(async (silent = false) => {
         try {
             const { data } = await api.get("/feedbacks");
             setFeedbacks(data || []);
         } catch {
-            toast.error("Failed to load feedback registry");
+            if (!silent) toast.error("Failed to load feedback registry");
         } finally {
             setLoading(false);
         }
     }, [toast]);
 
     useEffect(() => {
-        fetchFeedbacks();
-        const interval = setInterval(fetchFeedbacks, 15000);
+        fetchFeedbacks(false);
+        const interval = setInterval(() => fetchFeedbacks(true), 15000);
         return () => clearInterval(interval);
     }, [fetchFeedbacks]);
 
@@ -100,7 +100,7 @@ const FeedbackManagement = () => {
     return (
         <div className="space-y-6 animate-in fade-in duration-500">
             {/* Page Header */}
-            <div className="bg-[#0f172a]/40 backdrop-blur-xl p-6 rounded-3xl border border-white/5 shadow-2xl relative overflow-hidden group">
+            <div className="bg-[#0b1120]/40 backdrop-blur-xl p-6 rounded-3xl border border-white/5 shadow-2xl relative overflow-hidden group">
                 <div className="flex flex-col lg:flex-row gap-6 lg:items-center lg:justify-between relative z-10">
                     <div>
                         <div className="flex items-center gap-2 mb-1">
@@ -124,11 +124,11 @@ const FeedbackManagement = () => {
             </div>
 
             {/* Testimonials Table */}
-            <div className="bg-[#0f172a]/40 backdrop-blur-xl border border-white/5 rounded-3xl overflow-hidden shadow-2xl">
+            <div className="bg-[#0b1120]/40 backdrop-blur-xl border border-white/5 rounded-3xl overflow-hidden shadow-2xl">
                 <div className="overflow-x-auto">
                     <table className="w-full text-left border-collapse">
                         <thead>
-                            <tr className="bg-white/5 border-b border-white/10">
+                            <tr className="bg-[#1e293b] border-b border-white/10">
                                 <th className="px-8 py-4 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">Reporter Identity</th>
                                 <th className="px-8 py-4 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">Sentiment Logic</th>
                                 <th className="px-8 py-4 text-[9px] font-bold uppercase tracking-[0.2em] text-slate-400">Rating</th>
@@ -141,16 +141,16 @@ const FeedbackManagement = () => {
                                     key={f._id}
                                     initial={{ opacity: 0, y: 10 }}
                                     animate={{ opacity: 1, y: 0 }}
-                                    className="hover:bg-white/5 transition-colors group"
+                                    className="hover:bg-[#1e293b] transition-colors group"
                                 >
                                     <td className="px-8 py-4">
                                         <div className="flex items-center gap-4">
-                                            <div className="w-10 h-10 rounded-full overflow-hidden bg-white/5 border border-white/10 shrink-0 group-hover:border-emerald-500/50 transition-all">
+                                            <div className="w-10 h-10 rounded-full overflow-hidden bg-[#1e293b] border border-white/10 shrink-0 group-hover:border-emerald-500/50 transition-all">
                                                 <img src={resolveImageUrl(f.image, "/images/placeholder-avatar.jpg")} alt={f.name} className="w-full h-full object-cover" />
                                             </div>
                                             <div>
                                                 <div className="font-bold text-white text-[14px] tracking-tight">{f.name}</div>
-                                                <div className="text-[9px] text-slate-500 font-bold uppercase tracking-widest">{f.role}</div>
+                                                <div className="text-[9px] text-slate-400 font-bold uppercase tracking-widest">{f.role}</div>
                                             </div>
                                         </div>
                                     </td>
@@ -160,16 +160,16 @@ const FeedbackManagement = () => {
                                     <td className="px-8 py-4">
                                         <div className="flex items-center gap-1">
                                             {[...Array(5)].map((_, i) => (
-                                                <Star key={i} size={10} className={i < (f.rating || 5) ? "fill-emerald-400 text-emerald-400" : "text-slate-700"} />
+                                                <Star key={i} size={10} className={i < (f.rating || 5) ? "fill-emerald-400 text-emerald-400" : "text-slate-300"} />
                                             ))}
                                         </div>
                                     </td>
                                     <td className="px-8 py-4 text-right">
                                         <div className="flex justify-end gap-2.5">
-                                            <button onClick={() => openEditModal(f)} className="p-2.5 rounded-xl bg-white/5 text-slate-400 hover:text-emerald-400 hover:bg-emerald-500/10 border border-white/10 hover:border-emerald-500/20 transition-all">
+                                            <button onClick={() => openEditModal(f)} className="p-2.5 rounded-xl bg-[#1e293b] text-slate-400 hover:text-emerald-400 hover:bg-emerald-500/10 border border-white/10 hover:border-emerald-500/20 transition-all">
                                                 <Edit2 size={14} />
                                             </button>
-                                            <button onClick={() => handleDelete(f._id)} className="p-2.5 rounded-xl bg-white/5 text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 border border-white/10 hover:border-rose-500/20 transition-all">
+                                            <button onClick={() => handleDelete(f._id)} className="p-2.5 rounded-xl bg-[#1e293b] text-slate-400 hover:text-rose-400 hover:bg-rose-500/10 border border-white/10 hover:border-rose-500/20 transition-all">
                                                 <Trash2 size={14} />
                                             </button>
                                         </div>
@@ -189,18 +189,18 @@ const FeedbackManagement = () => {
                             initial={{ opacity: 0, scale: 0.95, y: 20 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 30 }}
-                            className="relative w-full max-w-xl bg-[#0f172a] border border-white/10 rounded-[2.5rem] p-6 sm:p-8 shadow-2xl flex flex-col"
+                            className="relative w-full max-w-xl bg-[#0b1120] border border-white/10 rounded-[2.5rem] p-6 sm:p-8 shadow-2xl flex flex-col"
                         >
                             <div className="flex items-start justify-between gap-6 mb-8 shrink-0">
                                 <div>
                                     <h3 className="text-2xl font-black text-white tracking-tight uppercase">
                                         {editingFeedback ? "Refine Sentiment" : "Deploy Sentiment"}
                                     </h3>
-                                    <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.3em] mt-1">Industrial Testimonial Protocol</p>
+                                    <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mt-1">Industrial Testimonial Protocol</p>
                                 </div>
                                 <button
                                     onClick={() => setIsModalOpen(false)}
-                                    className="p-3 rounded-2xl bg-white/5 hover:bg-white/10 text-slate-500 hover:text-white transition-all border border-white/10"
+                                    className="p-3 rounded-2xl bg-[#1e293b] hover:bg-white/10 text-slate-400 hover:text-white transition-all border border-white/10"
                                 >
                                     <X size={20} />
                                 </button>
@@ -209,11 +209,11 @@ const FeedbackManagement = () => {
                             <form onSubmit={handleSubmit} className="flex-1 space-y-6">
                                 <div className="flex flex-col items-center justify-center">
                                     <label className="relative group cursor-pointer">
-                                        <div className={`w-28 h-28 rounded-full border-2 border-dashed flex items-center justify-center overflow-hidden transition-all relative ${imageFile || formData.image ? 'border-emerald-500/50 bg-white/5' : 'border-white/10 bg-white/5 hover:border-emerald-500/50'}`}>
+                                        <div className={`w-28 h-28 rounded-full border-2 border-dashed flex items-center justify-center overflow-hidden transition-all relative ${imageFile || formData.image ? 'border-emerald-500/50 bg-[#1e293b]' : 'border-white/10 bg-[#1e293b] hover:border-emerald-500/50'}`}>
                                             {(imageFile || formData.image) ? (
                                                 <img src={imageFile ? URL.createObjectURL(imageFile) : resolveImageUrl(formData.image)} alt="Preview" className="w-full h-full object-cover" />
                                             ) : (
-                                                <Camera size={28} className="text-slate-500 group-hover:text-emerald-400 transition-colors" strokeWidth={1.5} />
+                                                <Camera size={28} className="text-slate-400 group-hover:text-emerald-400 transition-colors" strokeWidth={1.5} />
                                             )}
                                             {uploading && (
                                                 <div className="absolute inset-0 bg-black/60 flex items-center justify-center backdrop-blur-sm z-20">
@@ -236,7 +236,7 @@ const FeedbackManagement = () => {
                                                 required
                                                 value={formData.name}
                                                 onChange={e => setFormData({ ...formData, name: e.target.value })}
-                                                className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-600 text-sm"
+                                                className="w-full bg-[#1e293b] border border-white/10 rounded-2xl p-4 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-400 text-sm"
                                             />
                                         </div>
                                         <div className="space-y-1.5">
@@ -245,7 +245,7 @@ const FeedbackManagement = () => {
                                                 required
                                                 value={formData.role}
                                                 onChange={e => setFormData({ ...formData, role: e.target.value })}
-                                                className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all text-sm"
+                                                className="w-full bg-[#1e293b] border border-white/10 rounded-2xl p-4 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all text-sm"
                                             />
                                         </div>
                                     </div>
@@ -257,16 +257,16 @@ const FeedbackManagement = () => {
                                             rows={3}
                                             value={formData.message}
                                             onChange={e => setFormData({ ...formData, message: e.target.value })}
-                                            className="w-full bg-white/5 border border-white/10 rounded-2xl p-4 text-slate-300 font-medium focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all leading-relaxed text-xs"
+                                            className="w-full bg-[#1e293b] border border-white/10 rounded-2xl p-4 text-slate-300 font-medium focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all leading-relaxed text-xs"
                                         />
                                     </div>
                                 </div>
 
-                                <div className="p-6 border-t border-white/5 flex justify-end items-center gap-4 shrink-0 -mx-8 -mb-8 mt-6 bg-white/5">
+                                <div className="p-6 border-t border-white/5 flex justify-end items-center gap-4 shrink-0 -mx-8 -mb-8 mt-6 bg-[#1e293b]">
                                     <button
                                         type="button"
                                         onClick={() => setIsModalOpen(false)}
-                                        className="flex-1 py-3.5 rounded-2xl bg-white/5 text-slate-400 font-bold text-[10px] uppercase tracking-widest hover:text-white hover:bg-white/10 border border-white/10 transition-all"
+                                        className="flex-1 py-3.5 rounded-2xl bg-[#1e293b] text-slate-400 font-bold text-[10px] uppercase tracking-widest hover:text-white hover:bg-white/10 border border-white/10 transition-all"
                                     >
                                         Dismiss
                                     </button>
