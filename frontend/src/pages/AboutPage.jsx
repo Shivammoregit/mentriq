@@ -49,6 +49,7 @@ const AboutPage = () => {
   }, []);
 
   const [statsData, setStatsData] = useState(null)
+  const [statsLoading, setStatsLoading] = useState(true)
 
   useEffect(() => {
     const fetchStats = async () => {
@@ -57,6 +58,8 @@ const AboutPage = () => {
         setStatsData(data)
       } catch (error) {
         console.error("Failed to fetch global stats:", error)
+      } finally {
+        setStatsLoading(false)
       }
     }
     fetchStats()
@@ -149,7 +152,11 @@ const AboutPage = () => {
                   <div className={`inline-flex items-center justify-center w-14 h-14 mb-5 bg-gradient-to-br ${stat.color} rounded-2xl text-white shadow-lg transition-all duration-500 group-hover:rotate-6 group-hover:scale-110`}>
                     <Icon className="w-7 h-7" strokeWidth={2.5} />
                   </div>
-                  <div className="text-3xl font-black text-white mb-1 tracking-tight font-display">{stat.number}</div>
+                  {statsLoading ? (
+                    <div className="h-9 w-20 bg-slate-700/50 rounded-lg animate-pulse mx-auto mb-1"></div>
+                  ) : (
+                    <div className="text-3xl font-black text-white mb-1 tracking-tight font-display">{stat.number}</div>
+                  )}
                   <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{stat.label}</div>
 
                   {/* Subtle hover background animation */}

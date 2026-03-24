@@ -4,12 +4,8 @@ import { Target, Users, BookOpen, TrendingUp, ShieldCheck, CheckCircle2 } from '
 import { apiClient as api } from '../../utils/apiClient';
 
 const MissionAndImpact = () => {
-    const [impactData, setImpactData] = useState({
-        studentsCount: "16K+",
-        coursesCount: "50+",
-        placementRate: "98%",
-        expertTrainersCount: "60+"
-    });
+    const [impactData, setImpactData] = useState(null);
+    const [impactLoading, setImpactLoading] = useState(true);
 
     useEffect(() => {
         const fetchStats = async () => {
@@ -25,6 +21,8 @@ const MissionAndImpact = () => {
                 }
             } catch (error) {
                 console.error("Failed to fetch impact stats:", error);
+            } finally {
+                setImpactLoading(false);
             }
         };
         fetchStats();
@@ -85,7 +83,11 @@ const MissionAndImpact = () => {
                                 <div className="text-indigo-600 mb-2">
                                     <TrendingUp strokeWidth={2.5} size={24} />
                                 </div>
-                                <h4 className="text-3xl font-black text-slate-900 mb-1 tracking-tighter">{impactData.placementRate}</h4>
+                                {impactLoading ? (
+                                    <div className="h-9 w-16 bg-slate-200 rounded-lg animate-pulse mb-1"></div>
+                                ) : (
+                                    <h4 className="text-3xl font-black text-slate-900 mb-1 tracking-tighter">{impactData?.placementRate || "98%"}</h4>
+                                )}
                                 <p className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-500 leading-tight">Career Placement Success Rate</p>
                             </motion.div>
                         </div>
@@ -154,10 +156,10 @@ const MissionAndImpact = () => {
                         className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6"
                     >
                         {[
-                            { title: "Students Trained", value: impactData.studentsCount, icon: Users, color: "text-indigo-600", bg: "bg-indigo-600" },
-                            { title: "Live Courses", value: impactData.coursesCount, icon: BookOpen, color: "text-cyan-600", bg: "bg-cyan-600" },
-                            { title: "Placement Rate", value: impactData.placementRate, icon: Target, color: "text-purple-600", bg: "bg-purple-600" },
-                            { title: "Expert Trainers", value: impactData.expertTrainersCount, icon: ShieldCheck, color: "text-blue-600", bg: "bg-blue-600" }
+                            { title: "Students Trained", value: impactData?.studentsCount || "16K+", icon: Users, color: "text-indigo-600", bg: "bg-indigo-600" },
+                            { title: "Live Courses", value: impactData?.coursesCount || "50+", icon: BookOpen, color: "text-cyan-600", bg: "bg-cyan-600" },
+                            { title: "Placement Rate", value: impactData?.placementRate || "98%", icon: Target, color: "text-purple-600", bg: "bg-purple-600" },
+                            { title: "Expert Trainers", value: impactData?.expertTrainersCount || "60+", icon: ShieldCheck, color: "text-blue-600", bg: "bg-blue-600" }
                         ].map((stat, idx) => (
                             <motion.div 
                                 key={idx}
@@ -168,9 +170,13 @@ const MissionAndImpact = () => {
                                 <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-white ${stat.bg} mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg`} style={{ boxShadow: `0 8px 24px rgba(0,0,0,0.15)` }}>
                                     <stat.icon size={24} />
                                 </div>
-                                <h4 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tighter mb-1">
-                                    {stat.value}
-                                </h4>
+                                {impactLoading ? (
+                                    <div className="h-10 w-20 bg-slate-200 rounded-lg animate-pulse mb-1"></div>
+                                ) : (
+                                    <h4 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tighter mb-1">
+                                        {stat.value}
+                                    </h4>
+                                )}
                                 <p className="text-[9px] md:text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">
                                     {stat.title}
                                 </p>
