@@ -20,6 +20,8 @@ const CitySection = lazy(() => import('../components/home/CitySection'))
 const PartnersSection = lazy(() => import('../components/home/PartnersSection'))
 const TechnologiesSection = lazy(() => import('../components/home/TechnologiesSection'))
 const GlobeElement = lazy(() => import('../components/home/GlobeElement'))
+const MissionAndImpact = lazy(() => import('../components/home/MissionAndImpact'))
+const StudentImpact = lazy(() => import('../components/home/StudentImpact'))
 
 const SectionPlaceholder = ({ minHeight }) => (
     <div
@@ -48,106 +50,129 @@ const HomePage = () => {
 
     return (
         <>
-            <section className="relative min-h-screen flex items-center bg-slate-50 overflow-hidden pt-20">
-                {/* Advanced Atmospheric Background */}
-                <div className="absolute inset-0 pointer-events-none">
+            <section className="relative min-h-screen flex items-center overflow-hidden pt-20" style={{ background: 'linear-gradient(135deg, #f0f4ff 0%, #e8ecff 30%, #f5f0ff 60%, #eef2ff 100%)' }}>
+                {/* Background blobs */}
+                <div className="absolute inset-0 pointer-events-none overflow-hidden">
                     <motion.div
-                        animate={reduceMotion ? undefined : {
-                            x: [0, 80, 0],
-                            y: [0, 40, 0],
-                            scale: [1, 1.2, 1]
-                        }}
+                        animate={reduceMotion ? undefined : { x: [0, 80, 0], y: [0, 40, 0], scale: [1, 1.2, 1] }}
                         transition={reduceMotion ? undefined : { duration: 20, repeat: Infinity, ease: "linear" }}
-                        className="absolute -top-[10%] left-1/4 w-[600px] h-[600px] bg-indigo-600/20 rounded-full blur-[140px] animate-pulse"
+                        className="absolute -top-[10%] -left-[5%] w-[700px] h-[700px] rounded-full"
+                        style={{ background: 'radial-gradient(circle, rgba(99,102,241,0.18) 0%, transparent 70%)' }}
                     />
                     <motion.div
-                        animate={reduceMotion ? undefined : {
-                            x: [0, -60, 0],
-                            y: [0, 70, 0],
-                            scale: [1, 1.3, 1]
-                        }}
+                        animate={reduceMotion ? undefined : { x: [0, -60, 0], y: [0, 70, 0], scale: [1, 1.3, 1] }}
                         transition={reduceMotion ? undefined : { duration: 25, repeat: Infinity, ease: "linear" }}
-                        className="absolute -bottom-[10%] right-1/4 w-[600px] h-[600px] bg-cyan-500/10 rounded-full blur-[140px]"
+                        className="absolute -bottom-[10%] right-[10%] w-[600px] h-[600px] rounded-full"
+                        style={{ background: 'radial-gradient(circle, rgba(34,211,238,0.12) 0%, transparent 70%)' }}
                     />
-
-                    {/* Technical Grid Overlay */}
-                    <div className="absolute inset-0 opacity-[0.03] bg-[linear-gradient(#ffffff_1px,transparent_1px),linear-gradient(90deg,#ffffff_1px,transparent_1px)] bg-[length:40px_40px]" />
+                    <motion.div
+                        animate={reduceMotion ? undefined : { x: [0, 50, 0], y: [0, -30, 0] }}
+                        transition={reduceMotion ? undefined : { duration: 18, repeat: Infinity, ease: "linear" }}
+                        className="absolute top-[20%] right-[5%] w-[400px] h-[400px] rounded-full"
+                        style={{ background: 'radial-gradient(circle, rgba(139,92,246,0.1) 0%, transparent 70%)' }}
+                    />
                 </div>
 
-                <div className="relative max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center z-10 w-full">
+                <div className="relative max-w-7xl mx-auto px-6 lg:px-16 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center z-10 w-full py-16">
                     {/* Left: Content */}
                     <motion.div
                         initial={{ opacity: 0, x: -50 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.8 }}
                     >
+                        {/* Badge */}
                         <motion.div
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
-                            className="inline-flex items-center space-x-2 mb-8 px-5 py-2 rounded-full bg-slate-100 border border-slate-200 backdrop-blur-md shadow-lg shadow-black/20"
+                            transition={{ delay: 0.1 }}
+                            className="inline-flex items-center gap-2.5 mb-8 px-5 py-2.5 rounded-full bg-white/80 border border-white/60 backdrop-blur-md shadow-sm"
                         >
-                            <span className="w-1.5 h-1.5 bg-indigo-400 rounded-full animate-ping"></span>
-                            <span className="text-[10px] font-black uppercase tracking-[0.3em] text-indigo-300">Intelligent Learning Ecosystem</span>
+                            <Sparkles className="w-3.5 h-3.5 text-indigo-500" />
+                            <span className="text-[10px] font-black uppercase tracking-[0.25em] text-indigo-600">The Future of Intelligence</span>
                         </motion.div>
 
-                        <h1 className="text-5xl md:text-7xl lg:text-8xl font-black mb-8 tracking-tighter uppercase font-display leading-[0.85] text-slate-900">
-                            ARCHITECTING <br />
-                            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-cyan-400">
-                                TECHNICAL ELITE.
+                        {/* Headline */}
+                        <motion.h1
+                            initial={{ opacity: 0, y: 30 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.2, duration: 0.8 }}
+                            className="text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter uppercase font-display leading-[0.9] mb-8"
+                            style={{ color: '#0f172a' }}
+                        >
+                            REWIRE YOUR
+                            <br />
+                            <span style={{ background: 'linear-gradient(90deg, #4f46e5, #7c3aed, #06b6d4)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
+                                POTENTIAL.
                             </span>
-                        </h1>
+                        </motion.h1>
 
-                        <p className="text-sm md:text-lg max-w-xl mb-12 text-slate-600 leading-relaxed font-medium opacity-80">
-                            MentriQ is not just a platform; it's a structural upgrade for your career.
-                            Deploying industry-standard protocols, we build the workforce of <span className="text-slate-900 font-bold">2030</span>.
-                        </p>
+                        {/* Subtext */}
+                        <motion.p
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.4 }}
+                            className="text-base md:text-lg max-w-lg mb-12 leading-relaxed font-medium"
+                            style={{ color: '#475569' }}
+                        >
+                            MentriQ is where precision meets innovation. Master the core of
+                            modern technology with industry-first curriculums and elite mentorship.
+                        </motion.p>
 
-                        <div className="flex flex-wrap gap-5">
+                        {/* CTAs */}
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ delay: 0.55 }}
+                            className="flex flex-wrap gap-4"
+                        >
                             <motion.button
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.98 }}
+                                whileHover={{ scale: 1.04 }}
+                                whileTap={{ scale: 0.97 }}
                                 onClick={() => navigate("/courses")}
-                                className="px-10 py-5 bg-indigo-600 text-white font-black rounded-2xl shadow-2xl shadow-indigo-600/30 flex items-center gap-3 group uppercase tracking-widest text-sm"
+                                className="px-10 py-5 rounded-2xl font-black flex items-center gap-3 uppercase tracking-widest text-sm text-white shadow-xl"
+                                style={{ background: 'linear-gradient(135deg, #4f46e5, #6d28d9)', boxShadow: '0 8px 32px rgba(79,70,229,0.35)' }}
                             >
-                                Explore Modules
-                                <ChevronRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                                Start Learning
+                                <ChevronRight className="w-5 h-5 transition-transform" />
                             </motion.button>
 
                             <motion.button
-                                whileHover={{ scale: 1.05, background: 'rgba(255,255,255,0.05)' }}
-                                whileTap={{ scale: 0.98 }}
+                                whileHover={{ scale: 1.04 }}
+                                whileTap={{ scale: 0.97 }}
                                 onClick={() => navigate("/training")}
-                                className="px-10 py-5 bg-slate-100 backdrop-blur-md border border-slate-200 text-slate-900 font-black rounded-2xl shadow-xl hover:border-slate-300 transition-all uppercase tracking-widest text-sm"
+                                className="px-10 py-5 rounded-2xl font-black uppercase tracking-widest text-sm border transition-all"
+                                style={{ color: '#1e293b', background: 'rgba(255,255,255,0.8)', borderColor: 'rgba(148,163,184,0.4)', backdropFilter: 'blur(12px)' }}
                             >
-                                Admissions
+                                Get a Consultation
                             </motion.button>
-                        </div>
+                        </motion.div>
 
-                        {/* Social Verification */}
-                        <div className="mt-16 pt-8 border-t border-slate-100 flex items-center gap-8 opacity-40 hover:opacity-100 transition-all">
-                            <div className="text-[10px] font-black uppercase tracking-widest text-slate-600">
-                                Trusted by <span className="text-slate-900">{statsData?.students || '16,000+'}</span> Industry Professionals
+                        {/* Social proof */}
+                        <motion.div
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            transition={{ delay: 0.8 }}
+                            className="mt-14 pt-8 flex items-center gap-8"
+                            style={{ borderTop: '1px solid rgba(148,163,184,0.2)' }}
+                        >
+                            <div className="text-[10px] font-black uppercase tracking-widest" style={{ color: '#64748b' }}>
+                                Trusted by <span style={{ color: '#1e293b' }}>{statsData?.students || '16,000+'}</span> industry professionals
                             </div>
-                        </div>
+                        </motion.div>
                     </motion.div>
 
-                    {/* Right: Abstract Technical Visualization */}
+                    {/* Right: Globe */}
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.8 }}
+                        initial={{ opacity: 0, scale: 0.85 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 1 }}
-                        className="relative hidden lg:block"
+                        transition={{ duration: 1.1 }}
+                        className="relative hidden lg:flex items-center justify-center"
                     >
-                        <div className="relative w-full h-[600px] flex items-center justify-center mt-10 lg:mt-0">
-                            {/* Glow Effects behind the robot */}
-                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[450px] h-[450px] bg-indigo-500/10 rounded-full blur-[100px] pointer-events-none" />
-                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] bg-cyan-400/10 rounded-full blur-[80px] pointer-events-none" />
-
-                            {/* 3D Revolving Globe Component */}
+                        <div className="relative w-full h-[600px] flex items-center justify-center">
+                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[480px] h-[480px] rounded-full pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%)' }} />
+                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[360px] h-[360px] rounded-full pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(34,211,238,0.08) 0%, transparent 70%)' }} />
                             <div className="relative z-20 w-full h-full flex items-center justify-center p-8">
-                                <Suspense fallback={
-                                    <div className="w-[400px] h-[400px] rounded-full border border-indigo-500/20 animate-pulse bg-white/5" />
-                                }>
+                                <Suspense fallback={<div className="w-[400px] h-[400px] rounded-full border border-indigo-300/30 animate-pulse" />}>
                                     <GlobeElement />
                                 </Suspense>
                             </div>
@@ -155,6 +180,24 @@ const HomePage = () => {
                     </motion.div>
                 </div>
             </section>
+
+            {/* Mission & Impact Section */}
+            <DeferredSection minHeight="600px">
+                <Suspense fallback={<SectionPlaceholder minHeight="600px" />}>
+                    <SectionErrorBoundary>
+                        <MissionAndImpact />
+                    </SectionErrorBoundary>
+                </Suspense>
+            </DeferredSection>
+
+            {/* Student Impact / Testimonials */}
+            <DeferredSection minHeight="480px">
+                <Suspense fallback={<SectionPlaceholder minHeight="480px" />}>
+                    <SectionErrorBoundary>
+                        <StudentImpact />
+                    </SectionErrorBoundary>
+                </Suspense>
+            </DeferredSection>
 
             {/* Services Section */}
             <DeferredSection minHeight="420px">

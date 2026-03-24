@@ -16,7 +16,17 @@ const settingsSchema = new mongoose.Schema({
         isActive: { type: Boolean, default: false },
         discountPercentage: { type: Number, default: 0 },
         endDate: { type: Date, default: null },
-        title: { type: String, trim: true, default: "Special Discount!" }
+        title: { type: String, trim: true, default: "Special Discount!" },
+        appliesTo: {
+            courses: { type: Boolean, default: true },
+            internships: { type: Boolean, default: false }
+        }
+    },
+    internshipPromo: {
+        isActive: { type: Boolean, default: false },
+        discountPercentage: { type: Number, default: 0 },
+        endDate: { type: Date, default: null },
+        title: { type: String, trim: true, default: "Internship Discount!" }
     },
     updatedBy: { type: mongoose.Schema.Types.ObjectId, ref: "User" }
 }, { timestamps: true });

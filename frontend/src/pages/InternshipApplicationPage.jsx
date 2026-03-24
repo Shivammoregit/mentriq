@@ -20,6 +20,7 @@ const InternshipApplicationPage = () => {
     });
     const [loading, setLoading] = useState(true);
     const [submitting, setSubmitting] = useState(false);
+    const [promo, setPromo] = useState(null);
 
     useEffect(() => {
         const fetchInternship = async () => {
@@ -55,7 +56,18 @@ const InternshipApplicationPage = () => {
                 setLoading(false);
             }
         };
+        const fetchPromo = async () => {
+            try {
+                const { data } = await api.get('/settings');
+                if (data?.internshipPromo?.isActive && new Date(data.internshipPromo.endDate) > new Date()) {
+                    setPromo(data.internshipPromo);
+                }
+            } catch (error) {
+                console.error("Failed to fetch promo:", error);
+            }
+        };
         fetchInternship();
+        fetchPromo();
     }, [internshipId, navigate, toast]);
 
     const handleResponseChange = (questionId, value) => {
@@ -162,15 +174,46 @@ const InternshipApplicationPage = () => {
                         </div>
                     </div>
 
-                    <div className="mt-8 relative z-10">
-                        <div className="flex items-center gap-3 mb-2">
-                            <Shield className="text-emerald-400" size={20} />
-                            <span className="font-bold text-xs text-gray-300 uppercase tracking-widest">Admissions Active</span>
+                        {internship.price > 0 && (
+                            <div className="mt-8 bg-slate-900 border border-slate-700 rounded-3xl p-6 text-center transform hover:scale-[1.02] transition-transform">
+                                <h3 className="text-[10px] font-black uppercase tracking-[0.2em] text-cyan-400 mb-2">Program Investment</h3>
+                                {promo ? (
+                                    <>
+                                        <div className="flex items-center justify-center gap-3">
+                                            <span className="text-xl font-bold text-gray-500 line-through decoration-rose-500/50">₹{internship.price}</span>
+                                            <span className="text-3xl font-black text-white">₹{Math.floor(internship.price - (internship.price * promo.discountPercentage / 100))}</span>
+                                        </div>
+                                        <div className="mt-2 inline-flex items-center gap-1.5 bg-emerald-500/10 text-emerald-400 px-3 py-1 rounded-full border border-emerald-500/20 text-[10px] font-black uppercase tracking-widest">
+                                            <CheckCircle size={10} />
+                                            {promo.discountPercentage}% {promo.title} Applied
+                                        </div>
+                                    </>
+                                ) : internship.discount > 0 ? (
+                                    <>
+                                        <div className="flex items-center justify-center gap-3">
+                                            <span className="text-xl font-bold text-gray-500 line-through decoration-rose-500/50">₹{internship.price}</span>
+                                            <span className="text-3xl font-black text-white">₹{Math.floor(internship.price - (internship.price * internship.discount / 100))}</span>
+                                        </div>
+                                        <div className="mt-2 inline-flex items-center gap-1.5 bg-emerald-500/10 text-emerald-400 px-3 py-1 rounded-full border border-emerald-500/20 text-[10px] font-black uppercase tracking-widest">
+                                            <CheckCircle size={10} />
+                                            {internship.discount}% Discount Applied
+                                        </div>
+                                    </>
+                                ) : (
+                                    <div className="text-3xl font-black text-white">₹{internship.price}</div>
+                                )}
+                            </div>
+                        )}
+
+                        <div className="mt-8 relative z-10">
+                            <div className="flex items-center gap-3 mb-2">
+                                <Shield className="text-emerald-400" size={20} />
+                                <span className="font-bold text-xs text-gray-300 uppercase tracking-widest">Admissions Active</span>
+                            </div>
+                            <p className="text-[10px] text-gray-500 leading-relaxed uppercase font-bold tracking-tighter">
+                                Applications are reviewed on a rolling basis. Ensure all details are accurate.
+                            </p>
                         </div>
-                        <p className="text-[10px] text-gray-500 leading-relaxed uppercase font-bold tracking-tighter">
-                            Applications are reviewed on a rolling basis. Ensure all details are accurate.
-                        </p>
-                    </div>
                 </div>
 
                 {/* Right Side: Form */}

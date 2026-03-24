@@ -10,6 +10,7 @@ const internshipSchema = new mongoose.Schema(
         responsibilities: { type: String },
         duration: { type: String },
         price: { type: Number, default: 0 },
+        discount: { type: Number, default: 0 },
         location: { type: String },
         type: {
             type: String,

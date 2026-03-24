@@ -48,7 +48,20 @@ const updateSettings = async (req, res) => {
                 isActive: req.body.promo.isActive !== undefined ? req.body.promo.isActive : settings.promo.isActive,
                 discountPercentage: req.body.promo.discountPercentage !== undefined ? req.body.promo.discountPercentage : settings.promo.discountPercentage,
                 endDate: req.body.promo.endDate !== undefined ? req.body.promo.endDate : settings.promo.endDate,
-                title: req.body.promo.title !== undefined ? req.body.promo.title : settings.promo.title
+                title: req.body.promo.title !== undefined ? req.body.promo.title : settings.promo.title,
+                appliesTo: {
+                    courses: req.body.promo.appliesTo?.courses !== undefined ? req.body.promo.appliesTo.courses : settings.promo.appliesTo?.courses,
+                    internships: req.body.promo.appliesTo?.internships !== undefined ? req.body.promo.appliesTo.internships : settings.promo.appliesTo?.internships
+                }
+            };
+        }
+
+        if (req.body.internshipPromo) {
+            settings.internshipPromo = {
+                isActive: req.body.internshipPromo.isActive !== undefined ? req.body.internshipPromo.isActive : settings.internshipPromo?.isActive,
+                discountPercentage: req.body.internshipPromo.discountPercentage !== undefined ? req.body.internshipPromo.discountPercentage : settings.internshipPromo?.discountPercentage,
+                endDate: req.body.internshipPromo.endDate !== undefined ? req.body.internshipPromo.endDate : settings.internshipPromo?.endDate,
+                title: req.body.internshipPromo.title !== undefined ? req.body.internshipPromo.title : settings.internshipPromo?.title
             };
         }
 

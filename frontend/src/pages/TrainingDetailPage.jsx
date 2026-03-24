@@ -25,6 +25,7 @@ const TrainingDetailPage = () => {
     const [course, setCourse] = useState(null)
     const [loading, setLoading] = useState(true)
     const [enrolled, setEnrolled] = useState(false)
+    const [promo, setPromo] = useState(null)
 
     useEffect(() => {
         const fetchData = async () => {
@@ -46,7 +47,19 @@ const TrainingDetailPage = () => {
             }
         }
 
+        const fetchPromo = async () => {
+            try {
+                const { data } = await apiClient.get('/settings');
+                if (data?.promo?.isActive && new Date(data.promo.endDate) > new Date() && data.promo.appliesTo?.courses !== false) {
+                    setPromo(data.promo);
+                }
+            } catch (err) {
+                console.error(err)
+            }
+        }
+
         fetchData()
+        fetchPromo()
     }, [id, isAuthenticated])
 
     const handleEnroll = () => {
@@ -322,6 +335,37 @@ const TrainingDetailPage = () => {
                                 </ul>
 
                                 <div className="mt-8 pt-8 border-t border-gray-100">
+                                    {course.price > 0 && (
+                                        <div className="mb-6 p-6 rounded-2xl bg-slate-50 border border-slate-100 text-center">
+                                            <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400 mb-2 block">Value Investment</span>
+                                            {promo ? (
+                                                <>
+                                                    <div className="flex items-center justify-center gap-3">
+                                                        <span className="text-xl font-bold text-slate-400 line-through decoration-rose-500/50">₹{course.price}</span>
+                                                        <span className="text-3xl font-black text-indigo-600">₹{Math.floor(course.price - (course.price * promo.discountPercentage / 100))}</span>
+                                                    </div>
+                                                    <div className="mt-2 inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-600 px-3 py-1 rounded-full border border-emerald-100 text-[10px] font-black uppercase tracking-widest">
+                                                        <CheckCircle size={10} />
+                                                        {promo.discountPercentage}% {promo.title} Applied
+                                                    </div>
+                                                </>
+                                            ) : course.discount > 0 ? (
+                                                <>
+                                                    <div className="flex items-center justify-center gap-3">
+                                                        <span className="text-xl font-bold text-slate-400 line-through decoration-rose-500/50">₹{course.price}</span>
+                                                        <span className="text-3xl font-black text-indigo-600">₹{Math.floor(course.price - (course.price * course.discount / 100))}</span>
+                                                    </div>
+                                                    <div className="mt-2 inline-flex items-center gap-1.5 bg-emerald-50 text-emerald-600 px-3 py-1 rounded-full border border-emerald-100 text-[10px] font-black uppercase tracking-widest">
+                                                        <CheckCircle size={10} />
+                                                        {course.discount}% Discount Applied
+                                                    </div>
+                                                </>
+                                            ) : (
+                                                <div className="text-3xl font-black text-indigo-600">₹{course.price}</div>
+                                            )}
+                                        </div>
+                                    )}
+
                                     <button
                                         onClick={handleEnroll}
                                         disabled={enrolled}

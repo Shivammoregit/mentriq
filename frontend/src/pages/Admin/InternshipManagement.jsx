@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { apiClient as api } from "../../utils/apiClient";
-import { Plus, Edit2, Trash2, Briefcase, FileText, Check, X, Calendar, ChevronDown, CheckCircle, Clock, MapPin, Building2, ExternalLink, Eye } from "lucide-react";
+import { Plus, Edit2, Trash2, Briefcase, FileText, Check, X, Calendar, ChevronDown, CheckCircle, Clock, MapPin, Building2, ExternalLink, Eye, Tag, Percent, Loader2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useToast } from "../../context/ToastContext";
 
@@ -14,6 +14,15 @@ const InternshipManagement = () => {
     const [viewingApp, setViewingApp] = useState(null);
     const toast = useToast();
 
+    const [isDiscountModalOpen, setIsDiscountModalOpen] = useState(false);
+    const [discountLoading, setDiscountLoading] = useState(false);
+    const [discountData, setDiscountData] = useState({
+        isActive: false,
+        discountPercentage: 0,
+        endDate: "",
+        title: "Limited Time Offer"
+    });
+
     const initialFormState = {
         title: "",
         company: "MentriQ Technology",
@@ -22,7 +31,9 @@ const InternshipManagement = () => {
         description: "",
         requirements: "",
         questions: "",
-        duration: ""
+        duration: "",
+        price: "",
+        discount: ""
     };
     const [formData, setFormData] = useState(initialFormState);
 
@@ -54,6 +65,8 @@ const InternshipManagement = () => {
         try {
             const payload = {
                 ...formData,
+                price: Number(formData.price) || 0,
+                discount: Number(formData.discount) || 0,
                 requirements: typeof formData.requirements === 'string'
                     ? formData.requirements.trim()
                     : formData.requirements,
@@ -111,6 +124,38 @@ const InternshipManagement = () => {
         }
     };
 
+    const handleOpenDiscountModal = async () => {
+        setIsDiscountModalOpen(true);
+        try {
+            const { data } = await api.get('/settings');
+            if (data?.internshipPromo) {
+                setDiscountData({
+                   isActive: data.internshipPromo.isActive || false,
+                   discountPercentage: data.internshipPromo.discountPercentage || 0,
+                   endDate: data.internshipPromo.endDate ? data.internshipPromo.endDate.split('T')[0] : "",
+                   title: data.internshipPromo.title || "Limited Time Offer"
+                });
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    };
+
+    const handleSaveDiscount = async (e) => {
+        e.preventDefault();
+        setDiscountLoading(true);
+        try {
+            await api.put('/settings', { internshipPromo: discountData });
+            toast.success("Universal discount updated successfully!");
+            setIsDiscountModalOpen(false);
+            fetchData(); // refresh
+        } catch(error) {
+            toast.error("Failed to update discount");
+        } finally {
+            setDiscountLoading(false);
+        }
+    };
+
     const openEditModal = (internship) => {
         setEditingInternship(internship);
         setFormData({
@@ -140,6 +185,13 @@ const InternshipManagement = () => {
                     </div>
 
                     <div className="flex gap-4">
+                        <button
+                            onClick={handleOpenDiscountModal}
+                            className="bg-emerald-600/20 text-emerald-400 hover:bg-emerald-500/30 border border-emerald-500/30 px-5 py-2.5 rounded-xl font-bold flex items-center justify-center gap-2 transition-all active:scale-95 text-[10px] uppercase tracking-widest whitespace-nowrap"
+                        >
+                            <Tag size={14} />
+                            <span>Global Discount</span>
+                        </button>
                         <button
                             onClick={() => { setEditingInternship(null); setFormData(initialFormState); setIsModalOpen(true); }}
                             className="bg-emerald-600 text-white hover:bg-emerald-500 px-6 py-2.5 rounded-xl font-bold flex items-center gap-2 transition-all active:scale-95 shadow-lg shadow-emerald-500/20 text-[10px] uppercase tracking-widest justify-center"
@@ -333,7 +385,7 @@ const InternshipManagement = () => {
                                         </div>
                                     </div>
 
-                                    <div className="grid grid-cols-3 gap-6">
+                                    <div className="grid grid-cols-2 gap-6 lg:grid-cols-4">
                                         <div className="space-y-2">
                                             <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Operational Zone</label>
                                             <input
@@ -349,6 +401,26 @@ const InternshipManagement = () => {
                                                 onChange={e => setFormData({ ...formData, duration: e.target.value })}
                                                 className="w-full bg-[#1e293b] border border-white/10 rounded-2xl p-4 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all text-sm"
                                                 placeholder="e.g. 6 Months"
+                                            />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Price (₹)</label>
+                                            <input
+                                                type="number"
+                                                value={formData.price}
+                                                onChange={e => setFormData({ ...formData, price: e.target.value })}
+                                                className="w-full bg-[#1e293b] border border-white/10 rounded-2xl p-4 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all text-sm"
+                                                placeholder="e.g. 5000"
+                                            />
+                                        </div>
+                                        <div className="space-y-2">
+                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Discount (%)</label>
+                                            <input
+                                                type="number"
+                                                value={formData.discount}
+                                                onChange={e => setFormData({ ...formData, discount: e.target.value })}
+                                                className="w-full bg-[#1e293b] border border-white/10 rounded-2xl p-4 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all text-sm"
+                                                placeholder="e.g. 10"
                                             />
                                         </div>
                                         <div className="space-y-2">
@@ -544,6 +616,99 @@ const InternshipManagement = () => {
                                     </button>
                                 </div>
                             )}
+                        </motion.div>
+                    </div>
+                )}
+            </AnimatePresence>
+            {/* Universal Discount Modal */}
+            <AnimatePresence>
+                {isDiscountModalOpen && (
+                    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-xl">
+                        <div className="absolute inset-0" onClick={() => !discountLoading && setIsDiscountModalOpen(false)} />
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.95, y: 30 }}
+                            animate={{ opacity: 1, scale: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.95, y: 30 }}
+                            className="relative w-full max-w-md bg-[#0b1120] border border-emerald-500/30 rounded-[2.5rem] p-8 shadow-2xl overflow-hidden"
+                        >
+                            <div className="absolute -top-[20%] -right-[20%] w-[50%] h-[50%] bg-emerald-500/10 blur-[60px] rounded-full pointer-events-none" />
+                            
+                            <div className="flex items-center justify-between gap-4 mb-8">
+                                <div className="flex items-center gap-3 relative z-10">
+                                    <div className="p-3 bg-emerald-500/10 rounded-2xl border border-emerald-500/20 text-emerald-400">
+                                        <Tag size={24} />
+                                    </div>
+                                    <div>
+                                        <h3 className="text-xl font-black text-white tracking-tight">Global Discount</h3>
+                                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mt-1">Universal Price Override</p>
+                                    </div>
+                                </div>
+                                <button
+                                    onClick={() => !discountLoading && setIsDiscountModalOpen(false)}
+                                    className="w-10 h-10 rounded-xl bg-[#1e293b] hover:bg-white/10 text-slate-400 transition-all flex items-center justify-center relative z-10"
+                                >
+                                    <X size={20} />
+                                </button>
+                            </div>
+
+                            <form onSubmit={handleSaveDiscount} className="space-y-6 relative z-10">
+                                <div className="flex items-center gap-4 bg-[#1e293b] p-4 rounded-2xl border border-white/5">
+                                    <input
+                                        type="checkbox"
+                                        id="isActive"
+                                        checked={discountData.isActive}
+                                        onChange={(e) => setDiscountData({ ...discountData, isActive: e.target.checked })}
+                                        className="w-5 h-5 rounded border-slate-600 text-emerald-500 focus:ring-emerald-500/50 bg-[#0b1120]"
+                                    />
+                                    <label htmlFor="isActive" className="text-sm font-bold text-white tracking-tight cursor-pointer">
+                                        Enable Platform-wide Discount
+                                    </label>
+                                </div>
+
+                                {discountData.isActive && (
+                                    <motion.div initial={{ opacity: 0, height: 0 }} animate={{ opacity: 1, height: 'auto' }} className="space-y-4">
+                                        <div className="space-y-2">
+                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Discount %</label>
+                                            <div className="relative group">
+                                                <Percent size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-emerald-400 transition-colors" />
+                                                <input
+                                                    type="number"
+                                                    required
+                                                    min="1"
+                                                    max="100"
+                                                    value={discountData.discountPercentage}
+                                                    onChange={(e) => setDiscountData({ ...discountData, discountPercentage: parseInt(e.target.value) || 0 })}
+                                                    className="w-full bg-[#1e293b] border border-white/10 rounded-xl p-4 pl-12 text-white font-bold focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all"
+                                                />
+                                            </div>
+                                        </div>
+
+                                        <div className="space-y-2">
+                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">End Date</label>
+                                            <div className="relative group">
+                                                <Calendar size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-emerald-400 transition-colors" />
+                                                <input
+                                                    type="date"
+                                                    required
+                                                    min={new Date().toISOString().split('T')[0]}
+                                                    value={discountData.endDate}
+                                                    onChange={(e) => setDiscountData({ ...discountData, endDate: e.target.value })}
+                                                    className="w-full bg-[#1e293b] border border-white/10 rounded-xl p-4 pl-12 text-white font-bold focus:outline-none focus:ring-2 focus:ring-emerald-500/50 transition-all [color-scheme:dark]"
+                                                />
+                                            </div>
+                                        </div>
+                                    </motion.div>
+                                )}
+
+                                <button
+                                    type="submit"
+                                    disabled={discountLoading}
+                                    className="w-full py-4 rounded-xl bg-emerald-600 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-emerald-500 shadow-lg shadow-emerald-500/20 transition-all flex items-center justify-center gap-2"
+                                >
+                                    {discountLoading ? <Loader2 size={16} className="animate-spin" /> : <Tag size={16} />}
+                                    Save Discount Policy
+                                </button>
+                            </form>
                         </motion.div>
                     </div>
                 )}

@@ -51,7 +51,8 @@ const SettingsManagement = () => {
             isActive: false,
             discountPercentage: 0,
             endDate: "",
-            title: "Special Discount!"
+            title: "Special Discount!",
+            appliesTo: { courses: true, internships: false }
         }
     });
 
@@ -90,7 +91,11 @@ const SettingsManagement = () => {
                     isActive: settingsData.promo?.isActive || false,
                     discountPercentage: settingsData.promo?.discountPercentage || 0,
                     endDate: settingsData.promo?.endDate ? new Date(settingsData.promo.endDate).toISOString().slice(0, 16) : "",
-                    title: settingsData.promo?.title || "Special Discount!"
+                    title: settingsData.promo?.title || "Special Discount!",
+                    appliesTo: {
+                        courses: settingsData.promo?.appliesTo?.courses !== false,
+                        internships: settingsData.promo?.appliesTo?.internships || false
+                    }
                 }
             });
         } catch (error) {
@@ -116,13 +121,24 @@ const SettingsManagement = () => {
             }));
         } else if (name.startsWith("promo.")) {
             const promoKey = name.split(".")[1];
-            setFormData(prev => ({
-                ...prev,
-                promo: { 
-                    ...prev.promo, 
-                    [promoKey]: e.target.type === 'checkbox' ? e.target.checked : value 
-                }
-            }));
+            if (promoKey === 'appliesTo') {
+                const applyKey = name.split(".")[2];
+                setFormData(prev => ({
+                    ...prev,
+                    promo: {
+                        ...prev.promo,
+                        appliesTo: { ...prev.promo.appliesTo, [applyKey]: e.target.checked }
+                    }
+                }));
+            } else {
+                setFormData(prev => ({
+                    ...prev,
+                    promo: { 
+                        ...prev.promo, 
+                        [promoKey]: e.target.type === 'checkbox' ? e.target.checked : value 
+                    }
+                }));
+            }
         } else {
             setFormData(prev => ({ ...prev, [name]: value }));
         }
@@ -290,7 +306,7 @@ const SettingsManagement = () => {
                             <div className="flex items-center justify-between p-4 bg-[#1e293b] rounded-2xl border border-white/10">
                                 <div>
                                     <h4 className="text-sm font-bold text-white">Activate Global Discount</h4>
-                                    <p className="text-[10px] text-slate-400 uppercase tracking-widest mt-1">Apply to all courses automatically</p>
+                                    <p className="text-[10px] text-slate-400 uppercase tracking-widest mt-1">Apply to selected programs automatically</p>
                                 </div>
                                 <label className="relative inline-flex items-center cursor-pointer">
                                     <input 
@@ -302,6 +318,36 @@ const SettingsManagement = () => {
                                     />
                                     <div className="w-14 h-7 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-emerald-500"></div>
                                 </label>
+                            </div>
+
+                            {/* Apply To Checklist */}
+                            <div className={`p-4 bg-[#1e293b] rounded-2xl border border-white/10 transition-all duration-300 ${!formData.promo.isActive ? 'opacity-40 pointer-events-none' : ''}`}>
+                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] mb-4">Apply Discount To</p>
+                                <div className="grid grid-cols-2 gap-3">
+                                    {[
+                                        { key: 'courses', label: 'Courses', icon: '📚' },
+                                        { key: 'internships', label: 'Internships', icon: '💼' }
+                                    ].map(({ key, label, icon }) => (
+                                        <label
+                                            key={key}
+                                            className={`flex items-center gap-3 p-4 rounded-xl border cursor-pointer transition-all ${
+                                                formData.promo.appliesTo?.[key]
+                                                    ? 'bg-emerald-500/10 border-emerald-500/40 text-emerald-400'
+                                                    : 'bg-[#0b1120] border-white/5 text-slate-400 hover:border-white/20'
+                                            }`}
+                                        >
+                                            <input
+                                                type="checkbox"
+                                                name={`promo.appliesTo.${key}`}
+                                                checked={formData.promo.appliesTo?.[key] || false}
+                                                onChange={handleChange}
+                                                className="w-4 h-4 rounded accent-emerald-500"
+                                            />
+                                            <span className="text-base">{icon}</span>
+                                            <span className="text-xs font-black uppercase tracking-wider">{label}</span>
+                                        </label>
+                                    ))}
+                                </div>
                             </div>
 
                             <div className={`grid grid-cols-1 md:grid-cols-2 gap-6 transition-all duration-300 ${!formData.promo.isActive ? 'opacity-50 pointer-events-none' : ''}`}>

@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Clock, Percent, X, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useLocation } from 'react-router-dom';
 import { apiClient } from '../../utils/apiClient';
 
 const DiscountBanner = () => {
+    const location = useLocation();
     const [promo, setPromo] = useState(null);
+    const [internshipPromo, setInternshipPromo] = useState(null);
     const [timeLeft, setTimeLeft] = useState({ d: 0, h: 0, m: 0, s: 0, expired: true });
     const [visible, setVisible] = useState(true);
 
@@ -12,20 +15,26 @@ const DiscountBanner = () => {
         const fetchPromo = async () => {
             try {
                 const { data } = await apiClient.get('/settings');
-                if (data?.promo?.isActive && new Date(data.promo.endDate) > new Date()) {
+                if (data?.promo?.isActive && new Date(data.promo.endDate) > new Date() && data.promo.appliesTo?.courses !== false) {
                     setPromo(data.promo);
                 }
+                if (data?.internshipPromo?.isActive && new Date(data.internshipPromo.endDate) > new Date()) {
+                    setInternshipPromo(data.internshipPromo);
+                }
             } catch (error) {
-                console.error("Failed to fetch promo:", error);
+                console.error("Failed to fetch promos:", error);
             }
         };
         fetchPromo();
     }, []);
 
-    useEffect(() => {
-        if (!promo || !promo.endDate) return;
+    const isInternshipRoute = location.pathname.includes('/internship') || location.pathname.includes('/applications');
+    const activePromo = isInternshipRoute ? internshipPromo : promo;
 
-        const endDate = new Date(promo.endDate).getTime();
+    useEffect(() => {
+        if (!activePromo || !activePromo.endDate) return;
+
+        const endDate = new Date(activePromo.endDate).getTime();
 
         const calculateTimeLeft = () => {
             const now = new Date().getTime();
@@ -48,9 +57,9 @@ const DiscountBanner = () => {
         calculateTimeLeft();
         const timer = setInterval(calculateTimeLeft, 1000);
         return () => clearInterval(timer);
-    }, [promo]);
+    }, [activePromo]);
 
-    if (!promo || timeLeft.expired || !visible) return null;
+    if (!activePromo || timeLeft.expired || !visible) return null;
 
     return (
         <AnimatePresence>
@@ -73,11 +82,11 @@ const DiscountBanner = () => {
                         </div>
                         <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 text-white">
                             <span className="font-extrabold text-sm uppercase tracking-wider flex items-center gap-2">
-                                {promo.title}
+                                {activePromo.title}
                                 <Sparkles size={14} className="text-yellow-300 hidden sm:block animate-pulse" />
                             </span>
                             <span className="text-xs sm:text-sm font-medium bg-black/20 px-2 py-0.5 rounded-full border border-white/10 hidden sm:inline-flex">
-                                Flat {promo.discountPercentage}% OFF on ALL Courses
+                                Flat {activePromo.discountPercentage}% OFF on {isInternshipRoute ? "ALL Internships" : "ALL Courses"}
                             </span>
                         </div>
                     </div>

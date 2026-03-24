@@ -286,16 +286,6 @@ const Dashboard = () => {
                 </div>
             </div>
 
-            <div className="glass-premium rounded-3xl p-8 border border-white/5 shadow-2xl relative overflow-hidden group flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
-                <div className="absolute inset-0 bg-gradient-to-tr from-sky-500/5 to-transparent pointer-events-none" />
-                <div className="relative z-10">
-                    <h3 className="text-lg font-black text-white tracking-tight">Page Analytics</h3>
-                    <p className="text-slate-400/80 text-[11px] font-medium mt-1">View detailed visitor and page performance reports</p>
-                </div>
-                <button onClick={() => navigate('/admin/settings')} className="relative z-10 flex items-center gap-2 px-5 py-2.5 rounded-xl bg-blue-500/10 hover:bg-blue-500/20 text-blue-400 border border-blue-500/20 text-[12px] font-semibold transition-all shadow-lg">
-                    View Reports <ArrowRight size={16} />
-                </button>
-            </div>
         </div>
     );
 };
