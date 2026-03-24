@@ -29,6 +29,7 @@ const DiscountBanner = () => {
     }, []);
 
     const isInternshipRoute = location.pathname.includes('/internship') || location.pathname.includes('/applications');
+    const isCourseRoute = location.pathname.includes('/course') || location.pathname.includes('/training');
     const activePromo = isInternshipRoute ? internshipPromo : promo;
 
     useEffect(() => {
@@ -60,6 +61,7 @@ const DiscountBanner = () => {
     }, [activePromo]);
 
     if (!activePromo || timeLeft.expired || !visible) return null;
+    if (!isInternshipRoute && !isCourseRoute) return null;
 
     return (
         <AnimatePresence>

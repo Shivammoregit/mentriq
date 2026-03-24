@@ -235,7 +235,7 @@ const AdminLayout = ({ children }) => {
         return () => window.removeEventListener('resize', onResize)
     }, [])
 
-    const SIDEBAR_W_OPEN     = '16rem'   // 256px – full labels
+    const SIDEBAR_W_OPEN     = '20rem'   // 320px – full labels
     const SIDEBAR_W_COLLAPSED = '4.5rem' // 72px  – icons only
 
     return (
@@ -271,7 +271,7 @@ const AdminLayout = ({ children }) => {
                             animate={{ x: 0 }}
                             exit={{ x: '-100%' }}
                             transition={{ type: 'spring', damping: 28, stiffness: 260 }}
-                            className="fixed inset-y-0 left-0 w-64 bg-[#0b1120] border-r border-white/5 z-[201] lg:hidden flex flex-col shadow-2xl"
+                            className="fixed inset-y-0 left-0 w-[20rem] bg-[#0b1120] border-r border-white/5 z-[201] lg:hidden flex flex-col shadow-2xl"
                         >
                             <SidebarContent
                                 collapsed={false}
@@ -289,19 +289,21 @@ const AdminLayout = ({ children }) => {
             <motion.aside
                 animate={{ width: collapsed ? SIDEBAR_W_COLLAPSED : SIDEBAR_W_OPEN }}
                 transition={{ type: 'spring', damping: 30, stiffness: 280 }}
-                className="hidden lg:flex flex-col shrink-0 bg-[#0b1120] border-r border-white/5 relative z-40 overflow-hidden"
+                className="hidden lg:flex flex-col shrink-0 bg-[#0b1120] border-r border-white/5 relative z-40 overflow-visible"
                 style={{ height: '100vh', position: 'sticky', top: 0 }}
             >
-                <SidebarContent
-                    collapsed={collapsed}
-                    location={location}
-                />
+                <div className="w-full h-full overflow-hidden flex flex-col relative z-10">
+                    <SidebarContent
+                        collapsed={collapsed}
+                        location={location}
+                    />
+                </div>
 
                 {/* Collapse toggle */}
                 <button
                     onClick={() => setCollapsed(c => !c)}
                     className="
-                        absolute top-[23px] -right-3
+                        absolute top-[23px] right-2 z-50
                         w-6 h-6 rounded-full
                         bg-[#0b1120] border border-white/10
                         flex items-center justify-center

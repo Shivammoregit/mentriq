@@ -183,7 +183,7 @@ const ServicesPage = () => {
                                     onClick={() => navigate('/contact')}
                                     onMouseEnter={() => setHoveredIdx(index)}
                                     onMouseLeave={() => setHoveredIdx(null)}
-                                    className="relative group cursor-pointer bg-white rounded-3xl overflow-hidden border border-slate-100 shadow-sm hover:shadow-2xl hover:shadow-indigo-100 transition-all duration-500 hover:-translate-y-2 flex flex-col"
+                                    className="relative group cursor-pointer bg-white rounded-[2rem] overflow-hidden shadow-[0_8px_30px_rgb(0,0,0,0.06)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.12)] transition-all duration-500 hover:-translate-y-2 flex flex-col"
                                 >
                                     {/* Top gradient bar */}
                                     <div className={`h-1.5 w-full bg-gradient-to-r ${g.from} ${g.to}`} />
@@ -191,7 +191,7 @@ const ServicesPage = () => {
                                     {/* Card body */}
                                     <div className="p-8 flex flex-col flex-1">
                                         {/* Icon */}
-                                        <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${g.from} ${g.to} flex items-center justify-center text-slate-900 mb-6 shadow-md transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3`}>
+                                        <div className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${g.from} ${g.to} flex items-center justify-center text-white mb-6 shadow-md transition-transform duration-300 group-hover:scale-110 group-hover:rotate-3`}>
                                             {isImage ? (
                                                 <img src={resolveImageUrl(iconValue)} alt={service.title} className="w-full h-full object-cover rounded-2xl" />
                                             ) : (
@@ -200,7 +200,7 @@ const ServicesPage = () => {
                                         </div>
 
                                         {/* Number badge */}
-                                        <span className="text-xs font-black text-slate-700 uppercase tracking-widest mb-2">
+                                        <span className="text-xs font-black text-slate-300 uppercase tracking-widest mb-2">
                                             {String(index + 1).padStart(2, '0')}
                                         </span>
 

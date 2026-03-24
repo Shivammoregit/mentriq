@@ -52,7 +52,7 @@ const AdminLogin = () => {
     const applyBucketCredential = (item) => {
         setEmail(item.email);
         setPassword(item.password);
-        toast.success(`Encrypted credentials for ${item.email} loaded`);
+        toast.success(`Credentials for ${item.email} loaded`);
     };
 
     const removeBucketCredential = (id) => {
@@ -69,17 +69,17 @@ const AdminLogin = () => {
             if (result.success) {
                 if (['admin', 'moderator', 'superadmin', 'subadmin'].includes(result.user.role)) {
                     saveCredentialToBucket(sanitizedEmail, password);
-                    toast.success('Personnel authentication successful');
+                    toast.success('Authentication successful');
                     navigate(from, { replace: true });
                 } else {
-                    toast.error('Access Denied: High-level clearance required');
+                    toast.error('Access Denied: Admin role required');
                 }
             } else {
                 toast.error(result.message || 'Authentication failed');
             }
         } catch (err) {
             console.error('Core Auth Failure:', err);
-            const msg = err.response?.data?.message || err.message || 'System uplink failure';
+            const msg = err.response?.data?.message || err.message || 'Server login failure';
             toast.error(`Auth Error: ${msg}`);
         } finally {
             setLoading(false);
@@ -106,8 +106,8 @@ const AdminLogin = () => {
                         <ShieldAlert size={48} className="text-emerald-400" />
                     </motion.div>
                     <div className="space-y-1">
-                        <h1 className="text-4xl font-black tracking-tighter uppercase italic">Control Nexus</h1>
-                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.4em]">Restricted Administrative Entity Access</p>
+                        <h1 className="text-4xl font-black tracking-tighter uppercase italic">Admin Panel</h1>
+                        <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.4em]">Secure Access Portal</p>
                     </div>
                 </div>
 
@@ -122,7 +122,7 @@ const AdminLogin = () => {
                     <form onSubmit={handleSubmit} className="relative z-10 space-y-8">
                         <div className="space-y-6">
                             <div className="space-y-2">
-                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Personnel Email</label>
+                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Email Address</label>
                                 <div className="relative group/input">
                                     <Mail className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within/input:text-emerald-400 transition-colors" size={18} />
                                     <input
@@ -137,7 +137,7 @@ const AdminLogin = () => {
                             </div>
 
                             <div className="space-y-2">
-                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Access Cipher (Password)</label>
+                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Password</label>
                                 <div className="relative group/input">
                                     <Key className="absolute left-6 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within/input:text-emerald-400 transition-colors" size={18} />
                                     <input
@@ -167,11 +167,11 @@ const AdminLogin = () => {
                             {loading ? (
                                 <>
                                     <Loader2 className="animate-spin" size={20} />
-                                    <span>Authenticating Cyber-Core...</span>
+                                    <span>Authenticating...</span>
                                 </>
                             ) : (
                                 <>
-                                    <span>Establish Secure Link</span>
+                                    <span>Sign In</span>
                                     <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
                                 </>
                             )}
@@ -191,7 +191,7 @@ const AdminLogin = () => {
                             <div className="flex items-center justify-between px-2">
                                 <p className="text-[10px] font-black text-slate-400 uppercase tracking-widest flex items-center gap-2">
                                     <CheckCircle size={12} className="text-emerald-500" />
-                                    Encrypted Portal Vault
+                                    Saved Accounts
                                 </p>
                                 <span className="text-[10px] font-bold text-slate-300">{credentialBucket.length}/5 Slots Used</span>
                             </div>
@@ -229,10 +229,10 @@ const AdminLogin = () => {
                     )}
                 </AnimatePresence>
 
-                {/* Footer Trace */}
+                {/* Footer */}
                 <div className="text-center">
                     <p className="text-[9px] font-bold text-slate-300 uppercase tracking-[0.2em]">
-                        MentriQ Intelligence Systems &copy; {new Date().getFullYear()} / Authorized Personnel Only
+                        MentriQ Technologies &copy; {new Date().getFullYear()} / Admin Portal
                     </p>
                 </div>
             </div>

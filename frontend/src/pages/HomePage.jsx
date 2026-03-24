@@ -19,9 +19,9 @@ const MentorsSection = lazy(() => import('../components/home/MentorsSection'))
 const CitySection = lazy(() => import('../components/home/CitySection'))
 const PartnersSection = lazy(() => import('../components/home/PartnersSection'))
 const TechnologiesSection = lazy(() => import('../components/home/TechnologiesSection'))
-const GlobeElement = lazy(() => import('../components/home/GlobeElement'))
 const MissionAndImpact = lazy(() => import('../components/home/MissionAndImpact'))
 const StudentImpact = lazy(() => import('../components/home/StudentImpact'))
+const InteractiveRobotSpline = lazy(() => import('../components/blocks/interactive-3d-robot').then(m => ({ default: m.InteractiveRobotSpline })))
 
 const SectionPlaceholder = ({ minHeight }) => (
     <div
@@ -161,19 +161,23 @@ const HomePage = () => {
                         </motion.div>
                     </motion.div>
 
-                    {/* Right: Globe */}
+                    {/* Right: 3D Robot Spline */}
                     <motion.div
                         initial={{ opacity: 0, scale: 0.85 }}
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ duration: 1.1 }}
-                        className="relative hidden lg:flex items-center justify-center"
+                        className="relative hidden lg:flex items-center justify-center w-full min-h-[500px]"
                     >
                         <div className="relative w-full h-[600px] flex items-center justify-center">
+                            {/* Decorative glows */}
                             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[480px] h-[480px] rounded-full pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%)' }} />
                             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[360px] h-[360px] rounded-full pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(34,211,238,0.08) 0%, transparent 70%)' }} />
-                            <div className="relative z-20 w-full h-full flex items-center justify-center p-8">
+                            
+                            <div className="relative z-20 w-[600px] h-[600px] flex items-center justify-center translate-x-12">
                                 <Suspense fallback={<div className="w-[400px] h-[400px] rounded-full border border-indigo-300/30 animate-pulse" />}>
-                                    <GlobeElement />
+                                    <InteractiveRobotSpline 
+                                        scene="https://prod.spline.design/PyzDhpQ9E5f1E3MT/scene.splinecode"
+                                    />
                                 </Suspense>
                             </div>
                         </div>
