@@ -334,10 +334,14 @@ const VerifyCertificatePage = () => {
                                         </div>
 
                                         <div className="bg-slate-800/50 rounded-2xl p-6 border border-slate-700">
-                                            <h4 className="text-xs font-black text-gray-500 uppercase tracking-widest mb-4">Course Information</h4>
+                                            <h4 className="text-xs font-black text-gray-500 uppercase tracking-widest mb-4">
+                                                {result.type === 'Internship' ? 'Internship Information' : 'Course Information'}
+                                            </h4>
                                             <div className="space-y-4">
                                                 <div>
-                                                    <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">Course Name</p>
+                                                    <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">
+                                                        {result.type === 'Internship' ? 'Program Title' : 'Course Name'}
+                                                    </p>
                                                     <p className="text-white font-bold text-xl">{result.courseName || 'N/A'}</p>
                                                 </div>
                                                 <div>
@@ -352,7 +356,7 @@ const VerifyCertificatePage = () => {
                                                 <div className="flex items-center gap-2 mb-4">
                                                     <BookOpen className="text-emerald-400" size={20} />
                                                     <h4 className="text-xs font-black text-gray-500 uppercase tracking-widest">
-                                                        Modules Covered ({result.modules.length})
+                                                        {result.type === 'Internship' ? 'Technologies Used' : 'Modules Covered'} ({result.modules.length})
                                                     </h4>
                                                 </div>
                                                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
@@ -366,10 +370,10 @@ const VerifyCertificatePage = () => {
                                                                     {index + 1}
                                                                 </div>
                                                                 <div className="flex-1 min-w-0">
-                                                                    <p className="text-white font-bold text-sm mb-1">
-                                                                        {module.title || `Module ${index + 1}`}
+                                                                    <p className="text-white font-bold text-sm mb-1 uppercase tracking-wide">
+                                                                        {typeof module === 'string' ? module : (module.title || `Module ${index + 1}`)}
                                                                     </p>
-                                                                    {module.description && (
+                                                                    {typeof module === 'object' && module.description && (
                                                                         <p className="text-gray-400 text-xs line-clamp-2">
                                                                             {module.description}
                                                                         </p>

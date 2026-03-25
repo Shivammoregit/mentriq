@@ -15,7 +15,17 @@ const certificateSchema = new mongoose.Schema({
     course: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Course',
-        required: true
+        required: false
+    },
+    internship: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Internship',
+        required: false
+    },
+    type: {
+        type: String,
+        enum: ['Course', 'Internship'],
+        default: 'Course'
     },
     studentName: {
         type: String,

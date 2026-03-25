@@ -3,25 +3,22 @@ import { motion, useReducedMotion } from 'framer-motion'
 import {
     ChevronRight,
     Sparkles,
-    Twitter,
-    Linkedin,
-    Instagram,
-    Mail,
 } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
 import { apiClient as api } from '../utils/apiClient'
 import SectionErrorBoundary from '../components/common/SectionErrorBoundary'
 import DeferredSection from '../components/common/DeferredSection'
+import WireframeDottedGlobe from '../components/ui/wireframe-dotted-globe'
 
 // Home-specific components
 const ServicesSection = lazy(() => import('../components/home/ServicesSection'))
 const MentorsSection = lazy(() => import('../components/home/MentorsSection'))
 const CitySection = lazy(() => import('../components/home/CitySection'))
+const BeyondTradition = lazy(() => import('../components/home/BeyondTradition'))
 const PartnersSection = lazy(() => import('../components/home/PartnersSection'))
 const TechnologiesSection = lazy(() => import('../components/home/TechnologiesSection'))
 const MissionAndImpact = lazy(() => import('../components/home/MissionAndImpact'))
 const StudentImpact = lazy(() => import('../components/home/StudentImpact'))
-const InteractiveRobotSpline = lazy(() => import('../components/blocks/interactive-3d-robot').then(m => ({ default: m.InteractiveRobotSpline })))
 
 const SectionPlaceholder = ({ minHeight }) => (
     <div
@@ -161,26 +158,14 @@ const HomePage = () => {
                         </motion.div>
                     </motion.div>
 
-                    {/* Right: 3D Robot Spline */}
+                    {/* Right: Auto-rotating Dotted Globe */}
                     <motion.div
                         initial={{ opacity: 0, scale: 0.85 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 1.1 }}
+                        transition={{ duration: 1.2 }}
                         className="relative hidden lg:flex items-center justify-center w-full min-h-[500px]"
                     >
-                        <div className="relative w-full h-[600px] flex items-center justify-center">
-                            {/* Decorative glows */}
-                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[480px] h-[480px] rounded-full pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(99,102,241,0.12) 0%, transparent 70%)' }} />
-                            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[360px] h-[360px] rounded-full pointer-events-none" style={{ background: 'radial-gradient(circle, rgba(34,211,238,0.08) 0%, transparent 70%)' }} />
-                            
-                            <div className="relative z-20 w-[600px] h-[600px] flex items-center justify-center translate-x-12">
-                                <Suspense fallback={<div className="w-[400px] h-[400px] rounded-full border border-indigo-300/30 animate-pulse" />}>
-                                    <InteractiveRobotSpline 
-                                        scene="https://prod.spline.design/PyzDhpQ9E5f1E3MT/scene.splinecode"
-                                    />
-                                </Suspense>
-                            </div>
-                        </div>
+                        <WireframeDottedGlobe size={520} />
                     </motion.div>
                 </div>
             </section>
@@ -194,15 +179,6 @@ const HomePage = () => {
                 </Suspense>
             </DeferredSection>
 
-            {/* Student Impact / Testimonials */}
-            <DeferredSection minHeight="480px">
-                <Suspense fallback={<SectionPlaceholder minHeight="480px" />}>
-                    <SectionErrorBoundary>
-                        <StudentImpact />
-                    </SectionErrorBoundary>
-                </Suspense>
-            </DeferredSection>
-
             {/* Services Section */}
             <DeferredSection minHeight="420px">
                 <Suspense fallback={<SectionPlaceholder minHeight="420px" />}>
@@ -212,11 +188,20 @@ const HomePage = () => {
                 </Suspense>
             </DeferredSection>
 
-            {/* Mentors Section */}
+            {/* Mentors Section — "Learn from the Best" */}
             <DeferredSection minHeight="520px">
                 <Suspense fallback={<SectionPlaceholder minHeight="520px" />}>
                     <SectionErrorBoundary>
                         <MentorsSection />
+                    </SectionErrorBoundary>
+                </Suspense>
+            </DeferredSection>
+
+            {/* Student Impact / Testimonials */}
+            <DeferredSection minHeight="480px">
+                <Suspense fallback={<SectionPlaceholder minHeight="480px" />}>
+                    <SectionErrorBoundary>
+                        <StudentImpact />
                     </SectionErrorBoundary>
                 </Suspense>
             </DeferredSection>
@@ -226,6 +211,15 @@ const HomePage = () => {
                 <Suspense fallback={<SectionPlaceholder minHeight="480px" />}>
                     <SectionErrorBoundary>
                         <CitySection />
+                    </SectionErrorBoundary>
+                </Suspense>
+            </DeferredSection>
+
+            {/* Beyond Tradition Section */}
+            <DeferredSection minHeight="560px">
+                <Suspense fallback={<SectionPlaceholder minHeight="560px" />}>
+                    <SectionErrorBoundary>
+                        <BeyondTradition />
                     </SectionErrorBoundary>
                 </Suspense>
             </DeferredSection>

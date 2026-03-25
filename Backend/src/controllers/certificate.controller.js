@@ -1,6 +1,7 @@
 const Certificate = require('../models/Certificate');
 const User = require('../models/User');
 const Course = require('../models/Course');
+const Internship = require('../models/Internship');
 const QRCode = require('qrcode');
 
 // @desc    Generate certificate for a user
@@ -8,27 +9,29 @@ const QRCode = require('qrcode');
 // @access  Private/Admin
 exports.generateCertificate = async (req, res) => {
     try {
-        const { userId, courseId, grade, completionDate } = req.body;
+        const { userId, courseId, internshipId, type = 'Course', grade, completionDate } = req.body;
 
-        // Validate user and course exist
         const user = await User.findById(userId);
-        const course = await Course.findById(courseId);
-
         if (!user) {
             return res.status(404).json({ message: 'User not found' });
         }
 
-        if (!course) {
-            return res.status(404).json({ message: 'Course not found' });
-        }
-
-        // Check if certificate already exists
-        const existingCert = await Certificate.findOne({ user: userId, course: courseId });
-        if (existingCert) {
-            return res.status(400).json({
-                message: 'Certificate already exists for this user and course',
-                certificateId: existingCert.certificateId
-            });
+        let programName = "";
+        
+        if (type === 'Course') {
+            const course = await Course.findById(courseId);
+            if (!course) return res.status(404).json({ message: 'Course not found' });
+            programName = course.title;
+            
+            const existingCert = await Certificate.findOne({ user: userId, course: courseId });
+            if (existingCert) return res.status(400).json({ message: 'Certificate already exists for this user and course', certificateId: existingCert.certificateId });
+        } else {
+            const internship = await Internship.findById(internshipId);
+            if (!internship) return res.status(404).json({ message: 'Internship not found' });
+            programName = internship.title;
+            
+            const existingCert = await Certificate.findOne({ user: userId, internship: internshipId });
+            if (existingCert) return res.status(400).json({ message: 'Certificate already exists for this user and internship', certificateId: existingCert.certificateId });
         }
 
         // Generate unique certificate ID
@@ -49,9 +52,11 @@ exports.generateCertificate = async (req, res) => {
         const certificate = new Certificate({
             certificateId,
             user: userId,
-            course: courseId,
+            course: type === 'Course' ? courseId : undefined,
+            internship: type === 'Internship' ? internshipId : undefined,
+            type: type,
             studentName: user.name,
-            courseName: course.title,
+            courseName: programName, // Reusing courseName field for display title
             qrCodeData,
             grade: grade || 'Pass',
             completionDate: completionDate || new Date()
@@ -85,7 +90,8 @@ exports.verifyCertificate = async (req, res) => {
 
         const certificate = await Certificate.findOne({ certificateId })
             .populate('user', 'name email')
-            .populate('course', 'title category duration modules');
+            .populate('course', 'title category duration modules')
+            .populate('internship', 'title category duration technologies');
 
         if (!certificate) {
             return res.status(404).json({
@@ -100,14 +106,18 @@ exports.verifyCertificate = async (req, res) => {
                 message: 'This certificate has been revoked and is no longer valid.'
             });
         }
+        
+        const isInternship = certificate.type === 'Internship';
+        const programRecord = isInternship ? certificate.internship : certificate.course;
 
         res.status(200).json({
             valid: true,
             certificateId: certificate.certificateId,
             studentName: certificate.studentName,
             courseName: certificate.courseName,
-            duration: certificate.course?.duration || 'N/A',
-            modules: certificate.course?.modules || [],
+            type: certificate.type || 'Course',
+            duration: programRecord?.duration || 'N/A',
+            modules: isInternship ? (programRecord?.technologies || []) : (programRecord?.modules || []),
             issueDate: certificate.issueDate.toLocaleDateString('en-US', {
                 year: 'numeric',
                 month: 'long',

@@ -16,29 +16,21 @@ export function InteractiveRobotSpline({ scene, className }) {
         >
             <div className="relative w-full h-full spline-container flex items-center justify-center">
                 {/* 
-                   To fully remove the internal baked Spline background without losing robot shading:
-                   Use CSS mix-blend-mode screen on a black Spline background, or mask out the dark purple 
-                   via CSS filter, but doing a physical CSS mask is safest. 
-                   We will use a soft radial gradient mask to drop off the hard background edge.
+                  Clean rendering: removed mix-blend-mode hacks that were causing a white background block.
+                  The scene is now configured to just render directly with transparent styling.
                 */}
-                <div 
-                    className="w-[600px] h-[600px] overflow-hidden rounded-full flex items-center justify-center transform scale-110" 
-                    style={{ 
-                        maskImage: 'radial-gradient(ellipse at center, black 50%, transparent 75%)', 
-                        WebkitMaskImage: 'radial-gradient(ellipse at center, black 50%, transparent 75%)' 
-                    }}
-                >
+                <div className="w-[600px] h-[600px] overflow-hidden flex items-center justify-center transform scale-110">
                     <Spline
                         scene={scene}
                         className={className}
-                        style={{ width: '100%', height: '100%', background: 'transparent', transform: 'scale(1.1)' }}
+                        style={{ width: '100%', height: '100%', background: 'transparent', backgroundColor: 'transparent', transform: 'scale(1.1)' }}
                     />
                 </div>
-                
-                {/* Force-hide logo link globally via CSS */}
+
+                {/* Force-hide Spline watermark/logo link */}
                 <style>{`
                     .spline-container canvas + div,
-                    .spline-container a, 
+                    .spline-container a,
                     #spline-watermark {
                         display: none !important;
                         opacity: 0 !important;
@@ -46,9 +38,6 @@ export function InteractiveRobotSpline({ scene, className }) {
                         visibility: hidden !important;
                     }
                 `}</style>
-                
-                {/* Physical white mask over where the logo usually sits as a failsafe */}
-                <div className="absolute bottom-0 right-0 w-48 h-16 z-[60] pointer-events-none" />
             </div>
         </Suspense>
     );

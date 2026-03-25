@@ -14,23 +14,25 @@ const CertificateManagement = () => {
     const [searchTerm, setSearchTerm] = useState("");
     const [viewingCert, setViewingCert] = useState(null);
 
-    // Data for generation form
     const [users, setUsers] = useState([]);
     const [courses, setCourses] = useState([]);
-    const [formData, setFormData] = useState({ userId: "", courseId: "", grade: "A+" });
+    const [internships, setInternships] = useState([]);
+    const [formData, setFormData] = useState({ userId: "", courseId: "", internshipId: "", type: "Course", grade: "A+" });
 
     const toast = useToast();
 
     const fetchData = async () => {
         try {
-            const [certRes, userRes, courseRes] = await Promise.all([
+            const [certRes, userRes, courseRes, internshipRes] = await Promise.all([
                 api.get("/certificates"),
                 api.get("/users"),
-                api.get("/courses")
+                api.get("/courses"),
+                api.get("/internships")
             ]);
             setCertificates(certRes.data || []);
             setUsers(userRes.data?.filter(u => u.role !== 'admin') || []);
             setCourses(courseRes.data || []);
+            setInternships(internshipRes.data || []);
         } catch (err) {
             console.error("Certificate fetch error", err);
         } finally {
@@ -50,7 +52,7 @@ const CertificateManagement = () => {
             await api.post("/certificates/generate", formData);
             toast.success("Credential generated successfully");
             setIsModalOpen(false);
-            setFormData({ userId: "", courseId: "", grade: "A+" });
+            setFormData({ userId: "", courseId: "", internshipId: "", type: "Course", grade: "A+" });
             fetchData();
         } catch (err) {
             toast.error(err.response?.data?.message || "Generation failed");
@@ -260,19 +262,49 @@ const CertificateManagement = () => {
                                     </select>
                                 </div>
 
+                                <div className="space-y-4">
+                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Credential Type</label>
+                                    <div className="flex gap-4">
+                                        <label className={`flex-1 flex items-center justify-center p-4 rounded-xl border cursor-pointer font-bold text-sm transition-all ${formData.type === 'Course' ? 'bg-emerald-500/10 border-emerald-500/50 text-emerald-400' : 'bg-[#1e293b] border-white/10 text-slate-400 opacity-60 hover:opacity-100'}`}>
+                                            <input type="radio" name="type" className="hidden" value="Course" checked={formData.type === 'Course'} onChange={() => setFormData({ ...formData, type: 'Course', internshipId: '' })} />
+                                            Training Course
+                                        </label>
+                                        <label className={`flex-1 flex items-center justify-center p-4 rounded-xl border cursor-pointer font-bold text-sm transition-all ${formData.type === 'Internship' ? 'bg-emerald-500/10 border-emerald-500/50 text-emerald-400' : 'bg-[#1e293b] border-white/10 text-slate-400 opacity-60 hover:opacity-100'}`}>
+                                            <input type="radio" name="type" className="hidden" value="Internship" checked={formData.type === 'Internship'} onChange={() => setFormData({ ...formData, type: 'Internship', courseId: '' })} />
+                                            Internship
+                                        </label>
+                                    </div>
+                                </div>
+
                                 <div className="space-y-2">
-                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Educational Program</label>
-                                    <select
-                                        required
-                                        value={formData.courseId}
-                                        onChange={e => setFormData({ ...formData, courseId: e.target.value })}
-                                        className="w-full bg-[#1e293b] border border-white/10 rounded-2xl p-6 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all appearance-none cursor-pointer"
-                                    >
-                                        <option value="" className="bg-[#1e293b]">Select Course...</option>
-                                        {courses.map(c => (
-                                            <option key={c._id} value={c._id} className="bg-[#1e293b]">{c.title}</option>
-                                        ))}
-                                    </select>
+                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">
+                                        {formData.type === 'Course' ? 'Educational Program' : 'Internship Program'}
+                                    </label>
+                                    {formData.type === 'Course' ? (
+                                        <select
+                                            required
+                                            value={formData.courseId}
+                                            onChange={e => setFormData({ ...formData, courseId: e.target.value })}
+                                            className="w-full bg-[#1e293b] border border-white/10 rounded-2xl p-6 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all appearance-none cursor-pointer"
+                                        >
+                                            <option value="" className="bg-[#1e293b]">Select Course...</option>
+                                            {courses.map(c => (
+                                                <option key={c._id} value={c._id} className="bg-[#1e293b]">{c.title}</option>
+                                            ))}
+                                        </select>
+                                    ) : (
+                                        <select
+                                            required
+                                            value={formData.internshipId}
+                                            onChange={e => setFormData({ ...formData, internshipId: e.target.value })}
+                                            className="w-full bg-[#1e293b] border border-white/10 rounded-2xl p-6 text-white font-bold focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all appearance-none cursor-pointer"
+                                        >
+                                            <option value="" className="bg-[#1e293b]">Select Internship...</option>
+                                            {internships.map(i => (
+                                                <option key={i._id} value={i._id} className="bg-[#1e293b]">{i.title}</option>
+                                            ))}
+                                        </select>
+                                    )}
                                 </div>
 
                                 <div className="space-y-2">
@@ -363,7 +395,9 @@ const CertificateManagement = () => {
                                     </div>
 
                                     <div className="mb-12 mt-8">
-                                        <p className="text-sm font-bold text-gray-500 uppercase tracking-widest mb-2">Has successfully completed the program</p>
+                                        <p className="text-sm font-bold text-gray-500 uppercase tracking-widest mb-2">
+                                            Has successfully completed the {viewingCert.type === 'Internship' ? 'internship' : 'program'}
+                                        </p>
                                         <h3 className="text-2xl font-bold text-white uppercase tracking-wider bg-slate-800/50 py-3 px-8 rounded-2xl border border-slate-700 mt-4">
                                             {viewingCert.courseName}
                                         </h3>

@@ -22,7 +22,7 @@
     --color-secondary: #4f46e5;
     --color-background: #ffffff;
     --color-surface: #f8fafc;
-    --font-display: "Space Grotesk", sans-serif;
+    --font-display: "Barlow", sans-serif;
 }
 
 /* Custom Utilities */
@@ -178,12 +178,16 @@ html {
     h4,
     h5,
     h6 {
-        @apply tracking-tighter;
+        font-family: 'Barlow', sans-serif;
+        font-weight: 800;
+        @apply tracking-tight;
     }
 }
 
 body {
-    @apply font-sans antialiased;
+    @apply antialiased;
+    font-family: 'Barlow', sans-serif;
+    font-weight: 400;
     color: var(--theme-text);
     background-color: var(--theme-bg);
     overflow-x: hidden;
