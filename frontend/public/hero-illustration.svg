@@ -1,0 +1,117 @@
+<svg width="100%" viewBox="0 0 680 440" xmlns="http://www.w3.org/2000/svg">
+<defs>
+  <style>
+    @keyframes bobLeft { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+    @keyframes bobRight { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+    @keyframes screenPulse { 0%,100%{opacity:1} 50%{opacity:.85} }
+    @keyframes iconFloat { 0%,100%{transform:translateY(0) rotate(-8deg)} 50%{transform:translateY(-10px) rotate(-5deg)} }
+    @keyframes iconFloatR { 0%,100%{transform:translateY(0) rotate(8deg)} 50%{transform:translateY(-12px) rotate(5deg)} }
+    @keyframes plantSway { 0%,100%{transform:rotate(0deg)} 50%{transform:rotate(4deg)} }
+    @keyframes wireframe { 0%,100%{opacity:.7} 50%{opacity:1} }
+    @keyframes btnBlink { 0%,80%,100%{fill:#e74c3c} 40%{fill:#c0392b} }
+  </style>
+</defs>
+
+<!-- Monitor stand + base (small) -->
+<rect x="328" y="298" width="7" height="22" rx="2" fill="#95a5a6"/>
+<rect x="308" y="317" width="48" height="7" rx="3" fill="#7f8c8d"/>
+
+<!-- Monitor body (small) -->
+<rect x="248" y="140" width="168" height="162" rx="10" fill="#2c3e50"/>
+<rect x="254" y="146" width="156" height="150" rx="7" fill="#1a252f"/>
+<!-- Screen -->
+<g style="animation:screenPulse 4s ease-in-out infinite">
+  <rect x="260" y="152" width="144" height="138" rx="4" fill="#ecf0f1"/>
+  <g style="animation:wireframe 2.5s ease-in-out infinite">
+    <rect x="266" y="158" width="132" height="11" rx="3" fill="#bdc3c7"/>
+    <rect x="266" y="174" width="60" height="54" rx="3" fill="#95a5a6"/>
+    <line x1="266" y1="174" x2="326" y2="228" stroke="#7f8c8d" stroke-width="1"/>
+    <line x1="326" y1="174" x2="266" y2="228" stroke="#7f8c8d" stroke-width="1"/>
+    <rect x="332" y="180" width="58" height="5" rx="1" fill="#bdc3c7"/>
+    <rect x="332" y="192" width="46" height="5" rx="1" fill="#bdc3c7"/>
+    <rect x="332" y="204" width="52" height="5" rx="1" fill="#bdc3c7"/>
+    <rect x="266" y="238" width="126" height="5" rx="1" fill="#bdc3c7"/>
+    <rect x="266" y="250" width="106" height="5" rx="1" fill="#bdc3c7"/>
+    <rect x="266" y="262" width="116" height="5" rx="1" fill="#bdc3c7"/>
+    <circle cx="272" cy="163" r="3" style="animation:btnBlink 3s infinite"/>
+    <circle cx="282" cy="163" r="3" fill="#f39c12"/>
+    <circle cx="292" cy="163" r="3" fill="#27ae60"/>
+  </g>
+</g>
+
+<!-- Floating photo cards -->
+<g style="transform-origin:248px 128px;animation:iconFloat 3.2s ease-in-out .4s infinite">
+  <rect x="228" y="112" width="28" height="22" rx="4" fill="#e74c3c" opacity=".9"/>
+  <line x1="228" y1="112" x2="256" y2="134" stroke="#c0392b" stroke-width="1" opacity=".5"/>
+  <line x1="256" y1="112" x2="228" y2="134" stroke="#c0392b" stroke-width="1" opacity=".5"/>
+</g>
+<g style="transform-origin:416px 122px;animation:iconFloatR 2.9s ease-in-out .8s infinite">
+  <rect x="400" y="108" width="28" height="22" rx="4" fill="#e74c3c" opacity=".85"/>
+  <line x1="400" y1="108" x2="428" y2="130" stroke="#c0392b" stroke-width="1" opacity=".5"/>
+  <line x1="428" y1="108" x2="400" y2="130" stroke="#c0392b" stroke-width="1" opacity=".5"/>
+</g>
+
+<!-- LEFT CHARACTER (woman) -->
+<g style="animation:bobLeft 2.4s ease-in-out infinite; transform-origin:120px 420px">
+  <!-- Legs -->
+  <rect x="92" y="360" width="22" height="55" rx="8" fill="#f39c12"/>
+  <rect x="118" y="360" width="22" height="55" rx="8" fill="#f39c12"/>
+  <!-- Body -->
+  <ellipse cx="118" cy="320" rx="38" ry="50" fill="#e74c3c"/>
+  <!-- Head -->
+  <circle cx="118" cy="248" r="38" fill="#f4a461"/>
+  <!-- Hair -->
+  <ellipse cx="118" cy="225" rx="38" ry="20" fill="#8e44ad"/>
+  <ellipse cx="90" cy="255" rx="14" ry="26" fill="#8e44ad"/>
+  <!-- Eyes -->
+  <circle cx="107" cy="250" r="5" fill="#2c3e50"/>
+  <circle cx="130" cy="250" r="5" fill="#2c3e50"/>
+  <circle cx="108" cy="249" r="2" fill="#fff"/>
+  <circle cx="131" cy="249" r="2" fill="#fff"/>
+  <!-- Smile -->
+  <path d="M108,266 Q118,276 128,266" fill="none" stroke="#c0392b" stroke-width="2" stroke-linecap="round"/>
+  <!-- Left arm holding icon -->
+  <path d="M80,305 Q52,318 44,348" stroke="#f4a461" stroke-width="18" stroke-linecap="round" fill="none"/>
+  <!-- Right arm towards monitor -->
+  <path d="M156,305 Q188,295 218,270" stroke="#f4a461" stroke-width="18" stroke-linecap="round" fill="none"/>
+</g>
+
+<!-- Ps Icon (held by left char) -->
+<g style="transform-origin:38px 345px;animation:iconFloat 2.4s ease-in-out infinite">
+  <rect x="10" y="318" width="58" height="58" rx="12" fill="#001e36"/>
+  <text x="39" y="355" font-size="24" font-weight="bold" font-family="sans-serif" fill="#4db3ff" text-anchor="middle">Ps</text>
+</g>
+
+<!-- RIGHT CHARACTER (man) -->
+<g style="animation:bobRight 2.8s ease-in-out infinite; transform-origin:560px 420px">
+  <!-- Legs -->
+  <rect x="540" y="360" width="22" height="55" rx="8" fill="#2980b9"/>
+  <rect x="566" y="360" width="22" height="55" rx="8" fill="#2980b9"/>
+  <!-- Body -->
+  <ellipse cx="560" cy="318" rx="38" ry="50" fill="#3498db"/>
+  <!-- Head -->
+  <circle cx="560" cy="246" r="38" fill="#f4a461"/>
+  <!-- Hair -->
+  <ellipse cx="560" cy="223" rx="36" ry="18" fill="#7f8c8d"/>
+  <!-- Beard -->
+  <path d="M533,258 Q537,284 560,288 Q583,284 587,258" fill="#7f8c8d"/>
+  <!-- Eyes -->
+  <circle cx="548" cy="248" r="5" fill="#2c3e50"/>
+  <circle cx="572" cy="248" r="5" fill="#2c3e50"/>
+  <circle cx="549" cy="247" r="2" fill="#fff"/>
+  <circle cx="573" cy="247" r="2" fill="#fff"/>
+  <!-- Smile -->
+  <path d="M549,265 Q560,274 571,265" fill="none" stroke="#c0392b" stroke-width="2" stroke-linecap="round"/>
+  <!-- Right arm holding icon -->
+  <path d="M598,305 Q626,318 636,348" stroke="#f4a461" stroke-width="18" stroke-linecap="round" fill="none"/>
+  <!-- Left arm towards monitor -->
+  <path d="M522,305 Q494,295 462,270" stroke="#f4a461" stroke-width="18" stroke-linecap="round" fill="none"/>
+</g>
+
+<!-- Ai Icon (held by right char) -->
+<g style="transform-origin:641px 345px;animation:iconFloatR 2.8s ease-in-out infinite">
+  <rect x="614" y="318" width="58" height="58" rx="12" fill="#ff8800"/>
+  <text x="643" y="355" font-size="24" font-weight="bold" font-family="sans-serif" fill="#fff8ee" text-anchor="middle">Ai</text>
+</g>
+
+</svg>

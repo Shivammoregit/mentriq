@@ -44,6 +44,24 @@ const HomePage = () => {
                 </Suspense>
             </DeferredSection>
 
+            {/* Cities Section */}
+            <DeferredSection minHeight="480px">
+                <Suspense fallback={<SectionPlaceholder minHeight="480px" />}>
+                    <SectionErrorBoundary>
+                        <CitySection />
+                    </SectionErrorBoundary>
+                </Suspense>
+            </DeferredSection>
+
+            {/* Beyond Tradition Section */}
+            <DeferredSection minHeight="560px">
+                <Suspense fallback={<SectionPlaceholder minHeight="560px" />}>
+                    <SectionErrorBoundary>
+                        <BeyondTradition />
+                    </SectionErrorBoundary>
+                </Suspense>
+            </DeferredSection>
+
             {/* Services Section */}
             <DeferredSection minHeight="420px">
                 <Suspense fallback={<SectionPlaceholder minHeight="420px" />}>
@@ -71,24 +89,6 @@ const HomePage = () => {
                 </Suspense>
             </DeferredSection>
 
-            {/* Cities Section */}
-            <DeferredSection minHeight="480px">
-                <Suspense fallback={<SectionPlaceholder minHeight="480px" />}>
-                    <SectionErrorBoundary>
-                        <CitySection />
-                    </SectionErrorBoundary>
-                </Suspense>
-            </DeferredSection>
-
-            {/* Beyond Tradition Section */}
-            <DeferredSection minHeight="560px">
-                <Suspense fallback={<SectionPlaceholder minHeight="560px" />}>
-                    <SectionErrorBoundary>
-                        <BeyondTradition />
-                    </SectionErrorBoundary>
-                </Suspense>
-            </DeferredSection>
-
             {/* Partners Section */}
             <DeferredSection minHeight="360px">
                 <Suspense fallback={<SectionPlaceholder minHeight="360px" />}>
@@ -108,46 +108,46 @@ const HomePage = () => {
             </DeferredSection>
 
             {/* CTA Section */}
-            <section className="py-32 bg-slate-50 relative overflow-hidden">
-                <div className="max-w-7xl mx-auto px-6 relative z-10">
+            <section className="py-12 md:py-16 bg-[#f8f9fc] theme-dot-grid relative overflow-hidden">
+                <div className="max-w-[1320px] mx-auto px-5 md:px-8 relative z-10">
                     <motion.div
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        className="relative rounded-[3rem] p-12 md:p-24 text-center overflow-hidden bg-gradient-to-br from-white via-slate-50 to-indigo-50/60 border border-slate-200 shadow-xl shadow-indigo-100/40 group"
+                        className="relative rounded-[2.5rem] px-7 py-11 md:px-20 md:py-14 text-center overflow-hidden bg-gradient-to-br from-[#f8f9fc] via-[#f5f7fb] to-[#edf3f8] border border-slate-200/90 shadow-[0_22px_55px_-46px_rgba(15,23,42,0.4)]"
                     >
                         {/* Soft background glow */}
-                        <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-400/10 rounded-full blur-[100px] -mr-48 -mt-48 transition-transform group-hover:scale-110" />
-                        <div className="absolute bottom-0 left-0 w-96 h-96 bg-cyan-400/10 rounded-full blur-[100px] -ml-48 -mb-48 transition-transform group-hover:scale-110" />
+                        <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-300/15 rounded-full blur-[100px] -mr-44 -mt-44" />
+                        <div className="absolute bottom-0 left-0 w-96 h-96 bg-cyan-300/15 rounded-full blur-[100px] -ml-44 -mb-44" />
 
                         {/* Corner bracket decorations */}
-                        <div className="absolute top-6 left-6 w-8 h-8 border-t-2 border-l-2 border-indigo-400/50 rounded-tl-lg" />
-                        <div className="absolute bottom-6 right-6 w-8 h-8 border-b-2 border-r-2 border-cyan-400/50 rounded-br-lg" />
+                        <div className="absolute top-8 left-8 w-10 h-10 border-t-2 border-l-2 border-indigo-400/55 rounded-tl-lg" />
+                        <div className="absolute bottom-8 right-8 w-10 h-10 border-b-2 border-r-2 border-cyan-400/55 rounded-br-lg" />
 
                         <div className="relative z-10">
                             {/* Phase badge */}
-                            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white border border-slate-200 shadow-sm text-slate-600 text-[10px] font-black uppercase tracking-[0.25em] mb-8">
+                            <div className="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-indigo-50 border border-indigo-100 shadow-sm text-indigo-600 text-[11px] font-black uppercase tracking-[0.28em] mb-7">
                                 <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 animate-pulse" />
                                 Phase: Launch
                             </div>
 
-                            <h2 className="text-4xl md:text-6xl font-black text-slate-900 mb-6 tracking-tighter uppercase leading-[0.9]">
-                                READY TO INITIALIZE <br />
+                            <h2 className="text-[3.4rem] md:text-[5.4rem] font-black text-slate-900 mb-5 tracking-[-0.04em] uppercase leading-[0.9]">
+                                READY TO <br />
                                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-cyan-500">
-                                    YOUR DEPLOYMENT?
+                                    DEPART?
                                 </span>
                             </h2>
 
-                            <p className="text-slate-500 text-lg md:text-xl max-w-2xl mx-auto mb-14 font-medium leading-relaxed">
+                            <p className="text-slate-500 text-[1.5rem] md:text-[1.9rem] max-w-[920px] mx-auto mb-10 font-medium leading-[1.45]">
                                 Join <strong className="text-slate-800 underline underline-offset-2">thousands</strong> of students who have transformed their careers with MentriQ Technologies.
                             </p>
 
-                            <div className="flex flex-col md:flex-row items-center justify-center gap-5">
+                            <div className="flex flex-col md:flex-row items-center justify-center gap-4">
                                 <motion.button
                                     whileHover={{ scale: 1.05 }}
                                     whileTap={{ scale: 0.98 }}
                                     onClick={() => navigate("/courses")}
-                                    className="px-12 py-5 bg-indigo-600 hover:bg-indigo-700 text-white font-black rounded-2xl shadow-lg shadow-indigo-200 flex items-center gap-3 group/btn uppercase tracking-widest text-sm transition-colors"
+                                    className="min-w-[320px] px-10 py-[1.125rem] bg-indigo-600 hover:bg-indigo-700 text-white font-black rounded-2xl shadow-lg shadow-indigo-200 flex items-center justify-center gap-3 group/btn uppercase tracking-widest text-[15px] transition-colors"
                                 >
                                     Explore Courses
                                     <Sparkles className="w-5 h-5 group-hover/btn:rotate-12 transition-transform" />
@@ -157,7 +157,7 @@ const HomePage = () => {
                                     whileHover={{ scale: 1.05 }}
                                     whileTap={{ scale: 0.98 }}
                                     onClick={() => navigate('/contact')}
-                                    className="px-12 py-5 bg-white border border-slate-300 text-slate-800 font-black rounded-2xl shadow-sm hover:border-indigo-300 hover:shadow-indigo-100 transition-all uppercase tracking-widest text-sm"
+                                    className="min-w-[240px] px-10 py-[1.125rem] bg-white border border-slate-300 text-slate-800 font-black rounded-2xl shadow-sm hover:border-indigo-300 hover:shadow-indigo-100 transition-all uppercase tracking-widest text-[15px]"
                                 >
                                     Contact Us
                                 </motion.button>

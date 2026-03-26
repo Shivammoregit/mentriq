@@ -40,15 +40,15 @@ const PartnersSection = () => {
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center mb-12 relative z-10">
                 <div className="inline-block">
-                    <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-indigo-500 text-[10px] font-black uppercase tracking-[0.3em] mb-4 mx-auto w-fit">
+                    <div className="flex items-center gap-2 px-4 py-1.5 rounded-full bg-cyan-500/10 border border-cyan-500/20 text-cyan-600 text-[10px] font-black uppercase tracking-[0.3em] mb-4 mx-auto w-fit">
                         <div className="w-1 h-1 rounded-full bg-indigo-400 animate-pulse" />
-                        Trusted Network
+                        Global Network
                     </div>
                     <h2 className="text-3xl md:text-4xl lg:text-5xl font-black text-slate-900 mb-4 tracking-tight">
                         Our Hiring <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-cyan-500">Partners</span>
                     </h2>
                     <p className="text-slate-500 max-w-2xl mx-auto text-base leading-relaxed">
-                        Empowering careers by connecting our talent with industry leaders worldwide.
+                        Trusted by leading industry giants and high-growth technology ventures worldwide.
                     </p>
                 </div>
             </div>

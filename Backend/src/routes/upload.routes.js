@@ -3,6 +3,8 @@ const router = express.Router();
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const mongoose = require('mongoose');
+const { Readable } = require('stream');
 
 // Ensure uploads directory exists
 const uploadDir = path.join(__dirname, '../../uploads');
@@ -32,7 +34,7 @@ const upload = multer({
 });
 
 const templateUpload = multer({
-    storage: storage,
+    storage: multer.memoryStorage(),
     limits: { fileSize: 10 * 1024 * 1024 }, // 10MB
     fileFilter: (req, file, cb) => {
         const allowedMimes = new Set([
@@ -47,6 +49,30 @@ const templateUpload = multer({
         const allowedExt = /\.(pdf|doc|docx|jpeg|jpg|png|webp)$/i.test(file.originalname || '');
         if (allowedMimes.has(file.mimetype) && allowedExt) return cb(null, true);
         cb(new Error('Supported template formats: PDF, DOC, DOCX, JPG, PNG, WEBP'));
+    }
+});
+
+const getTemplateBucket = () => new mongoose.mongo.GridFSBucket(mongoose.connection.db, {
+    bucketName: 'certificateTemplates'
+});
+
+const uploadTemplateToGridFS = (file) => new Promise((resolve, reject) => {
+    try {
+        const bucket = getTemplateBucket();
+        const stream = bucket.openUploadStream(file.originalname, {
+            contentType: file.mimetype,
+            metadata: {
+                originalName: file.originalname,
+                uploadedAt: new Date()
+            }
+        });
+
+        stream.on('error', reject);
+        stream.on('finish', () => resolve(stream.id));
+
+        Readable.from(file.buffer).pipe(stream);
+    } catch (error) {
+        reject(error);
     }
 });
 
@@ -75,17 +101,53 @@ router.post('/template', templateUpload.single('file'), (req, res) => {
         if (!req.file) {
             return res.status(400).json({ message: 'No template uploaded' });
         }
-
-        const fileUrl = `/uploads/${req.file.filename}`;
-        res.status(200).json({
-            message: 'Template uploaded successfully',
-            fileUrl,
-            fileName: req.file.originalname,
-            mimeType: req.file.mimetype,
-            success: true
-        });
+        uploadTemplateToGridFS(req.file)
+            .then((fileId) => {
+                const fileUrl = `/api/upload/template/${String(fileId)}`;
+                res.status(200).json({
+                    message: 'Template uploaded successfully',
+                    fileUrl,
+                    fileName: req.file.originalname,
+                    mimeType: req.file.mimetype,
+                    success: true
+                });
+            })
+            .catch((error) => {
+                res.status(500).json({ message: error.message || 'Template upload failed' });
+            });
     } catch (error) {
         res.status(500).json({ message: error.message });
+    }
+});
+
+router.get('/template/:id', async (req, res) => {
+    try {
+        const { id } = req.params;
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({ message: 'Invalid template id' });
+        }
+
+        const objectId = new mongoose.Types.ObjectId(id);
+        const files = await mongoose.connection.db
+            .collection('certificateTemplates.files')
+            .find({ _id: objectId })
+            .limit(1)
+            .toArray();
+
+        if (!files || files.length === 0) {
+            return res.status(404).json({ message: 'Template not found' });
+        }
+
+        const file = files[0];
+        res.set('Content-Type', file.contentType || 'application/octet-stream');
+        res.set('Cache-Control', 'public, max-age=31536000, immutable');
+
+        const bucket = getTemplateBucket();
+        const downloadStream = bucket.openDownloadStream(objectId);
+        downloadStream.on('error', () => res.status(404).end());
+        downloadStream.pipe(res);
+    } catch (error) {
+        res.status(500).json({ message: error.message || 'Failed to fetch template' });
     }
 });
 

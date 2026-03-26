@@ -122,8 +122,8 @@ const AboutPage = () => {
         </div>
       </section>
 
-      {/* Stats - Premium Clean Glassmorphism */}
-      <section className="py-10 relative z-20 bg-[#020617]">
+      {/* Stats - Light */}
+      <section className="py-10 relative z-20 bg-slate-50">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {stats.map((stat, index) => {
@@ -135,20 +135,20 @@ const AboutPage = () => {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ delay: index * 0.1 }}
-                  className="bg-slate-800/40 backdrop-blur-md border border-slate-700 shadow-[0_15px_40px_-15px_rgba(0,0,0,0.3)] p-6 rounded-[2.5rem] group text-center relative overflow-hidden"
+                  className="bg-white border border-slate-200 shadow-[0_14px_28px_-24px_rgba(15,23,42,0.4)] p-6 rounded-[2.5rem] group text-center relative overflow-hidden"
                 >
                   <div className={`inline-flex items-center justify-center w-14 h-14 mb-5 bg-gradient-to-br ${stat.color} rounded-2xl text-white shadow-lg transition-all duration-500 group-hover:rotate-6 group-hover:scale-110`}>
                     <Icon className="w-7 h-7" strokeWidth={2.5} />
                   </div>
                   {!statsData ? (
-                    <div className="h-9 w-20 bg-slate-700/50 rounded-lg animate-pulse mx-auto mb-1"></div>
+                    <div className="h-9 w-20 bg-slate-200 rounded-lg animate-pulse mx-auto mb-1"></div>
                   ) : (
-                    <div className="text-3xl font-black text-white mb-1 tracking-tight font-display">{stat.number}</div>
+                    <div className="text-3xl font-black text-slate-900 mb-1 tracking-tight font-display">{stat.number}</div>
                   )}
                   <div className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{stat.label}</div>
 
                   {/* Subtle hover background animation */}
-                  <div className="absolute inset-0 bg-white/0 group-hover:bg-white/5 transition-colors -z-10" />
+                  <div className="absolute inset-0 bg-transparent group-hover:bg-slate-50 transition-colors -z-10" />
                 </motion.div>
               )
             })}

@@ -19,9 +19,7 @@ import {
     Mail,
     UserCog,
     MessageSquare,
-    Cpu,
-    Image as ImageIcon,
-    ClipboardList
+    Cpu
 } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import { useToast } from '../../context/ToastContext'
@@ -32,7 +30,6 @@ const menuGroups = [
         title: 'Operations',
         items: [
             { path: '/admin/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
-            { path: '/admin/activity',  icon: ClipboardList,    label: 'Activity'   },
             { path: '/admin/settings',  icon: Settings,         label: 'Settings'   },
         ]
     },
@@ -69,7 +66,6 @@ const menuGroups = [
             { path: '/admin/services',     icon: Layers, label: 'Services'     },
             { path: '/admin/technologies', icon: Cpu,    label: 'Technologies' },
             { path: '/admin/cities',       icon: MapPin, label: 'Cities'       },
-            { path: '/admin/media',        icon: ImageIcon, label: 'Site Media' },
         ]
     }
 ]
@@ -238,7 +234,7 @@ const AdminLayout = ({ children }) => {
         return () => window.removeEventListener('resize', onResize)
     }, [])
 
-    const SIDEBAR_W_OPEN     = '20rem'   // 320px – full labels
+    const SIDEBAR_W_OPEN     = '12rem'   // 272px – compact full labels
     const SIDEBAR_W_COLLAPSED = '4.5rem' // 72px  – icons only
 
     return (
@@ -274,7 +270,7 @@ const AdminLayout = ({ children }) => {
                             animate={{ x: 0 }}
                             exit={{ x: '-100%' }}
                             transition={{ type: 'spring', damping: 28, stiffness: 260 }}
-                            className="fixed inset-y-0 left-0 w-[20rem] bg-[#0b1120] border-r border-white/5 z-[201] lg:hidden flex flex-col shadow-2xl"
+                            className="fixed inset-y-0 left-0 w-[17rem] bg-[#0b1120] border-r border-white/5 z-[201] lg:hidden flex flex-col shadow-2xl"
                         >
                             <SidebarContent
                                 collapsed={false}

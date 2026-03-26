@@ -261,7 +261,7 @@ const ContactPage = () => {
                               required
                               value={formData.name}
                               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                              className="w-full pl-14 pr-6 py-4 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/5 transition-all font-bold text-slate-900 placeholder:text-slate-700 shadow-sm text-sm"
+                              className="w-full pl-14 pr-6 py-4 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/5 transition-all font-bold text-slate-900 placeholder:text-slate-400 placeholder:opacity-70 shadow-sm text-sm"
                               placeholder="Full Name"
                             />
                           </div>
@@ -276,7 +276,7 @@ const ContactPage = () => {
                               required
                               value={formData.email}
                               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                              className="w-full pl-14 pr-6 py-4 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/5 transition-all font-bold text-slate-900 placeholder:text-slate-700 shadow-sm text-sm"
+                              className="w-full pl-14 pr-6 py-4 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/5 transition-all font-bold text-slate-900 placeholder:text-slate-400 placeholder:opacity-70 shadow-sm text-sm"
                               placeholder="Email Address"
                             />
                           </div>
@@ -293,7 +293,7 @@ const ContactPage = () => {
                               required
                               value={formData.phone}
                               onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                              className="w-full pl-14 pr-6 py-4 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/5 transition-all font-bold text-slate-900 placeholder:text-slate-700 shadow-sm text-sm"
+                              className="w-full pl-14 pr-6 py-4 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/5 transition-all font-bold text-slate-900 placeholder:text-slate-400 placeholder:opacity-70 shadow-sm text-sm"
                               placeholder="Phone Number"
                             />
                           </div>
@@ -308,7 +308,7 @@ const ContactPage = () => {
                               required
                               value={formData.subject}
                               onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                              className="w-full pl-14 pr-6 py-4 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/5 transition-all font-bold text-slate-900 placeholder:text-slate-700 shadow-sm text-sm"
+                              className="w-full pl-14 pr-6 py-4 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/5 transition-all font-bold text-slate-900 placeholder:text-slate-400 placeholder:opacity-70 shadow-sm text-sm"
                               placeholder="Inquiry Type"
                             />
                           </div>
@@ -324,7 +324,7 @@ const ContactPage = () => {
                             required
                             value={formData.message}
                             onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                            className="w-full pl-14 pr-6 py-4 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/5 transition-all font-bold text-slate-900 placeholder:text-slate-700 resize-none shadow-sm text-sm"
+                            className="w-full pl-14 pr-6 py-4 rounded-xl bg-slate-50 border border-slate-200 focus:bg-white focus:border-indigo-500 focus:ring-4 focus:ring-indigo-500/5 transition-all font-bold text-slate-900 placeholder:text-slate-400 placeholder:opacity-70 resize-none shadow-sm text-sm"
                             placeholder="Describe your requirements..."
                           />
                         </div>

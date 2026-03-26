@@ -4,6 +4,8 @@ import { Target, Users, BookOpen, TrendingUp, ShieldCheck, CheckCircle2 } from '
 import { useSiteData } from '../../context/SiteContext';
 
 const MissionAndImpact = () => {
+    const missionImage = "/images/mission-students.jpg";
+    const missionFallbackImage = "/images/learning4.jpg";
     const { stats } = useSiteData();
     const impactData = {
         studentsCount: stats?.students || "16K+",
@@ -27,7 +29,7 @@ const MissionAndImpact = () => {
     };
 
     return (
-        <section className="relative py-24 bg-white overflow-hidden">
+        <section className="relative py-24 bg-slate-50 overflow-hidden">
             {/* Background elements */}
             <div className="absolute top-0 right-0 w-1/3 h-[500px] bg-indigo-50/50 blur-[100px] rounded-full pointer-events-none" />
             <div className="absolute bottom-0 left-0 w-1/2 h-[400px] bg-cyan-50/50 blur-[100px] rounded-full pointer-events-none" />
@@ -51,10 +53,13 @@ const MissionAndImpact = () => {
                             {/* Grayscale overlay effect similar to reference image */}
                             <div className="absolute inset-0 bg-slate-900/10 mix-blend-multiply z-10" />
                             <img 
-                                src="/images/learning4.jpg" 
+                                src={missionImage} 
                                 alt="Students collaborating" 
                                 className="w-full h-full object-cover grayscale-[30%] hover:grayscale-0 transition-all duration-700 hover:scale-105"
-                                onError={(e) => { e.target.src = "https://images.unsplash.com/photo-1522071820081-009f0129c71c?auto=format&fit=crop&w=800&q=80" }}
+                                onError={(e) => {
+                                    e.currentTarget.onerror = null;
+                                    e.currentTarget.src = missionFallbackImage;
+                                }}
                             />
                             
                             {/* Floating Card */}
@@ -94,7 +99,7 @@ const MissionAndImpact = () => {
 
                         <motion.p 
                             variants={itemVariants}
-                            className="text-slate-600 leading-relaxed font-medium mb-10 max-w-lg"
+                            className="text-slate-600 text-lg leading-relaxed font-semibold mb-10 max-w-xl"
                         >
                             At MentriQ, we don't just teach technology; we engineer careers. Our methodology is built on three pillars of excellence: real-world proximity, algorithmic rigor, and global standard certification.
                         </motion.p>
@@ -125,10 +130,10 @@ const MissionAndImpact = () => {
                         variants={containerVariants}
                         className="text-center mb-16"
                     >
-                        <motion.h3 variants={itemVariants} className="text-4xl md:text-5xl font-black tracking-tighter uppercase font-display text-slate-900 mb-3">
+                        <motion.h3 variants={itemVariants} className="text-4xl md:text-6xl font-black tracking-tighter uppercase font-display text-slate-900 mb-3">
                             The Impact
                         </motion.h3>
-                        <motion.p variants={itemVariants} className="text-sm font-medium text-slate-500">
+                        <motion.p variants={itemVariants} className="text-base md:text-xl font-semibold text-slate-500">
                             Join the ranks of high-performance professionals scaling global industries.
                         </motion.p>
                     </motion.div>
@@ -138,31 +143,31 @@ const MissionAndImpact = () => {
                         whileInView="visible"
                         viewport={{ once: true, margin: "-100px" }}
                         variants={containerVariants}
-                        className="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6"
+                        className="grid grid-cols-2 lg:grid-cols-4 gap-6"
                     >
                         {[
-                            { title: "Students Trained", value: impactData?.studentsCount || "16K+", icon: Users, color: "text-indigo-600", bg: "bg-indigo-600" },
-                            { title: "Live Courses", value: impactData?.coursesCount || "50+", icon: BookOpen, color: "text-cyan-600", bg: "bg-cyan-600" },
-                            { title: "Placement Rate", value: impactData?.placementRate || "98%", icon: Target, color: "text-purple-600", bg: "bg-purple-600" },
-                            { title: "Expert Trainers", value: impactData?.expertTrainersCount || "60+", icon: ShieldCheck, color: "text-blue-600", bg: "bg-blue-600" }
+                            { title: "Students Trained", value: impactData?.studentsCount || "16K+", icon: Users, accent: "from-indigo-500 to-indigo-600" },
+                            { title: "Live Courses", value: impactData?.coursesCount || "50+", icon: BookOpen, accent: "from-cyan-500 to-blue-500" },
+                            { title: "Placement Rate", value: impactData?.placementRate || "98%", icon: Target, accent: "from-purple-500 to-pink-500" },
+                            { title: "Expert Trainers", value: impactData?.expertTrainersCount || "60+", icon: ShieldCheck, accent: "from-emerald-500 to-cyan-500" }
                         ].map((stat, idx) => (
                             <motion.div 
                                 key={idx}
                                 variants={itemVariants}
                                 whileHover={{ y: -5 }}
-                                className="bg-white rounded-3xl p-6 md:p-8 text-center border border-slate-100 shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col items-center justify-center group"
+                                className="bg-white rounded-[2.5rem] p-8 text-center border border-slate-200 shadow-[0_14px_28px_-24px_rgba(15,23,42,0.4)] hover:shadow-[0_18px_34px_-24px_rgba(30,41,59,0.35)] transition-all duration-300 flex flex-col items-center justify-center"
                             >
-                                <div className={`w-12 h-12 rounded-xl flex items-center justify-center text-white ${stat.bg} mb-4 group-hover:scale-110 transition-transform duration-300 shadow-lg`} style={{ boxShadow: `0 8px 24px rgba(0,0,0,0.15)` }}>
+                                <div className={`w-16 h-16 rounded-[1.3rem] bg-gradient-to-br ${stat.accent} flex items-center justify-center text-white mb-5 shadow-xl`}>
                                     <stat.icon size={24} />
                                 </div>
                                 {impactLoading ? (
-                                    <div className="h-10 w-20 bg-slate-200 rounded-lg animate-pulse mb-1"></div>
+                                    <div className="h-10 w-24 bg-slate-200 rounded-lg animate-pulse mb-1"></div>
                                 ) : (
-                                    <h4 className="text-3xl md:text-4xl font-black text-slate-900 tracking-tighter mb-1">
+                                    <h4 className="text-4xl font-black text-slate-900 tracking-tighter mb-1">
                                         {stat.value}
                                     </h4>
                                 )}
-                                <p className="text-[9px] md:text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">
+                                <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">
                                     {stat.title}
                                 </p>
                             </motion.div>

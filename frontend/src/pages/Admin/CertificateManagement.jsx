@@ -460,16 +460,16 @@ const CertificateManagement = () => {
             {/* Modal */}
             <AnimatePresence>
                 {isModalOpen && (
-                    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-xl">
+                    <div className={`fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-xl ${modalMode === "template" ? "lg:pl-[17rem]" : ""}`}>
                         <motion.div
                             initial={{ opacity: 0, scale: 0.95, y: 20 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 30 }}
-                            className="relative w-full max-w-xl max-h-[92vh] bg-[#0b1120] border border-white/10 rounded-[3rem] p-10 shadow-2xl flex flex-col overflow-hidden"
+                            className={`relative w-full ${modalMode === "template" ? "max-w-[84vw]" : "max-w-xl"} max-h-[92vh] bg-[#0b1120] border border-white/10 rounded-[3rem] p-8 md:p-10 shadow-2xl flex flex-col overflow-hidden`}
                         >
-                            <div className="flex items-start justify-between gap-6 mb-10 shrink-0">
+                            <div className="flex items-start justify-between gap-6 mb-6 shrink-0">
                                 <div>
-                                    <h3 className="text-3xl font-black text-white tracking-tight uppercase">
+                                    <h3 className="text-2xl md:text-[2rem] font-black text-white tracking-tight uppercase">
                                         {modalMode === "template" ? "Template Studio" : "Credential Generation"}
                                     </h3>
                                     <p className="text-[10px] font-black text-slate-400 uppercase tracking-[0.3em] mt-1">
@@ -487,7 +487,7 @@ const CertificateManagement = () => {
                             <form
                                 id="certificate-form"
                                 onSubmit={modalMode === "issue" ? handleGenerate : (e) => e.preventDefault()}
-                                className="flex-1 min-h-0 space-y-8 overflow-y-auto pr-4 -mr-4 custom-scrollbar"
+                                className={`flex-1 min-h-0 overflow-y-auto pr-4 -mr-4 custom-scrollbar ${modalMode === "template" ? "space-y-5" : "space-y-8"}`}
                             >
                                 {modalMode === "issue" && (
                                 <div className="space-y-2">
@@ -599,140 +599,151 @@ const CertificateManagement = () => {
                                 </div>
                                 )}
 
-                                <div className="space-y-3">
-                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Template File (PDF / DOC / DOCX / Image)</label>
-                                    <label className="flex items-center justify-between gap-4 rounded-2xl border border-white/10 bg-[#1e293b] p-4 cursor-pointer hover:border-emerald-500/40 transition-colors">
-                                        <div className="flex items-center gap-3 min-w-0">
-                                            <FileText size={18} className="text-emerald-400 shrink-0" />
-                                            <span className="text-xs font-bold text-slate-300 truncate">
-                                                {formData.template.fileName || "Upload template file"}
-                                            </span>
-                                        </div>
-                                        <span className="text-[10px] font-black uppercase tracking-widest text-emerald-400 flex items-center gap-2">
-                                            {uploadingTemplate ? "Uploading..." : "Upload"}
-                                            <Upload size={14} />
-                                        </span>
-                                        <input
-                                            type="file"
-                                            accept=".pdf,.doc,.docx,.png,.jpg,.jpeg,.webp"
-                                            className="hidden"
-                                            onChange={(e) => handleTemplateUpload(e.target.files?.[0])}
-                                        />
-                                    </label>
-                                    <button
-                                        type="button"
-                                        onClick={() => saveTemplateDefaults({ showToast: true })}
-                                        disabled={savingTemplateDefaults || !formData.template?.url}
-                                        className="w-full rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-emerald-300 disabled:opacity-50"
-                                    >
-                                        {savingTemplateDefaults ? "Saving template..." : "Save Template For Future Certificates"}
-                                    </button>
-                                    <button
-                                        type="button"
-                                        onClick={applyDefaultTemplateToForm}
-                                        disabled={!defaultTemplate.template?.url}
-                                        className="w-full rounded-xl border border-cyan-500/30 bg-cyan-500/10 px-4 py-3 text-[10px] font-black uppercase tracking-[0.2em] text-cyan-300 disabled:opacity-50"
-                                    >
-                                        Use Default Template
-                                    </button>
-                                </div>
-
-                                <div className="space-y-3">
-                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Drag & Drop Layout Designer</label>
-                                    <div
-                                        ref={templateCanvasRef}
-                                        className="relative w-full min-h-[260px] rounded-2xl border border-white/10 bg-[#111827] overflow-hidden"
-                                    >
-                                        {formData.template?.url ? (
-                                            formData.template.mimeType?.startsWith("image/") ? (
-                                                <img
-                                                    src={resolveImageUrl(formData.template.url)}
-                                                    alt="Certificate Template"
-                                                    className="absolute inset-0 w-full h-full object-cover opacity-70"
-                                                />
-                                            ) : (
-                                                <div className="absolute inset-0 flex items-center justify-center px-6 text-center text-xs font-bold uppercase tracking-widest text-slate-300">
-                                                    Document template attached. Drag preview works best with image templates.
-                                                </div>
-                                            )
-                                        ) : (
-                                            <div className="absolute inset-0 flex items-center justify-center px-6 text-center text-xs font-bold uppercase tracking-widest text-slate-400">
-                                                Upload a template to start drag-and-drop placement.
+                                {modalMode === "template" ? (
+                                    <>
+                                        <div className="space-y-3">
+                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Template File (PDF / DOC / DOCX / Image)</label>
+                                            <div className="text-[11px] font-bold text-slate-300/90 truncate">
+                                                {formData.template.fileName || "No template file selected"}
                                             </div>
-                                        )}
-                                        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/35 pointer-events-none" />
-                                        {Object.entries(formData.fieldLayout).map(([fieldKey, cfg]) => {
-                                            if (!cfg?.enabled) return null;
-                                            return (
-                                                <button
-                                                    key={fieldKey}
-                                                    type="button"
-                                                    onMouseDown={(e) => startDraggingField(fieldKey, e)}
-                                                    className={`absolute -translate-x-1/2 -translate-y-1/2 rounded-md border px-2 py-1 text-[10px] font-black uppercase tracking-widest shadow-lg cursor-move ${fieldKey === "studentName" ? "bg-cyan-500/20 border-cyan-400/50 text-cyan-200" : "bg-emerald-500/20 border-emerald-400/40 text-emerald-200"}`}
-                                                    style={{ left: `${cfg.x}%`, top: `${cfg.y}%` }}
-                                                >
-                                                    {FIELD_LABELS[fieldKey] || fieldKey}
-                                                </button>
-                                            );
-                                        })}
-                                    </div>
-                                    <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">
-                                        Drag labels to set exact positions on template. Name is always mandatory.
-                                    </p>
-                                </div>
-
-                                <div className="space-y-4">
-                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Field Placement (percent coordinates)</label>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                                        {Object.entries(formData.fieldLayout).map(([key, config]) => (
-                                            <div key={key} className="rounded-xl border border-white/10 bg-[#1e293b] p-3 space-y-3">
-                                                <label className="flex items-center justify-between text-xs font-bold text-slate-200 uppercase tracking-wider">
-                                                    <span>{key}</span>
+                                            <div className="flex flex-wrap lg:flex-nowrap lg:justify-end gap-2.5">
+                                                <label className="inline-flex items-center gap-2.5 rounded-xl border border-white/10 bg-[#1e293b] px-4 py-2.5 cursor-pointer hover:border-emerald-500/40 transition-colors">
+                                                    <FileText size={16} className="text-emerald-400 shrink-0" />
+                                                    <span className="text-[10px] font-black uppercase tracking-widest text-emerald-300">
+                                                        {uploadingTemplate ? "Uploading..." : "Upload"}
+                                                    </span>
+                                                    <Upload size={13} className="text-emerald-300" />
                                                     <input
-                                                        type="checkbox"
-                                                        checked={!!config.enabled}
-                                                        onChange={(e) => setLayoutValue(key, "enabled", e.target.checked)}
-                                                        disabled={key === "studentName"}
+                                                        type="file"
+                                                        accept=".pdf,.doc,.docx,.png,.jpg,.jpeg,.webp"
+                                                        className="hidden"
+                                                        onChange={(e) => handleTemplateUpload(e.target.files?.[0])}
                                                     />
                                                 </label>
-                                                <div className="grid grid-cols-2 gap-2">
-                                                    <input
-                                                        type="number"
-                                                        min="0"
-                                                        max="100"
-                                                        step="0.01"
-                                                        value={config.x}
-                                                        onChange={(e) => setLayoutValue(key, "x", Number(e.target.value))}
-                                                        className="bg-[#0f172a] border border-white/10 rounded-lg p-2 text-xs text-white"
-                                                        placeholder="X%"
-                                                    />
-                                                    <input
-                                                        type="number"
-                                                        min="0"
-                                                        max="100"
-                                                        step="0.01"
-                                                        value={config.y}
-                                                        onChange={(e) => setLayoutValue(key, "y", Number(e.target.value))}
-                                                        className="bg-[#0f172a] border border-white/10 rounded-lg p-2 text-xs text-white"
-                                                        placeholder="Y%"
-                                                    />
+                                                <button
+                                                    type="button"
+                                                    onClick={() => saveTemplateDefaults({ showToast: true })}
+                                                    disabled={savingTemplateDefaults || !formData.template?.url}
+                                                    className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.18em] text-emerald-300 disabled:opacity-50"
+                                                >
+                                                    {savingTemplateDefaults ? "Saving..." : "Save Template"}
+                                                </button>
+                                                <button
+                                                    type="button"
+                                                    onClick={applyDefaultTemplateToForm}
+                                                    disabled={!defaultTemplate.template?.url}
+                                                    className="rounded-xl border border-cyan-500/30 bg-cyan-500/10 px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.18em] text-cyan-300 disabled:opacity-50"
+                                                >
+                                                    Use Default
+                                                </button>
+                                            </div>
+                                        </div>
+
+                                        <div className="space-y-3">
+                                            <div className="text-[10px] text-slate-500 font-black uppercase tracking-widest">
+                                                Drag labels to set exact positions on template. Name is always mandatory.
+                                            </div>
+                                            <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_150px] rounded-2xl border border-white/10 overflow-hidden">
+                                                <div className="p-4 md:p-5 bg-[#0f172a] border-r border-white/10 space-y-3">
+                                                    <p className="text-[10px] font-black uppercase tracking-widest text-slate-400">
+                                                        Drag & Drop fields onto template.
+                                                    </p>
+                                                    <div
+                                                        ref={templateCanvasRef}
+                                                        className="relative w-full h-[48vh] min-h-[320px] max-h-[520px] rounded-xl border border-white/10 bg-[#111827] overflow-hidden"
+                                                    >
+                                                        {formData.template?.url ? (
+                                                            formData.template.mimeType?.startsWith("image/") ? (
+                                                                <img
+                                                                    src={resolveImageUrl(formData.template.url)}
+                                                                    alt="Certificate Template"
+                                                                    className="absolute inset-0 w-full h-full object-contain"
+                                                                />
+                                                            ) : (
+                                                                <div className="absolute inset-0 flex items-center justify-center px-6 text-center text-xs font-bold uppercase tracking-widest text-slate-300">
+                                                                    Document template attached. Drag preview works best with image templates.
+                                                                </div>
+                                                            )
+                                                        ) : (
+                                                            <div className="absolute inset-0 flex items-center justify-center px-6 text-center text-xs font-bold uppercase tracking-widest text-slate-400">
+                                                                Upload a template to start drag-and-drop placement.
+                                                            </div>
+                                                        )}
+                                                        {Object.entries(formData.fieldLayout).map(([fieldKey, cfg]) => {
+                                                            if (!cfg?.enabled) return null;
+                                                            return (
+                                                                <button
+                                                                    key={fieldKey}
+                                                                    type="button"
+                                                                    onMouseDown={(e) => startDraggingField(fieldKey, e)}
+                                                                    className={`absolute -translate-x-1/2 -translate-y-1/2 rounded-md border px-2 py-1 text-[10px] font-black uppercase tracking-widest shadow-lg cursor-move ${fieldKey === "studentName" ? "bg-cyan-500/20 border-cyan-400/50 text-cyan-200" : "bg-emerald-500/20 border-emerald-400/40 text-emerald-200"}`}
+                                                                    style={{ left: `${cfg.x}%`, top: `${cfg.y}%` }}
+                                                                >
+                                                                    {FIELD_LABELS[fieldKey] || fieldKey}
+                                                                </button>
+                                                            );
+                                                        })}
+                                                    </div>
                                                 </div>
-                                                {key === "qrCode" && (
-                                                    <input
-                                                        type="number"
-                                                        min="8"
-                                                        max="30"
-                                                        step="0.01"
-                                                        value={config.size || 18}
-                                                        onChange={(e) => setLayoutValue(key, "size", Number(e.target.value))}
-                                                        className="w-full bg-[#0f172a] border border-white/10 rounded-lg p-2 text-xs text-white"
-                                                        placeholder="QR size"
-                                                    />
+                                                <div className="p-2.5 bg-[#1e293b] space-y-2">
+                                                    <div>
+                                                        <p className="text-xs font-black uppercase tracking-tight text-white">Fields List</p>
+                                                        <p className="text-[9px] font-black uppercase tracking-widest text-slate-400">Toggle</p>
+                                                    </div>
+                                                    <div className="space-y-1.5">
+                                                        {Object.entries(formData.fieldLayout).map(([key, config]) => {
+                                                            const label = key.replace(/_/g, "").toUpperCase();
+                                                            return (
+                                                                <div key={key} className="flex items-center justify-between gap-2 py-0.5">
+                                                                    <span className="text-[10px] font-black uppercase tracking-wider text-slate-200">
+                                                                        {label}
+                                                                    </span>
+                                                                    <label className="inline-flex items-center cursor-pointer">
+                                                                        <input
+                                                                            type="checkbox"
+                                                                            className="sr-only peer"
+                                                                            checked={!!config.enabled}
+                                                                            onChange={(e) => setLayoutValue(key, "enabled", e.target.checked)}
+                                                                            disabled={key === "studentName"}
+                                                                        />
+                                                                        <span className="w-9 h-5 bg-slate-600/80 rounded-full peer peer-checked:bg-emerald-500/80 transition-colors relative after:content-[''] after:absolute after:w-4 after:h-4 after:bg-white after:rounded-full after:top-0.5 after:left-0.5 peer-checked:after:translate-x-4 after:transition-transform" />
+                                                                    </label>
+                                                                </div>
+                                                            );
+                                                        })}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </>
+                                ) : (
+                                    <div className="space-y-3">
+                                        <div className="text-[10px] text-slate-500 font-black uppercase tracking-widest">
+                                            Certificate Preview
+                                        </div>
+                                        <div className="rounded-2xl border border-white/10 bg-[#0f172a] p-4">
+                                            <div className="relative w-full h-[46vh] min-h-[320px] max-h-[520px] rounded-xl border border-white/10 bg-[#111827] overflow-hidden">
+                                                {formData.template?.url ? (
+                                                    formData.template.mimeType?.startsWith("image/") ? (
+                                                        <img
+                                                            src={resolveImageUrl(formData.template.url)}
+                                                            alt="Certificate Preview"
+                                                            className="absolute inset-0 w-full h-full object-contain"
+                                                        />
+                                                    ) : (
+                                                        <div className="absolute inset-0 flex items-center justify-center px-6 text-center text-xs font-bold uppercase tracking-widest text-slate-300">
+                                                            Document template attached.
+                                                        </div>
+                                                    )
+                                                ) : (
+                                                    <div className="absolute inset-0 flex items-center justify-center px-6 text-center text-xs font-bold uppercase tracking-widest text-slate-400">
+                                                        No template found. Configure one in Template Studio.
+                                                    </div>
                                                 )}
                                             </div>
-                                        ))}
+                                        </div>
                                     </div>
-                                </div>
+                                )}
                             </form>
                             <div className="p-10 border-t border-white/5 flex justify-end items-center gap-4 shrink-0 -mx-10 -mb-10 mt-10 bg-[#1e293b]">
                                 <button

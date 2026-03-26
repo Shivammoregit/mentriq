@@ -6,6 +6,8 @@ import { apiClient } from '../utils/apiClient'
 import { useNavigate } from 'react-router-dom'
 
 const CoursesPage = () => {
+  const coursesHeroImage = "/images/course_img.png"
+  const coursesHeroFallbackImage = "/images/learning4.jpg"
   const [courses, setCourses] = useState([])
   const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState('')
@@ -106,7 +108,7 @@ const CoursesPage = () => {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 1, delay: 0.1 }}
-            className="hidden lg:flex justify-end perspective-1000"
+            className="flex justify-center lg:justify-end perspective-1000"
           >
             <div className="relative group">
               {/* Outer Glow */}
@@ -114,17 +116,21 @@ const CoursesPage = () => {
 
               <div className="relative z-10 rounded-[2.5rem] overflow-hidden border border-slate-200 shadow-2xl shadow-black/50 transform transition-all duration-700 group-hover:scale-105 group-hover:-rotate-2">
                 <img
-                  src="/images/learning4.jpg"
+                  src={coursesHeroImage}
                   alt="Premium Course Learning"
                   className="w-full max-w-lg object-cover"
+                  onError={(e) => {
+                    e.currentTarget.onerror = null
+                    e.currentTarget.src = coursesHeroFallbackImage
+                  }}
                 />
                 {/* Glass Overlays */}
-                <div className="absolute bottom-6 left-6 right-6 p-6 rounded-3xl bg-black/40 backdrop-blur-xl border border-slate-200 transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 shadow-lg">
+                <div className="absolute bottom-6 left-6 right-6 p-6 rounded-3xl bg-white/85 backdrop-blur-xl border border-white/90 transform translate-y-4 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-500 shadow-lg shadow-slate-900/15">
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 bg-indigo-600 rounded-full flex items-center justify-center text-white font-bold shadow-lg">100%</div>
                     <div>
                       <p className="font-bold text-slate-900 leading-none mb-1">Success Focus</p>
-                      <p className="text-xs text-indigo-300 font-bold">Industry standard training</p>
+                      <p className="text-xs text-indigo-600 font-bold">Industry standard training</p>
                     </div>
                   </div>
                 </div>

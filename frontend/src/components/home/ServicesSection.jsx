@@ -21,29 +21,19 @@ const ServicesSection = () => {
         : FALLBACK_SERVICES;
 
     return (
-        <section className="py-20 bg-slate-900 relative overflow-hidden">
-            {/* Ambient Background Glows */}
-            <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
-                <div className="absolute top-[-10%] right-[-5%] w-[600px] h-[600px] bg-indigo-500/20 rounded-full blur-[120px] animate-pulse" />
-                <div className="absolute bottom-[-10%] left-[-5%] w-[500px] h-[500px] bg-cyan-500/15 rounded-full blur-[100px]" />
-            </div>
-
+        <section className="py-20 bg-slate-50 relative overflow-hidden">
             <div className="max-w-7xl mx-auto px-6 relative z-10">
-                <div className="text-center max-w-3xl mx-auto mb-16">
-                    <div className="inline-flex items-center space-x-2 py-1.5 px-4 rounded-full bg-indigo-500/15 border border-indigo-500/30 mb-6">
-                        <span className="w-2 h-2 bg-indigo-400 rounded-full animate-pulse" />
-                        <span className="text-indigo-300 text-[10px] font-black tracking-widest uppercase">Our Ecosystem</span>
+                <div className="text-center max-w-4xl mx-auto mb-14">
+                    <div className="inline-flex items-center gap-2 py-1.5 px-4 rounded-full bg-indigo-100 border border-indigo-200 mb-6">
+                        <span className="text-indigo-500 text-[10px] font-black tracking-widest uppercase">Expert Solutions</span>
                     </div>
 
-                    <h2 className="text-4xl md:text-5xl font-black text-white mb-6 tracking-tighter uppercase leading-[0.9]">
-                        TRANSFORMING <br />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400">
-                            DIGITAL FRONTIERS
-                        </span>
+                    <h2 className="text-4xl md:text-6xl font-black text-slate-900 mb-5 tracking-tighter uppercase leading-[0.92]">
+                        What We <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 to-cyan-500">Engineer.</span>
                     </h2>
 
-                    <p className="text-base text-slate-400 font-medium max-w-2xl mx-auto">
-                        From intelligence-driven web architectures to high-frequency mobile ecosystems, we deploy the technologies that scale your vision.
+                    <p className="text-base md:text-[1.05rem] text-slate-500 font-semibold max-w-3xl mx-auto">
+                        Architecting the future of intelligence with comprehensive technology stacks.
                     </p>
                 </div>
 
@@ -52,7 +42,7 @@ const ServicesSection = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, amount: 0.15 }}
                     transition={{ duration: 0.45 }}
-                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
                 >
                     {displayServices.map((service, index) => {
                         const isImage = service.icon && (service.icon.startsWith("http") || service.icon.startsWith("/") || service.icon.startsWith("data:"));
@@ -64,12 +54,11 @@ const ServicesSection = () => {
                                 key={service._id || index}
                                 onClick={() => navigate('/contact')}
                                 whileHover={{ y: -6 }}
-                                className="group relative bg-slate-800/60 backdrop-blur-2xl rounded-[2.5rem] p-10 border border-slate-700/50 hover:border-indigo-500/40 transition-all duration-500 cursor-pointer overflow-hidden"
+                                className="group relative bg-white rounded-[2.5rem] p-10 border border-slate-200 hover:border-indigo-200 transition-all duration-500 cursor-pointer overflow-hidden shadow-[0_14px_34px_-28px_rgba(15,23,42,0.35)]"
                             >
-                                {/* Inner Light Core (Persistent) */}
-                                <div className="absolute top-0 right-0 w-32 h-32 bg-indigo-500/5 blur-3xl opacity-50 group-hover:opacity-100 transition-opacity" />
+                                <div className="absolute -top-6 -right-6 w-32 h-32 rounded-full bg-indigo-50" />
 
-                                <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${serviceColor} flex items-center justify-center text-slate-900 mb-6 shadow-2xl group-hover:scale-110 group-hover:-rotate-6 transition-all duration-500 relative z-10 overflow-hidden`}>
+                                <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${serviceColor} flex items-center justify-center text-white mb-6 shadow-lg group-hover:scale-110 transition-all duration-500 relative z-10 overflow-hidden`}>
                                     {isImage ? (
                                         <img src={resolveImageUrl(service.icon)} alt={service.title} className="w-full h-full object-cover" />
                                     ) : (
@@ -77,49 +66,27 @@ const ServicesSection = () => {
                                     )}
                                 </div>
 
-                                <h3 className="text-xl font-black text-white mb-3 tracking-tighter uppercase group-hover:text-indigo-400 transition-colors relative z-10">
+                                <h3 className="text-[1.55rem] md:text-[1.7rem] font-black text-slate-900 mb-3 tracking-tighter leading-[0.98] relative z-10">
                                     {service.title}
                                 </h3>
 
-                                <p className="text-slate-400 text-xs leading-relaxed mb-6 font-medium relative z-10 line-clamp-3">
+                                <p className="text-slate-500 text-xs leading-relaxed mb-6 font-semibold relative z-10 line-clamp-3">
                                     {service.description}
                                 </p>
 
-                                {/* Improved "->" CTA Interaction */}
-                                <div className="flex items-center space-x-2 text-indigo-400 font-black text-[10px] tracking-[0.2em] uppercase opacity-40 group-hover:opacity-100 transition-opacity duration-300 relative z-10 mt-auto">
+                                <div className="flex items-center space-x-2 text-indigo-500 font-black text-[10px] tracking-[0.2em] uppercase relative z-10 mt-auto">
                                     <span>Learn More</span>
                                     <div className="relative overflow-hidden w-6 h-4">
                                         <ArrowRight
-                                            className="absolute left-0 transition-transform duration-300 group-hover:translate-x-1 group-hover:scale-110"
-                                            size={18}
-                                        />
-                                        {/* Offset glitch icon for effect */}
-                                        <ArrowRight
-                                            className="absolute left-0 text-cyan-400 opacity-0 group-hover:opacity-100 group-hover:animate-ping pointer-events-none"
+                                            className="absolute left-0 transition-transform duration-300 group-hover:translate-x-1"
                                             size={18}
                                         />
                                     </div>
                                 </div>
-
-                                {/* Hover Card Glint */}
-                                <div className="absolute inset-0 bg-gradient-to-tr from-white/5 to-transparent opacity-0 group-hover:opacity-10 transition-opacity duration-500 pointer-events-none" />
                             </motion.div>
                         );
                     })}
                 </motion.div>
-
-                <div className="text-center mt-12">
-                    <button
-                        onClick={() => navigate('/services')}
-                        className="group flex items-center space-x-4 mx-auto px-10 py-5 bg-slate-800 border border-slate-700 rounded-2xl text-white font-black uppercase tracking-[0.2em] text-xs hover:bg-slate-700 hover:border-indigo-500/40 transition-all duration-500 backdrop-blur-md shadow-2xl relative overflow-hidden"
-                    >
-                        <span className="relative z-10">Deploy New Inquiry</span>
-                        <ArrowRight size={18} className="relative z-10 group-hover:translate-x-2 transition-transform duration-300" />
-
-                        {/* Internal Shimmer */}
-                        <div className="absolute top-0 -left-[100%] w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent skew-x-12 group-hover:left-[100%] transition-all duration-1000" />
-                    </button>
-                </div>
             </div>
         </section>
     );

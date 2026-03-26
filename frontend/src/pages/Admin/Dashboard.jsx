@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
 import { apiClient as api } from "../../utils/apiClient";
 import {
     Users,
@@ -73,7 +72,6 @@ const Dashboard = () => {
         popularCourses: []
     });
     const [loading, setLoading] = useState(true);
-    const navigate = useNavigate();
 
     const fetchDashData = useCallback(async () => {
         try {
@@ -240,12 +238,6 @@ const Dashboard = () => {
                         ))}
                     </div>
 
-                    <button
-                        onClick={() => navigate("/admin/activity")}
-                        className="w-full mt-6 py-3.5 bg-[#0b1120]/[0.03] hover:bg-blue-500/10 text-slate-400 hover:text-blue-400 font-semibold rounded-2xl border border-white/5 hover:border-blue-500/20 text-[11px] uppercase tracking-wider transition-all active:scale-[0.98] relative z-10"
-                    >
-                        View All Activity
-                    </button>
                 </div>
             </div>
 

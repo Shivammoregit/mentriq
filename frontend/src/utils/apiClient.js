@@ -2,12 +2,10 @@ import axios from 'axios'
 
 const envBaseURL = (import.meta.env.VITE_API_BASE_URL || '').trim().replace(/\/$/, '');
 
-// Resilient BaseURL resolution: 
-// In dev, use the VITE_API_BASE_URL or fallback to localhost.
-// In prod, use the /api proxy which is handled via vercel.json rewrites.
-const resolvedBaseURL = import.meta.env.DEV
-  ? (envBaseURL || 'http://localhost:5000/api')
-  : '/api';
+// Resilient BaseURL resolution:
+// - If VITE_API_BASE_URL is provided, always use it (dev/prod).
+// - Otherwise fallback to localhost in dev and /api in prod (proxy-based deploys).
+const resolvedBaseURL = envBaseURL || (import.meta.env.DEV ? 'http://localhost:5000/api' : '/api');
 
 const setupApiPreconnect = () => {
   if (typeof window === 'undefined') return;

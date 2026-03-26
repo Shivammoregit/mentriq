@@ -1,0 +1,56 @@
+<svg width="1200" height="800" viewBox="0 0 1200 800" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1200" y2="800" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF9E8"/>
+      <stop offset="1" stop-color="#F6F0DE"/>
+    </linearGradient>
+    <linearGradient id="brain" x1="390" y1="220" x2="760" y2="520" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFEFE4"/>
+      <stop offset="1" stop-color="#F6DBCB"/>
+    </linearGradient>
+    <linearGradient id="book" x1="350" y1="540" x2="830" y2="700" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ECF5FB"/>
+      <stop offset="1" stop-color="#D7EAF5"/>
+    </linearGradient>
+    <linearGradient id="charge" x1="470" y1="330" x2="670" y2="330" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FDE7A3"/>
+      <stop offset="1" stop-color="#F4D36A"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="800" fill="url(#bg)"/>
+  <rect x="95" y="45" width="180" height="450" rx="10" fill="#FFFDF5" opacity="0.7" stroke="#EDE3C8" stroke-width="4"/>
+  <path d="M130 85L250 85L250 170" stroke="#E7DDC1" stroke-width="4"/>
+  <path d="M95 45L130 85" stroke="#E7DDC1" stroke-width="4"/>
+
+  <ellipse cx="600" cy="700" rx="300" ry="35" fill="#E8DEC5"/>
+
+  <path d="M360 610C420 570 500 555 600 560C700 555 780 570 840 610L830 700C760 730 680 740 600 740C520 740 440 730 370 700L360 610Z" fill="url(#book)" stroke="#8F806A" stroke-width="5"/>
+  <path d="M600 560V735" stroke="#8F806A" stroke-width="4"/>
+  <path d="M395 630C455 600 520 590 600 595" stroke="#9CB4C4" stroke-width="3"/>
+  <path d="M805 630C745 600 680 590 600 595" stroke="#9CB4C4" stroke-width="3"/>
+  <text x="635" y="665" fill="#4A4034" font-family="Arial, sans-serif" font-size="44" font-weight="700">COURSE</text>
+  <text x="645" y="705" fill="#7B6D58" font-family="Arial, sans-serif" font-size="30" font-weight="600">LEARNING</text>
+
+  <path d="M420 310C440 250 490 220 560 220C630 190 705 200 750 240C795 240 835 270 840 320C870 340 885 390 860 430C860 500 820 550 760 560C730 595 675 610 620 600C560 625 500 620 455 585C390 575 350 525 350 465C315 440 305 390 325 350C325 315 350 285 390 280C398 270 408 265 420 260" fill="url(#brain)" stroke="#8D7366" stroke-width="6"/>
+  <path d="M470 300C500 255 555 255 590 285" stroke="#B09084" stroke-width="5" stroke-linecap="round"/>
+  <path d="M600 285C630 245 700 250 730 300" stroke="#B09084" stroke-width="5" stroke-linecap="round"/>
+  <path d="M470 390C500 365 560 365 590 395" stroke="#B09084" stroke-width="5" stroke-linecap="round"/>
+  <path d="M610 390C640 360 700 360 730 390" stroke="#B09084" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="430" cy="370" r="7" fill="#5B4C45"/>
+  <path d="M385 395C400 415 430 415 445 395" stroke="#5B4C45" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="390" cy="410" r="8" fill="#F5C8B8"/>
+  <circle cx="455" cy="410" r="8" fill="#F5C8B8"/>
+
+  <rect x="485" y="315" width="220" height="78" rx="18" fill="#F7F7F7" stroke="#8D7366" stroke-width="6"/>
+  <rect x="505" y="333" width="170" height="42" rx="12" fill="url(#charge)"/>
+  <rect x="705" y="338" width="18" height="30" rx="6" fill="#8D7366"/>
+  <path d="M820 372C885 375 930 420 935 500C938 552 920 610 860 650" stroke="#8D7366" stroke-width="6" fill="none"/>
+  <rect x="792" y="350" width="52" height="48" rx="10" fill="#F7F7F7" stroke="#8D7366" stroke-width="6"/>
+
+  <circle cx="435" cy="180" r="36" fill="#FFE89D" stroke="#8D7366" stroke-width="4"/>
+  <path d="M555 110C555 80 580 55 610 55C640 55 665 80 665 110V135C665 165 640 190 610 190C580 190 555 165 555 135V110Z" fill="#FFE9A8" stroke="#8D7366" stroke-width="4"/>
+  <path d="M595 120H625M610 120V148M598 148H622" stroke="#8D7366" stroke-width="4" stroke-linecap="round"/>
+  <path d="M820 165C855 165 885 195 885 230C885 265 855 295 820 295C785 295 755 265 755 230C755 195 785 165 820 165ZM820 188V230L845 245" stroke="#9E9E9E" stroke-width="6" fill="#F2F2F2"/>
+  <path d="M820 360C850 330 900 335 922 370C944 405 930 452 892 466" stroke="#8D8D8D" stroke-width="6" stroke-linecap="round"/>
+</svg>
