@@ -170,21 +170,26 @@ const SettingsManagement = () => {
         e.preventDefault();
         setSaving(true);
         try {
-            await Promise.all([
-                api.put("/settings", {
-                    email: formData.email,
-                    phone: formData.phone,
-                    address: formData.address,
-                    mapLink: formData.mapLink,
-                    socialLinks: formData.socialLinks,
-                    promo: formData.promo,
-                    ticker: formData.ticker
-                }),
-                api.put("/stats", formData.siteStats)
-            ]);
-            toast.success("System parameters synchronized");
-        } catch {
-            toast.error("Synchronization failure");
+            await api.put("/settings", {
+                email: formData.email,
+                phone: formData.phone,
+                address: formData.address,
+                mapLink: formData.mapLink,
+                socialLinks: formData.socialLinks,
+                promo: formData.promo,
+                ticker: formData.ticker
+            });
+
+            try {
+                await api.put("/stats", formData.siteStats);
+                toast.success("System parameters synchronized");
+            } catch (statsError) {
+                console.error("Stats update failed:", statsError);
+                toast.success("Settings saved. Stats update failed.");
+            }
+        } catch (error) {
+            console.error("Settings update failed:", error);
+            toast.error("Failed to save settings");
         } finally {
             setSaving(false);
         }

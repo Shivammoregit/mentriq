@@ -50,9 +50,14 @@ const TrainingDetailPage = () => {
         const fetchPromo = async () => {
             try {
                 const { data } = await apiClient.get('/settings');
-                if (data?.promo?.isActive && new Date(data.promo.endDate) > new Date() && data.promo.appliesTo?.courses !== false) {
-                    setPromo(data.promo);
-                }
+                const nextPromo =
+                    data?.promo?.isActive &&
+                    data?.promo?.endDate &&
+                    new Date(data.promo.endDate) > new Date() &&
+                    data.promo.appliesTo?.courses !== false
+                        ? data.promo
+                        : null;
+                setPromo(nextPromo);
             } catch (err) {
                 console.error(err)
             }
@@ -60,6 +65,8 @@ const TrainingDetailPage = () => {
 
         fetchData()
         fetchPromo()
+        const interval = setInterval(fetchPromo, 10000);
+        return () => clearInterval(interval);
     }, [id, isAuthenticated])
 
     const handleEnroll = () => {

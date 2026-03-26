@@ -59,15 +59,21 @@ const InternshipApplicationPage = () => {
         const fetchPromo = async () => {
             try {
                 const { data } = await api.get('/settings');
-                if (data?.internshipPromo?.isActive && new Date(data.internshipPromo.endDate) > new Date()) {
-                    setPromo(data.internshipPromo);
-                }
+                const nextPromo =
+                    data?.internshipPromo?.isActive &&
+                    data?.internshipPromo?.endDate &&
+                    new Date(data.internshipPromo.endDate) > new Date()
+                        ? data.internshipPromo
+                        : null;
+                setPromo(nextPromo);
             } catch (error) {
                 console.error("Failed to fetch promo:", error);
             }
         };
         fetchInternship();
         fetchPromo();
+        const interval = setInterval(fetchPromo, 10000);
+        return () => clearInterval(interval);
     }, [internshipId, navigate, toast]);
 
     const handleResponseChange = (questionId, value) => {
