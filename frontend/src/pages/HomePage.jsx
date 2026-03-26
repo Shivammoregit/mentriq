@@ -1,14 +1,10 @@
-import React, { Suspense, lazy, useEffect, useState } from 'react'
-import { motion, useReducedMotion } from 'framer-motion'
-import {
-    ChevronRight,
-    Sparkles,
-} from 'lucide-react'
+import React, { Suspense, lazy } from 'react'
+import { motion } from 'framer-motion'
+import { Sparkles } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
-import { apiClient as api } from '../utils/apiClient'
 import SectionErrorBoundary from '../components/common/SectionErrorBoundary'
 import DeferredSection from '../components/common/DeferredSection'
-import WireframeDottedGlobe from '../components/ui/wireframe-dotted-globe'
+import { useSiteData } from '../context/SiteContext'
 
 // Home-specific components
 const ServicesSection = lazy(() => import('../components/home/ServicesSection'))
@@ -19,6 +15,7 @@ const PartnersSection = lazy(() => import('../components/home/PartnersSection'))
 const TechnologiesSection = lazy(() => import('../components/home/TechnologiesSection'))
 const MissionAndImpact = lazy(() => import('../components/home/MissionAndImpact'))
 const StudentImpact = lazy(() => import('../components/home/StudentImpact'))
+const Hero3DElement = lazy(() => import('../components/home/Hero3DElement'))
 
 const SectionPlaceholder = ({ minHeight }) => (
     <div
@@ -30,145 +27,13 @@ const SectionPlaceholder = ({ minHeight }) => (
 
 const HomePage = () => {
     const navigate = useNavigate()
-    const [statsData, setStatsData] = useState(null)
-    const reduceMotion = useReducedMotion()
-
-    useEffect(() => {
-        const fetchStats = async () => {
-            try {
-                const { data } = await api.get('/stats')
-                setStatsData(data)
-            } catch (error) {
-                console.error("Failed to fetch global stats:", error)
-            }
-        }
-        fetchStats()
-    }, [])
+    const { stats: statsData } = useSiteData()
 
     return (
-        <>
-            <section className="relative min-h-screen flex items-center overflow-hidden pt-20" style={{ background: 'linear-gradient(135deg, #f0f4ff 0%, #e8ecff 30%, #f5f0ff 60%, #eef2ff 100%)' }}>
-                {/* Background blobs */}
-                <div className="absolute inset-0 pointer-events-none overflow-hidden">
-                    <motion.div
-                        animate={reduceMotion ? undefined : { x: [0, 80, 0], y: [0, 40, 0], scale: [1, 1.2, 1] }}
-                        transition={reduceMotion ? undefined : { duration: 20, repeat: Infinity, ease: "linear" }}
-                        className="absolute -top-[10%] -left-[5%] w-[700px] h-[700px] rounded-full"
-                        style={{ background: 'radial-gradient(circle, rgba(99,102,241,0.18) 0%, transparent 70%)' }}
-                    />
-                    <motion.div
-                        animate={reduceMotion ? undefined : { x: [0, -60, 0], y: [0, 70, 0], scale: [1, 1.3, 1] }}
-                        transition={reduceMotion ? undefined : { duration: 25, repeat: Infinity, ease: "linear" }}
-                        className="absolute -bottom-[10%] right-[10%] w-[600px] h-[600px] rounded-full"
-                        style={{ background: 'radial-gradient(circle, rgba(34,211,238,0.12) 0%, transparent 70%)' }}
-                    />
-                    <motion.div
-                        animate={reduceMotion ? undefined : { x: [0, 50, 0], y: [0, -30, 0] }}
-                        transition={reduceMotion ? undefined : { duration: 18, repeat: Infinity, ease: "linear" }}
-                        className="absolute top-[20%] right-[5%] w-[400px] h-[400px] rounded-full"
-                        style={{ background: 'radial-gradient(circle, rgba(139,92,246,0.1) 0%, transparent 70%)' }}
-                    />
-                </div>
-
-                <div className="relative max-w-7xl mx-auto px-6 lg:px-16 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center z-10 w-full py-16">
-                    {/* Left: Content */}
-                    <motion.div
-                        initial={{ opacity: 0, x: -50 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.8 }}
-                    >
-                        {/* Badge */}
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.1 }}
-                            className="inline-flex items-center gap-2.5 mb-8 px-5 py-2.5 rounded-full bg-white/80 border border-white/60 backdrop-blur-md shadow-sm"
-                        >
-                            <Sparkles className="w-3.5 h-3.5 text-indigo-500" />
-                            <span className="text-[10px] font-black uppercase tracking-[0.25em] text-indigo-600">The Future of Intelligence</span>
-                        </motion.div>
-
-                        {/* Headline */}
-                        <motion.h1
-                            initial={{ opacity: 0, y: 30 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.2, duration: 0.8 }}
-                            className="text-6xl md:text-7xl lg:text-8xl font-black tracking-tighter uppercase font-display leading-[0.9] mb-8"
-                            style={{ color: '#0f172a' }}
-                        >
-                            REWIRE YOUR
-                            <br />
-                            <span style={{ background: 'linear-gradient(90deg, #4f46e5, #7c3aed, #06b6d4)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>
-                                POTENTIAL.
-                            </span>
-                        </motion.h1>
-
-                        {/* Subtext */}
-                        <motion.p
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.4 }}
-                            className="text-base md:text-lg max-w-lg mb-12 leading-relaxed font-medium"
-                            style={{ color: '#475569' }}
-                        >
-                            MentriQ is where precision meets innovation. Master the core of
-                            modern technology with industry-first curriculums and elite mentorship.
-                        </motion.p>
-
-                        {/* CTAs */}
-                        <motion.div
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.55 }}
-                            className="flex flex-wrap gap-4"
-                        >
-                            <motion.button
-                                whileHover={{ scale: 1.04 }}
-                                whileTap={{ scale: 0.97 }}
-                                onClick={() => navigate("/courses")}
-                                className="px-10 py-5 rounded-2xl font-black flex items-center gap-3 uppercase tracking-widest text-sm text-white shadow-xl"
-                                style={{ background: 'linear-gradient(135deg, #4f46e5, #6d28d9)', boxShadow: '0 8px 32px rgba(79,70,229,0.35)' }}
-                            >
-                                Start Learning
-                                <ChevronRight className="w-5 h-5 transition-transform" />
-                            </motion.button>
-
-                            <motion.button
-                                whileHover={{ scale: 1.04 }}
-                                whileTap={{ scale: 0.97 }}
-                                onClick={() => navigate("/training")}
-                                className="px-10 py-5 rounded-2xl font-black uppercase tracking-widest text-sm border transition-all"
-                                style={{ color: '#1e293b', background: 'rgba(255,255,255,0.8)', borderColor: 'rgba(148,163,184,0.4)', backdropFilter: 'blur(12px)' }}
-                            >
-                                Get a Consultation
-                            </motion.button>
-                        </motion.div>
-
-                        {/* Social proof */}
-                        <motion.div
-                            initial={{ opacity: 0 }}
-                            animate={{ opacity: 1 }}
-                            transition={{ delay: 0.8 }}
-                            className="mt-14 pt-8 flex items-center gap-8"
-                            style={{ borderTop: '1px solid rgba(148,163,184,0.2)' }}
-                        >
-                            <div className="text-[10px] font-black uppercase tracking-widest" style={{ color: '#64748b' }}>
-                                Trusted by <span style={{ color: '#1e293b' }}>{statsData?.students || '16,000+'}</span> industry professionals
-                            </div>
-                        </motion.div>
-                    </motion.div>
-
-                    {/* Right: Auto-rotating Dotted Globe */}
-                    <motion.div
-                        initial={{ opacity: 0, scale: 0.85 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ duration: 1.2 }}
-                        className="relative hidden lg:flex items-center justify-center w-full min-h-[500px]"
-                    >
-                        <WireframeDottedGlobe size={520} />
-                    </motion.div>
-                </div>
-            </section>
+        <div className="bg-transparent">
+            <Suspense fallback={<SectionPlaceholder minHeight="90vh" />}>
+                <Hero3DElement statsData={statsData} />
+            </Suspense>
 
             {/* Mission & Impact Section */}
             <DeferredSection minHeight="600px">
@@ -301,7 +166,7 @@ const HomePage = () => {
                     </motion.div>
                 </div>
             </section>
-        </>
+        </div>
     )
 }
 

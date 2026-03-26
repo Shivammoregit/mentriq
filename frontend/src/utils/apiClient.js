@@ -9,6 +9,32 @@ const resolvedBaseURL = import.meta.env.DEV
   ? (envBaseURL || 'http://localhost:5000/api')
   : '/api';
 
+const setupApiPreconnect = () => {
+  if (typeof window === 'undefined') return;
+  if (!resolvedBaseURL.startsWith('http')) return;
+  try {
+    const origin = new URL(resolvedBaseURL).origin;
+    if (document.head.querySelector(`link[data-api-preconnect="${origin}"]`)) return;
+
+    const dnsPrefetch = document.createElement('link');
+    dnsPrefetch.rel = 'dns-prefetch';
+    dnsPrefetch.href = origin;
+    dnsPrefetch.setAttribute('data-api-preconnect', origin);
+    document.head.appendChild(dnsPrefetch);
+
+    const preconnect = document.createElement('link');
+    preconnect.rel = 'preconnect';
+    preconnect.href = origin;
+    preconnect.crossOrigin = 'anonymous';
+    preconnect.setAttribute('data-api-preconnect', origin);
+    document.head.appendChild(preconnect);
+  } catch {
+    // no-op
+  }
+};
+
+setupApiPreconnect();
+
 if (import.meta.env.DEV) {
   console.log('🚀 MentriQ API Base URL:', resolvedBaseURL);
 }

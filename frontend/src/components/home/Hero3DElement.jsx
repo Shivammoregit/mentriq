@@ -1,83 +1,58 @@
 import React from 'react';
-import { SplineScene } from '@/components/ui/SplineScene';
+import GlobeElement from './GlobeElement';
 import { Spotlight } from '@/components/ui/Spotlight';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { apiClient as api } from '../../utils/apiClient';
 import { ArrowRight, Sparkles, Mail, Instagram, Linkedin, Twitter, MessageCircle, X } from 'lucide-react';
 
-const Hero3DElement = () => {
-    const navigate = useNavigate();
-    const [settings, setSettings] = React.useState({
-        email: "support@mentriqtechnologies.in",
-        socialLinks: {
-            instagram: "https://www.instagram.com/mentriqtechnologies/",
-            linkedin: "https://www.linkedin.com/company/mentriqtechnologies/",
-            twitter: "https://x.com/MentriqT51419",
-            whatsapp: "https://wa.me/918890301264",
-            facebook: "https://www.facebook.com/profile.php?id=61588480116895"
-        }
-    });
+import { useSiteData } from '../../context/SiteContext';
 
-    React.useEffect(() => {
-        const fetchSettings = async () => {
-            try {
-                const { data } = await api.get('/settings');
-                if (data) {
-                    setSettings(prev => ({
-                        ...prev,
-                        email: data.email || prev.email,
-                        socialLinks: {
-                            instagram: data.socialLinks?.instagram || prev.socialLinks.instagram,
-                            linkedin: data.socialLinks?.linkedin || prev.socialLinks.linkedin,
-                            twitter: data.socialLinks?.twitter || prev.socialLinks.twitter,
-                            whatsapp: data.socialLinks?.whatsapp || prev.socialLinks.whatsapp,
-                            facebook: data.socialLinks?.facebook || prev.socialLinks.facebook
-                        }
-                    }));
-                }
-            } catch (error) {
-                console.error("Failed to fetch settings", error);
-            }
-        };
-        fetchSettings();
-    }, []);
+const Hero3DElement = ({ statsData }) => {
+    const navigate = useNavigate();
+    const { settings: globalSettings } = useSiteData();
+    
+    const settings = React.useMemo(() => ({
+        email: globalSettings?.email || "support@mentriqtechnologies.in",
+        socialLinks: {
+            instagram: globalSettings?.socialLinks?.instagram || "https://www.instagram.com/mentriqtechnologies/",
+            linkedin: globalSettings?.socialLinks?.linkedin || "https://www.linkedin.com/company/mentriqtechnologies/",
+            twitter: globalSettings?.socialLinks?.twitter || "https://x.com/MentriqT51419",
+            whatsapp: globalSettings?.socialLinks?.whatsapp || "https://wa.me/918890301264",
+            facebook: globalSettings?.socialLinks?.facebook || "https://www.facebook.com/profile.php?id=61588480116895"
+        }
+    }), [globalSettings]);
 
     return (
-        <div className="w-full min-h-[75vh] relative overflow-hidden bg-white pt-12">
+        <div className="w-full min-h-[90vh] relative overflow-hidden bg-white pt-24 pb-12">
             {/* Animated color blobs */}
             <motion.div
                 animate={{ x: [0, 60, -30, 0], y: [0, 40, -20, 0], scale: [1, 1.2, 0.95, 1] }}
                 transition={{ duration: 12, repeat: Infinity, ease: 'easeInOut' }}
-                className="absolute -top-32 -left-24 w-[500px] h-[500px] bg-indigo-200/60 rounded-full blur-[120px] pointer-events-none"
+                className="absolute -top-32 -left-24 w-[600px] h-[600px] bg-indigo-200/40 rounded-full blur-[120px] pointer-events-none"
             />
             <motion.div
                 animate={{ x: [0, -50, 30, 0], y: [0, 60, -30, 0], scale: [1, 1.15, 0.9, 1] }}
                 transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut', delay: 2 }}
-                className="absolute top-1/3 right-[-100px] w-[450px] h-[450px] bg-violet-200/50 rounded-full blur-[130px] pointer-events-none"
+                className="absolute top-1/3 right-[-100px] w-[500px] h-[500px] bg-violet-200/30 rounded-full blur-[130px] pointer-events-none"
             />
             <motion.div
                 animate={{ x: [0, 40, -20, 0], y: [0, -40, 30, 0], scale: [1, 1.1, 0.95, 1] }}
                 transition={{ duration: 10, repeat: Infinity, ease: 'easeInOut', delay: 4 }}
-                className="absolute bottom-[-80px] left-1/3 w-[400px] h-[400px] bg-cyan-200/40 rounded-full blur-[110px] pointer-events-none"
-            />
-            <motion.div
-                animate={{ x: [0, -30, 50, 0], y: [0, 30, -50, 0], scale: [1, 1.25, 0.9, 1] }}
-                transition={{ duration: 14, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
-                className="absolute top-0 right-1/3 w-[350px] h-[350px] bg-pink-200/40 rounded-full blur-[100px] pointer-events-none"
+                className="absolute bottom-[-80px] left-1/3 w-[450px] h-[450px] bg-cyan-200/30 rounded-full blur-[110px] pointer-events-none"
             />
 
             {/* Spotlight */}
             <Spotlight className="-top-40 left-0 md:left-60 md:-top-20" fill="#6366f1" />
 
-            <div className="flex flex-col lg:flex-row h-full min-h-[75vh] relative z-10">
+            <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-12 items-center relative z-10 w-full h-full">
                 {/* Left content */}
-                <div className="flex-1 p-6 lg:p-12 flex flex-col justify-center">
+                <div className="flex flex-col justify-center">
                     {/* Badge */}
                     <motion.div
                         initial={{ opacity: 0, y: -10 }}
                         animate={{ opacity: 1, y: 0 }}
-                        className="inline-flex items-center gap-2 mb-4 px-4 py-1.5 rounded-full bg-indigo-50 border border-indigo-100 w-fit"
+                        className="inline-flex items-center gap-2 mb-6 px-5 py-2 rounded-full bg-slate-50 border border-slate-200 w-fit backdrop-blur-md shadow-sm"
                     >
                         <Sparkles className="w-3.5 h-3.5 text-indigo-500" />
                         <span className="text-[10px] font-black uppercase tracking-[0.3em] text-indigo-600">
@@ -90,7 +65,7 @@ const Hero3DElement = () => {
                         initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.8, ease: 'circOut' }}
-                        className="text-4xl md:text-5xl xl:text-6xl font-black mb-4 leading-[1.05] tracking-tighter uppercase text-slate-900"
+                        className="text-5xl md:text-7xl xl:text-8xl font-black mb-6 leading-[0.9] tracking-tighter uppercase text-slate-900"
                     >
                         REWIRE YOUR <br />
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-violet-600 to-cyan-500">
@@ -103,7 +78,7 @@ const Hero3DElement = () => {
                         initial={{ opacity: 0, y: 15 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.2 }}
-                        className="mt-1 text-slate-500 max-w-lg text-sm leading-relaxed mb-6"
+                        className="text-base md:text-lg text-slate-500 max-w-lg mb-10 leading-relaxed font-medium"
                     >
                         MentriQ is where precision meets innovation. Master the core of modern technology with industry-first curriculums and elite mentorship.
                     </motion.p>
@@ -113,30 +88,39 @@ const Hero3DElement = () => {
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ delay: 0.35 }}
-                        className="flex flex-col sm:flex-row gap-3"
+                        className="flex flex-wrap gap-4"
                     >
                         <button
                             onClick={() => navigate('/courses')}
-                            className="group px-7 py-3.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs uppercase tracking-widest transition-all flex items-center justify-center gap-2 shadow-lg shadow-indigo-200"
+                            className="group px-10 py-5 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-black text-sm uppercase tracking-widest transition-all flex items-center justify-center gap-2 shadow-xl shadow-indigo-100"
                         >
                             Start Learning
-                            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                            <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
                         </button>
                         <button
                             onClick={() => navigate('/contact')}
-                            className="px-7 py-3.5 rounded-xl bg-slate-100 border border-slate-200 text-slate-700 font-bold text-xs uppercase tracking-widest hover:bg-slate-200 transition-all"
+                            className="px-10 py-5 rounded-2xl bg-slate-50 border border-slate-200 text-slate-800 font-black text-sm uppercase tracking-widest hover:bg-slate-100 transition-all backdrop-blur-md"
                         >
                             Consultation
                         </button>
                     </motion.div>
+
+                    {/* Social proof */}
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ delay: 0.8 }}
+                        className="mt-14 pt-8 flex items-center gap-8 border-t border-slate-200/60"
+                    >
+                        <div className="text-[10px] font-black uppercase tracking-widest text-slate-500">
+                            Trusted by <span className="text-slate-900">{statsData?.students || '16,000+'}</span> industry professionals
+                        </div>
+                    </motion.div>
                 </div>
 
-                {/* Right: Spline 3D Scene */}
+                {/* Right: Globe Element */}
                 <div className="h-[400px] lg:h-auto lg:flex-1 relative w-full">
-                    <SplineScene
-                        scene="https://prod.spline.design/kZDDjO5HuC9GJUM2/scene.splinecode"
-                        className="w-full h-full"
-                    />
+                    <GlobeElement />
 
                     {/* Social Media Icons (Thinking Cloud / Orbit Theme) */}
                     <div className="absolute inset-0 pointer-events-none z-20">

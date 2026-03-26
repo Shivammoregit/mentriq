@@ -28,9 +28,12 @@ const statsRoutes = require("./src/routes/stats.routes");
 const technologyRoutes = require("./src/routes/technology.routes");
 const cityRoutes = require("./src/routes/city.routes");
 const recruitRoutes = require("./src/routes/recruit.routes");
+const auditRoutes = require("./src/routes/audit.routes");
+const adminToolsRoutes = require("./src/routes/adminTools.routes");
 
 const { notFound, errorHandler } = require("./src/middleware/error.middleware");
 const ensureSuperAdmin = require("./src/utils/ensureSuperAdmin");
+const { auditTrail } = require("./src/middleware/audit.middleware");
 
 dotenv.config();
 
@@ -100,6 +103,7 @@ app.use("/api", limiter);
 app.use(express.json({ limit: '10kb' }));
 app.use(cookieParser());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
+app.use(auditTrail);
 
 app.get("/api/health", (req, res) => res.status(200).send("MentriQ Health OK - v6"));
 
@@ -128,6 +132,8 @@ app.use("/api/technologies", technologyRoutes);
 app.use("/api/cities", cityRoutes);
 app.use("/api/recruit", recruitRoutes);
 app.use("/api/settings", settingsRoutes);
+app.use("/api/audit-logs", auditRoutes);
+app.use("/api/admin-tools", adminToolsRoutes);
 
 app.use(notFound);
 app.use(errorHandler);

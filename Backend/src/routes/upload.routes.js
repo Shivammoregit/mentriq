@@ -15,7 +15,7 @@ const storage = multer.diskStorage({
         cb(null, uploadDir);
     },
     filename: function (req, file, cb) {
-        cb(null, 'image-' + Date.now() + path.extname(file.originalname));
+        cb(null, 'asset-' + Date.now() + path.extname(file.originalname));
     }
 });
 
@@ -28,6 +28,25 @@ const upload = multer({
         const mimetype = filetypes.test(file.mimetype) || file.mimetype === 'image/svg+xml' || file.mimetype === 'image/x-icon';
         if (mimetype && extname) return cb(null, true);
         cb(new Error('Supported formats: JPEG, JPG, PNG, WEBP, GIF, SVG, BMP, TIFF, ICO'));
+    }
+});
+
+const templateUpload = multer({
+    storage: storage,
+    limits: { fileSize: 10 * 1024 * 1024 }, // 10MB
+    fileFilter: (req, file, cb) => {
+        const allowedMimes = new Set([
+            'application/pdf',
+            'application/msword',
+            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+            'image/jpeg',
+            'image/jpg',
+            'image/png',
+            'image/webp'
+        ]);
+        const allowedExt = /\.(pdf|doc|docx|jpeg|jpg|png|webp)$/i.test(file.originalname || '');
+        if (allowedMimes.has(file.mimetype) && allowedExt) return cb(null, true);
+        cb(new Error('Supported template formats: PDF, DOC, DOCX, JPG, PNG, WEBP'));
     }
 });
 
@@ -44,6 +63,25 @@ router.post('/', upload.single('image'), (req, res) => {
             imageUrl: imageUrl,
             imagePath: imageUrl,
             path: imageUrl,
+            success: true
+        });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+});
+
+router.post('/template', templateUpload.single('file'), (req, res) => {
+    try {
+        if (!req.file) {
+            return res.status(400).json({ message: 'No template uploaded' });
+        }
+
+        const fileUrl = `/uploads/${req.file.filename}`;
+        res.status(200).json({
+            message: 'Template uploaded successfully',
+            fileUrl,
+            fileName: req.file.originalname,
+            mimeType: req.file.mimetype,
             success: true
         });
     } catch (error) {

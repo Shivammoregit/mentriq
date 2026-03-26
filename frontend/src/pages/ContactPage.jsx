@@ -3,7 +3,10 @@ import { Mail, Phone, MapPin, Send, Instagram, Linkedin, Twitter, User, Tag, Mes
 import { motion, AnimatePresence } from 'framer-motion'
 import { apiClient as api } from '../utils/apiClient'
 
+import { useSiteData } from '../context/SiteContext';
+
 const ContactPage = () => {
+  const { settings: globalSettings } = useSiteData();
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -13,46 +16,19 @@ const ContactPage = () => {
   })
   const [submitted, setSubmitted] = useState(false)
 
-  const [settings, setSettings] = useState({
-    email: "support@mentriqtechnologies.in",
-    phone: "+918890301264",
-    address: "2nd floor, 34/501, Haldighati Marg E, Sector 3, Pratap Nagar, Sanganer, Jaipur, 302033",
-    mapLink: "https://maps.app.goo.gl/3wGvD4U7Zp4X5A3i9",
+  const settings = React.useMemo(() => ({
+    email: globalSettings?.email || "support@mentriqtechnologies.in",
+    phone: globalSettings?.phone || "+918890301264",
+    address: globalSettings?.address || "MentriQ Technologies, 2nd floor, 34/501, Haldighati Marg E, Sanganer, Sector 3, Pratap Nagar, Jaipur, Rajasthan 302033",
+    mapLink: globalSettings?.mapLink || "https://www.google.com/maps/place/MentriQ+Technologies/@26.8020093,75.4882598,10z/data=!4m22!1m15!4m14!1m6!1m2!1s0x396dcb31ccbce14d:0x9f153a03ffb8fdd0!2sMentriQ+Technologies,+2nd+floor,+34%2F501,+Haldighati+Marg+E,+Sanganer,+Sector+3,+Pratap+Nagar,+Jaipur,+Rajasthan+302033!2m2!1d75.8047414!2d26.8023101!1m6!1m2!1s0x396dcb31ccbce14d:0x9f153a03ffb8fdd0!2sMentriQ+Technologies,+2nd+floor,+34%2F501,+Haldighati+Marg+E,+Sanganer,+Sector+3,+Pratap+Nagar,+Jaipur,+Rajasthan+302033!2m2!1d75.8047414!2d26.8023101!3m5!1s0x396dcb31ccbce14d:0x9f153a03ffb8fdd0!8m2!3d26.8023101!4d75.8047414!16s%2Fg%2F11yy2ld3gd?entry=ttu&g_ep=EgoyMDI2MDMxOC4xIKXMDSoASAFQAw%3D%3D",
     socialLinks: {
-      instagram: "https://www.instagram.com/mentriqtechnologies/",
-      linkedin: "https://www.linkedin.com/company/mentriqtechnologies/",
-      twitter: "https://x.com/MentriqT51419",
-      whatsapp: "https://wa.me/918890301264",
-      facebook: "https://www.facebook.com/profile.php?id=61588480116895"
+      instagram: globalSettings?.socialLinks?.instagram || "https://www.instagram.com/mentriqtechnologies/",
+      linkedin: globalSettings?.socialLinks?.linkedin || "https://www.linkedin.com/company/mentriqtechnologies/",
+      twitter: globalSettings?.socialLinks?.twitter || "https://x.com/MentriqT51419",
+      whatsapp: globalSettings?.socialLinks?.whatsapp || "https://wa.me/918890301264",
+      facebook: globalSettings?.socialLinks?.facebook || "https://www.facebook.com/profile.php?id=61588480116895"
     }
-  });
-
-  React.useEffect(() => {
-    const fetchSettings = async () => {
-      try {
-        const { data } = await api.get('/settings');
-        if (data) {
-          setSettings(prev => ({
-            ...prev,
-            email: data.email || prev.email,
-            phone: data.phone || prev.phone,
-            address: data.address || prev.address,
-            mapLink: data.mapLink || prev.mapLink,
-            socialLinks: {
-              instagram: data.socialLinks?.instagram || prev.socialLinks.instagram,
-              linkedin: data.socialLinks?.linkedin || prev.socialLinks.linkedin,
-              twitter: data.socialLinks?.twitter || prev.socialLinks.twitter,
-              whatsapp: data.socialLinks?.whatsapp || prev.socialLinks.whatsapp,
-              facebook: data.socialLinks?.facebook || prev.socialLinks.facebook
-            }
-          }));
-        }
-      } catch (error) {
-        console.error("Failed to fetch settings", error);
-      }
-    };
-    fetchSettings();
-  }, []);
+  }), [globalSettings]);
 
   const phoneNumber = settings.phone;
   const email = settings.email;

@@ -11,8 +11,6 @@ import {
     LogOut,
     Menu,
     X,
-    ChevronLeft,
-    ChevronRight,
     Briefcase,
     Layers,
     MapPin,
@@ -21,7 +19,9 @@ import {
     Mail,
     UserCog,
     MessageSquare,
-    Cpu
+    Cpu,
+    Image as ImageIcon,
+    ClipboardList
 } from 'lucide-react'
 import { useAuth } from '../../context/AuthContext'
 import { useToast } from '../../context/ToastContext'
@@ -32,6 +32,7 @@ const menuGroups = [
         title: 'Operations',
         items: [
             { path: '/admin/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
+            { path: '/admin/activity',  icon: ClipboardList,    label: 'Activity'   },
             { path: '/admin/settings',  icon: Settings,         label: 'Settings'   },
         ]
     },
@@ -39,6 +40,7 @@ const menuGroups = [
         title: 'Learning',
         items: [
             { path: '/admin/courses',     icon: BookOpen,        label: 'Courses'     },
+            { path: '/admin/enrollments', icon: GraduationCap,   label: 'Enrollments' },
             { path: '/admin/internships', icon: Briefcase,       label: 'Internships' },
             { path: '/admin/jobs',        icon: Briefcase,       label: 'Job Board'   },
             { path: '/admin/journey',     icon: MapPin,          label: 'Milestones'  },
@@ -67,6 +69,7 @@ const menuGroups = [
             { path: '/admin/services',     icon: Layers, label: 'Services'     },
             { path: '/admin/technologies', icon: Cpu,    label: 'Technologies' },
             { path: '/admin/cities',       icon: MapPin, label: 'Cities'       },
+            { path: '/admin/media',        icon: ImageIcon, label: 'Site Media' },
         ]
     }
 ]
@@ -299,25 +302,7 @@ const AdminLayout = ({ children }) => {
                     />
                 </div>
 
-                {/* Collapse toggle */}
-                <button
-                    onClick={() => setCollapsed(c => !c)}
-                    className="
-                        absolute top-[23px] right-2 z-50
-                        w-6 h-6 rounded-full
-                        bg-[#0b1120] border border-white/10
-                        flex items-center justify-center
-                        text-slate-400 hover:text-white
-                        shadow-lg shadow-black/40
-                        transition-colors
-                    "
-                    title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
-                >
-                    {collapsed
-                        ? <ChevronRight size={13} strokeWidth={3} />
-                        : <ChevronLeft  size={13} strokeWidth={3} />
-                    }
-                </button>
+
             </motion.aside>
 
             {/* ══════════════════════════════════════════

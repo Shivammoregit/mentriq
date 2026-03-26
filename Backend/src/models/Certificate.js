@@ -10,7 +10,7 @@ const certificateSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
-        required: true
+        required: false
     },
     course: {
         type: mongoose.Schema.Types.ObjectId,
@@ -33,7 +33,8 @@ const certificateSchema = new mongoose.Schema({
     },
     courseName: {
         type: String,
-        required: true
+        required: false,
+        default: ""
     },
     issueDate: {
         type: Date,
@@ -47,8 +48,16 @@ const certificateSchema = new mongoose.Schema({
     },
     grade: {
         type: String,
-        enum: ['A+', 'A', 'B+', 'B', 'C', 'Pass'],
-        default: 'Pass'
+        default: ""
+    },
+    template: {
+        url: { type: String, default: "" },
+        fileName: { type: String, default: "" },
+        mimeType: { type: String, default: "" }
+    },
+    fieldLayout: {
+        type: mongoose.Schema.Types.Mixed,
+        default: {}
     },
     status: {
         type: String,

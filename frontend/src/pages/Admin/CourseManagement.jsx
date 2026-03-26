@@ -442,7 +442,7 @@ const CourseManagement = () => {
                             </div>
 
                             <div className="flex-1 overflow-y-auto pr-4 -mr-4 custom-scrollbar">
-                                <form onSubmit={handleSubmit} className="space-y-6 pb-4">
+                                <form id="course-form" onSubmit={handleSubmit} className="space-y-6 pb-4">
                                     <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                                         <div className="md:col-span-2 space-y-2">
                                             <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Identity Title</label>
@@ -544,17 +544,16 @@ const CourseManagement = () => {
                                             </div>
                                         </div>
                                     </div>
-
-                                    <div className="flex gap-4 pt-6 mt-6 border-t border-white/5">
-                                        <button type="button" onClick={closeModal} className="flex-1 py-3.5 rounded-2xl bg-[#1e293b] text-slate-400 font-bold text-[10px] uppercase tracking-widest hover:text-white hover:bg-white/10 border border-white/10 transition-all">
-                                            Abort
-                                        </button>
-                                        <button type="submit" disabled={submitting} className="flex-2 py-3.5 rounded-2xl bg-blue-600 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-blue-500 shadow-lg shadow-blue-600/20 transition-all flex items-center justify-center gap-2">
-                                            {submitting ? <Loader2 size={14} className="animate-spin" /> : <Check size={14} />}
-                                            {editingCourse ? "Update" : "Confirm"}
-                                        </button>
-                                    </div>
                                 </form>
+                            </div>
+                            <div className="flex gap-4 pt-6 mt-6 border-t border-white/5 shrink-0">
+                                <button type="button" onClick={closeModal} className="flex-1 py-3.5 rounded-2xl bg-[#1e293b] text-slate-400 font-bold text-[10px] uppercase tracking-widest hover:text-white hover:bg-white/10 border border-white/10 transition-all">
+                                    Abort
+                                </button>
+                                <button type="submit" form="course-form" disabled={submitting} className="flex-2 py-3.5 rounded-2xl bg-blue-600 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-blue-500 shadow-lg shadow-blue-600/20 transition-all flex items-center justify-center gap-2">
+                                    {submitting ? <Loader2 size={14} className="animate-spin" /> : <Check size={14} />}
+                                    {editingCourse ? "Update" : "Confirm"}
+                                </button>
                             </div>
                         </motion.div>
                     </div>

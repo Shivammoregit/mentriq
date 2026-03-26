@@ -9,30 +9,51 @@ const QRCode = require('qrcode');
 // @access  Private/Admin
 exports.generateCertificate = async (req, res) => {
     try {
-        const { userId, courseId, internshipId, type = 'Course', grade, completionDate } = req.body;
+        const {
+            userId,
+            courseId,
+            internshipId,
+            type = 'Course',
+            grade,
+            completionDate,
+            customName,
+            customProgramName,
+            template,
+            fieldLayout
+        } = req.body;
 
-        const user = await User.findById(userId);
-        if (!user) {
-            return res.status(404).json({ message: 'User not found' });
+        let user = null;
+        if (userId) {
+            user = await User.findById(userId);
+            if (!user) {
+                return res.status(404).json({ message: 'User not found' });
+            }
         }
 
         let programName = "";
-        
-        if (type === 'Course') {
+
+        if (type === 'Course' && courseId) {
             const course = await Course.findById(courseId);
             if (!course) return res.status(404).json({ message: 'Course not found' });
             programName = course.title;
-            
-            const existingCert = await Certificate.findOne({ user: userId, course: courseId });
+
+            const existingCert = userId ? await Certificate.findOne({ user: userId, course: courseId }) : null;
             if (existingCert) return res.status(400).json({ message: 'Certificate already exists for this user and course', certificateId: existingCert.certificateId });
-        } else {
+        } else if (type === 'Internship' && internshipId) {
             const internship = await Internship.findById(internshipId);
             if (!internship) return res.status(404).json({ message: 'Internship not found' });
             programName = internship.title;
-            
-            const existingCert = await Certificate.findOne({ user: userId, internship: internshipId });
+
+            const existingCert = userId ? await Certificate.findOne({ user: userId, internship: internshipId }) : null;
             if (existingCert) return res.status(400).json({ message: 'Certificate already exists for this user and internship', certificateId: existingCert.certificateId });
         }
+
+        const resolvedStudentName = String(customName || user?.name || "").trim();
+        if (!resolvedStudentName) {
+            return res.status(400).json({ message: 'Recipient name is required' });
+        }
+
+        const resolvedProgramName = String(programName || customProgramName || "").trim();
 
         // Generate unique certificate ID
         let certificateId;
@@ -51,15 +72,21 @@ exports.generateCertificate = async (req, res) => {
         // Create certificate
         const certificate = new Certificate({
             certificateId,
-            user: userId,
-            course: type === 'Course' ? courseId : undefined,
-            internship: type === 'Internship' ? internshipId : undefined,
+            user: userId || undefined,
+            course: type === 'Course' && courseId ? courseId : undefined,
+            internship: type === 'Internship' && internshipId ? internshipId : undefined,
             type: type,
-            studentName: user.name,
-            courseName: programName, // Reusing courseName field for display title
+            studentName: resolvedStudentName,
+            courseName: resolvedProgramName,
             qrCodeData,
-            grade: grade || 'Pass',
-            completionDate: completionDate || new Date()
+            grade: grade || "",
+            completionDate: completionDate || undefined,
+            template: {
+                url: String(template?.url || "").trim(),
+                fileName: String(template?.fileName || "").trim(),
+                mimeType: String(template?.mimeType || "").trim()
+            },
+            fieldLayout: fieldLayout || {}
         });
 
         await certificate.save();

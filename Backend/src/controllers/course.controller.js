@@ -15,18 +15,6 @@ const getCourses = async (req, res) => {
     }
     let courses = await Course.find(filter).sort({ createdAt: -1 });
 
-    // Apply global discount if active
-    const settings = await Settings.findOne();
-    if (settings && settings.promo && settings.promo.isActive && settings.promo.endDate && new Date(settings.promo.endDate) > new Date()) {
-      const discountRatio = (100 - settings.promo.discountPercentage) / 100;
-      courses = courses.map(course => {
-        const courseObj = course.toObject();
-        courseObj.originalPrice = courseObj.price;
-        courseObj.price = Math.round(courseObj.price * discountRatio);
-        return courseObj;
-      });
-    }
-
     return res.json(courses);
   } catch (error) {
     console.error("Get courses error:", error);
@@ -40,14 +28,6 @@ const getCourseById = async (req, res) => {
     if (!course) return res.status(404).json({ message: "Course not found" });
 
     let courseObj = course.toObject();
-    
-    // Apply global discount if active
-    const settings = await Settings.findOne();
-    if (settings && settings.promo && settings.promo.isActive && settings.promo.endDate && new Date(settings.promo.endDate) > new Date()) {
-      const discountRatio = (100 - settings.promo.discountPercentage) / 100;
-      courseObj.originalPrice = courseObj.price;
-      courseObj.price = Math.round(courseObj.price * discountRatio);
-    }
 
     return res.json(courseObj);
   } catch (error) {

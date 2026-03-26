@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Clock, Percent, X, Sparkles } from 'lucide-react';
+import { Clock, Percent, X, Sparkles, Megaphone } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useLocation } from 'react-router-dom';
 import { apiClient } from '../../utils/apiClient';
@@ -8,6 +8,7 @@ const DiscountBanner = () => {
     const location = useLocation();
     const [promo, setPromo] = useState(null);
     const [internshipPromo, setInternshipPromo] = useState(null);
+    const [ticker, setTicker] = useState(null);
     const [timeLeft, setTimeLeft] = useState({ d: 0, h: 0, m: 0, s: 0, expired: true });
     const [visible, setVisible] = useState(true);
 
@@ -21,6 +22,7 @@ const DiscountBanner = () => {
                 if (data?.internshipPromo?.isActive && new Date(data.internshipPromo.endDate) > new Date()) {
                     setInternshipPromo(data.internshipPromo);
                 }
+                setTicker(data?.ticker || null);
             } catch (error) {
                 console.error("Failed to fetch promos:", error);
             }
@@ -31,9 +33,12 @@ const DiscountBanner = () => {
     const isInternshipRoute = location.pathname.includes('/internship') || location.pathname.includes('/applications');
     const isCourseRoute = location.pathname.includes('/course') || location.pathname.includes('/training');
     const activePromo = isInternshipRoute ? internshipPromo : promo;
+    const isRouteEligible = isInternshipRoute || isCourseRoute;
+    const shouldShowTicker = !!(ticker?.isActive && ticker?.message?.trim() && (ticker?.showOnAllPages || isRouteEligible));
+    const shouldShowPromo = !!(activePromo && !timeLeft.expired && isRouteEligible);
 
     useEffect(() => {
-        if (!activePromo || !activePromo.endDate) return;
+        if (!activePromo || !activePromo.endDate || shouldShowTicker) return;
 
         const endDate = new Date(activePromo.endDate).getTime();
 
@@ -58,10 +63,10 @@ const DiscountBanner = () => {
         calculateTimeLeft();
         const timer = setInterval(calculateTimeLeft, 1000);
         return () => clearInterval(timer);
-    }, [activePromo]);
+    }, [activePromo, shouldShowTicker]);
 
-    if (!activePromo || timeLeft.expired || !visible) return null;
-    if (!isInternshipRoute && !isCourseRoute) return null;
+    if (!visible) return null;
+    if (!shouldShowTicker && !shouldShowPromo) return null;
 
     return (
         <AnimatePresence>
@@ -76,37 +81,51 @@ const DiscountBanner = () => {
                 <div className="absolute inset-0 opacity-20 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAiIGhlaWdodD0iMjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMSIgY3k9IjEiIHI9IjEiIGZpbGw9IiNmZmYiLz48L3N2Zz4=')] bg-[length:20px_20px] animate-[slide_20s_linear_infinite]" />
                 <div className="absolute top-0 right-0 w-64 h-full bg-white opacity-10 skew-x-12 translate-x-32 animate-[shine_4s_ease-in-out_infinite]" />
 
-                <div className="max-w-7xl mx-auto px-4 py-2 sm:px-6 lg:px-8 relative container flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-2 sm:gap-6">
+                <div className="max-w-7xl mx-auto px-4 py-2.5 sm:py-3 sm:px-6 lg:px-8 relative container flex flex-col sm:flex-row items-center justify-center sm:justify-between gap-2 sm:gap-6">
                     {/* Left side info */}
                     <div className="flex items-center gap-3">
-                        <div className="bg-white/20 p-1.5 rounded-lg flex-shrink-0">
-                            <Percent size={18} className="text-white" />
+                        <div className="bg-white/20 p-2 rounded-lg flex-shrink-0">
+                            {shouldShowTicker ? (
+                                <Megaphone size={20} className="text-white" />
+                            ) : (
+                                <Percent size={20} className="text-white" />
+                            )}
                         </div>
                         <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3 text-white">
-                            <span className="font-extrabold text-sm uppercase tracking-wider flex items-center gap-2">
-                                {activePromo.title}
-                                <Sparkles size={14} className="text-yellow-300 hidden sm:block animate-pulse" />
+                            <span className="font-extrabold text-base uppercase tracking-wider flex items-center gap-2">
+                                {shouldShowTicker ? ticker.message : activePromo.title}
+                                <Sparkles size={16} className="text-yellow-300 hidden sm:block animate-pulse" />
                             </span>
-                            <span className="text-xs sm:text-sm font-medium bg-black/20 px-2 py-0.5 rounded-full border border-white/10 hidden sm:inline-flex">
-                                Flat {activePromo.discountPercentage}% OFF on {isInternshipRoute ? "ALL Internships" : "ALL Courses"}
-                            </span>
+                            {shouldShowTicker ? (
+                                ticker?.highlight ? (
+                                    <span className="text-sm font-medium bg-black/20 px-3 py-1 rounded-full border border-white/10 hidden sm:inline-flex">
+                                        {ticker.highlight}
+                                    </span>
+                                ) : null
+                            ) : (
+                                <span className="text-sm font-medium bg-black/20 px-3 py-1 rounded-full border border-white/10 hidden sm:inline-flex">
+                                    Flat {activePromo.discountPercentage}% OFF on {isInternshipRoute ? "ALL Internships" : "ALL Courses"}
+                                </span>
+                            )}
                         </div>
                     </div>
 
                     {/* Right side timer */}
                     <div className="flex items-center gap-4">
-                        <div className="flex items-center gap-2">
-                            <Clock size={16} className="text-white hidden sm:block" />
-                            <div className="flex items-center gap-1.5 font-mono">
-                                <span className="bg-white text-emerald-700 px-2 py-1 rounded shadow-sm text-sm font-bold min-w-[2rem] text-center">{timeLeft.d}d</span>
-                                <span className="text-white font-bold">:</span>
-                                <span className="bg-white text-emerald-700 px-2 py-1 rounded shadow-sm text-sm font-bold min-w-[2rem] text-center">{timeLeft.h.toString().padStart(2, '0')}h</span>
-                                <span className="text-white font-bold">:</span>
-                                <span className="bg-white text-emerald-700 px-2 py-1 rounded shadow-sm text-sm font-bold min-w-[2rem] text-center">{timeLeft.m.toString().padStart(2, '0')}m</span>
-                                <span className="text-white font-bold">:</span>
-                                <span className="bg-white text-emerald-700 px-2 py-1 rounded shadow-sm text-sm font-bold min-w-[2rem] text-center">{timeLeft.s.toString().padStart(2, '0')}s</span>
+                        {!shouldShowTicker && (
+                            <div className="flex items-center gap-2">
+                                <Clock size={18} className="text-white hidden sm:block" />
+                                <div className="flex items-center gap-1.5 font-mono">
+                                    <span className="bg-white text-emerald-700 px-2.5 py-1 rounded shadow-sm text-base font-bold min-w-[2.4rem] text-center">{timeLeft.d}d</span>
+                                    <span className="text-white font-bold">:</span>
+                                    <span className="bg-white text-emerald-700 px-2.5 py-1 rounded shadow-sm text-base font-bold min-w-[2.4rem] text-center">{timeLeft.h.toString().padStart(2, '0')}h</span>
+                                    <span className="text-white font-bold">:</span>
+                                    <span className="bg-white text-emerald-700 px-2.5 py-1 rounded shadow-sm text-base font-bold min-w-[2.4rem] text-center">{timeLeft.m.toString().padStart(2, '0')}m</span>
+                                    <span className="text-white font-bold">:</span>
+                                    <span className="bg-white text-emerald-700 px-2.5 py-1 rounded shadow-sm text-base font-bold min-w-[2.4rem] text-center">{timeLeft.s.toString().padStart(2, '0')}s</span>
+                                </div>
                             </div>
-                        </div>
+                        )}
 
                         {/* Close button */}
                         <button 

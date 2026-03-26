@@ -1,10 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 
 import { Code, Smartphone, Palette, Globe, Megaphone, Server, ArrowRight, Box, Shield, Database, Cloud, PenTool, Cpu, Layers, Zap } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { apiClient as api } from '../../utils/apiClient';
 import { resolveImageUrl } from '../../utils/imageUtils';
+import { useSiteData } from '../../context/SiteContext';
 
 // Map string icon names to Lucide components
 const IconMap = {
@@ -15,34 +15,10 @@ const FALLBACK_SERVICES = [];
 
 const ServicesSection = () => {
     const navigate = useNavigate();
-    const [services, setServices] = useState([]);
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-        const fetchServices = async () => {
-            try {
-                const { data } = await api.get('/services'); // Public endpoint (might need to check if it exists or use /services/admin if public not separate)
-                // Assuming public endpoint is just /services or we filter active ones
-                // If /services is restricted, we might need a public endpoint. 
-                // Usually /services/admin is for admin. Let's try /services first.
-                // If it fails, fallback.
-                if (Array.isArray(data) && data.length > 0) {
-                    setServices(data.filter(s => s.active !== false));
-                } else {
-                    setServices(FALLBACK_SERVICES);
-                }
-            } catch (error) {
-                console.error("Failed to fetch services", error);
-                setServices(FALLBACK_SERVICES);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        fetchServices();
-    }, []);
-
-    const displayServices = services.length > 0 ? services : FALLBACK_SERVICES;
+    const { services: siteServices } = useSiteData();
+    const displayServices = Array.isArray(siteServices) && siteServices.length > 0
+        ? siteServices.filter(s => s.active !== false)
+        : FALLBACK_SERVICES;
 
     return (
         <section className="py-20 bg-slate-900 relative overflow-hidden">

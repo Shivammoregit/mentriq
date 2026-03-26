@@ -272,8 +272,8 @@ const MentorManagement = () => {
                                 </button>
                             </div>
 
-                            <div className="flex-1 overflow-y-auto pr-4 -mr-4 custom-scrollbar">
-                                <form onSubmit={handleSubmit} className="space-y-6">
+                            <div className="flex-1 overflow-y-auto pr-4 -mr-4 custom-scrollbar pb-6">
+                                <form id="mentor-form" onSubmit={handleSubmit} className="space-y-6">
                                     <div className="flex flex-col items-center justify-center">
                                         <div className="relative group">
                                             <div className="w-24 h-24 rounded-[2rem] overflow-hidden bg-[#1e293b] border-2 border-dashed border-white/10 flex items-center justify-center group-hover:border-emerald-500/50 transition-all">
@@ -334,16 +334,16 @@ const MentorManagement = () => {
                                         <textarea required rows={3} value={formData.description} onChange={e => setFormData({ ...formData, description: e.target.value })} className="w-full bg-[#1e293b] border border-white/10 rounded-2xl p-4 text-slate-300 font-medium focus:outline-none focus:ring-4 focus:ring-emerald-500/10 focus:border-emerald-500/30 transition-all placeholder:text-slate-400 resize-none leading-relaxed text-xs" placeholder="Brief professional synopsis..." />
                                     </div>
 
-                                    <div className="flex gap-4 pt-6 border-t border-white/5 -mx-8 px-8 -mb-8 bg-[#1e293b] mt-6">
-                                        <button type="button" onClick={() => setIsModalOpen(false)} className="flex-1 py-3.5 rounded-2xl bg-[#1e293b] text-slate-400 font-bold text-[10px] uppercase tracking-widest hover:text-white hover:bg-white/10 border border-white/10 transition-all">
-                                            Abort Deployment
-                                        </button>
-                                        <button type="submit" disabled={submitting} className="flex-2 py-3.5 rounded-2xl bg-emerald-600 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-emerald-500 shadow-lg shadow-emerald-600/20 transition-all flex items-center justify-center gap-2 active:scale-95">
-                                            {submitting ? <RefreshCw size={14} className="animate-spin" /> : <Check size={16} strokeWidth={3} />}
-                                            <span className="text-[10px] font-black uppercase tracking-widest">{editingMentor ? "Commit Sync" : "Deploy Expert"}</span>
-                                        </button>
-                                    </div>
                                 </form>
+                            </div>
+                            <div className="flex gap-4 pt-6 border-t border-white/5 shrink-0 bg-[#1e293b] mt-6 p-6 -mx-6 -mb-6 lg:-mx-8 lg:-mb-8 rounded-b-[2.5rem]">
+                                <button type="button" onClick={() => setIsModalOpen(false)} className="flex-1 py-3.5 rounded-2xl bg-[#1e293b] text-slate-400 font-bold text-[10px] uppercase tracking-widest hover:text-white hover:bg-white/10 border border-white/10 transition-all">
+                                    Abort Deployment
+                                </button>
+                                <button type="submit" form="mentor-form" disabled={submitting} className="flex-2 py-3.5 rounded-2xl bg-emerald-600 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-emerald-500 shadow-lg shadow-emerald-600/20 transition-all flex items-center justify-center gap-2 active:scale-95">
+                                    {submitting ? <RefreshCw size={14} className="animate-spin" /> : <Check size={16} strokeWidth={3} />}
+                                    <span className="text-[10px] font-black uppercase tracking-widest">{editingMentor ? "Commit Sync" : "Deploy Expert"}</span>
+                                </button>
                             </div>
                         </motion.div>
                     </div>

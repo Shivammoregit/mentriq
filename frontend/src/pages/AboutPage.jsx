@@ -3,7 +3,12 @@ import { motion, useScroll, useSpring } from 'framer-motion'
 import { Users, BookOpen, GraduationCap, TrendingUp } from 'lucide-react'
 import { apiClient as api } from '../utils/apiClient'
 
+import { useSiteData } from '../context/SiteContext';
+
 const AboutPage = () => {
+  const { stats: statsData, settings: settingsData } = useSiteData();
+  const siteImages = settingsData?.siteImages;
+  
   const containerRef = useRef(null)
   const { scrollYProgress } = useScroll({
     target: containerRef,
@@ -47,23 +52,6 @@ const AboutPage = () => {
     };
     fetchJourney();
   }, []);
-
-  const [statsData, setStatsData] = useState(null)
-  const [statsLoading, setStatsLoading] = useState(true)
-
-  useEffect(() => {
-    const fetchStats = async () => {
-      try {
-        const { data } = await api.get('/stats')
-        setStatsData(data)
-      } catch (error) {
-        console.error("Failed to fetch global stats:", error)
-      } finally {
-        setStatsLoading(false)
-      }
-    }
-    fetchStats()
-  }, [])
 
   const stats = [
     { number: statsData?.students || '10,000+', icon: GraduationCap, label: 'Students Trained', color: 'from-indigo-500 to-indigo-600' },
@@ -152,7 +140,7 @@ const AboutPage = () => {
                   <div className={`inline-flex items-center justify-center w-14 h-14 mb-5 bg-gradient-to-br ${stat.color} rounded-2xl text-white shadow-lg transition-all duration-500 group-hover:rotate-6 group-hover:scale-110`}>
                     <Icon className="w-7 h-7" strokeWidth={2.5} />
                   </div>
-                  {statsLoading ? (
+                  {!statsData ? (
                     <div className="h-9 w-20 bg-slate-700/50 rounded-lg animate-pulse mx-auto mb-1"></div>
                   ) : (
                     <div className="text-3xl font-black text-white mb-1 tracking-tight font-display">{stat.number}</div>
@@ -218,9 +206,10 @@ const AboutPage = () => {
                 <motion.img
                   whileHover={{ scale: 1.05 }}
                   transition={{ duration: 0.8 }}
-                  src='/images/About.webp'
+                  src={siteImages?.about || '/images/About.webp'}
                   alt="Architecture"
                   className="w-full h-full object-cover"
+                  onError={(e) => { e.currentTarget.src = '/images/About.webp'; }}
                 />
 
                 {/* Pure Architectural HUD */}

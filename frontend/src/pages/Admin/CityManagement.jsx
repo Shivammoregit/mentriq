@@ -255,7 +255,7 @@ const CityManagement = () => {
                                 </button>
                             </div>
 
-                            <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto pr-4 -mr-4 space-y-10 custom-scrollbar">
+                            <form id="city-form" onSubmit={handleSubmit} className="flex-1 overflow-y-auto pr-4 -mr-4 space-y-10 custom-scrollbar">
                                 <div className="flex flex-col items-center justify-center">
                                     <label className="relative group cursor-pointer">
                                         <div className={`w-48 h-48 rounded-[2.5rem] border-2 border-dashed flex items-center justify-center overflow-hidden transition-all relative ${formData.image ? 'border-emerald-500/50 bg-[#1e293b]' : 'border-white/10 bg-[#1e293b] hover:border-emerald-500/50'}`}>
@@ -316,25 +316,25 @@ const CityManagement = () => {
                                         </div>
                                     </div>
                                 </div>
-
-                                <div className="p-10 border-t border-white/5 flex justify-end items-center gap-4 shrink-0 -mx-10 -mb-10 mt-10 bg-[#1e293b]">
-                                    <button
-                                        type="button"
-                                        onClick={() => setIsModalOpen(false)}
-                                        className="flex-1 py-4.5 rounded-2xl bg-[#1e293b] text-slate-400 font-bold text-[10px] uppercase tracking-widest hover:text-white hover:bg-white/10 border border-white/10 transition-all"
-                                    >
-                                        Dismiss
-                                    </button>
-                                    <button
-                                        type="submit"
-                                        disabled={uploading || submitting}
-                                        className="flex-2 py-4.5 rounded-2xl bg-emerald-600 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-emerald-500 shadow-lg shadow-emerald-500/20 transition-all flex items-center justify-center gap-2 active:scale-95"
-                                    >
-                                        <Check size={18} strokeWidth={3} />
-                                        <span>{submitting ? "Processing..." : (editingCity ? "Update Logic" : "Deploy Node")}</span>
-                                    </button>
-                                </div>
                             </form>
+                            <div className="p-10 border-t border-white/5 flex justify-end items-center gap-4 shrink-0 -mx-10 -mb-10 mt-10 bg-[#1e293b]">
+                                <button
+                                    type="button"
+                                    onClick={() => setIsModalOpen(false)}
+                                    className="flex-1 py-4.5 rounded-2xl bg-[#1e293b] text-slate-400 font-bold text-[10px] uppercase tracking-widest hover:text-white hover:bg-white/10 border border-white/10 transition-all"
+                                >
+                                    Dismiss
+                                </button>
+                                <button
+                                    type="submit"
+                                    form="city-form"
+                                    disabled={uploading || submitting}
+                                    className="flex-2 py-4.5 rounded-2xl bg-emerald-600 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-emerald-500 shadow-lg shadow-emerald-500/20 transition-all flex items-center justify-center gap-2 active:scale-95"
+                                >
+                                    <Check size={18} strokeWidth={3} />
+                                    <span>{submitting ? "Processing..." : (editingCity ? "Update Logic" : "Deploy Node")}</span>
+                                </button>
+                            </div>
                         </motion.div>
                     </div>
                 )}

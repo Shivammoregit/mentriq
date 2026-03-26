@@ -1,32 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { Target, Users, BookOpen, TrendingUp, ShieldCheck, CheckCircle2 } from 'lucide-react';
-import { apiClient as api } from '../../utils/apiClient';
+import { useSiteData } from '../../context/SiteContext';
 
 const MissionAndImpact = () => {
-    const [impactData, setImpactData] = useState(null);
-    const [impactLoading, setImpactLoading] = useState(true);
-
-    useEffect(() => {
-        const fetchStats = async () => {
-            try {
-                const { data } = await api.get('/stats');
-                if (data) {
-                    setImpactData({
-                        studentsCount: data.students || "16K+",
-                        coursesCount: data.courses || "50+",
-                        placementRate: data.placements || "98%",
-                        expertTrainersCount: data.trainers || "60+"
-                    });
-                }
-            } catch (error) {
-                console.error("Failed to fetch impact stats:", error);
-            } finally {
-                setImpactLoading(false);
-            }
-        };
-        fetchStats();
-    }, []);
+    const { stats } = useSiteData();
+    const impactData = {
+        studentsCount: stats?.students || "16K+",
+        coursesCount: stats?.courses || "50+",
+        placementRate: stats?.placements || "98%",
+        expertTrainersCount: stats?.trainers || "60+"
+    };
+    const impactLoading = !stats;
 
     const containerVariants = {
         hidden: { opacity: 0 },

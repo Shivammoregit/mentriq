@@ -19,7 +19,8 @@ import {
     Loader2,
     Facebook,
     Percent,
-    Clock
+    Clock,
+    Megaphone
 } from "lucide-react";
 import { useToast } from "../../context/ToastContext";
 import { motion } from "framer-motion";
@@ -32,8 +33,8 @@ const SettingsManagement = () => {
     const [formData, setFormData] = useState({
         email: "",
         phone: "",
-        address: "Mentriq Technologies, 2nd floor, 34/501, Haldighati Marg E, Sector 3, Pratap Nagar, Sanganer, Jaipur, 302033",
-        mapLink: "",
+        address: "MentriQ Technologies, 2nd floor, 34/501, Haldighati Marg E, Sanganer, Sector 3, Pratap Nagar, Jaipur, Rajasthan 302033",
+        mapLink: "https://www.google.com/maps/place/MentriQ+Technologies/@26.8020093,75.4882598,10z/data=!4m22!1m15!4m14!1m6!1m2!1s0x396dcb31ccbce14d:0x9f153a03ffb8fdd0!2sMentriQ+Technologies,+2nd+floor,+34%2F501,+Haldighati+Marg+E,+Sanganer,+Sector+3,+Pratap+Nagar,+Jaipur,+Rajasthan+302033!2m2!1d75.8047414!2d26.8023101!1m6!1m2!1s0x396dcb31ccbce14d:0x9f153a03ffb8fdd0!2sMentriQ+Technologies,+2nd+floor,+34%2F501,+Haldighati+Marg+E,+Sanganer,+Sector+3,+Pratap+Nagar,+Jaipur,+Rajasthan+302033!2m2!1d75.8047414!2d26.8023101!3m5!1s0x396dcb31ccbce14d:0x9f153a03ffb8fdd0!8m2!3d26.8023101!4d75.8047414!16s%2Fg%2F11yy2ld3gd?entry=ttu&g_ep=EgoyMDI2MDMxOC4xIKXMDSoASAFQAw%3D%3D",
         socialLinks: {
             instagram: "",
             linkedin: "",
@@ -53,6 +54,12 @@ const SettingsManagement = () => {
             endDate: "",
             title: "Special Discount!",
             appliesTo: { courses: true, internships: false }
+        },
+        ticker: {
+            isActive: false,
+            message: "",
+            highlight: "",
+            showOnAllPages: true
         }
     });
 
@@ -96,6 +103,12 @@ const SettingsManagement = () => {
                         courses: settingsData.promo?.appliesTo?.courses !== false,
                         internships: settingsData.promo?.appliesTo?.internships || false
                     }
+                },
+                ticker: {
+                    isActive: settingsData.ticker?.isActive || false,
+                    message: settingsData.ticker?.message || "",
+                    highlight: settingsData.ticker?.highlight || "",
+                    showOnAllPages: settingsData.ticker?.showOnAllPages !== false
                 }
             });
         } catch (error) {
@@ -139,6 +152,15 @@ const SettingsManagement = () => {
                     }
                 }));
             }
+        } else if (name.startsWith("ticker.")) {
+            const tickerKey = name.split(".")[1];
+            setFormData(prev => ({
+                ...prev,
+                ticker: {
+                    ...prev.ticker,
+                    [tickerKey]: e.target.type === "checkbox" ? e.target.checked : value
+                }
+            }));
         } else {
             setFormData(prev => ({ ...prev, [name]: value }));
         }
@@ -155,7 +177,8 @@ const SettingsManagement = () => {
                     address: formData.address,
                     mapLink: formData.mapLink,
                     socialLinks: formData.socialLinks,
-                    promo: formData.promo
+                    promo: formData.promo,
+                    ticker: formData.ticker
                 }),
                 api.put("/stats", formData.siteStats)
             ]);
@@ -391,6 +414,71 @@ const SettingsManagement = () => {
                                     placeholder="e.g. Navratri Special Offer!"
                                 />
                             </div>
+                        </div>
+                    </div>
+
+                    {/* Website Ticker Control */}
+                    <div className="bg-[#0b1120]/40 backdrop-blur-xl p-10 rounded-[2.5rem] border border-cyan-500/20 shadow-[0_0_30px_rgba(6,182,212,0.1)]">
+                        <div className="flex items-center gap-4 mb-8">
+                            <div className="p-3 bg-cyan-500/20 rounded-2xl border border-cyan-400/40">
+                                <Megaphone size={24} className="text-cyan-300" />
+                            </div>
+                            <div>
+                                <h3 className="text-xl font-extrabold text-white tracking-tight">Website Ticker</h3>
+                                <p className="text-[10px] font-black text-cyan-300/80 uppercase tracking-widest mt-0.5">Global Announcement Bar</p>
+                            </div>
+                        </div>
+
+                        <div className="space-y-6">
+                            <div className="flex items-center justify-between p-4 bg-[#1e293b] rounded-2xl border border-white/10">
+                                <div>
+                                    <h4 className="text-sm font-bold text-white">Enable Ticker</h4>
+                                    <p className="text-[10px] text-slate-400 uppercase tracking-widest mt-1">Show custom message on website</p>
+                                </div>
+                                <label className="relative inline-flex items-center cursor-pointer">
+                                    <input
+                                        type="checkbox"
+                                        name="ticker.isActive"
+                                        checked={formData.ticker.isActive}
+                                        onChange={handleChange}
+                                        className="sr-only peer"
+                                    />
+                                    <div className="w-14 h-7 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all peer-checked:bg-cyan-500"></div>
+                                </label>
+                            </div>
+
+                            <div className={`space-y-2 transition-all duration-300 ${!formData.ticker.isActive ? "opacity-50 pointer-events-none" : ""}`}>
+                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Message</label>
+                                <input
+                                    name="ticker.message"
+                                    value={formData.ticker.message}
+                                    onChange={handleChange}
+                                    className="w-full bg-[#1e293b] border border-cyan-500/20 rounded-2xl p-4 text-white font-bold focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                                    placeholder="e.g. Admissions open for April batch"
+                                />
+                            </div>
+
+                            <div className={`space-y-2 transition-all duration-300 ${!formData.ticker.isActive ? "opacity-50 pointer-events-none" : ""}`}>
+                                <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Highlight (Optional)</label>
+                                <input
+                                    name="ticker.highlight"
+                                    value={formData.ticker.highlight}
+                                    onChange={handleChange}
+                                    className="w-full bg-[#1e293b] border border-cyan-500/20 rounded-2xl p-4 text-white font-bold focus:outline-none focus:ring-2 focus:ring-cyan-500"
+                                    placeholder="e.g. Apply Now"
+                                />
+                            </div>
+
+                            <label className={`flex items-center gap-3 p-4 rounded-xl border transition-all ${formData.ticker.isActive ? "bg-cyan-500/10 border-cyan-500/30 text-cyan-200" : "bg-[#1e293b] border-white/10 text-slate-400"}`}>
+                                <input
+                                    type="checkbox"
+                                    name="ticker.showOnAllPages"
+                                    checked={formData.ticker.showOnAllPages}
+                                    onChange={handleChange}
+                                    className="w-4 h-4 rounded accent-cyan-500"
+                                />
+                                <span className="text-xs font-black uppercase tracking-wider">Show on all pages (not only courses/internships)</span>
+                            </label>
                         </div>
                     </div>
                 </div>

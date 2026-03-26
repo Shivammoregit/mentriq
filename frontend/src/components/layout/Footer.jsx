@@ -2,12 +2,13 @@ import React from 'react';
 import { Mail, Phone, MapPin, Instagram, Linkedin, Twitter, ArrowRight, MessageCircle, Facebook } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { motion } from 'framer-motion';
-import { apiClient as api } from '../../utils/apiClient';
+import { useSiteData } from '../../context/SiteContext';
 
 const Footer = () => {
     const MotionA = motion.a;
     const MotionSpan = motion.span;
     const currentYear = new Date().getFullYear();
+    const { settings: siteSettings } = useSiteData();
 
     const footerSections = [
         {
@@ -39,7 +40,7 @@ const Footer = () => {
         },
     ];
 
-    const [settings, setSettings] = React.useState({
+    const fallbackSettings = {
         email: "support@mentriqtechnologies.in",
         phone: "+918890301264",
         address: "2nd floor, 34/501, Haldighati Marg E, Sector 3, Pratap Nagar, Sanganer, Jaipur, 302033",
@@ -51,32 +52,16 @@ const Footer = () => {
             whatsapp: "https://wa.me/918890301264",
             facebook: "https://www.facebook.com/profile.php?id=61588480116895"
         }
-    });
+    };
 
-    React.useEffect(() => {
-        const fetchSettings = async () => {
-            try {
-                const { data } = await api.get('/settings');
-                setSettings(prev => ({
-                    ...prev,
-                    email: data.email || prev.email,
-                    phone: data.phone || prev.phone,
-                    address: data.address || prev.address,
-                    mapLink: data.mapLink || prev.mapLink,
-                    socialLinks: {
-                        instagram: data.socialLinks?.instagram || prev.socialLinks.instagram,
-                        linkedin: data.socialLinks?.linkedin || prev.socialLinks.linkedin,
-                        twitter: data.socialLinks?.twitter || prev.socialLinks.twitter,
-                        whatsapp: data.socialLinks?.whatsapp || prev.socialLinks.whatsapp,
-                        facebook: data.socialLinks?.facebook || prev.socialLinks.facebook
-                    }
-                }));
-            } catch (error) {
-                console.error("Failed to fetch settings", error);
-            }
-        };
-        fetchSettings();
-    }, []);
+    const settings = {
+        ...fallbackSettings,
+        ...siteSettings,
+        socialLinks: {
+            ...fallbackSettings.socialLinks,
+            ...(siteSettings?.socialLinks || {})
+        }
+    };
 
     const socialLinks = [
         { icon: Instagram, href: settings.socialLinks.instagram, label: "Instagram" },

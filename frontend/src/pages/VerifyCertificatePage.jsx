@@ -326,6 +326,12 @@ const VerifyCertificatePage = () => {
                                                     <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">Issue Date</p>
                                                     <p className="text-white font-bold">{result.issueDate || 'N/A'}</p>
                                                 </div>
+                                                {result.completionDate && (
+                                                    <div>
+                                                        <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">Completion Date</p>
+                                                        <p className="text-white font-bold">{result.completionDate}</p>
+                                                    </div>
+                                                )}
                                                 <div>
                                                     <p className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-1">Grade</p>
                                                     <p className="text-white font-bold">{result.grade || 'Pass'}</p>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { apiClient as api } from "../../utils/apiClient";
-import { Plus, Edit2, Trash2, Briefcase, FileText, Check, X, Calendar, ChevronDown, CheckCircle, Clock, MapPin, Building2, ExternalLink, Eye, Tag, Percent, Loader2 } from "lucide-react";
+import { Plus, Edit2, Trash2, Briefcase, FileText, Check, X, Calendar, ChevronDown, CheckCircle, Clock, MapPin, Building2, ExternalLink, Eye, Tag, Percent, Loader2, Image as ImageIcon } from "lucide-react";
+import { resolveImageUrl } from "../../utils/imageUtils";
 import { motion, AnimatePresence } from "framer-motion";
 import { useToast } from "../../context/ToastContext";
 
@@ -12,6 +13,8 @@ const InternshipManagement = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [editingInternship, setEditingInternship] = useState(null);
     const [viewingApp, setViewingApp] = useState(null);
+    const [thumbnailFile, setThumbnailFile] = useState(null);
+    const [imagePreview, setImagePreview] = useState(null);
     const toast = useToast();
 
     const [isDiscountModalOpen, setIsDiscountModalOpen] = useState(false);
@@ -33,7 +36,8 @@ const InternshipManagement = () => {
         questions: "",
         duration: "",
         price: "",
-        discount: ""
+        discount: "",
+        thumbnail: ""
     };
     const [formData, setFormData] = useState(initialFormState);
 
@@ -60,11 +64,37 @@ const InternshipManagement = () => {
         return () => clearInterval(interval);
     }, [activeTab]);
 
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            setThumbnailFile(file);
+            setImagePreview(URL.createObjectURL(file));
+        }
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
+            let finalThumbnailUrl = formData.thumbnail;
+
+            // Upload image if a new file was selected
+            if (thumbnailFile) {
+                const uploadData = new FormData();
+                uploadData.append("image", thumbnailFile);
+                try {
+                    const uploadRes = await api.post("/upload", uploadData, {
+                        headers: { "Content-Type": "multipart/form-data" },
+                    });
+                    finalThumbnailUrl = uploadRes.data.imageUrl;
+                } catch (uploadError) {
+                    toast.error("Image upload failed");
+                    return;
+                }
+            }
+
             const payload = {
                 ...formData,
+                thumbnail: finalThumbnailUrl,
                 price: Number(formData.price) || 0,
                 discount: Number(formData.discount) || 0,
                 requirements: typeof formData.requirements === 'string'
@@ -94,6 +124,8 @@ const InternshipManagement = () => {
             setIsModalOpen(false);
             setEditingInternship(null);
             setFormData(initialFormState);
+            setThumbnailFile(null);
+            setImagePreview(null);
             fetchData();
         } catch (err) {
             toast.error(err.response?.data?.message || "Transmission failed");
@@ -158,13 +190,16 @@ const InternshipManagement = () => {
 
     const openEditModal = (internship) => {
         setEditingInternship(internship);
+        setThumbnailFile(null);
         setFormData({
             ...internship,
+            thumbnail: internship.thumbnail || "",
             requirements: Array.isArray(internship.requirements) ? internship.requirements.join('\n') : (internship.requirements || ""),
             questions: Array.isArray(internship.questions)
                 ? internship.questions.map((q) => typeof q === 'string' ? q : q.label).filter(Boolean).join('\n')
                 : (internship.questions || "")
         });
+        setImagePreview(internship.thumbnail ? resolveImageUrl(internship.thumbnail, null) : null);
         setIsModalOpen(true);
     };
 
@@ -241,9 +276,23 @@ const InternshipManagement = () => {
                                         className="hover:bg-[#1e293b] transition-colors group"
                                     >
                                         <td className="px-8 py-4">
-                                            <div className="flex flex-col gap-0.5">
-                                                <div className="font-bold text-white text-[14px] tracking-tight">{job.title}</div>
-                                                <div className="text-[9px] text-emerald-400 font-bold uppercase tracking-widest">{job.type}</div>
+                                            <div className="flex items-center gap-4">
+                                                <div className="w-12 h-12 rounded-xl bg-[#1e293b] border border-white/10 flex items-center justify-center overflow-hidden shrink-0 shadow-sm group-hover:border-emerald-500/50 transition-all">
+                                                    {job.thumbnail ? (
+                                                        <img
+                                                            src={resolveImageUrl(job.thumbnail, "/images/learning4.jpg")}
+                                                            alt={job.title}
+                                                            className="w-full h-full object-cover transition-transform group-hover:scale-110"
+                                                            onError={(e) => { e.currentTarget.src = "/images/learning4.jpg"; }}
+                                                        />
+                                                    ) : (
+                                                        <Briefcase size={20} className="text-emerald-400/50" />
+                                                    )}
+                                                </div>
+                                                <div>
+                                                    <div className="font-bold text-white text-[14px] tracking-tight">{job.title}</div>
+                                                    <div className="text-[9px] text-emerald-400 font-bold uppercase tracking-widest">{job.type}</div>
+                                                </div>
                                             </div>
                                         </td>
                                         <td className="px-8 py-4">
@@ -361,8 +410,36 @@ const InternshipManagement = () => {
                                 </button>
                             </div>
 
-                            <form onSubmit={handleSubmit} className="flex-1 overflow-y-auto pr-4 -mr-4 space-y-6 custom-scrollbar">
+                            <form id="internship-form" onSubmit={handleSubmit} className="flex-1 overflow-y-auto pr-4 -mr-4 space-y-6 custom-scrollbar">
                                 <div className="space-y-6">
+                                    {/* Thumbnail Image Upload */}
+                                    <div className="space-y-2">
+                                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Cover Image / Thumbnail</label>
+                                        <div className="relative group w-full h-36 bg-[#1e293b] border-2 border-dashed border-white/10 rounded-2xl flex flex-col items-center justify-center gap-3 group-hover:border-emerald-400/50 transition-all overflow-hidden cursor-pointer">
+                                            {imagePreview ? (
+                                                <img src={imagePreview} alt="Preview" className="w-full h-full object-cover" />
+                                            ) : formData.thumbnail ? (
+                                                <img
+                                                    src={resolveImageUrl(formData.thumbnail, "/images/learning4.jpg")}
+                                                    alt="Current"
+                                                    className="w-full h-full object-cover"
+                                                    onError={(e) => { e.currentTarget.src = "/images/learning4.jpg"; }}
+                                                />
+                                            ) : (
+                                                <>
+                                                    <ImageIcon size={30} className="text-slate-400 group-hover:text-emerald-400 transition-colors" strokeWidth={1.5} />
+                                                    <span className="text-[9px] font-black text-slate-400 uppercase tracking-widest group-hover:text-emerald-400 transition-colors">Click to upload thumbnail</span>
+                                                </>
+                                            )}
+                                            <input type="file" accept="image/*" onChange={handleImageChange} className="absolute inset-0 opacity-0 cursor-pointer" />
+                                            {(imagePreview || formData.thumbnail) && (
+                                                <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2">
+                                                    <ImageIcon size={20} className="text-white" />
+                                                    <span className="text-white text-xs font-bold">Change Image</span>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </div>
                                     <div className="grid grid-cols-2 gap-6">
                                         <div className="space-y-2">
                                             <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Position Designation</label>
@@ -459,24 +536,24 @@ const InternshipManagement = () => {
                                         />
                                     </div>
                                 </div>
-
-                                <div className="p-6 border-t border-white/5 flex justify-end items-center gap-4 shrink-0 -mx-8 -mb-8 mt-6 bg-[#1e293b]">
-                                    <button
-                                        type="button"
-                                        onClick={() => setIsModalOpen(false)}
-                                        className="flex-1 py-3.5 rounded-2xl bg-[#1e293b] text-slate-400 font-bold text-[10px] uppercase tracking-widest hover:text-white hover:bg-white/10 border border-white/10 transition-all"
-                                    >
-                                        Dismiss
-                                    </button>
-                                    <button
-                                        type="submit"
-                                        className="flex-2 py-3.5 rounded-2xl bg-emerald-600 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-emerald-500 shadow-lg shadow-emerald-600/20 transition-all flex items-center justify-center gap-2 active:scale-95"
-                                    >
-                                        <CheckCircle size={16} strokeWidth={3} />
-                                        <span>Deploy Post</span>
-                                    </button>
-                                </div>
                             </form>
+                            <div className="p-6 border-t border-white/5 flex justify-end items-center gap-4 shrink-0 -mx-8 -mb-8 mt-6 bg-[#1e293b]">
+                                <button
+                                    type="button"
+                                    onClick={() => setIsModalOpen(false)}
+                                    className="flex-1 py-3.5 rounded-2xl bg-[#1e293b] text-slate-400 font-bold text-[10px] uppercase tracking-widest hover:text-white hover:bg-white/10 border border-white/10 transition-all"
+                                >
+                                    Dismiss
+                                </button>
+                                <button
+                                    type="submit"
+                                    form="internship-form"
+                                    className="flex-2 py-3.5 rounded-2xl bg-emerald-600 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-emerald-500 shadow-lg shadow-emerald-600/20 transition-all flex items-center justify-center gap-2 active:scale-95"
+                                >
+                                    <CheckCircle size={16} strokeWidth={3} />
+                                    <span>Deploy Post</span>
+                                </button>
+                            </div>
                         </motion.div>
                     </div>
                 )}

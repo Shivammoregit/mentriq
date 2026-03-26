@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 import { motion, useAnimationFrame, useMotionValue, useSpring, useTransform } from 'framer-motion';
 
 import { Users } from 'lucide-react';
-import { apiClient as api } from '../../utils/apiClient';
 import { resolveImageUrl } from '../../utils/imageUtils';
+import { useSiteData } from '../../context/SiteContext';
 
 const FALLBACK_MENTORS = [];
 
@@ -141,34 +141,17 @@ const MentorCard = ({ item, scrollX, index, totalItems }) => {
 };
 
 const MentorsSection = () => {
-    const [mentors, setMentors] = useState(FALLBACK_MENTORS);
+    const { mentors: siteMentors } = useSiteData();
 
     const rawScrollX = useMotionValue(0);
     const scrollX = useSpring(rawScrollX, { damping: 50, stiffness: 400, mass: 0.5 });
-
-    useEffect(() => {
-        const fetchMentors = async () => {
-            try {
-                const { data } = await api.get('/mentors');
-                if (Array.isArray(data) && data.length > 0) {
-                    console.log("MentorsSection: Fetched mentors from API", data);
-                    setMentors(data);
-                } else {
-                    console.log("MentorsSection: No mentors found in API, using fallback");
-                }
-            } catch (error) {
-                console.error("MentorsSection: Failed to fetch mentors, using fallback", error);
-            }
-        };
-        fetchMentors();
-    }, []);
 
     useAnimationFrame((t, d) => {
         const moveBy = -1.2 * (d / 16);
         rawScrollX.set(rawScrollX.get() + moveBy);
     });
 
-    const displayMentors = mentors;
+    const displayMentors = Array.isArray(siteMentors) && siteMentors.length > 0 ? siteMentors : FALLBACK_MENTORS;
     const extendedMentors = [...displayMentors, ...displayMentors];
 
     return (
