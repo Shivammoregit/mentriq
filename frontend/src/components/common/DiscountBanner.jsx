@@ -16,18 +16,31 @@ const DiscountBanner = () => {
         const fetchPromo = async () => {
             try {
                 const { data } = await apiClient.get('/settings');
-                if (data?.promo?.isActive && new Date(data.promo.endDate) > new Date() && data.promo.appliesTo?.courses !== false) {
-                    setPromo(data.promo);
-                }
-                if (data?.internshipPromo?.isActive && new Date(data.internshipPromo.endDate) > new Date()) {
-                    setInternshipPromo(data.internshipPromo);
-                }
+                const nextPromo =
+                    data?.promo?.isActive &&
+                    data?.promo?.endDate &&
+                    new Date(data.promo.endDate) > new Date() &&
+                    data.promo.appliesTo?.courses !== false
+                        ? data.promo
+                        : null;
+
+                const nextInternshipPromo =
+                    data?.internshipPromo?.isActive &&
+                    data?.internshipPromo?.endDate &&
+                    new Date(data.internshipPromo.endDate) > new Date()
+                        ? data.internshipPromo
+                        : null;
+
+                setPromo(nextPromo);
+                setInternshipPromo(nextInternshipPromo);
                 setTicker(data?.ticker || null);
             } catch (error) {
                 console.error("Failed to fetch promos:", error);
             }
         };
         fetchPromo();
+        const interval = setInterval(fetchPromo, 10000);
+        return () => clearInterval(interval);
     }, []);
 
     const isInternshipRoute = location.pathname.includes('/internship') || location.pathname.includes('/applications');
