@@ -20,7 +20,8 @@ import {
     Facebook,
     Percent,
     Clock,
-    Megaphone
+    Megaphone,
+    Power
 } from "lucide-react";
 import { useToast } from "../../context/ToastContext";
 import { motion } from "framer-motion";
@@ -54,6 +55,12 @@ const SettingsManagement = () => {
             endDate: "",
             title: "Special Discount!",
             appliesTo: { courses: true, internships: false }
+        },
+        internshipPromo: {
+            isActive: false,
+            discountPercentage: 0,
+            endDate: "",
+            title: "Internship Discount!"
         },
         ticker: {
             isActive: false,
@@ -103,6 +110,12 @@ const SettingsManagement = () => {
                         courses: settingsData.promo?.appliesTo?.courses !== false,
                         internships: settingsData.promo?.appliesTo?.internships || false
                     }
+                },
+                internshipPromo: {
+                    isActive: settingsData.internshipPromo?.isActive || false,
+                    discountPercentage: settingsData.internshipPromo?.discountPercentage || 0,
+                    endDate: settingsData.internshipPromo?.endDate ? new Date(settingsData.internshipPromo.endDate).toISOString().slice(0, 16) : "",
+                    title: settingsData.internshipPromo?.title || "Internship Discount!"
                 },
                 ticker: {
                     isActive: settingsData.ticker?.isActive || false,
@@ -161,6 +174,15 @@ const SettingsManagement = () => {
                     [tickerKey]: e.target.type === "checkbox" ? e.target.checked : value
                 }
             }));
+        } else if (name.startsWith("internshipPromo.")) {
+            const promoKey = name.split(".")[1];
+            setFormData(prev => ({
+                ...prev,
+                internshipPromo: {
+                    ...prev.internshipPromo,
+                    [promoKey]: e.target.type === "checkbox" ? e.target.checked : value
+                }
+            }));
         } else {
             setFormData(prev => ({ ...prev, [name]: value }));
         }
@@ -177,6 +199,7 @@ const SettingsManagement = () => {
                 mapLink: formData.mapLink,
                 socialLinks: formData.socialLinks,
                 promo: formData.promo,
+                internshipPromo: formData.internshipPromo,
                 ticker: formData.ticker
             });
 
@@ -190,6 +213,52 @@ const SettingsManagement = () => {
         } catch (error) {
             console.error("Settings update failed:", error);
             toast.error(error?.response?.data?.message || "Failed to save settings");
+        } finally {
+            setSaving(false);
+        }
+    };
+
+    const handleDisableAllFeatures = async () => {
+        setSaving(true);
+        try {
+            const disabledPayload = {
+                ...formData,
+                promo: {
+                    ...formData.promo,
+                    isActive: false,
+                    endDate: "",
+                    discountPercentage: 0
+                },
+                internshipPromo: {
+                    ...formData.internshipPromo,
+                    isActive: false,
+                    endDate: "",
+                    discountPercentage: 0
+                },
+                ticker: {
+                    ...formData.ticker,
+                    isActive: false,
+                    message: "",
+                    highlight: ""
+                }
+            };
+
+            await api.put("/settings", {
+                email: disabledPayload.email,
+                phone: disabledPayload.phone,
+                address: disabledPayload.address,
+                mapLink: disabledPayload.mapLink,
+                socialLinks: disabledPayload.socialLinks,
+                promo: disabledPayload.promo,
+                internshipPromo: disabledPayload.internshipPromo,
+                ticker: disabledPayload.ticker
+            });
+
+            setFormData(disabledPayload);
+            toast.success("All discount and ticker features disabled");
+        } catch (error) {
+            console.error("Disable all features failed:", error);
+            toast.error(error?.response?.data?.message || "Failed to disable all features");
         } finally {
             setSaving(false);
         }
@@ -490,6 +559,48 @@ const SettingsManagement = () => {
 
                 {/* Social & Maps */}
                 <div className="space-y-8">
+                    {/* Feature Controls */}
+                    <div className="bg-[#0b1120]/40 backdrop-blur-xl p-10 rounded-[2.5rem] border border-rose-500/20 shadow-[0_0_30px_rgba(244,63,94,0.08)]">
+                        <div className="flex items-center gap-4 mb-8">
+                            <div className="p-3 bg-rose-500/20 rounded-2xl border border-rose-400/40">
+                                <Power size={24} className="text-rose-300" />
+                            </div>
+                            <div>
+                                <h3 className="text-xl font-extrabold text-white tracking-tight">Feature Controls</h3>
+                                <p className="text-[10px] font-black text-rose-300/80 uppercase tracking-widest mt-0.5">Master control for ticker and all discounts</p>
+                            </div>
+                        </div>
+
+                        <div className="space-y-4">
+                            {[
+                                { label: "Course Global Discount", active: formData.promo.isActive, tone: "emerald" },
+                                { label: "Internship Global Discount", active: formData.internshipPromo.isActive, tone: "amber" },
+                                { label: "Website Ticker", active: formData.ticker.isActive, tone: "cyan" }
+                            ].map((item) => (
+                                <div key={item.label} className="flex items-center justify-between rounded-xl border border-white/10 bg-[#1e293b] px-4 py-3">
+                                    <span className="text-xs font-black uppercase tracking-[0.15em] text-slate-200">{item.label}</span>
+                                    <span
+                                        className={`rounded-full px-3 py-1 text-[10px] font-black uppercase tracking-wider ${
+                                            item.active ? "bg-emerald-500/20 text-emerald-300 border border-emerald-500/30" : "bg-slate-700 text-slate-300 border border-slate-600"
+                                        }`}
+                                    >
+                                        {item.active ? "Active" : "Disabled"}
+                                    </span>
+                                </div>
+                            ))}
+                        </div>
+
+                        <button
+                            type="button"
+                            onClick={handleDisableAllFeatures}
+                            disabled={saving}
+                            className="mt-6 w-full bg-rose-600 text-white hover:bg-rose-500 py-4 rounded-xl font-black text-[10px] uppercase tracking-[0.2em] disabled:opacity-50 flex items-center justify-center gap-2"
+                        >
+                            {saving ? <Loader2 size={16} className="animate-spin" /> : <Power size={16} />}
+                            <span>Disable Everything</span>
+                        </button>
+                    </div>
+
                     <div className="bg-[#0b1120]/40 backdrop-blur-xl p-10 rounded-[2.5rem] border border-white/5 shadow-xl">
                         <div className="flex items-center gap-4 mb-8">
                             <div className="p-3 bg-purple-500/10 rounded-2xl border border-purple-500/20">
