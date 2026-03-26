@@ -5,7 +5,7 @@ const Settings = require("../models/Settings");
 // @access  Public
 const getSettings = async (req, res) => {
     try {
-        let settings = await Settings.findOne();
+        let settings = await Settings.findOne().sort({ updatedAt: -1, _id: -1 });
         if (!settings) {
             settings = await Settings.create({}); // Create default if not exists
         }
@@ -23,7 +23,7 @@ const updateSettings = async (req, res) => {
     try {
         const { email, phone, address, mapLink, socialLinks } = req.body;
 
-        let settings = await Settings.findOne();
+        let settings = await Settings.findOne().sort({ updatedAt: -1, _id: -1 });
         if (!settings) {
             settings = new Settings();
         }
@@ -95,7 +95,9 @@ const updateSettings = async (req, res) => {
             };
         }
 
-        settings.updatedBy = req.user._id;
+        if (req.user?._id) {
+            settings.updatedBy = req.user._id;
+        }
 
         const updatedSettings = await settings.save();
         res.json(updatedSettings);

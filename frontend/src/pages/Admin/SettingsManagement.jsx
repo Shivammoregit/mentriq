@@ -189,7 +189,7 @@ const SettingsManagement = () => {
             }
         } catch (error) {
             console.error("Settings update failed:", error);
-            toast.error("Failed to save settings");
+            toast.error(error?.response?.data?.message || "Failed to save settings");
         } finally {
             setSaving(false);
         }
