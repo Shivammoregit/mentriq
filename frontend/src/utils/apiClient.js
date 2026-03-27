@@ -1,11 +1,12 @@
 import axios from 'axios'
 
 const envBaseURL = (import.meta.env.VITE_API_BASE_URL || '').trim().replace(/\/$/, '');
+const PROD_FALLBACK_API = 'https://mentriq-technologies.onrender.com/api';
 
 // Resilient BaseURL resolution:
 // - If VITE_API_BASE_URL is provided, always use it (dev/prod).
-// - Otherwise fallback to localhost in dev and /api in prod (proxy-based deploys).
-const resolvedBaseURL = envBaseURL || (import.meta.env.DEV ? 'http://localhost:5000/api' : '/api');
+// - Otherwise fallback to localhost in dev and live backend in prod.
+const resolvedBaseURL = envBaseURL || (import.meta.env.DEV ? 'http://localhost:5000/api' : PROD_FALLBACK_API);
 
 const setupApiPreconnect = () => {
   if (typeof window === 'undefined') return;

@@ -57,23 +57,28 @@ const allowedOrigins = new Set([
     "https://www.mentriqtechnologies.in",
     "https://mentriqtechnologies.in",
     "https://mentriq-technologies-zeta.vercel.app",
+    "https://mentriq-psex.vercel.app",
     ...envOrigins
 ].filter(Boolean));
 
 const corsOptions = {
     origin: (origin, callback) => {
+        const normalizedOrigin = typeof origin === "string" ? origin.trim().replace(/\/$/, "") : origin;
+
         // Skip check for non-browser environments or if origin matches allowed set
-        if (!origin || allowedOrigins.has(origin.replace(/\/$/, ""))) {
+        if (!normalizedOrigin || allowedOrigins.has(normalizedOrigin)) {
             return callback(null, true);
         }
 
         // Allow all mentriqtechnologies.in and vercel.app subdomains for flexibility
         try {
-            const { protocol, hostname } = new URL(origin);
+            const { protocol, hostname } = new URL(normalizedOrigin);
             if (protocol === "http:" && (hostname === "localhost" || hostname === "127.0.0.1")) return callback(null, true);
             if (protocol === "https:" && (
-                hostname.endsWith("mentriqtechnologies.in") ||
-                hostname.endsWith("vercel.app")
+                hostname === "mentriqtechnologies.in" ||
+                hostname.endsWith(".mentriqtechnologies.in") ||
+                hostname === "vercel.app" ||
+                hostname.endsWith(".vercel.app")
             )) {
                 return callback(null, true);
             }

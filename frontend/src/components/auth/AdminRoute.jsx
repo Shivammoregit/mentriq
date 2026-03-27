@@ -8,7 +8,7 @@ const AdminRoute = ({ children }) => {
 
   if (loading) return <AdminLoader fullScreen={true} label="Authorizing access" />
 
-  return (user?.role === "admin" || user?.role === "moderator" || user?.role === "superadmin")
+  return (user?.role === "admin" || user?.role === "moderator" || user?.role === "superadmin" || user?.role === "subadmin")
     ? children
     : <Navigate to="/" replace />
 }

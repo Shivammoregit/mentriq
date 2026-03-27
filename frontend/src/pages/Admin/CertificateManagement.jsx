@@ -9,13 +9,13 @@ import { useToast } from "../../context/ToastContext";
 import { resolveImageUrl } from "../../utils/imageUtils";
 
 const DEFAULT_FIELD_LAYOUT = {
-    studentName: { enabled: true, x: 50, y: 36 },
-    programName: { enabled: true, x: 50, y: 50 },
-    issueDate: { enabled: true, x: 18, y: 78 },
-    completionDate: { enabled: false, x: 38, y: 78 },
-    grade: { enabled: false, x: 58, y: 78 },
-    certificateId: { enabled: true, x: 50, y: 88 },
-    qrCode: { enabled: true, x: 84, y: 78, size: 18 }
+    studentName: { enabled: true, x: 50, y: 43.5 },
+    programName: { enabled: true, x: 50, y: 56 },
+    issueDate: { enabled: true, x: 23.5, y: 70.5 },
+    completionDate: { enabled: true, x: 76.5, y: 70.5 },
+    grade: { enabled: true, x: 52, y: 82 },
+    certificateId: { enabled: true, x: 26, y: 91.2 },
+    qrCode: { enabled: true, x: 76.5, y: 90.2, size: 12.5 }
 };
 
 const FIELD_LABELS = {
@@ -26,6 +26,184 @@ const FIELD_LABELS = {
     grade: "Grade",
     certificateId: "Certificate ID",
     qrCode: "QR"
+};
+
+const FIELD_VISUALS = {
+    studentName: {
+        anchor: "center",
+        fontFamily: "'Great Vibes', 'Lucida Handwriting', 'Brush Script MT', cursive",
+        fontWeight: 400,
+        fontStyle: "normal",
+        sizeRatio: 0.063,
+        color: "#161616"
+    },
+    programName: {
+        anchor: "center",
+        fontFamily: "'Times New Roman', serif",
+        fontWeight: 600,
+        fontStyle: "normal",
+        sizeRatio: 0.019,
+        color: "#161616"
+    },
+    issueDate: {
+        anchor: "left",
+        fontFamily: "'Times New Roman', serif",
+        fontWeight: 600,
+        fontStyle: "normal",
+        sizeRatio: 0.0145,
+        color: "#161616"
+    },
+    completionDate: {
+        anchor: "right",
+        fontFamily: "'Times New Roman', serif",
+        fontWeight: 600,
+        fontStyle: "normal",
+        sizeRatio: 0.0145,
+        color: "#161616"
+    },
+    grade: {
+        anchor: "center",
+        fontFamily: "'Times New Roman', serif",
+        fontWeight: 600,
+        fontStyle: "normal",
+        sizeRatio: 0.017,
+        color: "#161616"
+    },
+    certificateId: {
+        anchor: "left",
+        fontFamily: "'Times New Roman', serif",
+        fontWeight: 500,
+        fontStyle: "normal",
+        sizeRatio: 0.013,
+        color: "#161616"
+    }
+};
+
+const createDefaultFieldLayout = () =>
+    Object.fromEntries(
+        Object.entries(DEFAULT_FIELD_LAYOUT).map(([key, value]) => [key, { ...value }])
+    );
+
+const mergeFieldLayout = (...layouts) => {
+    const merged = createDefaultFieldLayout();
+
+    layouts.forEach((layout) => {
+        if (!layout || typeof layout !== "object") return;
+
+        Object.entries(layout).forEach(([key, value]) => {
+            if (!value || typeof value !== "object" || Array.isArray(value)) return;
+            merged[key] = {
+                ...(merged[key] || {}),
+                ...value
+            };
+        });
+    });
+
+    return merged;
+};
+
+const normalizeTemplateUrl = (template) => {
+    const rawUrl = String(template?.url || "").trim();
+    return rawUrl ? resolveImageUrl(rawUrl) : "";
+};
+
+const getResolvedCertificateLayout = (certificate, templateDefaults) => {
+    const defaultLayout = mergeFieldLayout(templateDefaults?.fieldLayout);
+    const certificateLayout = mergeFieldLayout(certificate?.fieldLayout);
+    const certificateTemplateUrl = normalizeTemplateUrl(certificate?.template);
+    const defaultTemplateUrl = normalizeTemplateUrl(templateDefaults?.template);
+
+    if (certificateTemplateUrl && defaultTemplateUrl && certificateTemplateUrl === defaultTemplateUrl) {
+        return defaultLayout;
+    }
+
+    return certificateLayout;
+};
+
+const getContainMetrics = (container, naturalWidth, naturalHeight) => {
+    if (!container || !naturalWidth || !naturalHeight) return null;
+
+    const containerWidth = container.clientWidth || 0;
+    const containerHeight = container.clientHeight || 0;
+    if (!containerWidth || !containerHeight) return null;
+
+    const scale = Math.min(containerWidth / naturalWidth, containerHeight / naturalHeight);
+    const width = naturalWidth * scale;
+    const height = naturalHeight * scale;
+
+    return {
+        left: (containerWidth - width) / 2,
+        top: (containerHeight - height) / 2,
+        width,
+        height,
+        naturalWidth,
+        naturalHeight
+    };
+};
+
+const getFieldPositionStyle = (cfg, metrics, anchor = "center") => {
+    if (!cfg) return {};
+
+    const translateX = anchor === "left" ? "0%" : anchor === "right" ? "-100%" : "-50%";
+
+    if (!metrics) {
+        return {
+            left: `${cfg.x || 50}%`,
+            top: `${cfg.y || 50}%`,
+            transform: `translate(${translateX}, -50%)`
+        };
+    }
+
+    const x = metrics.left + (Number(cfg.x || 0) / 100) * metrics.width;
+    const y = metrics.top + (Number(cfg.y || 0) / 100) * metrics.height;
+
+    return {
+        left: `${x}px`,
+        top: `${y}px`,
+        transform: `translate(${translateX}, -50%)`
+    };
+};
+
+const getMetricDimensions = (metrics) => ({
+    width: metrics?.width || metrics?.naturalWidth || 620,
+    height: metrics?.height || metrics?.naturalHeight || 900
+});
+
+const getFieldFontSize = (key, metrics) => {
+    const visual = FIELD_VISUALS[key] || FIELD_VISUALS.programName;
+    const { height } = getMetricDimensions(metrics);
+
+    return Math.max(12, Math.round(height * (visual.sizeRatio || 0.018)));
+};
+
+const getFieldDomStyle = (key, cfg, metrics) => {
+    const visual = FIELD_VISUALS[key] || FIELD_VISUALS.programName;
+    const { width } = getMetricDimensions(metrics);
+
+    return {
+        ...getFieldPositionStyle(cfg, metrics, visual.anchor),
+        color: visual.color,
+        fontFamily: visual.fontFamily,
+        fontWeight: visual.fontWeight,
+        fontStyle: visual.fontStyle || "normal",
+        fontSize: `${getFieldFontSize(key, metrics)}px`,
+        lineHeight: 1,
+        textAlign: visual.anchor === "left" ? "left" : visual.anchor === "right" ? "right" : "center",
+        textShadow: "none",
+        whiteSpace: key === "programName" ? "normal" : "nowrap",
+        maxWidth: key === "programName" ? `${width * 0.62}px` : "none"
+    };
+};
+
+const getCanvasFont = (key, metrics) => {
+    const visual = FIELD_VISUALS[key] || FIELD_VISUALS.programName;
+    const size = getFieldFontSize(key, metrics);
+    return `${visual.fontStyle || "normal"} ${visual.fontWeight || 400} ${size}px ${visual.fontFamily}`;
+};
+
+const getQrSizePx = (cfg, metrics) => {
+    const { width } = getMetricDimensions(metrics);
+    return Math.max(42, Math.round(width * (Number(cfg?.size || 12) / 100)));
 };
 
 const CertificateManagement = () => {
@@ -49,16 +227,21 @@ const CertificateManagement = () => {
         grade: "",
         completionDate: "",
         template: { url: "", fileName: "", mimeType: "" },
-        fieldLayout: DEFAULT_FIELD_LAYOUT
+        fieldLayout: createDefaultFieldLayout()
     });
     const [uploadingTemplate, setUploadingTemplate] = useState(false);
     const [savingTemplateDefaults, setSavingTemplateDefaults] = useState(false);
     const [defaultTemplate, setDefaultTemplate] = useState({
         template: { url: "", fileName: "", mimeType: "" },
-        fieldLayout: DEFAULT_FIELD_LAYOUT
+        fieldLayout: createDefaultFieldLayout()
     });
     const [dragField, setDragField] = useState(null);
     const templateCanvasRef = useRef(null);
+    const templateImageRef = useRef(null);
+    const certificateSurfaceRef = useRef(null);
+    const certificateImageRef = useRef(null);
+    const [templateMetrics, setTemplateMetrics] = useState(null);
+    const [certificateMetrics, setCertificateMetrics] = useState(null);
 
     const toast = useToast();
 
@@ -78,17 +261,13 @@ const CertificateManagement = () => {
 
             const settingsTemplate = settingsRes.data?.certificateTemplate;
             if (settingsTemplate) {
-                const mergedFieldLayout = {
-                    ...DEFAULT_FIELD_LAYOUT,
-                    ...(settingsTemplate.fieldLayout || {})
-                };
                 setDefaultTemplate({
                     template: {
                         url: settingsTemplate.template?.url || "",
                         fileName: settingsTemplate.template?.fileName || "",
                         mimeType: settingsTemplate.template?.mimeType || ""
                     },
-                    fieldLayout: mergedFieldLayout
+                    fieldLayout: mergeFieldLayout(settingsTemplate.fieldLayout)
                 });
             }
         } catch (err) {
@@ -116,6 +295,30 @@ const CertificateManagement = () => {
         }
     }, [formData.userId, users]);
 
+    useEffect(() => {
+        const updateMetrics = () => {
+            setTemplateMetrics(
+                getContainMetrics(
+                    templateCanvasRef.current,
+                    templateImageRef.current?.naturalWidth,
+                    templateImageRef.current?.naturalHeight
+                )
+            );
+
+            setCertificateMetrics(
+                getContainMetrics(
+                    certificateSurfaceRef.current,
+                    certificateImageRef.current?.naturalWidth,
+                    certificateImageRef.current?.naturalHeight
+                )
+            );
+        };
+
+        updateMetrics();
+        window.addEventListener("resize", updateMetrics);
+        return () => window.removeEventListener("resize", updateMetrics);
+    }, [formData.template?.url, viewingCert?.template?.url, viewingCert?.certificateId]);
+
     const openIssueModal = () => {
         setModalMode("issue");
         setFormData({
@@ -128,7 +331,7 @@ const CertificateManagement = () => {
             grade: "",
             completionDate: "",
             template: { ...defaultTemplate.template },
-            fieldLayout: { ...defaultTemplate.fieldLayout }
+            fieldLayout: mergeFieldLayout(defaultTemplate.fieldLayout)
         });
         setIsModalOpen(true);
     };
@@ -138,7 +341,7 @@ const CertificateManagement = () => {
         setFormData((prev) => ({
             ...prev,
             template: { ...defaultTemplate.template },
-            fieldLayout: { ...defaultTemplate.fieldLayout }
+            fieldLayout: mergeFieldLayout(defaultTemplate.fieldLayout)
         }));
         setIsModalOpen(true);
     };
@@ -147,7 +350,7 @@ const CertificateManagement = () => {
         setFormData((prev) => ({
             ...prev,
             template: { ...defaultTemplate.template },
-            fieldLayout: { ...defaultTemplate.fieldLayout }
+            fieldLayout: mergeFieldLayout(defaultTemplate.fieldLayout)
         }));
         toast.success("Default template applied");
     };
@@ -165,7 +368,7 @@ const CertificateManagement = () => {
                 grade: formData.grade || undefined,
                 completionDate: formData.completionDate || undefined,
                 template: formData.template,
-                fieldLayout: formData.fieldLayout
+                fieldLayout: mergeFieldLayout(formData.fieldLayout)
             });
             await saveTemplateDefaults({ showToast: false });
             toast.success("Credential generated successfully");
@@ -180,7 +383,7 @@ const CertificateManagement = () => {
                 grade: "",
                 completionDate: "",
                 template: { ...formData.template },
-                fieldLayout: { ...formData.fieldLayout }
+                fieldLayout: mergeFieldLayout(formData.fieldLayout)
             });
             fetchData();
         } catch (err) {
@@ -224,12 +427,12 @@ const CertificateManagement = () => {
             await api.put("/settings", {
                 certificateTemplate: {
                     template: formData.template,
-                    fieldLayout: formData.fieldLayout
+                    fieldLayout: mergeFieldLayout(formData.fieldLayout)
                 }
             });
             setDefaultTemplate({
                 template: { ...formData.template },
-                fieldLayout: { ...formData.fieldLayout }
+                fieldLayout: mergeFieldLayout(formData.fieldLayout)
             });
             if (showToast) toast.success("Template saved for future certificates");
         } catch (err) {
@@ -255,9 +458,20 @@ const CertificateManagement = () => {
     const updateFieldPosition = (fieldKey, clientX, clientY) => {
         const canvas = templateCanvasRef.current;
         if (!canvas) return;
+
         const rect = canvas.getBoundingClientRect();
-        const rawX = ((clientX - rect.left) / rect.width) * 100;
-        const rawY = ((clientY - rect.top) / rect.height) * 100;
+        const metrics = templateMetrics || getContainMetrics(
+            canvas,
+            templateImageRef.current?.naturalWidth,
+            templateImageRef.current?.naturalHeight
+        );
+
+        if (!metrics) return;
+
+        const imageLeft = rect.left + metrics.left;
+        const imageTop = rect.top + metrics.top;
+        const rawX = ((clientX - imageLeft) / metrics.width) * 100;
+        const rawY = ((clientY - imageTop) / metrics.height) * 100;
         const x = Math.max(2, Math.min(98, Number(rawX.toFixed(2))));
         const y = Math.max(2, Math.min(98, Number(rawY.toFixed(2))));
         setLayoutValue(fieldKey, "x", x);
@@ -480,107 +694,80 @@ const CertificateManagement = () => {
         });
 
     const renderCertificateCanvasFromData = async (certElement) => {
-        const nodeWidth = Math.max(900, certElement?.scrollWidth || 900);
-        const nodeHeight = Math.max(1200, certElement?.scrollHeight || 1200);
+        const surfaceEl = certElement?.querySelector('[data-certificate-surface="true"]');
+        let nodeWidth = Math.max(700, Math.round(surfaceEl?.clientWidth || certElement?.scrollWidth || 900));
+        let nodeHeight = Math.max(900, Math.round(surfaceEl?.clientHeight || certElement?.scrollHeight || 1200));
+        let templateImage = null;
 
         const canvas = document.createElement("canvas");
         const scale = 2;
+
+        if (viewingCert?.template?.url && viewingCert.template.mimeType?.startsWith("image/")) {
+            try {
+                const templateUrl = resolveImageUrl(viewingCert.template.url);
+                templateImage = await loadImageElement(templateUrl, { useCors: true });
+                nodeWidth = templateImage.naturalWidth || templateImage.width || nodeWidth;
+                nodeHeight = templateImage.naturalHeight || templateImage.height || nodeHeight;
+            } catch {
+                templateImage = null;
+            }
+        }
+
         canvas.width = Math.floor(nodeWidth * scale);
         canvas.height = Math.floor(nodeHeight * scale);
 
         const ctx = canvas.getContext("2d");
         if (!ctx) throw new Error("Canvas context unavailable");
         ctx.scale(scale, scale);
-
-        ctx.fillStyle = "#0b1120";
-        ctx.fillRect(0, 0, nodeWidth, nodeHeight);
-
-        const cardPadding = Math.round(nodeWidth * 0.08);
-        const cardX = cardPadding;
-        const cardY = Math.round(nodeHeight * 0.08);
-        const cardW = nodeWidth - cardPadding * 2;
-        const cardH = nodeHeight - cardY - Math.round(nodeHeight * 0.08);
-
-        ctx.fillStyle = "#0f172a";
-        ctx.fillRect(cardX, cardY, cardW, cardH);
-
-        if (viewingCert?.template?.url && viewingCert.template.mimeType?.startsWith("image/")) {
-            try {
-                const templateUrl = resolveImageUrl(viewingCert.template.url);
-                const bg = await loadImageElement(templateUrl, { useCors: true });
-
-                const imgRatio = bg.width / bg.height;
-                const boxRatio = cardW / cardH;
-                let drawW = cardW;
-                let drawH = cardH;
-                let drawX = cardX;
-                let drawY = cardY;
-
-                if (imgRatio > boxRatio) {
-                    drawH = cardH;
-                    drawW = cardH * imgRatio;
-                    drawX = cardX - (drawW - cardW) / 2;
-                } else {
-                    drawW = cardW;
-                    drawH = cardW / imgRatio;
-                    drawY = cardY - (drawH - cardH) / 2;
-                }
-
-                ctx.globalAlpha = 0.62;
-                ctx.drawImage(bg, drawX, drawY, drawW, drawH);
-                ctx.globalAlpha = 1;
-            } catch {
-                // Keep rendering without template image
-            }
+        if (document?.fonts?.ready) {
+            await document.fonts.ready;
         }
 
-        const overlay = ctx.createLinearGradient(0, cardY, 0, cardY + cardH);
-        overlay.addColorStop(0, "rgba(0,0,0,0.05)");
-        overlay.addColorStop(1, "rgba(0,0,0,0.45)");
-        ctx.fillStyle = overlay;
-        ctx.fillRect(cardX, cardY, cardW, cardH);
+        ctx.fillStyle = "#ffffff";
+        ctx.fillRect(0, 0, nodeWidth, nodeHeight);
 
-        const layout = { ...DEFAULT_FIELD_LAYOUT, ...(viewingCert?.fieldLayout || {}) };
-        const mapX = (pct) => cardX + (Number(pct || 0) / 100) * cardW;
-        const mapY = (pct) => cardY + (Number(pct || 0) / 100) * cardH;
+        if (templateImage) {
+            ctx.drawImage(templateImage, 0, 0, nodeWidth, nodeHeight);
+        }
 
-        const issueDateText = new Date(viewingCert?.createdAt || Date.now()).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+        const layout = getResolvedCertificateLayout(viewingCert, defaultTemplate);
+        const mapX = (pct) => (Number(pct || 0) / 100) * nodeWidth;
+        const mapY = (pct) => (Number(pct || 0) / 100) * nodeHeight;
+
+        const issueDateText = new Date(viewingCert?.issueDate || viewingCert?.createdAt || Date.now()).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
         const completionDateText = viewingCert?.completionDate
             ? new Date(viewingCert.completionDate).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })
             : "";
 
-        ctx.textAlign = "center";
-        ctx.fillStyle = "#ffffff";
-        ctx.font = "900 64px Arial";
-        ctx.fillText("MENTRIQ", cardX + cardW / 2, cardY + 82);
-        ctx.fillText("CERTIFICATE", cardX + cardW / 2, cardY + 152);
-
-        const drawText = (key, text, font, color) => {
+        const drawText = (key, text) => {
             const cfg = layout[key];
             if (!cfg?.enabled || !text) return;
-            ctx.font = font;
-            ctx.fillStyle = color;
+            const visual = FIELD_VISUALS[key] || FIELD_VISUALS.programName;
+            ctx.textAlign = visual.anchor || "center";
+            ctx.textBaseline = "middle";
+            ctx.font = getCanvasFont(key, { width: nodeWidth, height: nodeHeight });
+            ctx.fillStyle = visual.color;
             ctx.fillText(text, mapX(cfg.x), mapY(cfg.y));
         };
 
-        drawText("studentName", viewingCert?.studentName || "", "900 54px Arial", "#67e8f9");
-        drawText("programName", viewingCert?.courseName || "", "700 38px Arial", "#ffffff");
-        drawText("issueDate", `Issue: ${issueDateText}`.toUpperCase(), "700 24px Arial", "#e2e8f0");
-        drawText("completionDate", completionDateText ? `Completed: ${completionDateText}`.toUpperCase() : "", "700 24px Arial", "#e2e8f0");
-        drawText("grade", viewingCert?.grade ? `Grade: ${viewingCert.grade}`.toUpperCase() : "", "900 24px Arial", "#6ee7b7");
-        drawText("certificateId", viewingCert?.certificateId || "", "700 22px monospace", "#cbd5e1");
+        drawText("studentName", viewingCert?.studentName || "");
+        drawText("programName", viewingCert?.courseName || "");
+        drawText("issueDate", issueDateText);
+        drawText("completionDate", completionDateText || "");
+        drawText("grade", viewingCert?.grade || "");
+        drawText("certificateId", viewingCert?.certificateId || "");
 
         if (layout.qrCode?.enabled) {
-            const qrSize = (layout.qrCode.size || 18) * 4;
+            const qrSize = getQrSizePx(layout.qrCode, { width: nodeWidth, height: nodeHeight });
             const qrCenterX = mapX(layout.qrCode.x);
             const qrCenterY = mapY(layout.qrCode.y);
             const qrX = qrCenterX - qrSize / 2;
             const qrY = qrCenterY - qrSize / 2;
 
             ctx.fillStyle = "#ffffff";
-            ctx.fillRect(qrX - 10, qrY - 10, qrSize + 20, qrSize + 20);
+            ctx.fillRect(qrX - 4, qrY - 4, qrSize + 8, qrSize + 8);
 
-            const qrSvg = certElement?.querySelector("svg");
+            const qrSvg = certElement?.querySelector('[data-certificate-surface="true"] svg');
             if (qrSvg) {
                 try {
                     const serialized = new XMLSerializer().serializeToString(qrSvg);
@@ -956,9 +1143,19 @@ const CertificateManagement = () => {
                                                         {formData.template?.url ? (
                                                             formData.template.mimeType?.startsWith("image/") ? (
                                                                 <img
+                                                                    ref={templateImageRef}
                                                                     src={resolveImageUrl(formData.template.url)}
                                                                     alt="Certificate Template"
                                                                     crossOrigin="anonymous"
+                                                                    onLoad={() => {
+                                                                        setTemplateMetrics(
+                                                                            getContainMetrics(
+                                                                                templateCanvasRef.current,
+                                                                                templateImageRef.current?.naturalWidth,
+                                                                                templateImageRef.current?.naturalHeight
+                                                                            )
+                                                                        );
+                                                                    }}
                                                                     className="absolute inset-0 w-full h-full object-contain"
                                                                 />
                                                             ) : (
@@ -979,7 +1176,7 @@ const CertificateManagement = () => {
                                                                     type="button"
                                                                     onMouseDown={(e) => startDraggingField(fieldKey, e)}
                                                                     className={`absolute -translate-x-1/2 -translate-y-1/2 rounded-md border px-2 py-1 text-[10px] font-black uppercase tracking-widest shadow-lg cursor-move ${fieldKey === "studentName" ? "bg-cyan-500/20 border-cyan-400/50 text-cyan-200" : "bg-emerald-500/20 border-emerald-400/40 text-emerald-200"}`}
-                                                                    style={{ left: `${cfg.x}%`, top: `${cfg.y}%` }}
+                                                                    style={getFieldPositionStyle(cfg, templateMetrics, FIELD_VISUALS[fieldKey]?.anchor || "center")}
                                                                 >
                                                                     {FIELD_LABELS[fieldKey] || fieldKey}
                                                                 </button>
@@ -1116,24 +1313,34 @@ const CertificateManagement = () => {
                                 </button>
                             </div>
 
-                            <div 
-                                id="certificate-node" 
-                                className="relative bg-[#0b1120] border-2 border-slate-800 rounded-3xl p-10 md:p-14 shadow-2xl overflow-hidden self-center w-full max-w-3xl flex flex-col items-center text-center mx-auto"
+                            <div
+                                id="certificate-node"
+                                className="relative bg-[#0b1120] border-2 border-slate-800 rounded-3xl p-4 md:p-6 shadow-2xl overflow-hidden self-center w-full max-w-3xl flex flex-col items-center text-center mx-auto"
                             >
-                                {/* Background effects for the certificate image */}
-                                <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-emerald-600/10 rounded-full blur-[80px] pointer-events-none" />
-                                <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-blue-500/10 rounded-full blur-[80px] pointer-events-none" />
-                                
                                 <div className="relative z-10 w-full">
-                                    <div className="relative w-full min-h-[560px] rounded-2xl border border-slate-700 bg-[#0f172a] overflow-hidden">
+                                    <div
+                                        ref={certificateSurfaceRef}
+                                        data-certificate-surface="true"
+                                        className="relative w-full h-[46vh] min-h-[420px] max-h-[780px] rounded-2xl border border-slate-700 bg-[#0f172a] overflow-hidden"
+                                    >
                                         {viewingCert?.template?.url && (
                                             <>
                                                 {viewingCert.template.mimeType?.startsWith("image/") ? (
                                                     <img
+                                                        ref={certificateImageRef}
                                                         src={resolveImageUrl(viewingCert.template.url)}
                                                         alt="Certificate Template"
                                                         crossOrigin="anonymous"
-                                                        className="absolute inset-0 w-full h-full object-cover opacity-60"
+                                                        onLoad={() => {
+                                                            setCertificateMetrics(
+                                                                getContainMetrics(
+                                                                    certificateSurfaceRef.current,
+                                                                    certificateImageRef.current?.naturalWidth,
+                                                                    certificateImageRef.current?.naturalHeight
+                                                                )
+                                                            );
+                                                        }}
+                                                        className="absolute inset-0 w-full h-full object-contain opacity-90"
                                                     />
                                                 ) : (
                                                     <div className="absolute inset-0 flex items-center justify-center bg-slate-900/70 text-slate-300 text-xs font-bold uppercase tracking-widest px-6 text-center">
@@ -1142,27 +1349,22 @@ const CertificateManagement = () => {
                                                 )}
                                             </>
                                         )}
-                                        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/40" />
-
-                                        <div className="absolute top-6 left-1/2 -translate-x-1/2 text-center px-4">
-                                            <h2 className="text-2xl md:text-3xl font-black uppercase tracking-widest text-white">MentriQ Certificate</h2>
-                                        </div>
 
                                         {(() => {
-                                            const layout = { ...DEFAULT_FIELD_LAYOUT, ...(viewingCert.fieldLayout || {}) };
-                                            const issueDateText = new Date(viewingCert.createdAt || Date.now()).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+                                            const layout = getResolvedCertificateLayout(viewingCert, defaultTemplate);
+                                            const issueDateText = new Date(viewingCert.issueDate || viewingCert.createdAt || Date.now()).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
                                             const completionDateText = viewingCert.completionDate
                                                 ? new Date(viewingCert.completionDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
                                                 : '';
 
-                                            const renderTextField = (key, text, className = "text-white") => {
+                                            const renderTextField = (key, text) => {
                                                 const cfg = layout[key];
                                                 if (!cfg?.enabled || !text) return null;
                                                 return (
                                                     <div
                                                         key={key}
-                                                        className={`absolute -translate-x-1/2 -translate-y-1/2 text-center px-2 ${className}`}
-                                                        style={{ left: `${cfg.x}%`, top: `${cfg.y}%` }}
+                                                        className="absolute pointer-events-none"
+                                                        style={getFieldDomStyle(key, cfg, certificateMetrics)}
                                                     >
                                                         {text}
                                                     </div>
@@ -1171,20 +1373,24 @@ const CertificateManagement = () => {
 
                                             return (
                                                 <>
-                                                    {renderTextField("studentName", viewingCert.studentName, "text-2xl md:text-3xl font-black text-cyan-300")}
-                                                    {renderTextField("programName", viewingCert.courseName, "text-lg md:text-xl font-bold text-white")}
-                                                    {renderTextField("issueDate", `Issue: ${issueDateText}`, "text-xs font-bold uppercase tracking-widest text-slate-200")}
-                                                    {renderTextField("completionDate", completionDateText ? `Completed: ${completionDateText}` : "", "text-xs font-bold uppercase tracking-widest text-slate-200")}
-                                                    {renderTextField("grade", viewingCert.grade ? `Grade: ${viewingCert.grade}` : "", "text-xs font-black uppercase tracking-widest text-emerald-300")}
-                                                    {renderTextField("certificateId", viewingCert.certificateId, "text-xs font-mono text-slate-200")}
+                                                    {renderTextField("studentName", viewingCert.studentName)}
+                                                    {renderTextField("programName", viewingCert.courseName)}
+                                                    {renderTextField("issueDate", issueDateText)}
+                                                    {renderTextField("completionDate", completionDateText || "")}
+                                                    {renderTextField("grade", viewingCert.grade || "")}
+                                                    {renderTextField("certificateId", viewingCert.certificateId)}
                                                     {layout.qrCode?.enabled && (
                                                         <div
-                                                            className="absolute -translate-x-1/2 -translate-y-1/2 p-2 bg-white rounded-lg"
-                                                            style={{ left: `${layout.qrCode.x}%`, top: `${layout.qrCode.y}%` }}
+                                                            className="absolute -translate-x-1/2 -translate-y-1/2 bg-white p-1"
+                                                            style={{
+                                                                ...getFieldPositionStyle(layout.qrCode, certificateMetrics, "center"),
+                                                                width: `${getQrSizePx(layout.qrCode, certificateMetrics)}px`,
+                                                                height: `${getQrSizePx(layout.qrCode, certificateMetrics)}px`
+                                                            }}
                                                         >
                                                             <QRCodeSVG
                                                                 value={`https://www.mentriqtechnologies.in/verify-certificate?id=${viewingCert.certificateId}`}
-                                                                size={(layout.qrCode.size || 18) * 4}
+                                                                size={getQrSizePx(layout.qrCode, certificateMetrics) - 8}
                                                                 level="H"
                                                                 includeMargin={false}
                                                             />
