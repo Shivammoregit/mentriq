@@ -325,34 +325,43 @@ const CertificateManagement = () => {
         return `${cleaned || "certificate"}.pdf`;
     };
 
-    const handleDownloadCert = async () => {
+    const handleDownloadCert = async (format = 'pdf') => {
         const certElement = document.getElementById('certificate-node');
         if (!certElement) return;
         
         try {
+            toast.info(`Preparing ${format.toUpperCase()}...`);
             const canvas = await html2canvas(certElement, {
-                scale: 2,
-                backgroundColor: '#0b1120',
-                logging: false
+                scale: 3, 
+                useCORS: true, 
+                backgroundColor: null, 
+                logging: false,
+                width: certElement.scrollWidth,
+                height: certElement.scrollHeight
             });
-            const image = canvas.toDataURL("image/png");
-            const receiverName =
-                viewingCert?.studentName ||
-                viewingCert?.name ||
-                viewingCert?.userName;
-            const fileName = getSafeCertificateFileName(receiverName);
+            const image = canvas.toDataURL("image/png", 1.0);
+            const receiverName = viewingCert?.studentName || viewingCert?.name || "certificate";
+            const safeName = getSafeCertificateFileName(receiverName);
 
-            const pdf = new jsPDF({
-                orientation: canvas.width >= canvas.height ? "landscape" : "portrait",
-                unit: "px",
-                format: [canvas.width, canvas.height]
-            });
-
-            pdf.addImage(image, "PNG", 0, 0, canvas.width, canvas.height, undefined, "FAST");
-            pdf.save(fileName);
-            toast.success("Certificate downloaded as PDF.");
+            if (format === 'png') {
+                const link = document.createElement('a');
+                link.download = safeName.replace('.pdf', '.png');
+                link.href = image;
+                link.click();
+                toast.success("Certificate PNG saved.");
+            } else {
+                const pdf = new jsPDF({
+                    orientation: canvas.width >= canvas.height ? "landscape" : "portrait",
+                    unit: "px",
+                    format: [canvas.width, canvas.height]
+                });
+                pdf.addImage(image, "PNG", 0, 0, canvas.width, canvas.height, undefined, "FAST");
+                pdf.save(safeName);
+                toast.success("Certificate PDF saved.");
+            }
         } catch (err) {
-            toast.error("Failed to download certificate PDF.");
+            console.error("Certificate download error:", err);
+            toast.error(`Failed to download certificate ${format.toUpperCase()}.`);
         }
     };
 
@@ -813,8 +822,15 @@ const CertificateManagement = () => {
                         >
                             <div className="flex justify-end gap-3 z-10 w-full mb-2">
                                 <button
-                                    onClick={handleDownloadCert}
+                                    onClick={() => handleDownloadCert('pdf')}
                                     className="px-6 py-2.5 rounded-xl bg-emerald-600 text-white font-bold text-xs hover:bg-emerald-500 transition-all shadow-lg flex items-center gap-2 uppercase tracking-widest"
+                                >
+                                    <FileText size={16} />
+                                    Download PDF
+                                </button>
+                                <button
+                                    onClick={() => handleDownloadCert('png')}
+                                    className="px-6 py-2.5 rounded-xl bg-indigo-600 text-white font-bold text-xs hover:bg-indigo-500 transition-all shadow-lg flex items-center gap-2 uppercase tracking-widest"
                                 >
                                     <Download size={16} />
                                     Download PNG
