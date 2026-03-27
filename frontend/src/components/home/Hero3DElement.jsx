@@ -3,6 +3,7 @@ import { Spotlight } from '@/components/ui/Spotlight';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight, Sparkles } from 'lucide-react';
+import LampAnimation from './LampAnimation';
 
 const Hero3DElement = ({ statsData }) => {
     const navigate = useNavigate();
@@ -84,9 +85,9 @@ const Hero3DElement = ({ statsData }) => {
                         <button
                             onClick={() => navigate('/contact')}
                             className="px-10 py-5 rounded-2xl bg-slate-50 border border-slate-200 text-slate-800 font-black text-sm uppercase tracking-widest hover:bg-slate-100 transition-all backdrop-blur-md"
-                        >
-                            Consultation
-                        </button>
+>
+    GET A CONSULTATION
+</button>
                     </motion.div>
 
                     {/* Social proof */}
@@ -103,13 +104,8 @@ const Hero3DElement = ({ statsData }) => {
                 </div>
 
                 {/* Right: Custom Illustration */}
-                <div className="relative w-full h-[340px] sm:h-[400px] lg:h-[520px]">
-                    <img
-                        src="/hero-illustration.svg"
-                        alt="Creative collaboration illustration"
-                        className="w-full h-full object-fill select-none"
-                        draggable="false"
-                    />
+                <div className="relative w-full h-[400px] lg:h-[600px] flex items-center justify-center">
+                    <LampAnimation className="w-full h-full" />
                 </div>
             </div>
         </div>

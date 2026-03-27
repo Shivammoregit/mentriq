@@ -143,11 +143,10 @@ const StudentImpact = () => {
                             <button
                                 key={i}
                                 onClick={() => goTo(i)}
-                                className={`rounded-full transition-all duration-300 ${
-                                    i === current
+                                className={`rounded-full transition-all duration-300 ${i === current
                                         ? 'bg-indigo-600 w-9 h-2'
                                         : 'bg-slate-300 hover:bg-slate-400 w-2 h-2'
-                                }`}
+                                    }`}
                                 aria-label={`Go to testimonial ${i + 1}`}
                             />
                         ))}

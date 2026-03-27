@@ -4,6 +4,7 @@ import { Award, Search, X, RotateCcw, Users, BookOpen, Trash2, CheckCircle, Shie
 import { motion, AnimatePresence } from "framer-motion";
 import { QRCodeSVG } from "qrcode.react";
 import html2canvas from "html2canvas";
+import { jsPDF } from "jspdf";
 import { useToast } from "../../context/ToastContext";
 import { resolveImageUrl } from "../../utils/imageUtils";
 
@@ -314,6 +315,16 @@ const CertificateManagement = () => {
         c.certificateId?.toLowerCase().includes(searchTerm.toLowerCase())
     );
 
+    const getSafeCertificateFileName = (receiverName) => {
+        const rawName = String(receiverName || "certificate").trim();
+        const cleaned = rawName
+            .replace(/[<>:"/\\|?*\x00-\x1F]/g, "")
+            .replace(/\s+/g, " ")
+            .trim();
+
+        return `${cleaned || "certificate"}.pdf`;
+    };
+
     const handleDownloadCert = async () => {
         const certElement = document.getElementById('certificate-node');
         if (!certElement) return;
@@ -325,13 +336,23 @@ const CertificateManagement = () => {
                 logging: false
             });
             const image = canvas.toDataURL("image/png");
-            const link = document.createElement('a');
-            link.href = image;
-            link.download = `MentriQ_Certificate_${viewingCert?.certificateId}.png`;
-            link.click();
-            toast.success("Certificate downloaded successfully!");
+            const receiverName =
+                viewingCert?.studentName ||
+                viewingCert?.name ||
+                viewingCert?.userName;
+            const fileName = getSafeCertificateFileName(receiverName);
+
+            const pdf = new jsPDF({
+                orientation: canvas.width >= canvas.height ? "landscape" : "portrait",
+                unit: "px",
+                format: [canvas.width, canvas.height]
+            });
+
+            pdf.addImage(image, "PNG", 0, 0, canvas.width, canvas.height, undefined, "FAST");
+            pdf.save(fileName);
+            toast.success("Certificate downloaded as PDF.");
         } catch (err) {
-            toast.error("Failed to download certificate image.");
+            toast.error("Failed to download certificate PDF.");
         }
     };
 

@@ -35,9 +35,9 @@ const MissionAndImpact = () => {
             <div className="absolute bottom-0 left-0 w-1/2 h-[400px] bg-cyan-50/50 blur-[100px] rounded-full pointer-events-none" />
 
             <div className="max-w-7xl mx-auto px-6 lg:px-16 space-y-32">
-                
+
                 {/* --- OUR MISSION SECTION --- */}
-                <motion.div 
+                <motion.div
                     initial="hidden"
                     whileInView="visible"
                     viewport={{ once: true, margin: "-100px" }}
@@ -48,22 +48,22 @@ const MissionAndImpact = () => {
                     <div className="relative z-10">
                         {/* Blob behind image */}
                         <div className="absolute inset-0 bg-slate-100 rounded-[2.5rem] transform -rotate-3 scale-[1.02] -z-10 transition-transform hover:rotate-0 duration-500" />
-                        
+
                         <div className="relative rounded-[2.5rem] overflow-hidden shadow-2xl aspect-[4/3] bg-slate-200">
                             {/* Grayscale overlay effect similar to reference image */}
                             <div className="absolute inset-0 bg-slate-900/10 mix-blend-multiply z-10" />
-                            <img 
-                                src={missionImage} 
-                                alt="Students collaborating" 
+                            <img
+                                src={missionImage}
+                                alt="Students collaborating"
                                 className="w-full h-full object-cover grayscale-[30%] hover:grayscale-0 transition-all duration-700 hover:scale-105"
                                 onError={(e) => {
                                     e.currentTarget.onerror = null;
                                     e.currentTarget.src = missionFallbackImage;
                                 }}
                             />
-                            
+
                             {/* Floating Card */}
-                            <motion.div 
+                            <motion.div
                                 initial={{ opacity: 0, y: 30, x: 20 }}
                                 whileInView={{ opacity: 1, y: 0, x: 0 }}
                                 viewport={{ once: true }}
@@ -89,15 +89,15 @@ const MissionAndImpact = () => {
                             <span className="text-[10px] font-black uppercase tracking-[0.3em] text-indigo-600">Our Mission</span>
                         </motion.div>
 
-                        <motion.h2 
+                        <motion.h2
                             variants={itemVariants}
                             className="text-4xl md:text-5xl lg:text-[54px] font-black tracking-tighter uppercase font-display leading-[0.9] mb-6 text-slate-900"
                         >
-                            Deploying the Next <br className="hidden lg:block"/> Generation of AI <br />
+                            Deploying the Next <br className="hidden lg:block" /> Generation of AI <br />
                             <span className="text-indigo-600">Architects.</span>
                         </motion.h2>
 
-                        <motion.p 
+                        <motion.p
                             variants={itemVariants}
                             className="text-slate-600 text-lg leading-relaxed font-semibold mb-10 max-w-xl"
                         >
@@ -123,7 +123,7 @@ const MissionAndImpact = () => {
 
                 {/* --- THE IMPACT SECTION --- */}
                 <div className="relative z-10">
-                    <motion.div 
+                    <motion.div
                         initial="hidden"
                         whileInView="visible"
                         viewport={{ once: true, margin: "-100px" }}
@@ -138,7 +138,7 @@ const MissionAndImpact = () => {
                         </motion.p>
                     </motion.div>
 
-                    <motion.div 
+                    <motion.div
                         initial="hidden"
                         whileInView="visible"
                         viewport={{ once: true, margin: "-100px" }}
@@ -151,7 +151,7 @@ const MissionAndImpact = () => {
                             { title: "Placement Rate", value: impactData?.placementRate || "98%", icon: Target, accent: "from-purple-500 to-pink-500" },
                             { title: "Expert Trainers", value: impactData?.expertTrainersCount || "60+", icon: ShieldCheck, accent: "from-emerald-500 to-cyan-500" }
                         ].map((stat, idx) => (
-                            <motion.div 
+                            <motion.div
                                 key={idx}
                                 variants={itemVariants}
                                 whileHover={{ y: -5 }}
