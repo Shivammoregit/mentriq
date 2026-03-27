@@ -1,21 +1,19 @@
 import React, { useEffect, useRef, useState } from "react";
 import { apiClient as api } from "../../utils/apiClient";
-import { Award, Search, X, RotateCcw, Users, BookOpen, Trash2, CheckCircle, ShieldCheck, Eye, Download, Upload, FileText } from "lucide-react";
+import { Award, Search, X, RotateCcw, Users, BookOpen, Trash2, CheckCircle, ShieldCheck, Eye, Upload, FileText } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { QRCodeSVG } from "qrcode.react";
-import html2canvas from "html2canvas";
-import { jsPDF } from "jspdf";
 import { useToast } from "../../context/ToastContext";
 import { resolveImageUrl } from "../../utils/imageUtils";
 
 const DEFAULT_FIELD_LAYOUT = {
-    studentName: { enabled: true, x: 50, y: 43.5 },
-    programName: { enabled: true, x: 50, y: 56 },
-    issueDate: { enabled: true, x: 23.5, y: 70.5 },
-    completionDate: { enabled: true, x: 76.5, y: 70.5 },
-    grade: { enabled: true, x: 52, y: 82 },
-    certificateId: { enabled: true, x: 26, y: 91.2 },
-    qrCode: { enabled: true, x: 76.5, y: 90.2, size: 12.5 }
+    studentName: { enabled: true, x: 50, y: 41.8 },
+    programName: { enabled: true, x: 50, y: 55.5 },
+    issueDate: { enabled: true, x: 26, y: 69.5 },
+    completionDate: { enabled: true, x: 74, y: 69.5 },
+    grade: { enabled: true, x: 50, y: 75 },
+    certificateId: { enabled: true, x: 25, y: 87.5 },
+    qrCode: { enabled: true, x: 82, y: 85, size: 15.5 }
 };
 
 const FIELD_LABELS = {
@@ -28,21 +26,31 @@ const FIELD_LABELS = {
     qrCode: "QR"
 };
 
+const createViewScaleDefaults = () => ({
+    studentName: 1,
+    programName: 1,
+    issueDate: 1,
+    completionDate: 1,
+    grade: 1,
+    certificateId: 1,
+    qrCode: 1
+});
+
 const FIELD_VISUALS = {
     studentName: {
         anchor: "center",
-        fontFamily: "'Great Vibes', 'Lucida Handwriting', 'Brush Script MT', cursive",
+        fontFamily: "'Great Vibes', cursive",
         fontWeight: 400,
         fontStyle: "normal",
-        sizeRatio: 0.063,
+        sizeRatio: 0.065,
         color: "#161616"
     },
     programName: {
         anchor: "center",
-        fontFamily: "'Times New Roman', serif",
+        fontFamily: "'Playfair Display', serif",
         fontWeight: 600,
         fontStyle: "normal",
-        sizeRatio: 0.019,
+        sizeRatio: 0.026,
         color: "#161616"
     },
     issueDate: {
@@ -50,7 +58,7 @@ const FIELD_VISUALS = {
         fontFamily: "'Times New Roman', serif",
         fontWeight: 600,
         fontStyle: "normal",
-        sizeRatio: 0.0145,
+        sizeRatio: 0.016,
         color: "#161616"
     },
     completionDate: {
@@ -58,7 +66,7 @@ const FIELD_VISUALS = {
         fontFamily: "'Times New Roman', serif",
         fontWeight: 600,
         fontStyle: "normal",
-        sizeRatio: 0.0145,
+        sizeRatio: 0.016,
         color: "#161616"
     },
     grade: {
@@ -66,7 +74,7 @@ const FIELD_VISUALS = {
         fontFamily: "'Times New Roman', serif",
         fontWeight: 600,
         fontStyle: "normal",
-        sizeRatio: 0.017,
+        sizeRatio: 0.028,
         color: "#161616"
     },
     certificateId: {
@@ -74,7 +82,7 @@ const FIELD_VISUALS = {
         fontFamily: "'Times New Roman', serif",
         fontWeight: 500,
         fontStyle: "normal",
-        sizeRatio: 0.013,
+        sizeRatio: 0.015,
         color: "#161616"
     }
 };
@@ -108,6 +116,10 @@ const normalizeTemplateUrl = (template) => {
 };
 
 const getResolvedCertificateLayout = (certificate, templateDefaults) => {
+    if (TEMPLATE_LOCKED) {
+        return mergeFieldLayout(SYSTEM_TEMPLATE.fieldLayout);
+    }
+
     const defaultLayout = mergeFieldLayout(templateDefaults?.fieldLayout);
     const certificateLayout = mergeFieldLayout(certificate?.fieldLayout);
     const certificateTemplateUrl = normalizeTemplateUrl(certificate?.template);
@@ -118,6 +130,10 @@ const getResolvedCertificateLayout = (certificate, templateDefaults) => {
     }
 
     return certificateLayout;
+};
+
+const POSITION_OFFSET = {
+    y: -4
 };
 
 const getContainMetrics = (container, naturalWidth, naturalHeight) => {
@@ -144,23 +160,27 @@ const getContainMetrics = (container, naturalWidth, naturalHeight) => {
 const getFieldPositionStyle = (cfg, metrics, anchor = "center") => {
     if (!cfg) return {};
 
-    const translateX = anchor === "left" ? "0%" : anchor === "right" ? "-100%" : "-50%";
+    const translateX =
+        anchor === "left" ? "0%" :
+        anchor === "right" ? "-100%" :
+        "-50%";
+    const translateY = "-50%";
 
     if (!metrics) {
         return {
             left: `${cfg.x || 50}%`,
             top: `${cfg.y || 50}%`,
-            transform: `translate(${translateX}, -50%)`
+            transform: `translate(${translateX}, ${translateY})`
         };
     }
 
     const x = metrics.left + (Number(cfg.x || 0) / 100) * metrics.width;
-    const y = metrics.top + (Number(cfg.y || 0) / 100) * metrics.height;
+    const y = metrics.top + (Number(cfg.y || 0) / 100) * metrics.height + POSITION_OFFSET.y;
 
     return {
         left: `${x}px`,
         top: `${y}px`,
-        transform: `translate(${translateX}, -50%)`
+        transform: `translate(${translateX}, ${translateY})`
     };
 };
 
@@ -169,11 +189,12 @@ const getMetricDimensions = (metrics) => ({
     height: metrics?.height || metrics?.naturalHeight || 900
 });
 
-const getFieldFontSize = (key, metrics) => {
+const getFieldFontSize = (key, metrics, cfg) => {
     const visual = FIELD_VISUALS[key] || FIELD_VISUALS.programName;
     const { height } = getMetricDimensions(metrics);
+    const scale = Number(cfg?.scale || 1);
 
-    return Math.max(12, Math.round(height * (visual.sizeRatio || 0.018)));
+    return Math.max(12, Math.round(height * (visual.sizeRatio || 0.018) * scale));
 };
 
 const getFieldDomStyle = (key, cfg, metrics) => {
@@ -186,24 +207,38 @@ const getFieldDomStyle = (key, cfg, metrics) => {
         fontFamily: visual.fontFamily,
         fontWeight: visual.fontWeight,
         fontStyle: visual.fontStyle || "normal",
-        fontSize: `${getFieldFontSize(key, metrics)}px`,
+        fontSize: `${getFieldFontSize(key, metrics, cfg)}px`,
         lineHeight: 1,
         textAlign: visual.anchor === "left" ? "left" : visual.anchor === "right" ? "right" : "center",
         textShadow: "none",
-        whiteSpace: key === "programName" ? "normal" : "nowrap",
-        maxWidth: key === "programName" ? `${width * 0.62}px` : "none"
+        maxWidth: `${width * 0.7}px`,
+        whiteSpace: "normal",
+        wordBreak: "break-word"
     };
-};
-
-const getCanvasFont = (key, metrics) => {
-    const visual = FIELD_VISUALS[key] || FIELD_VISUALS.programName;
-    const size = getFieldFontSize(key, metrics);
-    return `${visual.fontStyle || "normal"} ${visual.fontWeight || 400} ${size}px ${visual.fontFamily}`;
 };
 
 const getQrSizePx = (cfg, metrics) => {
     const { width } = getMetricDimensions(metrics);
     return Math.max(42, Math.round(width * (Number(cfg?.size || 12) / 100)));
+};
+
+const TEMPLATE_LOCKED = false;
+const DEBUG_GRID = false;
+const SYSTEM_TEMPLATE = {
+    template: {
+        url: "/images/system-certificate-template.svg",
+        fileName: "system-certificate-template.svg",
+        mimeType: "image/svg+xml"
+    },
+    fieldLayout: {
+        studentName: { enabled: true, x: 50, y: 41.8 },
+        programName: { enabled: true, x: 50, y: 55.5 },
+        issueDate: { enabled: true, x: 26, y: 69.5 },
+        completionDate: { enabled: true, x: 74, y: 69.5 },
+        grade: { enabled: true, x: 50, y: 75 },
+        certificateId: { enabled: true, x: 25, y: 87.5 },
+        qrCode: { enabled: true, x: 82, y: 85, size: 15.5 }
+    }
 };
 
 const CertificateManagement = () => {
@@ -241,8 +276,14 @@ const CertificateManagement = () => {
     const certificateSurfaceRef = useRef(null);
     const certificateImageRef = useRef(null);
     const defaultTemplateBackfillAttemptedRef = useRef(false);
+    const activeViewCertIdRef = useRef(null);
     const [templateMetrics, setTemplateMetrics] = useState(null);
     const [certificateMetrics, setCertificateMetrics] = useState(null);
+    const [isViewAdjustMode, setIsViewAdjustMode] = useState(false);
+    const [viewLayoutOverride, setViewLayoutOverride] = useState(null);
+    const [viewFieldScale, setViewFieldScale] = useState(createViewScaleDefaults());
+    const [selectedViewField, setSelectedViewField] = useState("studentName");
+    const [previewDragField, setPreviewDragField] = useState(null);
 
     const toast = useToast();
 
@@ -353,6 +394,34 @@ const CertificateManagement = () => {
         return () => window.removeEventListener("resize", updateMetrics);
     }, [formData.template?.url, viewingCert?.template?.url, viewingCert?.certificateId]);
 
+    useEffect(() => {
+        const certId = viewingCert?._id || viewingCert?.certificateId || null;
+
+        if (!certId) {
+            activeViewCertIdRef.current = null;
+            setIsViewAdjustMode(false);
+            setViewLayoutOverride(null);
+            setViewFieldScale(createViewScaleDefaults());
+            setSelectedViewField("studentName");
+            setPreviewDragField(null);
+            return;
+        }
+
+        if (activeViewCertIdRef.current === certId) return;
+        activeViewCertIdRef.current = certId;
+
+        const initialLayout = mergeFieldLayout(getResolvedCertificateLayout(viewingCert, defaultTemplate));
+        setViewLayoutOverride(initialLayout);
+        setViewFieldScale({
+            ...createViewScaleDefaults(),
+            ...Object.fromEntries(
+                Object.entries(initialLayout).map(([key, cfg]) => [key, Number(cfg?.scale || 1)])
+            )
+        });
+        setSelectedViewField("studentName");
+        setPreviewDragField(null);
+    }, [viewingCert?._id, viewingCert?.certificateId, defaultTemplate]);
+
     const openIssueModal = () => {
         setModalMode("issue");
         setFormData({
@@ -387,6 +456,15 @@ const CertificateManagement = () => {
             fieldLayout: mergeFieldLayout(defaultTemplate.fieldLayout)
         }));
         toast.success("Default template applied");
+    };
+
+    const applySystemTemplate = () => {
+        setFormData((prev) => ({
+            ...prev,
+            template: { ...SYSTEM_TEMPLATE.template },
+            fieldLayout: mergeFieldLayout(SYSTEM_TEMPLATE.fieldLayout)
+        }));
+        toast.success("System template applied");
     };
 
     const handleGenerate = async (e) => {
@@ -426,6 +504,10 @@ const CertificateManagement = () => {
     };
 
     const handleTemplateUpload = async (file) => {
+        if (TEMPLATE_LOCKED) {
+            toast.error("Template upload is disabled. Single default template mode is enabled.");
+            return;
+        }
         if (!file) return;
         setUploadingTemplate(true);
         try {
@@ -506,8 +588,8 @@ const CertificateManagement = () => {
         const imageTop = rect.top + metrics.top;
         const rawX = ((clientX - imageLeft) / metrics.width) * 100;
         const rawY = ((clientY - imageTop) / metrics.height) * 100;
-        const x = Math.max(2, Math.min(98, Number(rawX.toFixed(2))));
-        const y = Math.max(2, Math.min(98, Number(rawY.toFixed(2))));
+        const x = Math.max(2, Math.min(98, Math.round(rawX * 10) / 10));
+        const y = Math.max(2, Math.min(98, Math.round(rawY * 10) / 10));
         setLayoutValue(fieldKey, "x", x);
         setLayoutValue(fieldKey, "y", y);
     };
@@ -534,6 +616,132 @@ const CertificateManagement = () => {
             window.removeEventListener("mouseup", stopDragging);
         };
     }, [dragField]);
+
+    const updatePreviewFieldPosition = (fieldKey, clientX, clientY) => {
+        const surface = certificateSurfaceRef.current;
+        if (!surface) return;
+
+        const rect = surface.getBoundingClientRect();
+        const metrics = certificateMetrics || getContainMetrics(
+            surface,
+            certificateImageRef.current?.naturalWidth,
+            certificateImageRef.current?.naturalHeight
+        );
+        if (!metrics) return;
+
+        const imageLeft = rect.left + metrics.left;
+        const imageTop = rect.top + metrics.top;
+        const rawX = ((clientX - imageLeft) / metrics.width) * 100;
+        const rawY = ((clientY - imageTop) / metrics.height) * 100;
+        const x = Math.max(2, Math.min(98, Math.round(rawX * 10) / 10));
+        const y = Math.max(2, Math.min(98, Math.round(rawY * 10) / 10));
+
+        setViewLayoutOverride((prev) => {
+            const base = mergeFieldLayout(prev);
+            return {
+                ...base,
+                [fieldKey]: {
+                    ...base[fieldKey],
+                    x,
+                    y
+                }
+            };
+        });
+    };
+
+    const startPreviewFieldDrag = (fieldKey, event) => {
+        if (!isViewAdjustMode) return;
+        event.preventDefault();
+        setPreviewDragField(fieldKey);
+        setSelectedViewField(fieldKey);
+        updatePreviewFieldPosition(fieldKey, event.clientX, event.clientY);
+    };
+
+    useEffect(() => {
+        if (!previewDragField) return undefined;
+
+        const handleMove = (event) => {
+            updatePreviewFieldPosition(previewDragField, event.clientX, event.clientY);
+        };
+        const stopDragging = () => setPreviewDragField(null);
+
+        window.addEventListener("mousemove", handleMove);
+        window.addEventListener("mouseup", stopDragging, { once: true });
+
+        return () => {
+            window.removeEventListener("mousemove", handleMove);
+            window.removeEventListener("mouseup", stopDragging);
+        };
+    }, [previewDragField, certificateMetrics, isViewAdjustMode]);
+
+    const adjustSelectedViewFieldScale = (delta) => {
+        setViewFieldScale((prev) => {
+            const current = Number(prev[selectedViewField] || 1);
+            const next = Math.max(0.5, Math.min(2.5, Number((current + delta).toFixed(2))));
+            setViewLayoutOverride((layoutPrev) => {
+                const merged = mergeFieldLayout(layoutPrev);
+                return {
+                    ...merged,
+                    [selectedViewField]: {
+                        ...merged[selectedViewField],
+                        scale: next
+                    }
+                };
+            });
+            return {
+                ...prev,
+                [selectedViewField]: next
+            };
+        });
+    };
+
+    const handleSaveViewLayout = async () => {
+        if (!viewingCert) return;
+        try {
+            const baseLayout = mergeFieldLayout(
+                viewLayoutOverride || getResolvedCertificateLayout(viewingCert, defaultTemplate)
+            );
+            const layoutWithScale = Object.fromEntries(
+                Object.entries(baseLayout).map(([key, cfg]) => [
+                    key,
+                    {
+                        ...cfg,
+                        scale: Number(viewFieldScale[key] || cfg?.scale || 1)
+                    }
+                ])
+            );
+
+            const templateToSave = viewingCert?.template?.url
+                ? {
+                    url: viewingCert.template.url || "",
+                    fileName: viewingCert.template.fileName || "certificate-template",
+                    mimeType: viewingCert.template.mimeType || "image/svg+xml"
+                }
+                : { ...defaultTemplate.template };
+
+            await api.put("/settings", {
+                certificateTemplate: {
+                    template: templateToSave,
+                    fieldLayout: layoutWithScale
+                }
+            });
+
+            setDefaultTemplate({
+                template: { ...templateToSave },
+                fieldLayout: mergeFieldLayout(layoutWithScale)
+            });
+            setViewLayoutOverride(mergeFieldLayout(layoutWithScale));
+            setViewingCert((prev) => (prev ? { ...prev, fieldLayout: layoutWithScale } : prev));
+            setCertificates((prev) =>
+                prev.map((cert) =>
+                    cert._id === viewingCert._id ? { ...cert, fieldLayout: layoutWithScale } : cert
+                )
+            );
+            toast.success("Layout saved as default template.");
+        } catch (err) {
+            toast.error(err.response?.data?.message || "Failed to save layout.");
+        }
+    };
 
     const handleRevoke = async (id) => {
         if (!window.confirm("Rescind this digital credential?")) return;
@@ -573,287 +781,64 @@ const CertificateManagement = () => {
         return `${cleaned || "certificate"}.pdf`;
     };
 
-    const toDataUrl = (blob) => new Promise((resolve, reject) => {
-        const reader = new FileReader();
-        reader.onloadend = () => resolve(reader.result);
-        reader.onerror = reject;
-        reader.readAsDataURL(blob);
-    });
-
-    const waitForImage = (img) => new Promise((resolve) => {
-        if (img.complete) return resolve();
-        img.onload = () => resolve();
-        img.onerror = () => resolve();
-    });
-
-    const inlineImagesForCapture = async (root) => {
-        const images = Array.from(root.querySelectorAll("img"));
-        await Promise.all(images.map(async (img) => {
-            const src = img.getAttribute("src") || "";
-            if (!src || src.startsWith("data:")) return;
-
-            try {
-                const res = await fetch(src, { mode: "cors", credentials: "omit", cache: "no-store" });
-                if (!res.ok) throw new Error(`Failed to fetch image: ${res.status}`);
-                const blob = await res.blob();
-                const dataUrl = await toDataUrl(blob);
-                img.src = dataUrl;
-                await waitForImage(img);
-            } catch {
-                // If image can't be CORS-fetched in production, remove it to avoid tainted canvas export.
-                img.remove();
-            }
-        }));
-    };
-
-    const sanitizeUnsupportedColorsForCapture = (root) => {
-        const hasUnsupportedColorFn = (value) =>
-            typeof value === "string" && /(oklch|oklab|color\(|color-mix\()/i.test(value);
-
-        const colorProbeCanvas = document.createElement("canvas");
-        const colorProbeCtx = colorProbeCanvas.getContext("2d");
-
-        const toSupportedColor = (value) => {
-            if (!value || !hasUnsupportedColorFn(value) || !colorProbeCtx) return value;
-            try {
-                colorProbeCtx.fillStyle = "#000000";
-                colorProbeCtx.fillStyle = value;
-                return colorProbeCtx.fillStyle || "";
-            } catch {
-                return "";
-            }
-        };
-
-        const colorProps = [
-            "color",
-            "background-color",
-            "border-top-color",
-            "border-right-color",
-            "border-bottom-color",
-            "border-left-color",
-            "outline-color",
-            "text-decoration-color",
-            "caret-color",
-            "column-rule-color",
-            "fill",
-            "stroke"
-        ];
-
-        const nodes = [root, ...Array.from(root.querySelectorAll("*"))];
-        nodes.forEach((node) => {
-            const computed = window.getComputedStyle(node);
-
-            colorProps.forEach((prop) => {
-                const raw = computed.getPropertyValue(prop);
-                if (!hasUnsupportedColorFn(raw)) return;
-                const safe = toSupportedColor(raw);
-                if (safe) node.style.setProperty(prop, safe, "important");
-            });
-
-            const bgImage = computed.getPropertyValue("background-image");
-            if (hasUnsupportedColorFn(bgImage)) {
-                node.style.setProperty("background-image", "none", "important");
-            }
-
-            const boxShadow = computed.getPropertyValue("box-shadow");
-            if (hasUnsupportedColorFn(boxShadow)) {
-                node.style.setProperty("box-shadow", "none", "important");
-            }
-
-            const textShadow = computed.getPropertyValue("text-shadow");
-            if (hasUnsupportedColorFn(textShadow)) {
-                node.style.setProperty("text-shadow", "none", "important");
-            }
-        });
-    };
-
-    const captureCertificateCanvas = async (certElement) => {
+    const handleDownloadCert = async () => {
         try {
-            return await html2canvas(certElement, {
-                scale: 3,
-                useCORS: true,
-                foreignObjectRendering: true,
-                backgroundColor: null,
-                logging: false,
-                width: certElement.scrollWidth,
-                height: certElement.scrollHeight
-            });
-        } catch (error) {
-            const message = String(error?.message || "").toLowerCase();
-            const needsSanitizedCapture =
-                message.includes("tainted") ||
-                message.includes("cross-origin") ||
-                message.includes("securityerror") ||
-                message.includes("unsupported color") ||
-                message.includes("oklch") ||
-                message.includes("oklab");
-
-            if (!needsSanitizedCapture) throw error;
-
-            const clone = certElement.cloneNode(true);
-            clone.style.position = "fixed";
-            clone.style.left = "-99999px";
-            clone.style.top = "0";
-            clone.style.pointerEvents = "none";
-            clone.style.zIndex = "-1";
-            clone.style.width = `${certElement.scrollWidth}px`;
-            clone.style.height = `${certElement.scrollHeight}px`;
-            document.body.appendChild(clone);
-
-            try {
-                await inlineImagesForCapture(clone);
-                sanitizeUnsupportedColorsForCapture(clone);
-                return await html2canvas(clone, {
-                    scale: 3,
-                    useCORS: true,
-                    foreignObjectRendering: true,
-                    backgroundColor: null,
-                    logging: false,
-                    width: certElement.scrollWidth,
-                    height: certElement.scrollHeight
-                });
-            } finally {
-                clone.remove();
+            const certSurface = document.querySelector("#certificate-node [data-certificate-surface='true']");
+            if (!certSurface) {
+                toast.error("Certificate preview not ready");
+                return;
             }
-        }
-    };
 
-    const loadImageElement = (src, { useCors = true } = {}) =>
-        new Promise((resolve, reject) => {
-            const img = new Image();
-            if (useCors) img.crossOrigin = "anonymous";
-            img.onload = () => resolve(img);
-            img.onerror = reject;
-            img.src = src;
-        });
+            const rect = certSurface.getBoundingClientRect();
+            const pageWidth = Math.max(1, Math.ceil(rect.width));
+            const pageHeight = Math.max(1, Math.ceil(rect.height));
 
-    const renderCertificateCanvasFromData = async (certElement) => {
-        const surfaceEl = certElement?.querySelector('[data-certificate-surface="true"]');
-        let nodeWidth = Math.max(700, Math.round(surfaceEl?.clientWidth || certElement?.scrollWidth || 900));
-        let nodeHeight = Math.max(900, Math.round(surfaceEl?.clientHeight || certElement?.scrollHeight || 1200));
-        let templateImage = null;
-
-        const canvas = document.createElement("canvas");
-        const scale = 2;
-
-        if (viewingCert?.template?.url && viewingCert.template.mimeType?.startsWith("image/")) {
-            try {
-                const templateUrl = resolveImageUrl(viewingCert.template.url);
-                templateImage = await loadImageElement(templateUrl, { useCors: true });
-                nodeWidth = templateImage.naturalWidth || templateImage.width || nodeWidth;
-                nodeHeight = templateImage.naturalHeight || templateImage.height || nodeHeight;
-            } catch {
-                templateImage = null;
-            }
-        }
-
-        canvas.width = Math.floor(nodeWidth * scale);
-        canvas.height = Math.floor(nodeHeight * scale);
-
-        const ctx = canvas.getContext("2d");
-        if (!ctx) throw new Error("Canvas context unavailable");
-        ctx.scale(scale, scale);
-        if (document?.fonts?.ready) {
-            await document.fonts.ready;
-        }
-
-        ctx.fillStyle = "#ffffff";
-        ctx.fillRect(0, 0, nodeWidth, nodeHeight);
-
-        if (templateImage) {
-            ctx.drawImage(templateImage, 0, 0, nodeWidth, nodeHeight);
-        }
-
-        const layout = getResolvedCertificateLayout(viewingCert, defaultTemplate);
-        const mapX = (pct) => (Number(pct || 0) / 100) * nodeWidth;
-        const mapY = (pct) => (Number(pct || 0) / 100) * nodeHeight;
-
-        const issueDateText = new Date(viewingCert?.issueDate || viewingCert?.createdAt || Date.now()).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
-        const completionDateText = viewingCert?.completionDate
-            ? new Date(viewingCert.completionDate).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })
-            : "";
-
-        const drawText = (key, text) => {
-            const cfg = layout[key];
-            if (!cfg?.enabled || !text) return;
-            const visual = FIELD_VISUALS[key] || FIELD_VISUALS.programName;
-            ctx.textAlign = visual.anchor || "center";
-            ctx.textBaseline = "middle";
-            ctx.font = getCanvasFont(key, { width: nodeWidth, height: nodeHeight });
-            ctx.fillStyle = visual.color;
-            ctx.fillText(text, mapX(cfg.x), mapY(cfg.y));
-        };
-
-        drawText("studentName", viewingCert?.studentName || "");
-        drawText("programName", viewingCert?.courseName || "");
-        drawText("issueDate", issueDateText);
-        drawText("completionDate", completionDateText || "");
-        drawText("grade", viewingCert?.grade || "");
-        drawText("certificateId", viewingCert?.certificateId || "");
-
-        if (layout.qrCode?.enabled) {
-            const qrSize = getQrSizePx(layout.qrCode, { width: nodeWidth, height: nodeHeight });
-            const qrCenterX = mapX(layout.qrCode.x);
-            const qrCenterY = mapY(layout.qrCode.y);
-            const qrX = qrCenterX - qrSize / 2;
-            const qrY = qrCenterY - qrSize / 2;
-
-            ctx.fillStyle = "#ffffff";
-            ctx.fillRect(qrX - 4, qrY - 4, qrSize + 8, qrSize + 8);
-
-            const qrSvg = certElement?.querySelector('[data-certificate-surface="true"] svg');
-            if (qrSvg) {
-                try {
-                    const serialized = new XMLSerializer().serializeToString(qrSvg);
-                    const encoded = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(serialized)}`;
-                    const qrImg = await loadImageElement(encoded, { useCors: false });
-                    ctx.drawImage(qrImg, qrX, qrY, qrSize, qrSize);
-                } catch {
-                    ctx.strokeStyle = "#0f172a";
-                    ctx.lineWidth = 3;
-                    ctx.strokeRect(qrX, qrY, qrSize, qrSize);
+            const styleEl = document.createElement("style");
+            styleEl.setAttribute("data-print-cert-style", "true");
+            styleEl.textContent = `
+                @media print {
+                    body * { visibility: hidden !important; }
+                    #certificate-node [data-certificate-surface='true'],
+                    #certificate-node [data-certificate-surface='true'] * {
+                        visibility: visible !important;
+                    }
+                    #certificate-node [data-certificate-surface='true'] {
+                        position: fixed !important;
+                        left: 0 !important;
+                        top: 0 !important;
+                        width: ${pageWidth}px !important;
+                        height: ${pageHeight}px !important;
+                        max-width: none !important;
+                        margin: 0 !important;
+                        padding: 0 !important;
+                        border: none !important;
+                        border-radius: 0 !important;
+                        background: #ffffff !important;
+                        box-shadow: none !important;
+                        overflow: hidden !important;
+                        -webkit-print-color-adjust: exact !important;
+                        print-color-adjust: exact !important;
+                    }
+                    @page {
+                        size: ${pageWidth}px ${pageHeight}px;
+                        margin: 0;
+                    }
                 }
-            }
-        }
+            `;
+            document.head.appendChild(styleEl);
 
-        return canvas;
-    };
+            const cleanup = () => {
+                const existing = document.querySelector('style[data-print-cert-style="true"]');
+                if (existing) existing.remove();
+                window.removeEventListener("afterprint", cleanup);
+            };
 
-    const handleDownloadCert = async (format = 'pdf') => {
-        const certElement = document.getElementById('certificate-node');
-        if (!certElement) return;
-        
-        try {
-            toast.info(`Preparing ${format.toUpperCase()}...`);
-            let canvas;
-            try {
-                canvas = await renderCertificateCanvasFromData(certElement);
-            } catch {
-                canvas = await captureCertificateCanvas(certElement);
-            }
-            const image = canvas.toDataURL("image/png", 1.0);
-            const receiverName = viewingCert?.studentName || viewingCert?.name || "certificate";
-            const safeName = getSafeCertificateFileName(receiverName);
-
-            if (format === 'png') {
-                const link = document.createElement('a');
-                link.download = safeName.replace('.pdf', '.png');
-                link.href = image;
-                link.click();
-                toast.success("Certificate PNG saved.");
-            } else {
-                const pdf = new jsPDF({
-                    orientation: canvas.width >= canvas.height ? "landscape" : "portrait",
-                    unit: "px",
-                    format: [canvas.width, canvas.height]
-                });
-                pdf.addImage(image, "PNG", 0, 0, canvas.width, canvas.height, undefined, "FAST");
-                pdf.save(safeName);
-                toast.success("Certificate PDF saved.");
-            }
+            window.addEventListener("afterprint", cleanup);
+            toast.success("Print dialog opened. Choose 'Save as PDF'.");
+            window.print();
         } catch (err) {
             console.error("Certificate download error:", err);
-            toast.error(`Failed to download certificate ${format.toUpperCase()}.`);
+            toast.error(`Failed to generate PDF: ${err?.message || "unknown error"}`);
         }
     };
 
@@ -1124,40 +1109,56 @@ const CertificateManagement = () => {
                                 {modalMode === "template" ? (
                                     <>
                                         <div className="space-y-3">
-                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Template File (PDF / DOC / DOCX / Image)</label>
+                                            <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] ml-1">Template File</label>
                                             <div className="text-[11px] font-bold text-slate-300/90 truncate">
                                                 {formData.template.fileName || "No template file selected"}
                                             </div>
+                                            {TEMPLATE_LOCKED && (
+                                                <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 px-3 py-2 text-[10px] font-black uppercase tracking-widest text-amber-300">
+                                                    Single Template Mode Enabled
+                                                </div>
+                                            )}
                                             <div className="flex flex-wrap lg:flex-nowrap lg:justify-end gap-2.5">
-                                                <label className="inline-flex items-center gap-2.5 rounded-xl border border-white/10 bg-[#1e293b] px-4 py-2.5 cursor-pointer hover:border-emerald-500/40 transition-colors">
-                                                    <FileText size={16} className="text-emerald-400 shrink-0" />
-                                                    <span className="text-[10px] font-black uppercase tracking-widest text-emerald-300">
-                                                        {uploadingTemplate ? "Uploading..." : "Upload"}
-                                                    </span>
-                                                    <Upload size={13} className="text-emerald-300" />
-                                                    <input
-                                                        type="file"
-                                                        accept=".pdf,.doc,.docx,.png,.jpg,.jpeg,.webp"
-                                                        className="hidden"
-                                                        onChange={(e) => handleTemplateUpload(e.target.files?.[0])}
-                                                    />
-                                                </label>
+                                                <button
+                                                    type="button"
+                                                    onClick={applySystemTemplate}
+                                                    className="rounded-xl border border-blue-500/30 bg-blue-500/10 px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.18em] text-blue-300"
+                                                >
+                                                    System Template
+                                                </button>
+                                                {!TEMPLATE_LOCKED && (
+                                                    <label className="inline-flex items-center gap-2.5 rounded-xl border border-white/10 bg-[#1e293b] px-4 py-2.5 cursor-pointer hover:border-emerald-500/40 transition-colors">
+                                                        <FileText size={16} className="text-emerald-400 shrink-0" />
+                                                        <span className="text-[10px] font-black uppercase tracking-widest text-emerald-300">
+                                                            {uploadingTemplate ? "Uploading..." : "Upload"}
+                                                        </span>
+                                                        <Upload size={13} className="text-emerald-300" />
+                                                        <input
+                                                            type="file"
+                                                            accept=".pdf,.doc,.docx,.png,.jpg,.jpeg,.webp"
+                                                            className="hidden"
+                                                            onChange={(e) => handleTemplateUpload(e.target.files?.[0])}
+                                                        />
+                                                    </label>
+                                                )}
                                                 <button
                                                     type="button"
                                                     onClick={() => saveTemplateDefaults({ showToast: true })}
                                                     disabled={savingTemplateDefaults || !formData.template?.url}
                                                     className="rounded-xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.18em] text-emerald-300 disabled:opacity-50"
                                                 >
-                                                    {savingTemplateDefaults ? "Saving..." : "Save Template"}
+                                                    {savingTemplateDefaults ? "Saving..." : "Save Layout"}
                                                 </button>
-                                                <button
-                                                    type="button"
-                                                    onClick={applyDefaultTemplateToForm}
-                                                    disabled={!defaultTemplate.template?.url}
-                                                    className="rounded-xl border border-cyan-500/30 bg-cyan-500/10 px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.18em] text-cyan-300 disabled:opacity-50"
-                                                >
-                                                    Use Default
-                                                </button>
+                                                {!TEMPLATE_LOCKED && (
+                                                    <button
+                                                        type="button"
+                                                        onClick={applyDefaultTemplateToForm}
+                                                        disabled={!defaultTemplate.template?.url}
+                                                        className="rounded-xl border border-cyan-500/30 bg-cyan-500/10 px-4 py-2.5 text-[10px] font-black uppercase tracking-[0.18em] text-cyan-300 disabled:opacity-50"
+                                                    >
+                                                        Use Default
+                                                    </button>
+                                                )}
                                             </div>
                                         </div>
 
@@ -1172,7 +1173,7 @@ const CertificateManagement = () => {
                                                     </p>
                                                     <div
                                                         ref={templateCanvasRef}
-                                                        className="relative w-full h-[48vh] min-h-[320px] max-h-[520px] rounded-xl border border-white/10 bg-[#111827] overflow-hidden"
+                                                        className="relative w-full max-w-[420px] mx-auto certificate-container rounded-xl border border-white/10 bg-[#111827] overflow-hidden"
                                                     >
                                                         {formData.template?.url ? (
                                                             formData.template.mimeType?.startsWith("image/") ? (
@@ -1216,6 +1217,21 @@ const CertificateManagement = () => {
                                                                 </button>
                                                             );
                                                         })}
+                                                        {DEBUG_GRID && (
+                                                            <div className="absolute inset-0 pointer-events-none opacity-20">
+                                                                {Array.from({ length: 10 }).map((_, i) => (
+                                                                    <div
+                                                                        key={`grid-template-${i}`}
+                                                                        style={{
+                                                                            position: "absolute",
+                                                                            top: `${i * 10}%`,
+                                                                            width: "100%",
+                                                                            borderTop: "1px dashed red"
+                                                                        }}
+                                                                    />
+                                                                ))}
+                                                            </div>
+                                                        )}
                                                     </div>
                                                 </div>
                                                 <div className="p-2.5 bg-[#1e293b] space-y-2">
@@ -1255,7 +1271,7 @@ const CertificateManagement = () => {
                                             Certificate Preview
                                         </div>
                                         <div className="rounded-2xl border border-white/10 bg-[#0f172a] p-4">
-                                            <div className="relative w-full h-[46vh] min-h-[320px] max-h-[520px] rounded-xl border border-white/10 bg-[#111827] overflow-hidden">
+                                            <div className="relative w-full max-w-[420px] mx-auto certificate-container rounded-xl border border-white/10 bg-[#111827] overflow-hidden">
                                                 {formData.template?.url ? (
                                                     formData.template.mimeType?.startsWith("image/") ? (
                                                         <img
@@ -1272,6 +1288,21 @@ const CertificateManagement = () => {
                                                 ) : (
                                                     <div className="absolute inset-0 flex items-center justify-center px-6 text-center text-xs font-bold uppercase tracking-widest text-slate-400">
                                                         No template found. Configure one in Template Studio.
+                                                    </div>
+                                                )}
+                                                {DEBUG_GRID && (
+                                                    <div className="absolute inset-0 pointer-events-none opacity-20">
+                                                        {Array.from({ length: 10 }).map((_, i) => (
+                                                            <div
+                                                                key={`grid-issue-${i}`}
+                                                                style={{
+                                                                    position: "absolute",
+                                                                    top: `${i * 10}%`,
+                                                                    width: "100%",
+                                                                    borderTop: "1px dashed red"
+                                                                }}
+                                                            />
+                                                        ))}
                                                     </div>
                                                 )}
                                             </div>
@@ -1326,18 +1357,11 @@ const CertificateManagement = () => {
                         >
                             <div className="flex justify-end gap-3 z-10 w-full mb-2 pr-1">
                                 <button
-                                    onClick={() => handleDownloadCert('pdf')}
+                                    onClick={handleDownloadCert}
                                     className="px-6 py-2.5 rounded-xl bg-emerald-600 text-white font-bold text-xs hover:bg-emerald-500 transition-all shadow-lg flex items-center gap-2 uppercase tracking-widest"
                                 >
                                     <FileText size={16} />
                                     Download PDF
-                                </button>
-                                <button
-                                    onClick={() => handleDownloadCert('png')}
-                                    className="px-6 py-2.5 rounded-xl bg-indigo-600 text-white font-bold text-xs hover:bg-indigo-500 transition-all shadow-lg flex items-center gap-2 uppercase tracking-widest"
-                                >
-                                    <Download size={16} />
-                                    Download PNG
                                 </button>
                                 <button
                                     onClick={() => setViewingCert(null)}
@@ -1347,15 +1371,69 @@ const CertificateManagement = () => {
                                 </button>
                             </div>
 
+                            <div className="z-10 w-full mb-2">
+                                <div className="rounded-2xl border border-white/10 bg-[#111827]/90 p-3 flex flex-wrap items-center gap-2 md:gap-3">
+                                    <button
+                                        onClick={() => setIsViewAdjustMode((prev) => !prev)}
+                                        className={`px-3 py-2 rounded-lg text-[11px] font-bold uppercase tracking-wider transition-all border ${isViewAdjustMode
+                                            ? "bg-cyan-600 text-white border-cyan-400"
+                                            : "bg-slate-800 text-slate-200 border-slate-600 hover:bg-slate-700"}`}
+                                    >
+                                        {isViewAdjustMode ? "Adjust On" : "Adjust Off"}
+                                    </button>
+                                    <select
+                                        value={selectedViewField}
+                                        onChange={(e) => setSelectedViewField(e.target.value)}
+                                        className="px-3 py-2 rounded-lg bg-slate-800 border border-slate-600 text-slate-100 text-sm"
+                                    >
+                                        {Object.entries(FIELD_LABELS).map(([key, label]) => (
+                                            <option key={`view-field-${key}`} value={key}>
+                                                {label}
+                                            </option>
+                                        ))}
+                                    </select>
+                                    <button
+                                        onClick={() => adjustSelectedViewFieldScale(-0.05)}
+                                        className="px-3 py-2 rounded-lg bg-slate-800 border border-slate-600 text-slate-100 text-sm hover:bg-slate-700"
+                                    >
+                                        A-
+                                    </button>
+                                    <button
+                                        onClick={() => adjustSelectedViewFieldScale(0.05)}
+                                        className="px-3 py-2 rounded-lg bg-slate-800 border border-slate-600 text-slate-100 text-sm hover:bg-slate-700"
+                                    >
+                                        A+
+                                    </button>
+                                    <button
+                                        onClick={() => {
+                                            setViewLayoutOverride(mergeFieldLayout(getResolvedCertificateLayout(viewingCert, defaultTemplate)));
+                                            setViewFieldScale(createViewScaleDefaults());
+                                        }}
+                                        className="px-3 py-2 rounded-lg bg-slate-800 border border-slate-600 text-slate-100 text-[11px] font-bold uppercase tracking-wider hover:bg-slate-700"
+                                    >
+                                        Reset
+                                    </button>
+                                    <button
+                                        onClick={handleSaveViewLayout}
+                                        className="px-3 py-2 rounded-lg bg-emerald-600 border border-emerald-400 text-white text-[11px] font-bold uppercase tracking-wider hover:bg-emerald-500"
+                                    >
+                                        Save Layout
+                                    </button>
+                                    <div className="ml-auto text-[11px] text-slate-300 font-semibold">
+                                        {isViewAdjustMode ? "Drag any field on certificate to move it" : "Turn on Adjust to move/resize fields"}
+                                    </div>
+                                </div>
+                            </div>
+
                             <div
                                 id="certificate-node"
-                                className="relative bg-[#0b1120] border-2 border-slate-800 rounded-3xl p-4 md:p-6 shadow-2xl overflow-hidden self-center w-full max-w-3xl flex flex-col items-center text-center mx-auto"
+                                className="relative bg-[#0b1120] border-2 border-[#1e293b] rounded-3xl p-4 md:p-6 shadow-2xl overflow-hidden self-center w-full max-w-3xl flex flex-col items-center text-center mx-auto"
                             >
                                 <div className="relative z-10 w-full">
                                     <div
                                         ref={certificateSurfaceRef}
                                         data-certificate-surface="true"
-                                        className="relative w-full h-[46vh] min-h-[420px] max-h-[780px] rounded-2xl border border-slate-700 bg-[#0f172a] overflow-hidden"
+                                        className="relative w-full max-w-[520px] mx-auto certificate-container rounded-2xl border border-[#334155] bg-[#0f172a] overflow-hidden"
                                     >
                                         {viewingCert?.template?.url && (
                                             <>
@@ -1377,7 +1455,7 @@ const CertificateManagement = () => {
                                                         className="absolute inset-0 w-full h-full object-contain opacity-90"
                                                     />
                                                 ) : (
-                                                    <div className="absolute inset-0 flex items-center justify-center bg-slate-900/70 text-slate-300 text-xs font-bold uppercase tracking-widest px-6 text-center">
+                                                    <div className="absolute inset-0 flex items-center justify-center bg-[#0f172a]/70 text-[#cbd5e1] text-xs font-bold uppercase tracking-widest px-6 text-center">
                                                         Template file attached: {viewingCert.template.fileName || "Document"}
                                                     </div>
                                                 )}
@@ -1385,7 +1463,9 @@ const CertificateManagement = () => {
                                         )}
 
                                         {(() => {
-                                            const layout = getResolvedCertificateLayout(viewingCert, defaultTemplate);
+                                            const layout = mergeFieldLayout(
+                                                viewLayoutOverride || getResolvedCertificateLayout(viewingCert, defaultTemplate)
+                                            );
                                             const issueDateText = new Date(viewingCert.issueDate || viewingCert.createdAt || Date.now()).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
                                             const completionDateText = viewingCert.completionDate
                                                 ? new Date(viewingCert.completionDate).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
@@ -1394,11 +1474,19 @@ const CertificateManagement = () => {
                                             const renderTextField = (key, text) => {
                                                 const cfg = layout[key];
                                                 if (!cfg?.enabled || !text) return null;
+                                                const baseStyle = getFieldDomStyle(key, cfg, certificateMetrics);
+                                                const fieldScale = Number(viewFieldScale[key] || cfg?.scale || 1);
+                                                const rawSize = parseFloat(String(baseStyle.fontSize || "16"));
+                                                const nextSize = Number.isFinite(rawSize) ? Math.max(8, Math.round(rawSize * fieldScale)) : rawSize;
                                                 return (
                                                     <div
                                                         key={key}
-                                                        className="absolute pointer-events-none"
-                                                        style={getFieldDomStyle(key, cfg, certificateMetrics)}
+                                                        className={`absolute ${isViewAdjustMode ? "pointer-events-auto cursor-move select-none" : "pointer-events-none"}`}
+                                                        style={{
+                                                            ...baseStyle,
+                                                            fontSize: `${nextSize}px`
+                                                        }}
+                                                        onMouseDown={(event) => startPreviewFieldDrag(key, event)}
                                                     >
                                                         {text}
                                                     </div>
@@ -1415,19 +1503,37 @@ const CertificateManagement = () => {
                                                     {renderTextField("certificateId", viewingCert.certificateId)}
                                                     {layout.qrCode?.enabled && (
                                                         <div
-                                                            className="absolute -translate-x-1/2 -translate-y-1/2 bg-white p-1"
+                                                            className={`absolute bg-white p-1 ${isViewAdjustMode ? "cursor-move" : ""}`}
                                                             style={{
                                                                 ...getFieldPositionStyle(layout.qrCode, certificateMetrics, "center"),
-                                                                width: `${getQrSizePx(layout.qrCode, certificateMetrics)}px`,
-                                                                height: `${getQrSizePx(layout.qrCode, certificateMetrics)}px`
+                                                                width: `${Math.max(24, Math.round(getQrSizePx(layout.qrCode, certificateMetrics) * Number(viewFieldScale.qrCode || 1)))}px`,
+                                                                height: `${Math.max(24, Math.round(getQrSizePx(layout.qrCode, certificateMetrics) * Number(viewFieldScale.qrCode || 1)))}px`,
+                                                                pointerEvents: isViewAdjustMode ? "auto" : "none"
                                                             }}
+                                                            onMouseDown={(event) => startPreviewFieldDrag("qrCode", event)}
                                                         >
                                                             <QRCodeSVG
+                                                                data-qr="true"
                                                                 value={`https://www.mentriqtechnologies.in/verify-certificate?id=${viewingCert.certificateId}`}
-                                                                size={getQrSizePx(layout.qrCode, certificateMetrics) - 8}
+                                                                size={Math.max(16, Math.round(getQrSizePx(layout.qrCode, certificateMetrics) * Number(viewFieldScale.qrCode || 1)) - 8)}
                                                                 level="H"
                                                                 includeMargin={false}
                                                             />
+                                                        </div>
+                                                    )}
+                                                    {DEBUG_GRID && (
+                                                        <div className="absolute inset-0 pointer-events-none opacity-20">
+                                                            {Array.from({ length: 10 }).map((_, i) => (
+                                                                <div
+                                                                    key={`grid-preview-${i}`}
+                                                                    style={{
+                                                                        position: "absolute",
+                                                                        top: `${i * 10}%`,
+                                                                        width: "100%",
+                                                                        borderTop: "1px dashed red"
+                                                                    }}
+                                                                />
+                                                            ))}
                                                         </div>
                                                     )}
                                                 </>

@@ -2,7 +2,19 @@ const Certificate = require('../models/Certificate');
 const User = require('../models/User');
 const Course = require('../models/Course');
 const Internship = require('../models/Internship');
+const Settings = require('../models/Settings');
 const QRCode = require('qrcode');
+const axios = require('axios');
+
+const SYSTEM_FIELD_LAYOUT = {
+    studentName: { enabled: true, x: 50, y: 41.8 },
+    programName: { enabled: true, x: 50, y: 55.5 },
+    issueDate: { enabled: true, x: 26, y: 69.5 },
+    completionDate: { enabled: true, x: 74, y: 69.5 },
+    grade: { enabled: true, x: 50, y: 75 },
+    certificateId: { enabled: true, x: 25, y: 87.5 },
+    qrCode: { enabled: true, x: 82, y: 85, size: 15.5 }
+};
 
 // @desc    Generate certificate for a user
 // @route   POST /api/certificates/generate
@@ -55,6 +67,22 @@ exports.generateCertificate = async (req, res) => {
 
         const resolvedProgramName = String(programName || customProgramName || "").trim();
 
+        // Enforce single-template mode: all certificates use global default template/layout.
+        const settings = await Settings.findOne().sort({ updatedAt: -1, _id: -1 });
+        const defaultTemplate = settings?.certificateTemplate?.template || {};
+        const incomingTemplateUrl = String(template?.url || "").trim();
+        const templateUrl = incomingTemplateUrl || String(defaultTemplate.url || "").trim();
+        const resolvedFieldLayout =
+            fieldLayout && typeof fieldLayout === "object" && Object.keys(fieldLayout).length
+                ? fieldLayout
+                : SYSTEM_FIELD_LAYOUT;
+
+        if (!templateUrl) {
+            return res.status(400).json({
+                message: 'Default certificate template is not configured in settings.'
+            });
+        }
+
         // Generate unique certificate ID
         let certificateId;
         let isUnique = false;
@@ -82,11 +110,11 @@ exports.generateCertificate = async (req, res) => {
             grade: grade || "",
             completionDate: completionDate || undefined,
             template: {
-                url: String(template?.url || "").trim(),
-                fileName: String(template?.fileName || "").trim(),
-                mimeType: String(template?.mimeType || "").trim()
+                url: templateUrl,
+                fileName: String(template?.fileName || defaultTemplate.fileName || "default-certificate-template").trim(),
+                mimeType: String(template?.mimeType || defaultTemplate.mimeType || "").trim()
             },
-            fieldLayout: fieldLayout || {}
+            fieldLayout: resolvedFieldLayout
         });
 
         await certificate.save();
@@ -270,5 +298,59 @@ exports.deleteCertificate = async (req, res) => {
     } catch (error) {
         console.error('Delete certificate error:', error);
         res.status(500).json({ message: 'Server error' });
+    }
+};
+
+// @desc    Proxy certificate template image for safe frontend capture
+// @route   GET /api/certificates/template-proxy?url=<encodedImageUrl>
+// @access  Public
+exports.proxyTemplateImage = async (req, res) => {
+    try {
+        const rawUrl = String(req.query.url || '').trim();
+        if (!rawUrl) {
+            return res.status(400).json({ message: 'Image URL is required' });
+        }
+
+        let parsedUrl;
+        try {
+            parsedUrl = new URL(rawUrl);
+        } catch {
+            return res.status(400).json({ message: 'Invalid image URL' });
+        }
+
+        if (!['http:', 'https:'].includes(parsedUrl.protocol)) {
+            return res.status(400).json({ message: 'Unsupported URL protocol' });
+        }
+
+        const hostname = (parsedUrl.hostname || '').toLowerCase();
+        const isPrivateHost =
+            hostname === 'localhost' ||
+            hostname === '127.0.0.1' ||
+            hostname === '::1' ||
+            /^10\./.test(hostname) ||
+            /^192\.168\./.test(hostname) ||
+            /^172\.(1[6-9]|2\d|3[0-1])\./.test(hostname);
+
+        if (isPrivateHost) {
+            return res.status(400).json({ message: 'Blocked host' });
+        }
+
+        const upstream = await axios.get(parsedUrl.toString(), {
+            responseType: 'arraybuffer',
+            timeout: 15000,
+            maxContentLength: 10 * 1024 * 1024,
+            validateStatus: (status) => status >= 200 && status < 400
+        });
+
+        const contentType = String(upstream.headers['content-type'] || '').toLowerCase();
+        if (!contentType.startsWith('image/')) {
+            return res.status(400).json({ message: 'URL does not point to an image' });
+        }
+
+        res.setHeader('Content-Type', contentType);
+        res.setHeader('Cache-Control', 'public, max-age=86400');
+        return res.status(200).send(Buffer.from(upstream.data));
+    } catch (error) {
+        return res.status(502).json({ message: 'Failed to fetch template image' });
     }
 };

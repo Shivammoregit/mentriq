@@ -9,10 +9,12 @@ const {
     getUserCertificates,
     getAllCertificates,
     revokeCertificate,
-    deleteCertificate
+    deleteCertificate,
+    proxyTemplateImage
 } = require('../controllers/certificate.controller');
 
 // Public route - verify certificate
+router.get('/template-proxy', proxyTemplateImage);
 router.get('/verify/:certificateId', verifyCertificate);
 
 // Protected routes - user access
