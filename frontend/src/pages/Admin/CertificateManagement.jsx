@@ -325,20 +325,291 @@ const CertificateManagement = () => {
         return `${cleaned || "certificate"}.pdf`;
     };
 
+    const toDataUrl = (blob) => new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+    });
+
+    const waitForImage = (img) => new Promise((resolve) => {
+        if (img.complete) return resolve();
+        img.onload = () => resolve();
+        img.onerror = () => resolve();
+    });
+
+    const inlineImagesForCapture = async (root) => {
+        const images = Array.from(root.querySelectorAll("img"));
+        await Promise.all(images.map(async (img) => {
+            const src = img.getAttribute("src") || "";
+            if (!src || src.startsWith("data:")) return;
+
+            try {
+                const res = await fetch(src, { mode: "cors", credentials: "omit", cache: "no-store" });
+                if (!res.ok) throw new Error(`Failed to fetch image: ${res.status}`);
+                const blob = await res.blob();
+                const dataUrl = await toDataUrl(blob);
+                img.src = dataUrl;
+                await waitForImage(img);
+            } catch {
+                // If image can't be CORS-fetched in production, remove it to avoid tainted canvas export.
+                img.remove();
+            }
+        }));
+    };
+
+    const sanitizeUnsupportedColorsForCapture = (root) => {
+        const hasUnsupportedColorFn = (value) =>
+            typeof value === "string" && /(oklch|oklab|color\(|color-mix\()/i.test(value);
+
+        const colorProbeCanvas = document.createElement("canvas");
+        const colorProbeCtx = colorProbeCanvas.getContext("2d");
+
+        const toSupportedColor = (value) => {
+            if (!value || !hasUnsupportedColorFn(value) || !colorProbeCtx) return value;
+            try {
+                colorProbeCtx.fillStyle = "#000000";
+                colorProbeCtx.fillStyle = value;
+                return colorProbeCtx.fillStyle || "";
+            } catch {
+                return "";
+            }
+        };
+
+        const colorProps = [
+            "color",
+            "background-color",
+            "border-top-color",
+            "border-right-color",
+            "border-bottom-color",
+            "border-left-color",
+            "outline-color",
+            "text-decoration-color",
+            "caret-color",
+            "column-rule-color",
+            "fill",
+            "stroke"
+        ];
+
+        const nodes = [root, ...Array.from(root.querySelectorAll("*"))];
+        nodes.forEach((node) => {
+            const computed = window.getComputedStyle(node);
+
+            colorProps.forEach((prop) => {
+                const raw = computed.getPropertyValue(prop);
+                if (!hasUnsupportedColorFn(raw)) return;
+                const safe = toSupportedColor(raw);
+                if (safe) node.style.setProperty(prop, safe, "important");
+            });
+
+            const bgImage = computed.getPropertyValue("background-image");
+            if (hasUnsupportedColorFn(bgImage)) {
+                node.style.setProperty("background-image", "none", "important");
+            }
+
+            const boxShadow = computed.getPropertyValue("box-shadow");
+            if (hasUnsupportedColorFn(boxShadow)) {
+                node.style.setProperty("box-shadow", "none", "important");
+            }
+
+            const textShadow = computed.getPropertyValue("text-shadow");
+            if (hasUnsupportedColorFn(textShadow)) {
+                node.style.setProperty("text-shadow", "none", "important");
+            }
+        });
+    };
+
+    const captureCertificateCanvas = async (certElement) => {
+        try {
+            return await html2canvas(certElement, {
+                scale: 3,
+                useCORS: true,
+                foreignObjectRendering: true,
+                backgroundColor: null,
+                logging: false,
+                width: certElement.scrollWidth,
+                height: certElement.scrollHeight
+            });
+        } catch (error) {
+            const message = String(error?.message || "").toLowerCase();
+            const needsSanitizedCapture =
+                message.includes("tainted") ||
+                message.includes("cross-origin") ||
+                message.includes("securityerror") ||
+                message.includes("unsupported color") ||
+                message.includes("oklch") ||
+                message.includes("oklab");
+
+            if (!needsSanitizedCapture) throw error;
+
+            const clone = certElement.cloneNode(true);
+            clone.style.position = "fixed";
+            clone.style.left = "-99999px";
+            clone.style.top = "0";
+            clone.style.pointerEvents = "none";
+            clone.style.zIndex = "-1";
+            clone.style.width = `${certElement.scrollWidth}px`;
+            clone.style.height = `${certElement.scrollHeight}px`;
+            document.body.appendChild(clone);
+
+            try {
+                await inlineImagesForCapture(clone);
+                sanitizeUnsupportedColorsForCapture(clone);
+                return await html2canvas(clone, {
+                    scale: 3,
+                    useCORS: true,
+                    foreignObjectRendering: true,
+                    backgroundColor: null,
+                    logging: false,
+                    width: certElement.scrollWidth,
+                    height: certElement.scrollHeight
+                });
+            } finally {
+                clone.remove();
+            }
+        }
+    };
+
+    const loadImageElement = (src, { useCors = true } = {}) =>
+        new Promise((resolve, reject) => {
+            const img = new Image();
+            if (useCors) img.crossOrigin = "anonymous";
+            img.onload = () => resolve(img);
+            img.onerror = reject;
+            img.src = src;
+        });
+
+    const renderCertificateCanvasFromData = async (certElement) => {
+        const nodeWidth = Math.max(900, certElement?.scrollWidth || 900);
+        const nodeHeight = Math.max(1200, certElement?.scrollHeight || 1200);
+
+        const canvas = document.createElement("canvas");
+        const scale = 2;
+        canvas.width = Math.floor(nodeWidth * scale);
+        canvas.height = Math.floor(nodeHeight * scale);
+
+        const ctx = canvas.getContext("2d");
+        if (!ctx) throw new Error("Canvas context unavailable");
+        ctx.scale(scale, scale);
+
+        ctx.fillStyle = "#0b1120";
+        ctx.fillRect(0, 0, nodeWidth, nodeHeight);
+
+        const cardPadding = Math.round(nodeWidth * 0.08);
+        const cardX = cardPadding;
+        const cardY = Math.round(nodeHeight * 0.08);
+        const cardW = nodeWidth - cardPadding * 2;
+        const cardH = nodeHeight - cardY - Math.round(nodeHeight * 0.08);
+
+        ctx.fillStyle = "#0f172a";
+        ctx.fillRect(cardX, cardY, cardW, cardH);
+
+        if (viewingCert?.template?.url && viewingCert.template.mimeType?.startsWith("image/")) {
+            try {
+                const templateUrl = resolveImageUrl(viewingCert.template.url);
+                const bg = await loadImageElement(templateUrl, { useCors: true });
+
+                const imgRatio = bg.width / bg.height;
+                const boxRatio = cardW / cardH;
+                let drawW = cardW;
+                let drawH = cardH;
+                let drawX = cardX;
+                let drawY = cardY;
+
+                if (imgRatio > boxRatio) {
+                    drawH = cardH;
+                    drawW = cardH * imgRatio;
+                    drawX = cardX - (drawW - cardW) / 2;
+                } else {
+                    drawW = cardW;
+                    drawH = cardW / imgRatio;
+                    drawY = cardY - (drawH - cardH) / 2;
+                }
+
+                ctx.globalAlpha = 0.62;
+                ctx.drawImage(bg, drawX, drawY, drawW, drawH);
+                ctx.globalAlpha = 1;
+            } catch {
+                // Keep rendering without template image
+            }
+        }
+
+        const overlay = ctx.createLinearGradient(0, cardY, 0, cardY + cardH);
+        overlay.addColorStop(0, "rgba(0,0,0,0.05)");
+        overlay.addColorStop(1, "rgba(0,0,0,0.45)");
+        ctx.fillStyle = overlay;
+        ctx.fillRect(cardX, cardY, cardW, cardH);
+
+        const layout = { ...DEFAULT_FIELD_LAYOUT, ...(viewingCert?.fieldLayout || {}) };
+        const mapX = (pct) => cardX + (Number(pct || 0) / 100) * cardW;
+        const mapY = (pct) => cardY + (Number(pct || 0) / 100) * cardH;
+
+        const issueDateText = new Date(viewingCert?.createdAt || Date.now()).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+        const completionDateText = viewingCert?.completionDate
+            ? new Date(viewingCert.completionDate).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })
+            : "";
+
+        ctx.textAlign = "center";
+        ctx.fillStyle = "#ffffff";
+        ctx.font = "900 64px Arial";
+        ctx.fillText("MENTRIQ", cardX + cardW / 2, cardY + 82);
+        ctx.fillText("CERTIFICATE", cardX + cardW / 2, cardY + 152);
+
+        const drawText = (key, text, font, color) => {
+            const cfg = layout[key];
+            if (!cfg?.enabled || !text) return;
+            ctx.font = font;
+            ctx.fillStyle = color;
+            ctx.fillText(text, mapX(cfg.x), mapY(cfg.y));
+        };
+
+        drawText("studentName", viewingCert?.studentName || "", "900 54px Arial", "#67e8f9");
+        drawText("programName", viewingCert?.courseName || "", "700 38px Arial", "#ffffff");
+        drawText("issueDate", `Issue: ${issueDateText}`.toUpperCase(), "700 24px Arial", "#e2e8f0");
+        drawText("completionDate", completionDateText ? `Completed: ${completionDateText}`.toUpperCase() : "", "700 24px Arial", "#e2e8f0");
+        drawText("grade", viewingCert?.grade ? `Grade: ${viewingCert.grade}`.toUpperCase() : "", "900 24px Arial", "#6ee7b7");
+        drawText("certificateId", viewingCert?.certificateId || "", "700 22px monospace", "#cbd5e1");
+
+        if (layout.qrCode?.enabled) {
+            const qrSize = (layout.qrCode.size || 18) * 4;
+            const qrCenterX = mapX(layout.qrCode.x);
+            const qrCenterY = mapY(layout.qrCode.y);
+            const qrX = qrCenterX - qrSize / 2;
+            const qrY = qrCenterY - qrSize / 2;
+
+            ctx.fillStyle = "#ffffff";
+            ctx.fillRect(qrX - 10, qrY - 10, qrSize + 20, qrSize + 20);
+
+            const qrSvg = certElement?.querySelector("svg");
+            if (qrSvg) {
+                try {
+                    const serialized = new XMLSerializer().serializeToString(qrSvg);
+                    const encoded = `data:image/svg+xml;charset=utf-8,${encodeURIComponent(serialized)}`;
+                    const qrImg = await loadImageElement(encoded, { useCors: false });
+                    ctx.drawImage(qrImg, qrX, qrY, qrSize, qrSize);
+                } catch {
+                    ctx.strokeStyle = "#0f172a";
+                    ctx.lineWidth = 3;
+                    ctx.strokeRect(qrX, qrY, qrSize, qrSize);
+                }
+            }
+        }
+
+        return canvas;
+    };
+
     const handleDownloadCert = async (format = 'pdf') => {
         const certElement = document.getElementById('certificate-node');
         if (!certElement) return;
         
         try {
             toast.info(`Preparing ${format.toUpperCase()}...`);
-            const canvas = await html2canvas(certElement, {
-                scale: 3, 
-                useCORS: true, 
-                backgroundColor: null, 
-                logging: false,
-                width: certElement.scrollWidth,
-                height: certElement.scrollHeight
-            });
+            let canvas;
+            try {
+                canvas = await renderCertificateCanvasFromData(certElement);
+            } catch {
+                canvas = await captureCertificateCanvas(certElement);
+            }
             const image = canvas.toDataURL("image/png", 1.0);
             const receiverName = viewingCert?.studentName || viewingCert?.name || "certificate";
             const safeName = getSafeCertificateFileName(receiverName);
@@ -687,6 +958,7 @@ const CertificateManagement = () => {
                                                                 <img
                                                                     src={resolveImageUrl(formData.template.url)}
                                                                     alt="Certificate Template"
+                                                                    crossOrigin="anonymous"
                                                                     className="absolute inset-0 w-full h-full object-contain"
                                                                 />
                                                             ) : (
@@ -758,6 +1030,7 @@ const CertificateManagement = () => {
                                                         <img
                                                             src={resolveImageUrl(formData.template.url)}
                                                             alt="Certificate Preview"
+                                                            crossOrigin="anonymous"
                                                             className="absolute inset-0 w-full h-full object-contain"
                                                         />
                                                     ) : (
@@ -775,11 +1048,11 @@ const CertificateManagement = () => {
                                     </div>
                                 )}
                             </form>
-                            <div className="p-10 border-t border-white/5 flex justify-end items-center gap-4 shrink-0 -mx-10 -mb-10 mt-10 bg-[#1e293b]">
+                            <div className="p-5 border-t border-white/5 flex justify-end items-center gap-3 shrink-0 -mx-10 -mb-10 mt-6 bg-[#1e293b]">
                                 <button
                                     type="button"
                                     onClick={() => setIsModalOpen(false)}
-                                    className="flex-1 py-4.5 rounded-2xl bg-[#1e293b] text-slate-400 font-bold text-[10px] uppercase tracking-widest hover:text-white hover:bg-white/10 border border-white/10 transition-all"
+                                    className="flex-1 py-3.5 rounded-2xl bg-[#1e293b] text-slate-400 font-bold text-[10px] uppercase tracking-widest hover:text-white hover:bg-white/10 border border-white/10 transition-all"
                                 >
                                     Dismiss
                                 </button>
@@ -788,7 +1061,7 @@ const CertificateManagement = () => {
                                         type="button"
                                         onClick={() => saveTemplateDefaults({ showToast: true })}
                                         disabled={savingTemplateDefaults || !formData.template?.url}
-                                        className="flex-2 py-4.5 rounded-2xl bg-cyan-600 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-cyan-500 shadow-lg shadow-cyan-500/20 transition-all flex items-center justify-center gap-2 active:scale-95 disabled:opacity-50"
+                                        className="flex-2 py-3.5 rounded-2xl bg-cyan-600 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-cyan-500 shadow-lg shadow-cyan-500/20 transition-all flex items-center justify-center gap-2 active:scale-95 disabled:opacity-50"
                                     >
                                         <CheckCircle size={18} strokeWidth={3} />
                                         <span>{savingTemplateDefaults ? "Saving..." : "Save As Default Template"}</span>
@@ -797,7 +1070,7 @@ const CertificateManagement = () => {
                                     <button
                                         type="submit"
                                         form="certificate-form"
-                                        className="flex-2 py-4.5 rounded-2xl bg-emerald-600 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-emerald-500 shadow-lg shadow-emerald-500/20 transition-all flex items-center justify-center gap-2 active:scale-95"
+                                        className="flex-2 py-3.5 rounded-2xl bg-emerald-600 text-white font-bold text-[10px] uppercase tracking-widest hover:bg-emerald-500 shadow-lg shadow-emerald-500/20 transition-all flex items-center justify-center gap-2 active:scale-95"
                                     >
                                         <CheckCircle size={18} strokeWidth={3} />
                                         <span>Issue Credential</span>
@@ -811,16 +1084,16 @@ const CertificateManagement = () => {
             {/* Certificate Preview Modal */}
             <AnimatePresence>
                 {viewingCert && (
-                    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/90 backdrop-blur-xl">
+                    <div className="fixed inset-0 z-[100] flex items-start justify-center overflow-y-auto p-4 pt-6 md:pt-10 pb-6 bg-black/90 backdrop-blur-xl">
                         <div className="absolute inset-0" onClick={() => setViewingCert(null)} />
                         
                         <motion.div
                             initial={{ opacity: 0, scale: 0.95, y: 20 }}
                             animate={{ opacity: 1, scale: 1, y: 0 }}
                             exit={{ opacity: 0, scale: 0.95, y: 30 }}
-                            className="relative w-full max-w-4xl flex flex-col gap-4"
+                            className="relative w-full max-w-4xl flex flex-col gap-4 mt-2"
                         >
-                            <div className="flex justify-end gap-3 z-10 w-full mb-2">
+                            <div className="flex justify-end gap-3 z-10 w-full mb-2 pr-1">
                                 <button
                                     onClick={() => handleDownloadCert('pdf')}
                                     className="px-6 py-2.5 rounded-xl bg-emerald-600 text-white font-bold text-xs hover:bg-emerald-500 transition-all shadow-lg flex items-center gap-2 uppercase tracking-widest"
@@ -859,6 +1132,7 @@ const CertificateManagement = () => {
                                                     <img
                                                         src={resolveImageUrl(viewingCert.template.url)}
                                                         alt="Certificate Template"
+                                                        crossOrigin="anonymous"
                                                         className="absolute inset-0 w-full h-full object-cover opacity-60"
                                                     />
                                                 ) : (

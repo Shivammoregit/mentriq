@@ -188,7 +188,7 @@ const UserManagement = () => {
 
     return (
         <div className="space-y-6 animate-in fade-in duration-500">
-            <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8 bg-[#0b1120]/40 backdrop-blur-xl p-8 md:p-10 rounded-[2.5rem] border border-white/5 shadow-2xl relative overflow-hidden group">
+            <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-6 bg-[#0b1120]/40 backdrop-blur-xl p-6 md:p-8 rounded-[2.5rem] border border-white/5 shadow-2xl relative overflow-hidden group">
                 <div className="absolute top-0 right-0 p-12 opacity-[0.03] group-hover:opacity-[0.05] transition-opacity">
                     <User size={200} className="text-blue-500" />
                 </div>
@@ -199,35 +199,28 @@ const UserManagement = () => {
                         <span className="opacity-70">Authenticated database of active learners and enrollment entities.</span>
                     </p>
                 </div>
-                <div className="w-full lg:w-auto flex flex-col sm:flex-row gap-4 relative z-10">
-                    <div className="bg-[#1e293b] border border-white/10 rounded-2xl p-1 pr-6 flex items-center w-full sm:w-auto group focus-within:border-blue-500/50 focus-within:ring-4 focus-within:ring-blue-500/10 transition-all">
+                <div className="w-full lg:w-auto flex flex-row items-stretch gap-3 relative z-10">
+                    <div className="bg-[#1e293b] border border-white/10 rounded-2xl p-1 pr-4 flex items-center flex-1 min-w-[320px] group focus-within:border-blue-500/50 focus-within:ring-4 focus-within:ring-blue-500/10 transition-all">
                         <Search className="text-slate-400 ml-4 shrink-0 group-focus-within:text-blue-400 transition-colors" size={20} />
                         <input
                             type="text"
                             placeholder="Identify candidate profile..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="bg-transparent text-white placeholder:text-slate-400 focus:outline-none py-4 px-4 w-full sm:w-64 font-bold text-sm tracking-tight"
+                            className="bg-transparent text-white placeholder:text-slate-400 focus:outline-none py-4 px-4 w-full font-bold text-sm tracking-tight"
                         />
                     </div>
-                    <div className="flex gap-4">
-                        <button
-                            onClick={() => setIsBroadcastModalOpen(true)}
-                            className="bg-[#1e293b] text-sky-400 hover:bg-sky-500/10 border border-white/10 hover:border-sky-500/30 px-6 py-4 rounded-xl font-bold flex items-center gap-2 transition-all active:scale-95 text-[10px] uppercase tracking-widest flex-1 justify-center"
-                        >
-                            <MessageSquare size={16} className="shrink-0" />
-                            <span className="hidden sm:inline">Broadcast</span>
-                        </button>
+                    <div className="flex gap-3">
                         <button
                             onClick={handleExportStudents}
-                            className="bg-[#1e293b] text-slate-300 hover:bg-white/10 border border-white/10 px-8 py-4 rounded-xl font-bold flex items-center gap-3 transition-all active:scale-95 text-[10px] uppercase tracking-widest flex-1 sm:flex-none justify-center"
+                            className="bg-[#1e293b] text-slate-300 hover:bg-white/10 border border-white/10 px-6 py-4 rounded-xl font-bold flex items-center gap-3 transition-all active:scale-95 text-[10px] uppercase tracking-widest justify-center whitespace-nowrap min-w-[170px]"
                         >
                             <Download size={16} />
                             <span>Export Data</span>
                         </button>
                         <button
                             onClick={openCreateModal}
-                            className="bg-blue-600 text-white hover:bg-blue-500 px-8 py-4 rounded-xl font-bold flex items-center gap-3 transition-all active:scale-95 shadow-lg shadow-blue-500/20 text-[10px] uppercase tracking-widest flex-1 sm:flex-none justify-center"
+                            className="bg-blue-600 text-white hover:bg-blue-500 px-6 py-4 rounded-xl font-bold flex items-center gap-3 transition-all active:scale-95 shadow-lg shadow-blue-500/20 text-[10px] uppercase tracking-widest justify-center whitespace-nowrap min-w-[190px]"
                         >
                             <Plus size={18} strokeWidth={2.5} />
                             <span>Deploy Profile</span>
