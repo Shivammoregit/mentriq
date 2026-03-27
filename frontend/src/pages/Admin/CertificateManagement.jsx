@@ -240,6 +240,7 @@ const CertificateManagement = () => {
     const templateImageRef = useRef(null);
     const certificateSurfaceRef = useRef(null);
     const certificateImageRef = useRef(null);
+    const defaultTemplateBackfillAttemptedRef = useRef(false);
     const [templateMetrics, setTemplateMetrics] = useState(null);
     const [certificateMetrics, setCertificateMetrics] = useState(null);
 
@@ -260,6 +261,8 @@ const CertificateManagement = () => {
             setInternships(internshipRes.data || []);
 
             const settingsTemplate = settingsRes.data?.certificateTemplate;
+            const hasSettingsTemplateUrl = Boolean(String(settingsTemplate?.template?.url || "").trim());
+
             if (settingsTemplate) {
                 setDefaultTemplate({
                     template: {
@@ -269,6 +272,37 @@ const CertificateManagement = () => {
                     },
                     fieldLayout: mergeFieldLayout(settingsTemplate.fieldLayout)
                 });
+            }
+
+            // One-time backfill: if global default template is empty, adopt oldest issued certificate template.
+            if (!hasSettingsTemplateUrl && !defaultTemplateBackfillAttemptedRef.current) {
+                defaultTemplateBackfillAttemptedRef.current = true;
+                const oldestWithTemplate = [...(certRes.data || [])]
+                    .reverse()
+                    .find((cert) => String(cert?.template?.url || "").trim());
+
+                if (oldestWithTemplate?.template?.url) {
+                    const backfillPayload = {
+                        certificateTemplate: {
+                            template: {
+                                url: oldestWithTemplate.template.url || "",
+                                fileName: oldestWithTemplate.template.fileName || "default-certificate-template",
+                                mimeType: oldestWithTemplate.template.mimeType || "image/jpeg"
+                            },
+                            fieldLayout: mergeFieldLayout(oldestWithTemplate.fieldLayout)
+                        }
+                    };
+
+                    try {
+                        await api.put("/settings", backfillPayload);
+                        setDefaultTemplate({
+                            template: { ...backfillPayload.certificateTemplate.template },
+                            fieldLayout: mergeFieldLayout(backfillPayload.certificateTemplate.fieldLayout)
+                        });
+                    } catch (backfillErr) {
+                        console.error("Default certificate template backfill failed", backfillErr);
+                    }
+                }
             }
         } catch (err) {
             console.error("Certificate fetch error", err);
@@ -1176,7 +1210,7 @@ const CertificateManagement = () => {
                                                                     type="button"
                                                                     onMouseDown={(e) => startDraggingField(fieldKey, e)}
                                                                     className={`absolute -translate-x-1/2 -translate-y-1/2 rounded-md border px-2 py-1 text-[10px] font-black uppercase tracking-widest shadow-lg cursor-move ${fieldKey === "studentName" ? "bg-cyan-500/20 border-cyan-400/50 text-cyan-200" : "bg-emerald-500/20 border-emerald-400/40 text-emerald-200"}`}
-                                                                    style={getFieldPositionStyle(cfg, templateMetrics, FIELD_VISUALS[fieldKey]?.anchor || "center")}
+                                                                    style={getFieldPositionStyle(cfg, templateMetrics, "center")}
                                                                 >
                                                                     {FIELD_LABELS[fieldKey] || fieldKey}
                                                                 </button>
